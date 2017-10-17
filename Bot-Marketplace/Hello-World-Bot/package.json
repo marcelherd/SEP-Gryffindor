@@ -1,5 +1,5 @@
 {
-  "name": "bot-runtime",
+  "name": "welcome-bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,9 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "express": "^4.16.2",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4"
+    "node-agent-sdk": "^0.2.19",
+    "dotenv": "^4.0.0"
   },
   "author": "",
   "license": "MIT"

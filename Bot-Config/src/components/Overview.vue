@@ -5,14 +5,23 @@
     </md-toolbar>
 
     <div class="main-content">
-      <p>Lorem Ipsum</p>
+      <ul v-for="(bot, index) in bots" v-bind:key="index">
+        <li>{{ bot.ownerID }}</li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  mapGetters
+} from 'vuex'
+
 export default {
-  name: 'Overview'
+  name: 'Overview',
+  computed: {
+    ...mapGetters(['bots'])
+  }
 }
 </script>
 

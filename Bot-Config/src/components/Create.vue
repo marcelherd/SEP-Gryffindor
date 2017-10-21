@@ -6,22 +6,22 @@
 
     <div class="main-content">
 
-      <md-stepper md-alternate-labels>
+      <md-stepper md-alternate-labels @completed="addBot({ brandID, username, password })">
 
         <md-step md-label="Bot configuration">
           <md-input-container>
             <label>Brand ID</label>
-            <md-input type="number" placeholder="Brand ID" required></md-input>
+            <md-input type="number" placeholder="Brand ID" v-model="brandID" required></md-input>
           </md-input-container>
 
           <md-input-container>
             <label>Username</label>
-            <md-input placeholder="Username" required></md-input>
+            <md-input placeholder="Username" v-model="username" required></md-input>
           </md-input-container>
 
           <md-input-container md-has-password>
             <label>Password</label>
-            <md-input type="password" placeholder="Password" required></md-input>
+            <md-input type="password" placeholder="Password" v-model="password" required></md-input>
           </md-input-container>
         </md-step>
 
@@ -35,8 +35,21 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'Create'
+  name: 'Create',
+  data: () => {
+    return {
+      brandID: '',
+      username: '',
+      password: '',
+      template: { }
+    }
+  },
+  methods: {
+    ...mapActions(['addBot'])
+  }
 }
 </script>
 

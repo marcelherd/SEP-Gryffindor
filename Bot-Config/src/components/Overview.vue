@@ -6,16 +6,30 @@
 
     <div class="main-content">
       <ul v-for="(bot, index) in bots" v-bind:key="index">
-        <li>{{ bot.ownerID }}</li>
+        <md-card>
+          <md-card-header>
+            <md-card-header-text>
+              <div class="md-title">{{ bot.username }}</div>
+              <div class="md-subhead">{{ bot.brandID }}</div>
+            </md-card-header-text>
+
+            <md-card-media>
+              <img src="/static/logo_black.png" alt="Welcome Bot">
+            </md-card-media>
+          </md-card-header>
+
+          <md-card-actions>
+            <md-button>Start/Stop</md-button>
+            <md-button>Delete</md-button>
+          </md-card-actions>
+        </md-card>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Overview',

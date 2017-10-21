@@ -10,7 +10,9 @@ Vue.use(Vuex)
 const state = {
   bots: [
     {
-      'ownerID': 123123123
+      'brandID': 123123123,
+      'username': 'Anon',
+      'password': 'pw'
     }
   ]
 }

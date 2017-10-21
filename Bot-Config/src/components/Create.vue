@@ -6,7 +6,7 @@
 
     <div class="main-content">
 
-      <md-stepper md-alternate-labels @completed="addBot({ brandID, username, password })">
+      <md-stepper md-alternate-labels @completed="save">
 
         <md-step md-label="Bot configuration">
           <md-input-container>
@@ -35,8 +35,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   name: 'Create',
   data: () => {
@@ -48,7 +46,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addBot'])
+    save: function () {
+      this.$store.dispatch('addBot', { brandID: this.brandID, username: this.username, password: this.password })
+      this.$router.push('overview')
+    }
   }
 }
 </script>

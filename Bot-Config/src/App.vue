@@ -1,11 +1,24 @@
 <template>
   <div id="app" class="container">
-    <div class="page-sidebar">
-      Sidebar here
-    </div>
+    <md-whiteframe class="page-sidebar">
+      <md-list>
+        <md-list-item>
+          <h2>Botwarts</h2>
+          <md-divider></md-divider>
+        </md-list-item>
+        <md-list-item>
+            <router-link to="/overview">Overview</router-link>
+        </md-list-item>
+        <md-list-item>
+            <router-link to="/create">Create bot</router-link>
+        </md-list-item>
+      </md-list>
+    </md-whiteframe>
 
     <transition name="md-router" appear>
-      <router-view></router-view>
+      <div class="page-content">
+        <router-view></router-view>
+      </div>
     </transition>
   </div>
 </template>
@@ -28,6 +41,7 @@ body {
 
 .container {
   height: 100%;
+
   display: -ms-flexbox;
   display: -webkit-box;
   display: -moz-box;
@@ -44,7 +58,6 @@ body {
 }
 
 .page-sidebar {
-  background: hotpink;
   width: 200px;
 
   -ms-flex: 0 100px;
@@ -64,6 +77,10 @@ body {
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
+}
+
+.main-content {
+  padding: 16px;
 }
 
 #app {

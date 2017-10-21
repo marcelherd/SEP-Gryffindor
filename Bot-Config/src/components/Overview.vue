@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-toolbar>
-      <h2 class="md-title">Welcome</h2>
+      <h2 class="md-title">Overview</h2>
     </md-toolbar>
 
     <div class="main-content">
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'Welcome'
+  name: 'Overview'
 }
 </script>
 

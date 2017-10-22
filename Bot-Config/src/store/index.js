@@ -13,6 +13,26 @@ const state = {
       'brandID': 123123123,
       'username': 'Anon',
       'password': 'pw'
+    },
+    {
+      'brandID': 123123123,
+      'username': 'Anon',
+      'password': 'pw'
+    },
+    {
+      'brandID': 123123123,
+      'username': 'Anon',
+      'password': 'pw'
+    },
+    {
+      'brandID': 123123123,
+      'username': 'Anon',
+      'password': 'pw'
+    },
+    {
+      'brandID': 123123123,
+      'username': 'Anon',
+      'password': 'pw'
     }
   ]
 }

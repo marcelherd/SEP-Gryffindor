@@ -89,4 +89,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+.md-card {
+  display: inline-block;
+  min-width: 300px;
+  margin: 16px;
+}
+
+.md-stepper {
+  max-width: 800px;
+}
 </style>

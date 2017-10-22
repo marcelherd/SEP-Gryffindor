@@ -5,25 +5,29 @@
     </md-toolbar>
 
     <div class="main-content">
-      <ul v-for="(bot, index) in bots" v-bind:key="index">
-        <md-card>
-          <md-card-header>
-            <md-card-header-text>
-              <div class="md-title">{{ bot.username }}</div>
-              <div class="md-subhead">{{ bot.brandID }}</div>
-            </md-card-header-text>
+      <md-card md-with-hover v-for="(bot, index) in bots" v-bind:key="index">
+        <md-card-header>
+          <md-card-header-text>
+            <div class="md-title">{{ bot.username }}</div>
+            <div class="md-subhead">Welcome Bot</div>
+          </md-card-header-text>
 
-            <md-card-media>
-              <img src="/static/logo_black.png" alt="Welcome Bot">
-            </md-card-media>
-          </md-card-header>
+          <md-card-media>
+            <img src="/static/logo_black.png" alt="Welcome Bot">
+          </md-card-media>
+        </md-card-header>
 
-          <md-card-actions>
-            <md-button>Start/Stop</md-button>
-            <md-button>Delete</md-button>
-          </md-card-actions>
-        </md-card>
-      </ul>
+        <md-card-actions>
+          <md-button>
+            <md-icon class="md-primary">power_settings_new</md-icon>
+            Start
+          </md-button>
+          <md-button>
+            <md-icon class="md-accent">delete</md-icon>
+            Delete
+          </md-button>
+        </md-card-actions>
+      </md-card>
     </div>
   </div>
 </template>

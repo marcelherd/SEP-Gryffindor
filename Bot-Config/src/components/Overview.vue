@@ -8,8 +8,8 @@
       <md-card md-with-hover v-for="(bot, index) in bots" v-bind:key="index">
         <md-card-header>
           <md-card-header-text>
-            <div class="md-title">{{ bot.username }}</div>
-            <div class="md-subhead">Welcome Bot</div>
+            <div class="md-title">{{ bot.type }}</div>
+            <div class="md-subhead">{{ bot.username }} <{{ bot.brandID }}></div>
           </md-card-header-text>
 
           <md-card-media>
@@ -17,10 +17,16 @@
           </md-card-media>
         </md-card-header>
 
+        <md-card-content>
+          <p v-if="bot.state === 'running'" style="color: green">{{ bot.state }}</p>
+          <p v-else style="color: red">{{ bot.state }}</p>
+        </md-card-content>
+
         <md-card-actions>
-          <md-button>
+          <md-button v-on:click="toggleState(index)">
             <md-icon class="md-primary">power_settings_new</md-icon>
-            Start
+            <span v-if="bot.state === 'running'">Stop</span>
+            <span v-else>Start</span>
           </md-button>
           <md-button v-on:click="deleteBot(index)">
             <md-icon class="md-accent">delete</md-icon>
@@ -43,6 +49,9 @@ export default {
   methods: {
     deleteBot: function (index) {
       this.$store.dispatch('removeBot', index)
+    },
+    toggleState: function (index) {
+      this.$store.dispatch('toggleBotState', index)
     }
   }
 }

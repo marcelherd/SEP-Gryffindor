@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     save: function () {
-      this.$store.dispatch('addBot', { brandID: this.brandID, username: this.username, password: this.password })
+      this.$store.dispatch('addBot', { brandID: this.brandID, username: this.username, password: this.password, type: 'Welcome Bot', state: 'not running' })
       this.$router.push('../overview')
     }
   }

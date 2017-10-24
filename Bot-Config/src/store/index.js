@@ -10,29 +10,18 @@ Vue.use(Vuex)
 const state = {
   bots: [
     {
-      'brandID': 123123123,
-      'username': 'Anon',
-      'password': 'pw'
+      'brandID': 85041411,
+      'username': 'welcome-agent',
+      'password': 'pw',
+      'type': 'Welcome Bot',
+      'state': 'running'
     },
     {
-      'brandID': 123123123,
-      'username': 'Anon',
-      'password': 'pw'
-    },
-    {
-      'brandID': 123123123,
-      'username': 'Anon',
-      'password': 'pw'
-    },
-    {
-      'brandID': 123123123,
-      'username': 'Anon',
-      'password': 'pw'
-    },
-    {
-      'brandID': 123123123,
-      'username': 'Anon',
-      'password': 'pw'
+      'brandID': 85041112,
+      'username': 'faq-agent',
+      'password': 'pw',
+      'type': 'FAQ Bot',
+      'state': 'not running'
     }
   ]
 }

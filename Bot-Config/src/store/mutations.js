@@ -6,5 +6,9 @@ export default {
   },
   [types.REMOVE_BOT] (state, index) {
     state.bots.splice(index, 1)
+  },
+  [types.TOGGLE_BOT_STATE] (state, index) {
+    let bot = state.bots[index]
+    bot.state = (bot.state === 'running' ? 'not running' : 'running')
   }
 }

@@ -7,3 +7,7 @@ export const addBot = ({ commit }, bot) => {
 export const removeBot = ({ commit }, index) => {
   commit(types.REMOVE_BOT, index)
 }
+
+export const toggleBotState = ({ commit }, index) => {
+  commit(types.TOGGLE_BOT_STATE, index)
+}

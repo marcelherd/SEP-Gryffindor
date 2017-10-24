@@ -31,11 +31,17 @@ class Tree {
     this.add(value);
 	}
 
-select(node,id) {
-  console.log(node);
-		this.selected = node; // should be value of text input
-    this.nodeId = id; // should be ID of node
-    console.log("this.selected");
+select(node,child) {
+    if(this.selected !== null && this.selected.data === node.data) {
+      this.selected = null;
+      this.nodeId = "";
+			child.style.background = "#FFFFFF"
+    }
+  else{
+		 this.selected = node; // should be value of text input
+     this.nodeId = child.id; // should be ID of node
+		 child.style.background = "#FFD700"
+    }
 	}
 
 	add(data) {
@@ -56,9 +62,10 @@ select(node,id) {
 			this.selected.setChild(child);
       parentDiv = document.getElementById(this.nodeId);
 		}
-    childDiv.onclick = this.select(child,childDiv.id);
+    let self = this;
+    childDiv.onclick = function() {self.select(child,childDiv)};
     parentDiv.appendChild(childDiv);
-    console.log(this);
+    console.log(tree);
 	}
 }
 
@@ -71,6 +78,5 @@ function add(){
   }
   else{
     tree.add(value);
-   console.log(tree);
   }
 }

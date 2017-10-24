@@ -22,7 +22,7 @@
             <md-icon class="md-primary">power_settings_new</md-icon>
             Start
           </md-button>
-          <md-button>
+          <md-button v-on:click="deleteBot(index)">
             <md-icon class="md-accent">delete</md-icon>
             Delete
           </md-button>
@@ -39,6 +39,11 @@ export default {
   name: 'Overview',
   computed: {
     ...mapGetters(['bots'])
+  },
+  methods: {
+    deleteBot: function (index) {
+      this.$store.dispatch('removeBot', index)
+    }
   }
 }
 </script>

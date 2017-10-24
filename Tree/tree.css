@@ -1,0 +1,7 @@
+.output {
+  min-width: 100px;
+  min-height: 80px;
+  border: 1px solid #333;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}

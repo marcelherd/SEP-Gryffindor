@@ -2,14 +2,17 @@
   <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="mainSidebar">
     <md-toolbar class="app-logo md-large">
       <router-link exact to="/">
+        <!--
         <img src="http://via.placeholder.com/200x150" alt="App Logo">
+        -->
+        <img src="/static/logo_white_cut.png" alt="App Logo">
       </router-link>
     </md-toolbar>
 
     <div class="main-sidebar-links">
       <md-list>
         <md-list-item>
-          <router-link exact to="/foo">Foo</router-link>
+          <router-link exact to="/overview">Overview</router-link>
         </md-list-item>
       </md-list>
     </div>
@@ -42,6 +45,8 @@ export default {
 
 .main-sidebar .app-logo img {
   width: 160px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .main-sidebar-links .md-list {

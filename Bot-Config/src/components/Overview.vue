@@ -42,10 +42,6 @@
     <router-link tag="md-button" to="/create" exact class="md-fab md-fab-bottom-right">
       <md-icon>add</md-icon>
     </router-link>
-
-    <md-button class="md-fab md-fab-bottom-left">
-      <md-icon>code</md-icon>
-    </md-button>
   </page-content>
 </template>
 

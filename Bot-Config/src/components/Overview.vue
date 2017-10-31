@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     fetchData () {
-      fetch('http://192.168.1.2:3000/api/v1/manage/bot/')
+      fetch('http://localhost:3000/api/v1/manage/bot/')
       .then(response => response.json())
       .then(data => {
         this.bots = data

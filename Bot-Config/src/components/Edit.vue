@@ -27,7 +27,7 @@ export default {
     fetchData () {
       let id = this.$route.params.id
 
-      fetch(`http://192.168.1.2:3000/api/v1/manage/bot/${id}`)
+      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`)
       .then(response => response.json())
       .then(data => {
         this.bot = data

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Index from '@/components/Index'
 import Overview from '@/components/Overview'
+import Edit from '@/components/Edit'
 import Foo from '@/components/Foo'
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/overview',
       name: 'Overview',
       component: Overview
+    },
+    {
+      path: '/overview/bot/:id',
+      name: 'Edit',
+      component: Edit
     }
   ]
 })

@@ -9,7 +9,3 @@ Vue.material.registerTheme('default', {
   warn: 'deep-orange',
   background: 'white'
 })
-
-Vue.material.registerTheme('sidebar', {
-  primary: 'orange'
-})

@@ -14,6 +14,9 @@
         <md-list-item>
           <router-link exact to="/overview">Overview</router-link>
         </md-list-item>
+        <md-list-item>
+          <router-link exact to="/create">CreateBot</router-link>
+        </md-list-item>
       </md-list>
     </div>
   </md-sidenav>

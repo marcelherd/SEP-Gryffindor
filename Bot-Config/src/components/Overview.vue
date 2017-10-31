@@ -1,6 +1,10 @@
 <template>
   <page-content page-title="Overview">
 
+    <div class="alert alert-success" v-if="message">
+      {{ message }}
+    </div>
+
     <md-table v-if="bots">
       <md-table-header>
         <md-table-row>
@@ -30,14 +34,18 @@
 
     <div v-else>
       <p>Looks like you have not created any bots yet.</p>
-      <router-link tag="md-button" to="/create" class="md-primary">
+      <router-link tag="md-button" to="/create" exact class="md-primary">
         &raquo; Get started now
       </router-link>
     </div>
 
-    <router-link tag="md-button" to="/create" class="md-fab md-fab-bottom-right">
+    <router-link tag="md-button" to="/create" exact class="md-fab md-fab-bottom-right">
       <md-icon>add</md-icon>
     </router-link>
+
+    <md-button class="md-fab md-fab-bottom-left">
+      <md-icon>code</md-icon>
+    </md-button>
   </page-content>
 </template>
 
@@ -54,8 +62,14 @@ export default {
       bots: null
     }
   },
-  created  () {
+  props: ['message'],
+  created () {
     this.fetchData()
+  },
+  mounted () {
+    setTimeout(() => {
+      this.message = ''
+    }, 4000)
   },
   methods: {
     fetchData () {
@@ -79,5 +93,19 @@ export default {
 
 .success {
   color: green;
+}
+
+.alert {
+  position: relative;
+  padding: .75rem 1.24rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
 }
 </style>

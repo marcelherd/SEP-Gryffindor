@@ -1,10 +1,22 @@
 <template>
-  <page-content page-title="Edit">
-    <p v-if="bot">
-      Editing {{ bot.name }}
-    </p>
-    <p v-else>Loading...</p>
+  <page-content v-if="bot" :page-title="'Editing ' + bot.name">
+
+    <md-input-container>
+      <label>Name</label>
+      <md-input placeholder="Name" v-model="bot.name" required></md-input>
+    </md-input-container>
+
+    <router-link tag="md-button" to="/overview" exact class="md-accent">
+      Cancel
+    </router-link>
+
+    <md-button @click="save" class="md-raised md-accent">
+      Save
+    </md-button>
+
   </page-content>
+
+  <page-content v-else page-title="Loading..."></page-content>
 </template>
 
 <script>
@@ -32,6 +44,10 @@ export default {
       .then(data => {
         this.bot = data
       })
+    },
+    save () {
+      // TODO: save changes
+      this.$router.push({ name: 'Overview', params: { message: `Updated ${this.bot.name}` } })
     }
   }
 }

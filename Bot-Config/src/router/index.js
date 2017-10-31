@@ -23,7 +23,8 @@ export default new Router({
     {
       path: '/overview',
       name: 'Overview',
-      component: Overview
+      component: Overview,
+      props: true
     },
     {
       path: '/overview/bot/:id',

@@ -19,16 +19,15 @@
   </template>
 // demo data
 
+
+
 // define the item component
 export default {
-  name: 'tree',
-  template: '#item-template',
-  props: {
-    model: Object
-  },
+  name: 'item',
+  template: '#tree-template',
+  props['model'],
   data: function () {
     return {
-      treeData: data,
       open: false
     }
   },
@@ -56,11 +55,5 @@ export default {
         name: 'new stuff'
       })
     }
-  }
-})
-var demo = new Vue({
-  el: '#demo',
-  data: {
-    treeData: data
   }
 })

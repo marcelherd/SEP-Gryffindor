@@ -15,7 +15,7 @@
           <router-link exact to="/overview">Overview</router-link>
         </md-list-item>
         <md-list-item>
-          <router-link exact to="/create">CreateBot</router-link>
+          <router-link exact to="/create">Create Bot</router-link>
         </md-list-item>
       </md-list>
     </div>

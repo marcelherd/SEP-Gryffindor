@@ -47,7 +47,7 @@ export default {
     },
     save () {
       // TODO: save changes
-      this.$router.push({ name: 'Overview', params: { message: `Updated ${this.bot.name}` } })
+      this.$router.push({ name: 'Overview' })
     }
   }
 }

@@ -78,7 +78,8 @@ router.patch('/bot/:id', (req, res) => {
     if (bot === undefined) {
         res.status(404).send('Not found');
     } else {
-        // TODO: update the bot
+        // TODO update all other properties as well
+        bot.name = req.body.name;
         res.send(JSON.stringify(bot));
     }
 });

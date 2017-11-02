@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style>
-
+.page-content .md-layout .md-layout {
+  margin-bottom: 24px;
+}
 </style>

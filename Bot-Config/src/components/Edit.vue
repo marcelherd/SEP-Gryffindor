@@ -46,8 +46,33 @@ export default {
       })
     },
     save () {
-      // TODO: save changes
-      this.$router.push({ name: 'Overview', params: { message: `Updated ${this.bot.name}` } })
+      // TODO: proper validation
+      if (this.bot.name.length === 0) {
+        return
+      }
+
+      let url = `http://localhost:3000/api/v1/manage/bot/${this.bot.id}`
+
+      let payload = JSON.stringify({
+        name: this.bot.name
+      })
+
+      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let request = new Request(url, {
+        method: 'PATCH',
+        mode: 'CORS',
+        headers: headers,
+        body: payload
+      })
+
+      fetch(request).then(response => {
+        if (response.ok) {
+          this.$router.push({ name: 'Overview' })
+        } else {
+          throw new Error(`Could not save changes to bot with id: ${this.bot.id} (${response.status} ${response.statusText})`)
+        }
+      })
+      .catch(error => console.log(error.message))
     }
   }
 }

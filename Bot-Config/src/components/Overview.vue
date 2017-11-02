@@ -1,36 +1,38 @@
 <template>
   <page-content page-title="Overview">
+    <md-layout md-gutter="24" v-if="bots">
+      <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" v-for="(bot, index) in bots" :key="bot.id">
 
-    <div class="alert alert-success" v-if="message">
-      {{ message }}
-    </div>
+        <md-card :class="bot.status === 'RUNNING' ? 'md-primary' : 'md-accent'">
+          <md-card-media>
+            <img src="/static/robot.jpeg" alt="Robot">
+          </md-card-media>
 
-    <md-table v-if="bots">
-      <md-table-header>
-        <md-table-row>
-          <md-table-head>Name</md-table-head>
-          <md-table-head>Template</md-table-head>
-          <md-table-head>Status</md-table-head>
-          <md-table-head></md-table-head>
-        </md-table-row>
-      </md-table-header>
+          <md-card-header>
+            <div class="md-title">{{ bot.name }}</div>
+            <div class="md-subhead">{{ bot.template }} <span style="float:right">{{ formatStatus(bot.status) }}</span></div>
+          </md-card-header>
 
-      <md-table-body>
-        <md-table-row v-for="(bot, index) in bots" :key="bot.id">
-          <md-table-cell>{{ bot.name }}</md-table-cell>
-          <md-table-cell>{{ bot.template }}</md-table-cell>
-          <md-table-cell :class="bot.status === 'NOT_RUNNING' ? 'danger' : 'success'">
-            {{ formatStatus(bot.status) }}
-          </md-table-cell>
-          <md-table-cell>
+
+          <md-card-actions>
+            <md-button @click="toggle(bot)" class="md-icon-button">
+              <md-icon v-if="bot.status === 'RUNNING'">pause</md-icon>
+              <md-icon v-else>play_arrow</md-icon>
+            </md-button>
+
             <router-link tag="md-button" class="md-icon-button"
               :to="{ name: 'Edit', params: { id: bot.id }}">
               <md-icon>edit</md-icon>
             </router-link>
-          </md-table-cell>
-        </md-table-row>
-      </md-table-body>
-    </md-table>
+
+            <md-button @click="remove(bot)" class="md-icon-button">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card>
+
+      </md-layout>
+    </md-layout>
 
     <div v-else>
       <p>Looks like you have not created any bots yet.</p>
@@ -58,14 +60,8 @@ export default {
       bots: null
     }
   },
-  props: ['message'],
   created () {
     this.fetchData()
-  },
-  mounted () {
-    setTimeout(() => {
-      this.message = ''
-    }, 4000)
   },
   methods: {
     fetchData () {
@@ -77,6 +73,45 @@ export default {
     },
     formatStatus (status) {
       return (status === 'NOT_RUNNING' ? 'Not running' : 'Running')
+    },
+    toggle (bot) {
+      let action = (bot.status === 'RUNNING' ? 'stop' : 'start')
+      let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}/${action}`
+
+      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let request = new Request(url, {
+        method: 'POST',
+        mode: 'CORS',
+        headers: headers
+      })
+
+      fetch(request).then(response => {
+        if (response.ok) {
+          this.fetchData()
+        } else {
+          throw new Error(`Could not change bot status with id: ${bot.id} (${response.status} ${response.statusText})`)
+        }
+      })
+      .catch(error => console.log(error.message))
+    },
+    remove (bot) {
+      let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}`
+
+      let headers = new Headers()
+      let request = new Request(url, {
+        method: 'DELETE',
+        mode: 'CORS',
+        headers: headers
+      })
+
+      fetch(request).then(response => {
+        if (response.ok) {
+          this.fetchData()
+        } else {
+          throw new Error(`Could not delete bot with id: ${bot.id} (${response.status} ${response.statusText})`)
+        }
+      })
+      .catch(error => console.log(error.message))
     }
   }
 }
@@ -103,5 +138,9 @@ export default {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
+}
+
+.md-layout .md-card {
+  margin-bottom: 24px;
 }
 </style>

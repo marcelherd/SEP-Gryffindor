@@ -139,4 +139,8 @@ export default {
   background-color: #d4edda;
   border-color: #c3e6cb;
 }
+
+.md-layout .md-card {
+  margin-bottom: 24px;
+}
 </style>

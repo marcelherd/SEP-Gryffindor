@@ -7,7 +7,7 @@
       <md-input v-model="botName"></md-input>
     </md-input-container>
 
-    <app-tree :tree="tree"></app-tree>
+    <app-tree></app-tree>
 
     <md-button @click="post" class="md-raised md-primary">Submit</md-button>
   </page-content>
@@ -31,8 +31,7 @@ export default {
   data () {
     return {
       botName: 'test',
-      template: '',
-      tree: {}
+      template: ''
     }
   },
   methods: {

@@ -6,7 +6,9 @@
     </md-input-container>
     <md-button @click="add">Add option </md-button>
     <div class= "tree">
-
+      <div  v-if = "tree.root.data !== null" @click ="select(tree.root.data)">{{tree.root.data}} </div>
+      <tree-item @clicked = "select" :key = "child" v-for = "child in tree.root.children" :node="child">
+      </tree-item>
     </div>
 
   </div>
@@ -14,18 +16,20 @@
 
 <script>
 import TreeItem from '@/components/treeItem'
+
 function Node (data) {
   this.data = data
   this.children = []
 }
 
 function Tree () {
-  this.root = null
+  this.root = new Node(null)
+  this.selected = this.root
 }
 
-Tree.prototype.add = function (data, toNodeData) {
+Tree.prototype.add = function (data) {
   var node = new Node(data)
-  var parent = toNodeData ? this.findBFS(toNodeData) : null
+  var parent = this.selected.data ? this.findBFS(this.selected.data) : null
   if (parent) {
     parent.children.push(node)
   } else {
@@ -150,22 +154,24 @@ Tree.prototype.printByLevel = function () {
 
 export default {
   name: 'app-tree',
-  props: ['tree'],
   components: {
     'tree-item': TreeItem
   },
   data () {
     return {
-      option: 'none'
+      option: 'none',
+      tree: new Tree()
     }
   },
   methods: {
     add () {
-      if (this.tree.root === undefined) {
-        this.tree = new Tree()
-        this.tree.add(this.option)
+      if (this.tree.root.data === null) {
+        this.tree.root = new Node(this.option)
+        this.tree.selected = this.tree.root
       } else { this.tree.add(this.option, this.tree.root.data) }
-      console.log(this.tree)
+    },
+    select (data) {
+      this.tree.selected = data ? this.tree.findBFS(data) : null
     }
   }
 }

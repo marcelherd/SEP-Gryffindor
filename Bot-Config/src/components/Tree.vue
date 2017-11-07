@@ -4,10 +4,10 @@
       <label>Option</label>
       <md-input v-model="option"></md-input>
     </md-input-container>
-    <md-button @click="add">Add option </md-button>
+    <md-button class="md-raised"  @click="add">Add option </md-button>
     <div class= "tree">
-      <div  v-if = "tree.root.data !== null" @click ="select(tree.root.data)">{{tree.root.data}} </div>
-      <tree-item @clicked = "select" :key = "child" v-for = "child in tree.root.children" :node="child">
+      <div v-bind:class ="{selected: isActive}" v-if = "tree.root.data !== null" @click.stop ="select(tree.root.data)">{{tree.root.data}} </div>
+      <tree-item @clicked = "select" :key = "child.data" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
 
@@ -159,6 +159,7 @@ export default {
   },
   data () {
     return {
+      isActive: false,
       option: 'none',
       tree: new Tree()
     }
@@ -166,11 +167,14 @@ export default {
   methods: {
     add () {
       if (this.tree.root.data === null) {
+        this.isActive = true
         this.tree.root = new Node(this.option)
         this.tree.selected = this.tree.root
-      } else { this.tree.add(this.option, this.tree.root.data) }
+      } else { this.tree.add(this.option) }
     },
     select (data) {
+      this.isActive = !this.isActive
+      console.log('select in TREE')
       this.tree.selected = data ? this.tree.findBFS(data) : null
     }
   }
@@ -178,5 +182,5 @@ export default {
 </script>
 
 <style>
-
+.selected {font-weight:bold;}
 </style>

@@ -10,8 +10,8 @@
   <md-input-container>
     <label for="BotType">Bottype</label>
     <md-select name="Bottype" id="Bottype" v-model="Bottype">
-      <md-option value="Welcome Bot">Welcome Bot</md-option>
-      <md-option value="FAQ Bot">FAQ Bot</md-option>
+      <md-option value="Welcome-Bot">Welcome Bot</md-option>
+      <md-option value="FAQ-Bot">FAQ Bot</md-option>
     </md-select>
   </md-input-container>
 </div>

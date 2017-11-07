@@ -6,32 +6,35 @@
       <label>Name</label>
       <md-input v-model="botName"></md-input>
     </md-input-container>
+  <div class="field-group">
+  <md-input-container>
+    <label for="BotType">Bottype</label>
+    <md-select name="Bottype" id="Bottype" v-model="Bottype">
+      <md-option value="Welcome Bot">Welcome Bot</md-option>
+      <md-option value="FAQ Bot">FAQ Bot</md-option>
+    </md-select>
+  </md-input-container>
+</div>
 
-    <app-tree></app-tree>
-
-    <md-button @click="post" class="md-raised md-primary">Submit</md-button>
+    <md-button @click="post" class="md-raised md-primary">Save</md-button>
   </page-content>
 </template>
-
-
-
 
 <script>
 import PageContent from '@/components/layout/PageContent'
 import Input from '@/components/Input'
-import Tree from '@/components/Tree'
 
 export default {
   name: 'Create',
   components: {
     'page-content': PageContent,
-    'input-field': Input,
-    'app-tree': Tree
+    'input-field': Input
   },
   data () {
     return {
       botName: 'test',
-      template: ''
+      template: '',
+      Bottype: ''
     }
   },
   methods: {
@@ -41,7 +44,7 @@ export default {
       console.log(this.botName)
       let payload = JSON.stringify({
         name: this.botName,
-        template: 'Welcome Bot'
+        template: this.Bottype
       })
       console.log(payload)
       let request = new Request(url, {

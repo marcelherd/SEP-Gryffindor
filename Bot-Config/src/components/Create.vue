@@ -5,7 +5,14 @@
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
-    </md-input-container>
+    </md-input-container> <md-input-container>
+    <label for="BotType">Bottype</label>
+    <md-select name="Bottype" id="Bottype" v-model="template">
+      <md-option value="Welcome-Bot">Welcome Bot</md-option>
+      <md-option value="FAQ-Bot">FAQ Bot</md-option>
+    </md-select>
+  </md-input-container>
+
 
     <app-tree></app-tree>
 
@@ -41,7 +48,7 @@ export default {
       console.log(this.botName)
       let payload = JSON.stringify({
         name: this.botName,
-        template: 'Welcome Bot'
+        template: this.template
       })
       console.log(payload)
       let request = new Request(url, {

@@ -11,6 +11,7 @@
 <script>
 export default {
   name: 'tree-item',
+ // node that will be iterated over
   props: ['node'],
   data () {
     return {
@@ -18,6 +19,8 @@ export default {
     }
   },
   methods: {
+    // emits event that makes paragraphs in parent selectable(clickable)
+    // means that children in tree are added to the right node cause they are added to selected node
     select (element) {
       this.$emit('clicked', element)
       this.isActive = !this.isActive

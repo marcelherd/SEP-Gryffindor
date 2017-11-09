@@ -42,6 +42,7 @@ export default {
     }
   },
   methods: {
+    // posts Bot to server to be saved there
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
       let headers = new Headers({ 'Content-Type': 'application/json' })

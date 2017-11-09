@@ -1,12 +1,13 @@
+<<script>
 
 export default {
-  data() {
+  data () {
     return {
       initialValue: 'My initial value'
-    };
+    }
   },
   methods: {
-    fetchFunction(param) {
+    fetchFunction (param) {
       // param = { queryParam: query }
 
       // 'fetchAutocomplete' should return a Promise.
@@ -15,6 +16,7 @@ export default {
       // 'param' as an argument.
       // the 'param' is composed by a query param and
       // a query.
-    },
-  },
-};
+    }
+  }
+}
+</script>

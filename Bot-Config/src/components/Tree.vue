@@ -17,6 +17,8 @@
 <script>
 import TreeItem from '@/components/treeItem'
 
+// following functions implement Tree data structure
+
 function Node (data) {
   this.data = data
   this.children = []
@@ -165,6 +167,7 @@ export default {
     }
   },
   methods: {
+    // adds element to tree when click event is called
     add () {
       if (this.tree.root.data === null) {
         this.isActive = true
@@ -172,6 +175,7 @@ export default {
         this.tree.selected = this.tree.root
       } else { this.tree.add(this.option) }
     },
+    // selects the right node for children to be added to when clicked event is triggered(custom even from treeItem)
     select (data) {
       this.isActive = !this.isActive
       console.log('select in TREE')

@@ -8,6 +8,8 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
+  tree: null,
+  selected: null
 
 }
 

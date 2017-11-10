@@ -16,7 +16,7 @@
 
     <app-tree></app-tree>
 
-    <md-button @click="post" class="md-raised md-primary">Submit</md-button>
+    <md-button @click="post" class="md-raised md-primary">Save</md-button>
   </page-content>
 </template>
 
@@ -25,23 +25,24 @@
 
 <script>
 import PageContent from '@/components/layout/PageContent'
-import Input from '@/components/Input'
 import Tree from '@/components/Tree'
 
 export default {
   name: 'Create',
   components: {
     'page-content': PageContent,
-    'input-field': Input,
     'app-tree': Tree
   },
   data () {
     return {
       botName: 'test',
-      template: ''
+      template: '',
+      tree: {tree: null}
     }
   },
+
   methods: {
+
     // posts Bot to server to be saved there
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
@@ -49,7 +50,8 @@ export default {
       console.log(this.botName)
       let payload = JSON.stringify({
         name: this.botName,
-        template: this.template
+        template: this.template,
+        tree: this.$store.state.tree
       })
       console.log(payload)
       let request = new Request(url, {

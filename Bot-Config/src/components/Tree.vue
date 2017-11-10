@@ -4,13 +4,13 @@
       <label>Option</label>
       <md-input v-model="option"></md-input>
     </md-input-container>
-    <md-button class="md-raised"  @click="add">Add option </md-button>
+    <md-button class="md-raised" @click="add">Add option </md-button>
     <div class= "tree">
-      <div v-bind:class ="{selected: isActive}" v-if = "tree.root.data !== null" @click.stop ="select(tree.root.data)">{{tree.root.data}} </div>
-      <tree-item @clicked = "select" :key = "child.data" v-for = "child in tree.root.children" :node="child">
+      <div v-if = "tree.root.data !== null" @click ="select(tree.root.data)">{{tree.root.data}} </div>
+      <tree-item :key = "child.data" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
-
+    
   </div>
 </template>
 
@@ -26,19 +26,18 @@ function Node (data) {
 
 function Tree () {
   this.root = new Node(null)
-  this.selected = this.root
 }
 
-Tree.prototype.add = function (data) {
+Tree.prototype.add = function (data, toNodeData) {
   var node = new Node(data)
-  var parent = this.selected.data ? this.findBFS(this.selected.data) : null
+  var parent = toNodeData ? this.findBFS(toNodeData) : null
   if (parent) {
     parent.children.push(node)
   } else {
     if (!this.root) {
       this.root = node
     } else {
-      return 'Root node is already assigned'
+      return console.log('Root node is already assigned')
     }
   }
 }
@@ -161,30 +160,26 @@ export default {
   },
   data () {
     return {
-      isActive: false,
       option: 'none',
       tree: new Tree()
     }
   },
   methods: {
-    // adds element to tree when click event is called
+    // adds element to tree when click event is called and calls giveTreeToParent
     add () {
       if (this.tree.root.data === null) {
-        this.isActive = true
         this.tree.root = new Node(this.option)
-        this.tree.selected = this.tree.root
-      } else { this.tree.add(this.option) }
+        this.$store.dispatch('setSelected', this.tree.root)
+      } else { this.tree.add(this.option, this.$store.state.selected.data) }
+      this.giveTreeToParent()
     },
-    // selects the right node for children to be added to when clicked event is triggered(custom even from treeItem)
-    select (data) {
-      this.isActive = !this.isActive
-      console.log('select in TREE')
-      this.tree.selected = data ? this.tree.findBFS(data) : null
+    // Gives Tree to Parent(Create.vue) so that it can be saved as JSON
+    giveTreeToParent () {
+      this.$store.dispatch('updateTree', this.tree)
     }
   }
 }
 </script>
 
 <style>
-.selected {font-weight:bold;}
 </style>

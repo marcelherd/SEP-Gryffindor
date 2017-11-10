@@ -6,7 +6,7 @@
     </md-input-container>
     <md-button class="md-raised" @click="add">Add option </md-button>
     <div class= "tree">
-      <div v-if = "tree.root.data !== null" @click ="select(tree.root.data)">{{tree.root.data}} </div>
+      <div v-bind:class ="{selected: this.$store.state.selected.data === tree.root.data}" @click="select(tree.root.data)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
       <tree-item :key = "child.data" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
@@ -176,6 +176,9 @@ export default {
     // Gives Tree to Parent(Create.vue) so that it can be saved as JSON
     giveTreeToParent () {
       this.$store.dispatch('updateTree', this.tree)
+    },
+    select (element) {
+      this.$store.dispatch('setSelected', element ? this.$store.state.tree.findBFS(element) : null)
     }
   }
 }

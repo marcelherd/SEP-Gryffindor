@@ -6,8 +6,8 @@
     </md-input-container>
     <md-button class="md-raised" @click="add">Add option </md-button>
     <div class= "tree">
-      <div v-bind:class ="{selected: this.$store.state.selected.data === tree.root.data}" @click="select(tree.root.data)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
-      <tree-item :key = "child.data" v-for = "child in tree.root.children" :node="child">
+      <div v-bind:class ="{selected: this.$store.state.selected === tree.root}" @click="select(tree.root.id)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
+      <tree-item :key = "child.id" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
     
@@ -22,15 +22,24 @@ import TreeItem from '@/components/treeItem'
 function Node (data) {
   this.data = data
   this.children = []
+  this.id = 0
 }
 
 function Tree () {
   this.root = new Node(null)
+  this.nodeID = 0
 }
 
-Tree.prototype.add = function (data, toNodeData) {
-  var node = new Node(data)
-  var parent = toNodeData ? this.findBFS(toNodeData) : null
+Tree.prototype.add = function (data, nodeID) {
+  let parent
+  if (this.findBFS(nodeID)) {
+    parent = this.findBFS(nodeID)
+  } else {
+    parent = null
+  }
+  let node = new Node(data)
+  this.nodeID++
+  node.id = this.nodeID
   if (parent) {
     parent.children.push(node)
   } else {
@@ -41,8 +50,8 @@ Tree.prototype.add = function (data, toNodeData) {
     }
   }
 }
-Tree.prototype.remove = function (data) {
-  if (this.root.data === data) {
+Tree.prototype.remove = function (nodeID) {
+  if (this.root.id === nodeID) {
     this.root = null
   }
 
@@ -50,7 +59,7 @@ Tree.prototype.remove = function (data) {
   while (queue.length) {
     var node = queue.shift()
     for (var i = 0; i < node.children.length; i++) {
-      if (node.children[i].data === data) {
+      if (node.children[i].id === nodeID) {
         node.children.splice(i, 1)
       } else {
         queue.push(node.children[i])
@@ -58,14 +67,14 @@ Tree.prototype.remove = function (data) {
     }
   }
 }
-Tree.prototype.contains = function (data) {
-  return !!this.findBFS(data)
+Tree.prototype.contains = function (id) {
+  return !!this.findBFS(id)
 }
-Tree.prototype.findBFS = function (data) {
+Tree.prototype.findBFS = function (nodeID) {
   var queue = [this.root]
   while (queue.length) {
     var node = queue.shift()
-    if (node.data === data) {
+    if (node.id === nodeID) {
       return node
     }
     for (var i = 0; i < node.children.length; i++) {
@@ -170,19 +179,20 @@ export default {
       if (this.tree.root.data === null) {
         this.tree.root = new Node(this.option)
         this.$store.dispatch('setSelected', this.tree.root)
-      } else { this.tree.add(this.option, this.$store.state.selected.data) }
+      } else { this.tree.add(this.option, this.$store.state.selected.id) }
       this.giveTreeToParent()
     },
     // Gives Tree to Parent(Create.vue) so that it can be saved as JSON
     giveTreeToParent () {
       this.$store.dispatch('updateTree', this.tree)
     },
-    select (element) {
-      this.$store.dispatch('setSelected', element ? this.$store.state.tree.findBFS(element) : null)
+    select (nodeID) {
+      this.$store.dispatch('setSelected', this.tree.root)
     }
   }
 }
 </script>
 
 <style>
+.selected  { font-weight:bold; }
 </style>

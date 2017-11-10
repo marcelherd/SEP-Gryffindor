@@ -1,8 +1,8 @@
 
 <template>
   <div class="treeItem">
-    <p  v-bind:class ="{selected: this.$store.state.selected.data === node.data}" @click="select(node.data)" >{{ node.data }}</p>
-    <tree-item  @click="select(node.data)" :key ="child.data" v-for="child in node.children" :node="child" >
+    <p  v-bind:class ="{selected: this.$store.state.selected.id === node.id}" @click="select(node.id)" >{{ node.data }}</p>
+    <tree-item  @click="select(node.id)" :key ="child.id" v-for="child in node.children" :node="child" >
     </tree-item>
   </div>
 
@@ -15,8 +15,8 @@ export default {
   props: ['node'],
   methods: {
     // Ensures that children in tree are added to the right node cause they are added to selected node
-    select (element) {
-      this.$store.dispatch('setSelected', element ? this.$store.state.tree.findBFS(element) : null)
+    select (id) {
+      this.$store.dispatch('setSelected', id ? this.$store.state.tree.findBFS(id) : null)
     }
   }
 

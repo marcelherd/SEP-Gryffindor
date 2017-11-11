@@ -2,9 +2,6 @@
   <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="mainSidebar">
     <md-toolbar class="app-logo md-large">
       <router-link exact to="/">
-        <!--
-        <img src="http://via.placeholder.com/200x150" alt="App Logo">
-        -->
         <img src="/static/logo_white_cut.png" alt="App Logo">
       </router-link>
     </md-toolbar>
@@ -20,12 +17,24 @@
 </template>
 
 <script>
+
+/**
+ * Navigation sidebar component.
+ * It contains router links to other components.
+ *
+ * @module components/layout/Sidebar
+ */
 export default {
   name: 'Sidebar',
   methods: {
+
+    /**
+     * Shows/hides the navigation sidebar
+     */
     toggleSidenav () {
       this.$refs.mainSidebar.toggle()
     }
+
   }
 }
 </script>

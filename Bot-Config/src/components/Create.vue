@@ -1,18 +1,19 @@
-
 <template>
   <page-content page-title="Create Bot">
-    <h2> Configuration </h2>
+    <h2>Configuration</h2>
+
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
-    </md-input-container> <md-input-container>
-    <label for="BotType">Bottype</label>
-    <md-select name="Bottype" id="Bottype" v-model="template">
-      <md-option value="Welcome-Bot">Welcome Bot</md-option>
-      <md-option value="FAQ-Bot">FAQ Bot</md-option>
-    </md-select>
-  </md-input-container>
+    </md-input-container>
 
+    <md-input-container>
+      <label for="BotType">Bottype</label>
+      <md-select name="Bottype" id="Bottype" v-model="template">
+        <md-option value="Welcome-Bot">Welcome Bot</md-option>
+        <md-option value="FAQ-Bot">FAQ Bot</md-option>
+      </md-select>
+    </md-input-container>
 
     <app-tree></app-tree>
 
@@ -20,13 +21,15 @@
   </page-content>
 </template>
 
-
-
-
 <script>
 import PageContent from '@/components/layout/PageContent'
 import Tree from '@/components/Tree'
 
+/**
+ * This component allows the user to create a new bot and save it.
+ *
+ * @module components/Create
+ */
 export default {
   name: 'Create',
   components: {
@@ -43,17 +46,20 @@ export default {
 
   methods: {
 
-    // posts Bot to server to be saved there
+    /**
+     * Posts bot to the server to be saved there
+     */
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
+
       let headers = new Headers({ 'Content-Type': 'application/json' })
-      console.log(this.botName)
+
       let payload = JSON.stringify({
         name: this.botName,
         template: this.template,
         tree: this.$store.state.tree
       })
-      console.log(payload)
+
       let request = new Request(url, {
         method: 'POST',
         mode: 'CORS',
@@ -66,8 +72,9 @@ export default {
           this.$router.push({name: 'Overview'})
         } else { console.log(response) }
       })
-        .catch(error => console.log(error.message))
+      .catch(error => console.log(error.message))
     }
+
   }
 }
 </script>

@@ -1,3 +1,10 @@
+/**
+ * This module defines the endpoints
+ * of the manage HTTP interface.
+ *
+ * @module routes/manage
+ */
+
 const express = require('express');
 
 const router = express.Router();
@@ -5,6 +12,7 @@ const router = express.Router();
 const authController = require('../controllers/AuthController');
 const manageController = require('../controllers/ManageController');
 
+// Looks up the bot with the given id and attaches it to the request
 router.param('bot_id', manageController.findBot);
 
 router.route('/bot')

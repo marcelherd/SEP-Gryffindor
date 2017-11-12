@@ -1,3 +1,9 @@
+/**
+ * This module is responsible for configuring the express app.
+ *
+ * @module config
+ */
+
 const parser = require('body-parser');
 const cors = require('cors');
 

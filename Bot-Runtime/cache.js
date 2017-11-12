@@ -1,3 +1,9 @@
+/**
+ * This module stores bot objects in memory.
+ *
+ * @module cache
+ */
+
 const cache = {
   currentId: 2,
   bots: [

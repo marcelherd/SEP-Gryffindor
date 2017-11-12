@@ -1,3 +1,9 @@
+/**
+ * Application entry point.
+ *
+ * @module index
+ */
+
 const express = require('express');
 
 const app = express();

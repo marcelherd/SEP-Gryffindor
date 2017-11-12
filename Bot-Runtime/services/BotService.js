@@ -1,7 +1,8 @@
 /**
- * BotService module.
+ * This module is responsible for storing and retrieving
+ * persistent bots and interacting with them.
  *
- * @module BotService
+ * @module services/BotService
  */
 
 const cache = require('../cache');

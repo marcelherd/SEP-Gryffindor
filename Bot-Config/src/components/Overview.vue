@@ -36,12 +36,12 @@
 
     <div v-else>
       <p>Looks like you have not created any bots yet.</p>
-      <router-link tag="md-button" to="/create" exact class="md-primary">
+      <router-link tag="md-button" to="/templateSelection" exact class="md-primary">
         &raquo; Get started now
       </router-link>
     </div>
 
-    <router-link tag="md-button" to="/create" exact class="md-fab md-fab-bottom-right">
+    <router-link tag="md-button" to="/templateSelection" exact class="md-fab md-fab-bottom-right">
       <md-icon>add</md-icon>
     </router-link>
   </page-content>

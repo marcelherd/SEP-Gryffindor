@@ -10,7 +10,7 @@ Vue.use(Vuex)
 const state = {
   tree: null,
   selected: null,
-  nodeID: 0
+  template: null
 
 }
 

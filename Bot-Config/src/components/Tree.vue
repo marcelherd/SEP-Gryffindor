@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import TreeItem from '@/components/treeItem'
+import TreeItem from '@/components/TreeItem'
 
 // following functions implement Tree data structure
 

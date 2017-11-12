@@ -7,7 +7,7 @@ export default {
   [types.UPDATE_TREE] (state, tree) {
     state.tree = tree
   },
-  [types.INCREMENT_NODEID] (state) {
-    state.nodeID++
+  [types.SET_TEMPLATE] (state, template) {
+    state.template = template
   }
 }

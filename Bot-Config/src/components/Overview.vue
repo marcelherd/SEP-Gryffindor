@@ -50,6 +50,11 @@
 <script>
 import PageContent from '@/components/layout/PageContent'
 
+/**
+ * This component displays all existing bots.
+ *
+ * @module components/Overview
+ */
 export default {
   name: 'Overview',
   components: {
@@ -61,9 +66,23 @@ export default {
     }
   },
   created () {
+    // Fetches the bot data whenever this component is instantiated
     this.fetchData()
   },
   methods: {
+
+    // TODO: move this to its own class
+    /**
+     * @typedef {Object} Bot
+     * @property {number} id The id of the bot
+     * @property {string} name The name of the bot
+     * @property {string} template The template of the bot
+     * @property {string} status The status of the bot
+     */
+
+    /**
+     * Fetches the bot data from the bot runtime.
+     */
     fetchData () {
       fetch('http://localhost:3000/api/v1/manage/bot/')
       .then(response => response.json())
@@ -71,9 +90,22 @@ export default {
         this.bots = data
       })
     },
+
+    /**
+     * Returns a human readable string representation of the given bot status.
+     *
+     * @param {string} status - The bot status
+     * @return {string} A human readable string representation of the given bot status
+     */
     formatStatus (status) {
       return (status === 'NOT_RUNNING' ? 'Not running' : 'Running')
     },
+
+    /**
+     * Starts/stops the given bot.
+     *
+     * @param {Bot} bot - the bot that should be started/stopped
+     */
     toggle (bot) {
       let action = (bot.status === 'RUNNING' ? 'stop' : 'start')
       let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}/${action}`
@@ -94,6 +126,12 @@ export default {
       })
       .catch(error => console.log(error.message))
     },
+
+    /**
+     * Removes the given bot.
+     *
+     * @param {Bot} bot - The bot that is to be deleted
+     */
     remove (bot) {
       let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}`
 

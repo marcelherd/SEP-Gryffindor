@@ -5,6 +5,9 @@
 </template>
 
 <script>
+/**
+ * The bot platform root component.
+ */
 export default {
   name: 'app'
 }

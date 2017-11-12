@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Overview from '@/components/Overview'
 import Edit from '@/components/Edit'
+
 import TemplateSelection from '@/components/TemplateSelection'
 import Create from '@/components/Create'
 
@@ -17,6 +18,7 @@ export default new Router({
       component: Index
     },
     {
+
       path: '/TemplateSelection',
       name: 'TemplateSelection',
       component: TemplateSelection
@@ -36,6 +38,5 @@ export default new Router({
       name: 'Create',
       component: Create
     }
-
   ]
 })

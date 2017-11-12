@@ -22,6 +22,11 @@
 <script>
 import PageContent from '@/components/layout/PageContent'
 
+/**
+ * This component allows the user to edit an existing bot.
+ *
+ * @module components/Edit
+ */
 export default {
   name: 'Edit',
   components: {
@@ -33,9 +38,14 @@ export default {
     }
   },
   created () {
+    // Fetches the bot data whenever this component is instantiated
     this.fetchData()
   },
   methods: {
+
+    /**
+     * Fetches the bot data from the bot runtime.
+     */
     fetchData () {
       let id = this.$route.params.id
 
@@ -45,8 +55,12 @@ export default {
         this.bot = data
       })
     },
+
+    /**
+     * Saves all changes made to the bot.
+     */
     save () {
-      // TODO: proper validation
+      // TODO: show validation errors in the user interface
       if (this.bot.name.length === 0) {
         return
       }

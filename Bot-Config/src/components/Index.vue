@@ -8,6 +8,11 @@
 <script>
 import PageContent from '@/components/layout/PageContent'
 
+/**
+ * This component shows the home page for the bot configuration.
+ *
+ * @module components/Index
+ */
 export default {
   name: 'Index',
   components: {

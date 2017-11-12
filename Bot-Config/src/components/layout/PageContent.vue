@@ -19,6 +19,13 @@
 <script>
 import Sidebar from '@/components/layout/Sidebar'
 
+/**
+ * A wrapper component for other components.
+ * It adds a sidebar and a page header.
+ *
+ * @module components/layout/PageContent
+ * @param {string} pageTitle - Required, adjusts the title that is displayed in the page header
+ */
 export default {
   name: 'PageContent',
   props: ['pageTitle'],
@@ -26,9 +33,14 @@ export default {
     'app-sidebar': Sidebar
   },
   methods: {
+
+    /**
+     * Shows/hides the navigation sidebar
+     */
     toggleSidenav () {
       this.$refs.mainSidebar.toggleSidenav()
     }
+
   }
 }
 </script>

@@ -37,7 +37,7 @@ export default {
   },
 
   methods: {
-
+    // sets the template that was earlier selected in component TemplateSelection by accessing it in the store
     setTemplate () {
       this.template = this.$store.state.template
     },

@@ -1,3 +1,5 @@
+// implements the main marketplace functionalities 
+// provides the templates that can be selected
 const express = require('express');
 const app = express();
 const fs = require('fs');

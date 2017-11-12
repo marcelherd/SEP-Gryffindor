@@ -6,7 +6,7 @@ import * as actions from './actions'
 import mutations from './mutations'
 
 Vue.use(Vuex)
-
+// saves the app's state
 const state = {
   tree: null,
   selected: null,

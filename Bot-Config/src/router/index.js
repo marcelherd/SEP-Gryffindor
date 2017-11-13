@@ -34,7 +34,7 @@ export default new Router({
       component: Edit
     },
     {
-      path: '/Create',
+      path: '/Create/:template',
       name: 'Create',
       component: Create
     }

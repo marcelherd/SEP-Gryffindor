@@ -1,11 +1,11 @@
 
 <template>
   <page-content page-title="Create Bot">
-    <h2 :template="this.template"> Configure {{template}} </h2>
+    <h2> Configure {{this.$route.params.template}} </h2>
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
-    </md-input-container> 
+    </md-input-container>
     <app-tree></app-tree>
     <md-button @click="post" class="md-raised md-primary">Save</md-button>
   </page-content>
@@ -25,22 +25,14 @@ export default {
     'app-tree': Tree
   },
 
-  created () {
-    this.setTemplate()
-  },
   data () {
     return {
       botName: 'test',
-      template: null,
       tree: {tree: null}
     }
   },
 
   methods: {
-    // sets the template that was earlier selected in component TemplateSelection by accessing it in the store
-    setTemplate () {
-      this.template = this.$store.state.template
-    },
     // posts Bot to server to be saved there
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
@@ -48,7 +40,7 @@ export default {
 
       let payload = JSON.stringify({
         name: this.botName,
-        template: this.template,
+        template: this.$route.params.template,
         tree: this.$store.state.tree
       })
       console.log(payload)
@@ -61,6 +53,7 @@ export default {
 
       fetch(request).then(response => {
         if (response.ok) {
+          this.$store.state.tree = null
           this.$router.push({name: 'Overview'})
         } else { console.log(response) }
       })

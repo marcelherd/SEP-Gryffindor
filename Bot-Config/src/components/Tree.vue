@@ -10,12 +10,12 @@
       <tree-item :key = "child.id" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
-    
+
   </div>
 </template>
 
 <script>
-import TreeItem from '@/components/TreeItem'
+import TreeItem from '@/components/treeItem'
 
 // following functions implement Tree data structure
 

@@ -16,7 +16,7 @@
 **Beschreibung:**
 Webbasiertes User Interface um Bot zu erstellen und verwalten
 
-**OrdnerStruktur:**
+**Ordnerstruktur:**
 
     ├── build                   # Autogeneriert
     ├── config                  # Autogeneriert
@@ -54,7 +54,7 @@ Webbasiertes User Interface um Bot zu erstellen und verwalten
 Bereitstellung mehrerer Bot-Templates in einer Art Marktplatz. 
 Je nach Auswhal wird ein anderer Bot erstellt
 
-**OrdnerStruktur:**
+**Ordnerstruktur:**
 
     ├── FAQ-Bot                  # Bot welcher allgemeine Fragen beantworten soll
     ├── Hello-World-Bot          # Bot welcher begrüßt
@@ -70,7 +70,7 @@ Je nach Auswhal wird ein anderer Bot erstellt
 **Beschreibung:**
 Laufzeitumgebung um Bots zu erstellen, löschen und verwalten.
 
-**OrdnerStruktur:**
+**Ordnerstruktur:**
 
     ├── controllers              # Enthält middleware für Anfragen an die Runtime
     │   ├── AuthController.js                # Authentifizierungsmiddleware

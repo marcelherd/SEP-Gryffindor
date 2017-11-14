@@ -22,10 +22,10 @@ Webbasiertes User Interface um Bot zu erstellen und verwalten
     ├── config                  # Autogeneriert
     ├── src                     # Wichtige Dateien an denen gearbeitet wird
     │   ├── components 
-    │   |   ├── Layout                     # Darstellung unf Funktionen der Benutzeroberfläche
-    │   |   |   ├── PageContent.vue                 # Inhalt der Sidebar
-    │   |   |   └── Sidebar.vue                     # Aufbau der Sidebar
-    │   |   ├── Create.vue                 # Sendet Bot zum Speichern an Server
+    │   |   ├── Layout                     # Komponenten die das Seitenlayout definieren
+    │   |   |   ├── PageContent.vue                 # Wrapper Komponente für andere Komponente
+    │   |   |   └── Sidebar.vue                     # Aufbau der Navigations Sidebar
+    │   |   ├── Create.vue                 # Komponente um neue Bots zu erzeugen
     │   |   ├── Edit.vue                   # Bearbeiten eines Existieren Bots
     │   |   ├── Index.vue                  # Startseite der Konfiguraitonsumgebung
     │   |   ├── Overwiew.vue               # Auflisten/Statusabfrage/Löschen/Start/Stop Bots
@@ -33,13 +33,13 @@ Webbasiertes User Interface um Bot zu erstellen und verwalten
     │   |   ├── Tree.vue                   # Implementierung Baumstruktur für Botkonfiguration
     │   |   └── treeItem.vue               # Darstellung Baumstruktur für Botkonfiguraiton
     │   ├── router
-    │   |   └──  index.js                  # Verwaltung der Routen zum Backend   
-    │   ├── store                   # Ablage für Vue.js Anwendungen
-    │   |   ├── actions.js                 #  
-    │   |   ├── getters.js                 #
-    │   |   ├── index.js                   #
-    │   |   ├── mutation-types.js          # 
-    │   |   └── mutations.js               #
+    │   |   └──  index.js                  # Enthält alle Routen des Frontends 
+    │   ├── store                   # Vuex Store um Daten zwischen Komponenten übertragen
+    │   |   ├── actions.js                 #  Definiert die möglichen Aktionen auf dem Store
+    │   |   ├── getters.js                 #  Definiert die Getter
+    │   |   ├── index.js                   #  Erstellt den Vuex Store
+    │   |   ├── mutation-types.js          #   Definiert die möglichen Mutationen
+    │   |   └── mutations.js               #  Implementiert die möglichen möglcihen Mutationen des Vuex Store
     │   └── main.js              
     ├── static                  # statische Dateien (Logo)
     ├── test/unit               # Autogenerierte tests

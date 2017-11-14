@@ -25,6 +25,12 @@
 </template>
 
 <script>
+
+/**
+ * This component implements the Bot Template Selection
+ *
+ * @module components/TemplateSelection.vue
+ */
 import PageContent from '@/components/layout/PageContent'
 
 export default {
@@ -32,11 +38,19 @@ export default {
   components: {
     'page-content': PageContent
   },
+  data () {
+    return {
+      templates: []
+    }
+  },
   created () {
+    // Fetches the template data whenever this component is instantiated
     this.fetchData()
   },
   methods: {
-    // fetches available Bot Templates
+    /*
+    *fetches available Bot Templates from the Bot marketplace
+    */
     fetchData () {
       fetch('http://localhost:4000/api/v1/discover')
         .then(response => response.json())
@@ -44,11 +58,7 @@ export default {
           this.templates = data
         })
     }
-  },
-  data () {
-    return {
-      templates: []
-    }
   }
+
 }
 </script>

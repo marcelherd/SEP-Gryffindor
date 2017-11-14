@@ -13,8 +13,9 @@
         </md-card-header>
 
         <md-card-actions>
-          <router-link tag="md-button" to="/Create">
-          <md-button @click="select(template)" :template="template">Select</md-button>
+          <router-link tag="md-button"
+              :to="{ name: 'Create', params: { template: template }}">
+          <md-button :template="template">Select</md-button>
           </router-link>
         </md-card-actions>
       </md-card>
@@ -42,10 +43,6 @@ export default {
         .then(data => {
           this.templates = data
         })
-    },
-    // sets Template when select Button is clicked
-    select (template) {
-      this.$store.dispatch('setTemplate', template)
     }
   },
   data () {

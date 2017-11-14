@@ -9,8 +9,7 @@ Vue.use(Vuex)
 // saves the app's state
 const state = {
   tree: null,
-  selected: null,
-  template: null
+  selected: null
 
 }
 

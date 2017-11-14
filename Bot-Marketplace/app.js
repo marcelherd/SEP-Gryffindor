@@ -12,19 +12,17 @@ app.use(parser.json());
 app.use(cors())
 
 app.get('/api/v1/discover', (req, res) => {
-    console.log('hellloooo')
-    let botFAQ = fs.readFileSync('C:/SEP-Gryffindor/Bot-Marketplace/FAQ-Bot/package.json');
-    let botWelcome = fs.readFileSync('C:/SEP-Gryffindor/Bot-Marketplace/Welcome-Bot/package.json');
+    let botFAQ = fs.readFileSync('./FAQ-Bot/package.json');
+    let botWelcome = fs.readFileSync('./Welcome-Bot/package.json');
     botFAQ = JSON.parse(botFAQ);
     botWelcome = JSON.parse(botWelcome);
     let templateArray =[];
     templateArray.push(botFAQ.template);
     templateArray.push(botWelcome.template);
-    console.log("array" + templateArray);
     res.json(templateArray);
 
 });
 
 app.listen(4000, () => {
-    console.log('Bot Runtime is running on port 4000!');
+    console.log('Bot Marketplace is running on port 4000!');
 });

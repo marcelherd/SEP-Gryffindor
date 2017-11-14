@@ -5,6 +5,7 @@
       <md-input v-model="option"></md-input>
     </md-input-container>
     <md-button class="md-raised" @click="add">Add option </md-button>
+    <md-button class="md-raised" @click="deleteNode">Delete option </md-button>
     <div class= "tree">
       <div v-bind:class ="{selected: this.$store.state.selected === tree.root}" @click="select(tree.root.id)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
       <tree-item :key = "child.id" v-for = "child in tree.root.children" :node="child">
@@ -41,12 +42,17 @@ export default {
   },
   methods: {
     /**
-    * Adds a node to the tree
+    * Adds a node to the tree at selected node
     */
     add () {
-      console.log(this.tree)
       this.tree.add(this.option, this.$store.state.selected.id)
       this.giveTreeToParent()
+    },
+    /**
+    * Removes selected node
+    */
+    deleteNode () {
+      this.tree.remove(this.$store.state.selected.id)
     },
     /**
     * Saves tree in store so it can accessed in parent component(Create.vue)

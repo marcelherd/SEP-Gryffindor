@@ -53,7 +53,7 @@ export default {
       console.log(payload)
       let request = new Request(url, {
         method: 'POST',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers,
         body: payload
       })

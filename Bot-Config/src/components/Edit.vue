@@ -74,7 +74,7 @@ export default {
       let headers = new Headers({ 'Content-Type': 'application/json' })
       let request = new Request(url, {
         method: 'PATCH',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers,
         body: payload
       })

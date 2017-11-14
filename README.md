@@ -38,9 +38,11 @@ Webbasiertes User Interface um Bot zu erstellen und verwalten
     │   |   ├── actions.js                 #  Definiert die möglichen Aktionen auf dem Store
     │   |   ├── getters.js                 #  Definiert die Getter
     │   |   ├── index.js                   #  Erstellt den Vuex Store
-    │   |   ├── mutation-types.js          #   Definiert die möglichen Mutationen
+    │   |   ├── mutation-types.js          #  Definiert die möglichen Mutationen
     │   |   └── mutations.js               #  Implementiert die möglichen möglcihen Mutationen des Vuex Store
-    │   └── main.js              
+    │   ├── App.vue                #  Bot Plattform User Interface  
+    │   ├── config.js              # Konfigurationsumgebung Farben
+    │   └── main.js                # Konfiguraitonsumgebung Layout
     ├── static                  # statische Dateien (Logo)
     ├── test/unit               # Autogenerierte tests
     └── README.md               # Anleitung Bot Config Starten mit npm

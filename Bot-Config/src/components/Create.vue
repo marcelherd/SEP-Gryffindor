@@ -5,7 +5,7 @@
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
-    </md-input-container> 
+    </md-input-container>
     <app-tree></app-tree>
     <md-button @click="post" class="md-raised md-primary">Save</md-button>
   </page-content>
@@ -54,7 +54,7 @@ export default {
       console.log(payload)
       let request = new Request(url, {
         method: 'POST',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers,
         body: payload
       })

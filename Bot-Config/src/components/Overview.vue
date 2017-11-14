@@ -113,7 +113,7 @@ export default {
       let headers = new Headers({ 'Content-Type': 'application/json' })
       let request = new Request(url, {
         method: 'POST',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers
       })
 
@@ -138,7 +138,7 @@ export default {
       let headers = new Headers()
       let request = new Request(url, {
         method: 'DELETE',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers
       })
 

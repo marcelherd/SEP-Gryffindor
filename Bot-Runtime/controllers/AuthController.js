@@ -28,6 +28,7 @@ exports.isAuthenticated = function (req, res, next) {
         });
       }
 
+      console.log(`DECODED: ${decoded.name}`);
       req.auth = decoded;
       return next();
     });
@@ -37,6 +38,35 @@ exports.isAuthenticated = function (req, res, next) {
       message: 'No token provided',
     });
   }
+};
+
+/**
+ * Checks whether the request is authorized.
+ * A request is authorized if the logged in user is an admin
+ * or trying to access his own bots.
+ *
+ * TODO
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+exports.isAuthorized = function (req, res, next) {
+  const { id, admin } = req.auth;
+
+  // Admins are always authorized
+  if (admin) {
+    return next();
+  }
+
+  if (req.user.id === id) {
+    return next();
+  }
+
+  return res.status(403).json({
+    success: false,
+    message: 'Permission denied',
+  });
 };
 
 /**
@@ -75,6 +105,8 @@ exports.authenticate = function (req, res) {
     if (user && user.password === req.body.password) {
       // Create and send token
       const payload = {
+        id: user._id,
+        name: user.name,
         admin: user.admin,
       };
 

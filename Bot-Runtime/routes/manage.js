@@ -16,6 +16,8 @@ const userController = require('../controllers/UserController');
 // Looks up the bot with the given id and attaches it to the request
 router.param('bot_id', botController.findBot);
 
+router.param('user_id', userController.findUser);
+
 router.route('/bot')
   .get(authController.isAuthenticated, botController.getBots)
   .post(authController.isAuthenticated, botController.postBot);
@@ -36,5 +38,8 @@ router.route('/bot/:bot_id/stop')
 
 router.route('/users/')
   .post(authController.isAuthenticated, authController.isAdmin, userController.postUser);
+
+router.route('/users/:user_id')
+  .get(authController.isAuthenticated, authController.isAuthorized, userController.getUser);
 
 module.exports = router;

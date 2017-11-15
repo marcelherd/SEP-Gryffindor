@@ -1,5 +1,10 @@
 import Node from '@/model/treenode'
 
+/**
+ * This module implements the tree logic
+ *
+ * @module model/tree
+ */
 class Tree {
   constructor () {
     this.root = new Node(null)

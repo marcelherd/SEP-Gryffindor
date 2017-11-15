@@ -29,7 +29,7 @@
 /**
  * This component implements the Bot Template Selection
  *
- * @module components/TemplateSelection.vue
+ * @module components/TemplateSelection
  */
 import PageContent from '@/components/layout/PageContent'
 

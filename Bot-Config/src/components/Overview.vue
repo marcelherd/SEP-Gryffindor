@@ -68,6 +68,8 @@ export default {
   created () {
     // Fetches the bot data whenever this component is instantiated
     this.fetchData()
+    this.$store.dispatch('updateTree', null)
+    this.$store.dispatch('setSelected', null)
   },
   methods: {
 

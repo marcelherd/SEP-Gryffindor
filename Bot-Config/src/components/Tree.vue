@@ -6,12 +6,16 @@
     </md-input-container>
     <md-button class="md-raised" @click="add">Add option </md-button>
     <md-button class="md-raised" @click="deleteNode">Delete option </md-button>
-    <div class= "tree">
+    <div class= "tree" v-if="this.$store.state.tree == null" >
       <div v-bind:class ="{selected: this.$store.state.selected === tree.root}" @click="select(tree.root.id)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
       <tree-item :key = "child.id" v-for = "child in tree.root.children" :node="child">
       </tree-item>
     </div>
-
+    <div class= "tree" v-else >
+      <div v-bind:class ="{selected: this.$store.state.selected === this.$store.state.tree.root}" @click="select()" v-if = "this.$store.state.tree.root.data !== null">{{this.$store.state.tree.root.data}} </div>
+      <tree-item :key = "child.id" v-for = "child in this.$store.state.tree.root.children" :node="child">
+      </tree-item>
+      </div>
   </div>
 </template>
 
@@ -19,7 +23,7 @@
 /**
  * This component realizes the tree
  *
- * @module components/Tree.vue
+ * @module components/Tree
  */
 import TreeItem from '@/components/TreeItem'
 import Tree from '@/model/tree.js'
@@ -40,6 +44,13 @@ export default {
       tree: new Tree()
     }
   },
+  beforeMount () {
+    if (this.$store.state.tree !== null) {
+      this.tree.nodeID = this.$store.state.tree.nodeID
+      this.tree.root = this.$store.state.tree.root
+      this.$store.dispatch('updateTree', this.tree)
+    }
+  },
   methods: {
     /**
     * Adds a node to the tree at selected node
@@ -53,18 +64,19 @@ export default {
     */
     deleteNode () {
       this.tree.remove(this.$store.state.selected.id)
+      this.$store.dispatch('setSelected', this.tree.root)
     },
     /**
-    * Saves tree in store so it can accessed in parent component(Create.vue)
+    * Saves tree in store so it can accessed in parent component(Create.vue/Edit.vue)
     */
     giveTreeToParent () {
       this.$store.dispatch('updateTree', this.tree)
     },
     /**
-    * Saves tree in store so it can accessed in parent component(Create.vue)
+    * Saves tree in store so it can accessed in parent component(Create.vue/Edit.vue)
     * @param {number} nodeId - The unique id of the node that was clicked on
     */
-    select (nodeID) {
+    select () {
       this.$store.dispatch('setSelected', this.tree.root)
     }
   }

@@ -16,9 +16,9 @@
 
 <script>
 /**
- * This component realises Bot Configuration
+ * This component realises the Bot Configuration
  *
- * @module components/Create.vue
+ * @module components/Create
  */
 import PageContent from '@/components/layout/PageContent'
 import Tree from '@/components/Tree'
@@ -59,7 +59,8 @@ export default {
       })
       fetch(request).then(response => {
         if (response.ok) {
-          this.$store.state.tree = null
+          this.$store.dispatch('updateTree', null)
+          this.$store.dispatch('setSelected', null)
           this.$router.push({name: 'Overview'})
         } else { console.log(response) }
       })

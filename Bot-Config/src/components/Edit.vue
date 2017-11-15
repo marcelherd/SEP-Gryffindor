@@ -6,6 +6,8 @@
       <md-input placeholder="Name" v-model="bot.name" required></md-input>
     </md-input-container>
 
+
+    <app-tree> </app-tree>
     <router-link tag="md-button" to="/overview" exact class="md-accent">
       Cancel
     </router-link>
@@ -21,6 +23,7 @@
 
 <script>
 import PageContent from '@/components/layout/PageContent'
+import Tree from '@/components/Tree'
 
 /**
  * This component allows the user to edit an existing bot.
@@ -30,7 +33,8 @@ import PageContent from '@/components/layout/PageContent'
 export default {
   name: 'Edit',
   components: {
-    'page-content': PageContent
+    'page-content': PageContent,
+    'app-tree': Tree
   },
   data () {
     return {
@@ -44,7 +48,7 @@ export default {
   methods: {
 
     /**
-     * Fetches the bot data from the bot runtime.
+     * Fetches the bot data from the   bot runtime.
      */
     fetchData () {
       let id = this.$route.params.id
@@ -53,6 +57,7 @@ export default {
       .then(response => response.json())
       .then(data => {
         this.bot = data
+        this.$store.dispatch('updateTree', data.tree)
       })
     },
 
@@ -66,9 +71,11 @@ export default {
       }
 
       let url = `http://localhost:3000/api/v1/manage/bot/${this.bot.id}`
-
+      console.log(this.bot.tree)
+      console.log(this.$store.state.tree)
       let payload = JSON.stringify({
-        name: this.bot.name
+        name: this.bot.name,
+        tree: this.bot.tree
       })
 
       let headers = new Headers({ 'Content-Type': 'application/json' })
@@ -85,6 +92,8 @@ export default {
         } else {
           throw new Error(`Could not save changes to bot with id: ${this.bot.id} (${response.status} ${response.statusText})`)
         }
+        this.$store.dispatch('updateTree', null)
+        this.$store.dispatch('setSelected', null)
       })
       .catch(error => console.log(error.message))
     }

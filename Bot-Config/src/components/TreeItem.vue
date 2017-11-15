@@ -11,7 +11,7 @@
 /**
  * This component realizes the treeItems(nodes) for the Tree component
  *
- * @module components/TreeItem.vue
+ * @module components/TreeItem
  */
 
 export default {

@@ -1,5 +1,9 @@
-// implements the main marketplace functionalities 
-// provides the templates that can be selected
+/**
+ * This module implements the interface discover
+ * 
+ *
+ * @module app
+ */
 const express = require('express');
 const app = express();
 const fs = require('fs');
@@ -11,6 +15,9 @@ app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
 app.use(cors())
 
+/**
+ * responds with all bots templates formatted as json
+ */
 app.get('/api/v1/discover', (req, res) => {
     let botFAQ = fs.readFileSync('./FAQ-Bot/package.json');
     let botWelcome = fs.readFileSync('./Welcome-Bot/package.json');

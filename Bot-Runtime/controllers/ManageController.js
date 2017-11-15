@@ -54,8 +54,8 @@ exports.postBot = function (req, res) {
   if (!req.body.name || !req.body.template) {
     res.status(400).send('Malformed data');
   } else {
-    const { name, template } = req.body;
-    const id = botService.save(name, template);
+    const { name, template, tree } = req.body;
+    const id = botService.save(name, template, tree);
 
     // TODO: send a more useful response message?
     res.status(201).send(`${id}`);

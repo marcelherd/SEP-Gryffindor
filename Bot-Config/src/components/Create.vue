@@ -5,7 +5,7 @@
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
-    </md-input-container> 
+    </md-input-container>
     <app-tree></app-tree>
     <md-button @click="post" class="md-raised md-primary">Save</md-button>
   </page-content>
@@ -44,7 +44,7 @@ export default {
     // posts Bot to server to be saved there
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
-      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
 
       let payload = JSON.stringify({
         name: this.botName,

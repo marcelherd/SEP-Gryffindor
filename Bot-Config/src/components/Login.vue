@@ -1,9 +1,15 @@
 <template>
   <div class="login-container">
-    <img src="/static/product_white.png" width="120" height="80" class="product-logo">
     <div class="login">
-      <input type="text" placeholder="USERNAME" v-model="username">
-      <input type="text" placeholder="PASSWORD" v-model="password">
+      <img src="/static/product_white.png" width="120" height="80" class="product-logo">
+
+      <div class="flash-message" v-if="flashMessage">
+        <p>{{ flashMessage }}</p>
+        <span class="close" @click="closeMessage">&times;</span>
+      </div>
+
+      <input type="text" placeholder="USERNAME" v-model="name">
+      <input type="password" placeholder="PASSWORD" v-model="password">
       <button type="button" @click="login">login
         <span class="arrow">&gt;</span>
       </button>
@@ -16,18 +22,26 @@ export default {
   name: 'Login',
   data () {
     return {
-      username: '',
-      password: ''
+      name: '',
+      password: '',
+      flashMessage: ''
     }
   },
   methods: {
     login () {
       this.$store.dispatch('login', {
-        username: this.username,
+        name: this.name,
         password: this.password
       }).then(() => {
         this.$router.push({ name: 'Index' })
+      }).catch((err) => {
+        this.flashMessage = err.message
+        this.password = ''
       })
+    },
+
+    closeMessage () {
+      this.flashMessage = ''
     }
   }
 }
@@ -40,10 +54,8 @@ export default {
 }
 
 .product-logo {
-  position: absolute;
-  top: 35%;
-  left: 33%;
-  transform: translateX(-50%) translateY(-50%);
+  position: relative;
+  top: -25px;
 }
 
 .login {
@@ -51,7 +63,57 @@ export default {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 600px;
+  width: 70%;
+}
+
+@media screen and (min-width: 1200px) {
+  .product-logo {
+    position: relative;
+    left: -75px;
+    top: -25px;
+  }
+
+  .login {
+    width: 30%;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+  .product-logo {
+    position: relative;
+    left: -75px;
+    top: -25px;
+  }
+
+  .login {
+    width: 50%;
+  }
+}
+
+.flash-message {
+  color: white;
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid #FF2B4C;
+  border-radius: 4px;
+}
+
+.flash-message p {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.flash-message .close {
+  position: absolute;
+  right: 16px;
+  font-size: 1.5rem;
+}
+
+.flash-message .close:hover {
+  cursor: pointer;
+  color: #aaa;
 }
 
 .login input {
@@ -64,6 +126,7 @@ export default {
   margin-bottom: 10px;
   color: white;
   font-family: 'Open Sans', sans-serif;
+  letter-spacing: 2px;
 }
 
 .login input:focus {
@@ -83,6 +146,7 @@ export default {
   cursor: pointer;
   text-transform: uppercase;
   font-family: 'Open Sans', sans-serif;
+  letter-spacing: 2px;
 }
 
 .login button:hover {

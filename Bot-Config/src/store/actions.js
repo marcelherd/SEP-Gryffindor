@@ -15,13 +15,28 @@ export const setTemplate = ({ commit }, template) => {
 export const login = ({ commit }, credentials) => {
   commit(types.LOGIN)
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      localStorage.setItem('token', 'JWT')
-      commit(types.LOGIN_SUCCESS)
-      resolve()
-    }, 10)
+  let url = `http://localhost:3000/api/v1/authenticate`
+
+  let payload = JSON.stringify(credentials)
+
+  let headers = new Headers({ 'Content-Type': 'application/json' })
+  let request = new Request(url, {
+    method: 'POST',
+    mode: 'cors',
+    headers: headers,
+    body: payload
   })
+
+  return fetch(request)
+    .then(response => response.json())
+    .then((data) => {
+      if (data.success) {
+        commit(types.LOGIN_SUCCESS)
+        localStorage.setItem('token', data.token)
+      } else {
+        throw new Error(data.message)
+      }
+    })
 }
 
 export const logout = ({ commit }) => {

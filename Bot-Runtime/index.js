@@ -25,7 +25,7 @@ app.use(cors());
 
 app.use(morgan('dev'));
 
-mongoose.connect(config.database);
+mongoose.connect(config.database, config.databaseOptions);
 
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);

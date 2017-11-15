@@ -41,10 +41,8 @@ export const login = ({ commit }, credentials) => {
 
 export const logout = ({ commit }) => {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      localStorage.removeItem('token')
-      commit(types.LOGOUT)
-      resolve()
-    }, 10)
+    localStorage.removeItem('token')
+    commit(types.LOGOUT)
+    resolve()
   })
 }

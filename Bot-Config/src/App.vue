@@ -16,7 +16,12 @@ export default {
 <style src="vue-material/dist/vue-material.css"></style>
 
 <style>
+body {
+  height: 100%;
+}
+
 #app {
-  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  font-family: 'Open Sans', 'Roboto', sans-serif;
 }
 </style>

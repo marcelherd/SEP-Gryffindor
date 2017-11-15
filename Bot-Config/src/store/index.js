@@ -10,8 +10,8 @@ Vue.use(Vuex)
 const state = {
   tree: null,
   selected: null,
-  template: null
-
+  template: null,
+  loggedIn: !!localStorage.getItem('token')
 }
 
 export default new Vuex.Store({

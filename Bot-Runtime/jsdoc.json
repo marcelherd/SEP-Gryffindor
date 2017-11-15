@@ -1,0 +1,12 @@
+{
+  "source": {
+    "include": [
+      ".",
+      "controllers",
+      "routes",
+      "services"
+    ],
+    "exclude": [ "node_modules" ],
+    "includePattern": ".+\\.js$"
+  }
+}

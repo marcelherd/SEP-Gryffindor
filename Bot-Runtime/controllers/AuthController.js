@@ -6,7 +6,7 @@
 
 const jwt = require('jsonwebtoken');
 
-const app = require('../index');
+const config = require('../config');
 const User = require('../models/User');
 
 /**
@@ -40,7 +40,7 @@ exports.authenticate = function (req, res) {
         admin: user.admin,
       };
 
-      const token = jwt.sign(payload, app.get('secret'), {
+      const token = jwt.sign(payload, config.secret, {
         expiresIn: '1d',
       });
 

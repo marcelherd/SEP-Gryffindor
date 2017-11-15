@@ -7,6 +7,7 @@
 const express = require('express');
 const parser = require('body-parser');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const cors = require('cors');
 
 const config = require('./config');
@@ -23,6 +24,8 @@ app.use(parser.json());
 app.use(cors());
 
 app.use(morgan('dev'));
+
+mongoose.connect(config.database);
 
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);

@@ -9,7 +9,9 @@ const express = require('express');
 
 const router = express.Router();
 
+const authController = require('../controllers/AuthController');
+
 router.route('/')
-  .get((req, res) => res.json({ message: 'Hello' }));
+  .post(authController.authenticate);
 
 module.exports = router;

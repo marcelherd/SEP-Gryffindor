@@ -17,8 +17,26 @@ const User = require('../models/User');
  * @param {Callback} next - The next middleware, if authorized successfully
  */
 exports.isAuthenticated = function (req, res, next) {
-  // TODO: authentication
-  return next();
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  if (token) {
+    jwt.verify(token, config.secret, (err, decoded) => {
+      if (err) {
+        res.status(403).json({
+          success: false,
+          message: 'Bad token',
+        });
+      }
+
+      req.decoded = decoded;
+      return next();
+    });
+  } else {
+    res.status(403).json({
+      success: false,
+      message: 'No token provided',
+    });
+  }
 };
 
 /**
@@ -50,7 +68,7 @@ exports.authenticate = function (req, res) {
         token,
       });
     } else {
-      res.json({ success: false, message: 'Authentication failed.' });
+      res.status(401).json({ success: false, message: 'Authentication failed.' });
     }
   });
 };

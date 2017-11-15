@@ -1,8 +1,8 @@
 /**
  * This module implements the endpoints
- * of the manage HTTP interface.
+ * of the manage/bot HTTP interface.
  *
- * @module controllers/ManageController
+ * @module controllers/BotController
  */
 
 const botService = require('../services/BotService');

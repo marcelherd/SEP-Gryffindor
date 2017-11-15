@@ -10,27 +10,31 @@ const express = require('express');
 const router = express.Router();
 
 const authController = require('../controllers/AuthController');
-const manageController = require('../controllers/ManageController');
+const botController = require('../controllers/BotController');
+const userController = require('../controllers/UserController');
 
 // Looks up the bot with the given id and attaches it to the request
-router.param('bot_id', manageController.findBot);
+router.param('bot_id', botController.findBot);
 
 router.route('/bot')
-  .get(authController.isAuthenticated, manageController.getBots)
-  .post(authController.isAuthenticated, manageController.postBot);
+  .get(authController.isAuthenticated, botController.getBots)
+  .post(authController.isAuthenticated, botController.postBot);
 
 router.route('/bot/:bot_id')
-  .get(authController.isAuthenticated, manageController.getBot)
-  .delete(authController.isAuthenticated, manageController.deleteBot)
-  .patch(authController.isAuthenticated, manageController.updateBot);
+  .get(authController.isAuthenticated, botController.getBot)
+  .delete(authController.isAuthenticated, botController.deleteBot)
+  .patch(authController.isAuthenticated, botController.updateBot);
 
 router.route('/bot/:bot_id/start')
-  .post(authController.isAuthenticated, manageController.startBot);
+  .post(authController.isAuthenticated, botController.startBot);
 
 router.route('/bot/:bot_id/restart')
-  .post(authController.isAuthenticated, manageController.restartBot);
+  .post(authController.isAuthenticated, botController.restartBot);
 
 router.route('/bot/:bot_id/stop')
-  .post(authController.isAuthenticated, manageController.stopBot);
+  .post(authController.isAuthenticated, botController.stopBot);
+
+router.route('/users/')
+  .post(authController.isAuthenticated, authController.isAdmin, userController.postUser);
 
 module.exports = router;

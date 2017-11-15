@@ -28,7 +28,7 @@ exports.isAuthenticated = function (req, res, next) {
         });
       }
 
-      req.decoded = decoded;
+      req.auth = decoded;
       return next();
     });
   } else {
@@ -37,6 +37,26 @@ exports.isAuthenticated = function (req, res, next) {
       message: 'No token provided',
     });
   }
+};
+
+/**
+ * TODO
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+exports.isAdmin = function (req, res, next) {
+  const { admin } = req.auth;
+
+  if (admin) {
+    return next();
+  }
+
+  return res.status(403).json({
+    success: false,
+    message: 'Permission denied',
+  });
 };
 
 /**

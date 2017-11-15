@@ -15,6 +15,11 @@
 
 
 <script>
+/**
+ * This component realises Bot Configuration
+ *
+ * @module components/Create.vue
+ */
 import PageContent from '@/components/layout/PageContent'
 import Tree from '@/components/Tree'
 
@@ -33,7 +38,9 @@ export default {
   },
 
   methods: {
-    // posts Bot to server to be saved there
+    /*
+    * posts Bot with its name, template and decision tree to the server where it is saved
+    */
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
       let headers = new Headers({ 'Content-Type': 'application/json' })
@@ -50,7 +57,6 @@ export default {
         headers: headers,
         body: payload
       })
-
       fetch(request).then(response => {
         if (response.ok) {
           this.$store.state.tree = null

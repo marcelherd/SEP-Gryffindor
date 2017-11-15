@@ -1,5 +1,5 @@
 /**
- * TODO
+ * TODO: documentation
  *
  * @module controllers/UserController
  */
@@ -7,7 +7,7 @@
 const User = require('../models/User');
 
 /**
- * TODO
+ * TODO: documentation
  *
  * @param {*} req
  * @param {*} res
@@ -26,7 +26,7 @@ exports.findUser = function (req, res, next, id) {
 };
 
 /**
- * TODO
+ * TODO: documentation
  *
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
@@ -47,7 +47,7 @@ exports.postUser = function (req, res) {
 };
 
 /**
- * TODO
+ * TODO: documentation
  *
  * @param {*} req
  * @param {*} res

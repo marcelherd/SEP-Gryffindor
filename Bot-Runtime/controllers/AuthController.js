@@ -1,5 +1,5 @@
 /**
- * This module contains authentication middleware.
+ * This module implements authentication middleware.
  *
  * @module controllers/AuthController
  */
@@ -28,7 +28,6 @@ exports.isAuthenticated = function (req, res, next) {
         });
       }
 
-      console.log(`DECODED: ${decoded.name}`);
       req.auth = decoded;
       return next();
     });
@@ -45,7 +44,7 @@ exports.isAuthenticated = function (req, res, next) {
  * A request is authorized if the logged in user is an admin
  * or trying to access his own bots.
  *
- * TODO
+ * TODO: documentation
  *
  * @param {*} req
  * @param {*} res
@@ -53,6 +52,11 @@ exports.isAuthenticated = function (req, res, next) {
  */
 exports.isAuthorized = function (req, res, next) {
   const { id, admin } = req.auth;
+
+  // TODO: documentation
+  if (!req.user) {
+    return next();
+  }
 
   // Admins are always authorized
   if (admin) {
@@ -70,7 +74,7 @@ exports.isAuthorized = function (req, res, next) {
 };
 
 /**
- * TODO
+ * TODO: documentation
  *
  * @param {*} req
  * @param {*} res

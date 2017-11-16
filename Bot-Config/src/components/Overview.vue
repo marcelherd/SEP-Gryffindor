@@ -3,7 +3,7 @@
     <md-layout md-gutter="24" v-if="bots">
       <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" v-for="(bot, index) in bots" :key="bot.id">
 
-        <md-card :class="bot.status === 'RUNNING' ? 'md-primary' : 'md-accent'">
+        <md-card :class="bot.status === 'RUNNING' ? 'md-accent' : 'md-primary'">
           <md-card-media>
             <img src="/static/robot.jpeg" alt="Robot">
           </md-card-media>

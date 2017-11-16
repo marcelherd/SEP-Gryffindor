@@ -128,3 +128,35 @@ exports.authenticate = function (req, res) {
     }
   });
 };
+
+/**
+ * TODO: remove
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+exports.setup = function (req, res) {
+  User.findOne({
+    name: 'superuser',
+  }, (err, user) => {
+    if (err) throw err;
+
+    console.log(user);
+
+    if (!user) {
+      const superuser = new User({
+        name: 'superuser',
+        password: '123qwe',
+        admin: true,
+      });
+
+      superuser.save((saveErr) => {
+        if (saveErr) throw saveErr;
+
+        return res.json({ success: true, message: 'Superuser created' });
+      });
+    } else {
+      return res.status(403).json({ success: false, message: 'Forbidden' });
+    }
+  });
+};

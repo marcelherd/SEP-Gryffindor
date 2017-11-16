@@ -9,6 +9,7 @@
       "no-plusplus": "off",
       "no-param-reassign": "off",
       "no-underscore-dangle": "off",
-      "func-names": "off"
+      "func-names": "off",
+      "consistent-return": "off"
     }
 }

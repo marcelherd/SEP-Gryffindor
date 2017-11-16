@@ -49,6 +49,7 @@ export default {
       this.tree.nodeID = this.$store.state.tree.nodeID
       this.tree.root = this.$store.state.tree.root
       this.$store.dispatch('updateTree', this.tree)
+      this.$store.dispatch('setSelected', this.tree.root)
     }
   },
   methods: {

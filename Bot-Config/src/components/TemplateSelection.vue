@@ -13,9 +13,9 @@
         </md-card-header>
 
         <md-card-actions>
-          <router-link tag="md-button"
+          <router-link exact class="md-raised md-accent" tag="md-button"
               :to="{ name: 'Create', params: { template: template }}">
-          <md-button :template="template">Select</md-button>
+          Select
           </router-link>
         </md-card-actions>
       </md-card>
@@ -52,7 +52,7 @@ export default {
     *fetches available Bot Templates from the Bot marketplace
     */
     fetchData () {
-      fetch('http://141.19.145.162:4000/api/v1/discover')
+      fetch('http://localhost:4000/api/v1/discover')
         .then(response => response.json())
         .then(data => {
           this.templates = data

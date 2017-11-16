@@ -5,8 +5,29 @@
  */
 
 const cache = {
-  currentId: 0,
-  bots: [
+  currentId: 1,
+  bots: [{
+    id: 1,
+    name: 'My First Bot',
+    template: 'Welcome-Bot',
+    status: 'NOT_RUNNING',
+    tree: {
+      root: {
+        data: 'Options',
+        children: [
+          {
+            data: '325325532',
+            children: [
+
+            ],
+            id: 1,
+          },
+        ],
+        id: 0,
+      },
+      nodeID: 1,
+    },
+  },
   ],
 };
 

@@ -5,16 +5,21 @@
       <label>Name</label>
       <md-input placeholder="Name" v-model="bot.name" required></md-input>
     </md-input-container>
+    <md-input-container>
+      <label>Greeting</label>
+      <md-input placeholder="Greeting" v-model="bot.greeting" required></md-input>
+    </md-input-container>
 
 
     <app-tree> </app-tree>
-    <router-link tag="md-button" to="/overview" exact class="md-accent">
-      Cancel
-    </router-link>
 
-    <md-button @click="save" class="md-raised md-accent">
+
+    <md-button @click="save" exact class="md-raised md-accent">
       Save
     </md-button>
+     <router-link tag="md-button" to="/overview" exact class="md-raised md-accent">
+      Cancel
+    </router-link>
 
   </page-content>
 
@@ -53,7 +58,7 @@ export default {
     fetchData () {
       let id = this.$route.params.id
 
-      fetch(`http://141.19.145.162:3000/api/v1/manage/bot/${id}`, {
+      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
@@ -74,7 +79,7 @@ export default {
         return
       }
 
-      let url = `http://141.19.145.162:3000/api/v1/manage/bot/${this.bot.id}`
+      let url = `http://localhost:3000/api/v1/manage/bot/${this.bot.id}`
       console.log(this.bot.tree)
       console.log(this.$store.state.tree)
       let payload = JSON.stringify({

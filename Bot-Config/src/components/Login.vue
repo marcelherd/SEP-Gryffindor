@@ -35,7 +35,7 @@ export default {
         name: this.name,
         password: this.password
       }).then(() => {
-        this.$router.push({ name: 'Index' })
+        this.$router.push({ name: 'Overview' })
       }).catch((err) => {
         this.flashMessage = err.message
         this.password = ''

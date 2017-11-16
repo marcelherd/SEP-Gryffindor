@@ -41,12 +41,13 @@ exports.findAll = function () {
  * @param {string} template - The template that is to be used for the bot
  * @returns {number} The id of the saved bot
  */
-exports.save = function (name, template, tree) {
+exports.save = function (name, template, tree, greeting) {
   const bot = {
     id: ++cache.currentId,
     name,
     template,
     tree,
+    greeting,
     status: 'NOT_RUNNING',
   };
 
@@ -75,10 +76,11 @@ exports.delete = function (bot) {
  * @param {Object} props - The properties that are being updated
  * @param {string} props.name - The name of the bot
  */
-exports.update = function (bot, { name, tree }) {
+exports.update = function (bot, { name, tree, greeting }) {
   // TODO: update all other properties as well
   bot.name = name;
   bot.tree = tree;
+  bot.greeting = greeting;
 };
 
 /**

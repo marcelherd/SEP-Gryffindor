@@ -3,8 +3,8 @@
     <app-sidebar ref="mainSidebar"></app-sidebar>
 
     <md-toolbar>
-      <md-button class="md-icon-button" @click="toggleSidenav">
-        <md-icon>menu</md-icon>
+      <md-button class="md-icon-button">
+        <img src="/static/favicon.png">
       </md-button>
 
       <h2 class="md-title with-buttons">{{ pageTitle }}</h2>
@@ -60,5 +60,9 @@ export default {
 
 .with-buttons {
   flex: 1;
+}
+img {
+  width: 100%;
+  height: 100%;
 }
 </style>

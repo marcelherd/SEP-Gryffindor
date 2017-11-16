@@ -5,16 +5,21 @@
       <label>Name</label>
       <md-input placeholder="Name" v-model="bot.name" required></md-input>
     </md-input-container>
+    <md-input-container>
+      <label>Greeting</label>
+      <md-input placeholder="Greeting" v-model="bot.greeting" required></md-input>
+    </md-input-container>
 
 
     <app-tree> </app-tree>
-    <router-link tag="md-button" to="/overview" exact class="md-accent">
-      Cancel
-    </router-link>
 
-    <md-button @click="save" class="md-raised md-accent">
+
+    <md-button @click="save" exact class="md-raised md-accent">
       Save
     </md-button>
+     <router-link tag="md-button" to="/overview" exact class="md-raised md-accent">
+      Cancel
+    </router-link>
 
   </page-content>
 

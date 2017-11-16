@@ -6,8 +6,12 @@
       <label>Name</label>
       <md-input v-model="botName"></md-input>
     </md-input-container>
+     <md-input-container md-clearable>
+      <label>Greeting</label>
+      <md-input v-model="greeting"></md-input>
+    </md-input-container>
     <app-tree></app-tree>
-    <md-button @click="post" class="md-raised md-primary">Save</md-button>
+    <md-button @click="post" class="md-raised md-accent">Save</md-button>
   </page-content>
 </template>
 
@@ -33,7 +37,8 @@ export default {
   data () {
     return {
       botName: 'test',
-      tree: {tree: null}
+      tree: {tree: null},
+      greeting: ''
     }
   },
 
@@ -48,7 +53,8 @@ export default {
       let payload = JSON.stringify({
         name: this.botName,
         template: this.$route.params.template,
-        tree: this.$store.state.tree
+        tree: this.$store.state.tree,
+        greeting: this.greeting
       })
       console.log(payload)
       let request = new Request(url, {

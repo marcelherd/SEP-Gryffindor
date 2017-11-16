@@ -13,9 +13,9 @@
         </md-card-header>
 
         <md-card-actions>
-          <router-link tag="md-button"
+          <router-link exact class="md-raised md-accent" tag="md-button"
               :to="{ name: 'Create', params: { template: template }}">
-          <md-button :template="template">Select</md-button>
+          Select
           </router-link>
         </md-card-actions>
       </md-card>

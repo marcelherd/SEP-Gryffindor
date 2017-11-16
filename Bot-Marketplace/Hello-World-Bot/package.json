@@ -12,5 +12,6 @@
     "dotenv": "^4.0.0"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "template": "Welcome-Bot"
 }

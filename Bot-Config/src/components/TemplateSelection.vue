@@ -52,7 +52,7 @@ export default {
     *fetches available Bot Templates from the Bot marketplace
     */
     fetchData () {
-      fetch('http://localhost:4000/api/v1/discover')
+      fetch('http://141.19.145.162:4000/api/v1/discover')
         .then(response => response.json())
         .then(data => {
           this.templates = data

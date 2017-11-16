@@ -4,8 +4,11 @@ import VueMaterial from 'vue-material'
 Vue.use(VueMaterial)
 
 Vue.material.registerTheme('default', {
-  primary: 'indigo',
-  accent: 'pink',
+  primary: {
+    color: 'blue-grey',
+    hue: '900'
+  },
+  accent: 'red',
   warn: 'deep-orange',
   background: 'white'
 })

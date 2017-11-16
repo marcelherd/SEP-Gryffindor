@@ -2,7 +2,7 @@
   <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="mainSidebar">
     <md-toolbar class="app-logo md-large">
       <router-link exact to="/">
-        <img src="/static/logo_white_cut.png" alt="App Logo">
+        <img src="/static/product_white.png" alt="App Logo">
       </router-link>
     </md-toolbar>
 

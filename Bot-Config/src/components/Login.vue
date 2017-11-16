@@ -8,11 +8,13 @@
         <span class="close" @click="closeMessage">&times;</span>
       </div>
 
-      <input type="text" placeholder="USERNAME" v-model="name">
-      <input type="password" placeholder="PASSWORD" v-model="password">
-      <button type="button" @click="login">login
-        <span class="arrow">&gt;</span>
-      </button>
+      <input type="text" placeholder="Username" v-model="name">
+      <input type="password" placeholder="Password" v-model="password">
+      <div class="login-controls">
+        <button @click="login" class="login-button">
+        Login
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -121,47 +123,63 @@ export default {
   height: 38px;
   padding: 10px;
   font-size: 1.1rem;
-  background-color: #2C2E38;
-  border: 0;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 8px;
   margin-bottom: 10px;
   color: white;
   font-family: 'Open Sans', sans-serif;
-  letter-spacing: 2px;
 }
 
 .login input:focus {
-  outline: none;
-  box-shadow: 0px 0px 20px #3C3F4C;
-}
-
-.login button {
-  border: 0;
-  width: 100%;
-  height: 38px;
-  padding-left: 10px;
-  font-size: 1.1rem;
-  text-align: start;
   background-color: #FFCB4C;
-  color: white;
-  cursor: pointer;
-  text-transform: uppercase;
+  color: #151722;
+  letter-spacing: 1px;
+  outline: 0;
+}
+
+.login-controls {
+  width: 100%;
+}
+
+.login-controls .login-button {
   font-family: 'Open Sans', sans-serif;
-  letter-spacing: 2px;
-}
-
-.login button:hover {
-  box-shadow: 0px 0px 20px #C49B3A;
-}
-
-.login button .arrow {
   position: absolute;
-  right: 20px;
+  right: 0;
+  color: #FFCB4C;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 4px 8px 4px 8px;
 }
 
-.login input::-webkit-input-placeholder,
-.login input:-moz-input-placeholder,
-.login input::-moz-input-placeholder,
-.login input:-ms-input-placeholder {
-  color: #66676F !important;
+.login-controls .login-button:hover {
+  text-decoration: none;
+  color: #151722;
+  background-color: #FFCB4C;
+}
+
+::-webkit-input-placeholder {
+    color:white;
+    letter-spacing: 2px;
+}
+
+::-moz-placeholder {
+    color:white;
+    letter-spacing: 2px;
+}
+
+::-ms-placeholder {
+    color:white;
+    letter-spacing: 2px;
+}
+
+::placeholder {
+    color:white;
+    letter-spacing: 2px;
 }
 </style>

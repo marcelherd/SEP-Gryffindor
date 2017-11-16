@@ -7,9 +7,6 @@ export default {
   [types.UPDATE_TREE] (state, tree) {
     state.tree = tree
   },
-  [types.SET_TEMPLATE] (state, template) {
-    state.template = template
-  },
   [types.LOGIN] (state) {
     state.pending = true
   },

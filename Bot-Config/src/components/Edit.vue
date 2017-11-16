@@ -78,7 +78,7 @@ export default {
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
         method: 'PATCH',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers,
         body: payload
       })

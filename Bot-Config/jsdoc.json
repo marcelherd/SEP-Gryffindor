@@ -1,0 +1,16 @@
+{
+  "plugins": [
+    "node_modules/jsdoc-vue"
+  ],
+  "source": {
+    "include": [
+      "src",
+      "src/store",
+      "src/router",
+      "src/components",
+      "src/components/layout"
+    ],
+    "exclude": [ "node_modules" ],
+    "includePattern": ".+\\.(js|vue)$"
+  }
+}

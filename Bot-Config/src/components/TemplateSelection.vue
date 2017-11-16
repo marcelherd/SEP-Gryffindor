@@ -13,8 +13,9 @@
         </md-card-header>
 
         <md-card-actions>
-          <router-link tag="md-button" to="/Create">
-          <md-button @click="select(template)" :template="template">Select</md-button>
+          <router-link tag="md-button"
+              :to="{ name: 'Create', params: { template: template }}">
+          <md-button :template="template">Select</md-button>
           </router-link>
         </md-card-actions>
       </md-card>
@@ -24,6 +25,12 @@
 </template>
 
 <script>
+
+/**
+ * This component implements the Bot Template Selection
+ *
+ * @module components/TemplateSelection.vue
+ */
 import PageContent from '@/components/layout/PageContent'
 
 export default {
@@ -31,27 +38,27 @@ export default {
   components: {
     'page-content': PageContent
   },
+  data () {
+    return {
+      templates: []
+    }
+  },
   created () {
+    // Fetches the template data whenever this component is instantiated
     this.fetchData()
   },
   methods: {
-    // fetches available Bot Templates
+    /*
+    *fetches available Bot Templates from the Bot marketplace
+    */
     fetchData () {
       fetch('http://localhost:4000/api/v1/discover')
         .then(response => response.json())
         .then(data => {
           this.templates = data
         })
-    },
-    // sets Template when select Button is clicked
-    select (template) {
-      this.$store.dispatch('setTemplate', template)
-    }
-  },
-  data () {
-    return {
-      templates: []
     }
   }
+
 }
 </script>

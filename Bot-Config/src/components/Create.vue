@@ -1,7 +1,7 @@
 
 <template>
   <page-content page-title="Create Bot">
-    <h2 :template="this.template"> Configure {{template}} </h2>
+    <h2> Configure {{this.$route.params.template}} </h2>
     <md-input-container md-clearable>
       <label>Name</label>
       <md-input v-model="botName"></md-input>
@@ -15,6 +15,11 @@
 
 
 <script>
+/**
+ * This component realises Bot Configuration
+ *
+ * @module components/Create.vue
+ */
 import PageContent from '@/components/layout/PageContent'
 import Tree from '@/components/Tree'
 
@@ -25,42 +30,36 @@ export default {
     'app-tree': Tree
   },
 
-  created () {
-    this.setTemplate()
-  },
   data () {
     return {
       botName: 'test',
-      template: null,
       tree: {tree: null}
     }
   },
 
   methods: {
-    // sets the template that was earlier selected in component TemplateSelection by accessing it in the store
-    setTemplate () {
-      this.template = this.$store.state.template
-    },
-    // posts Bot to server to be saved there
+    /*
+    * posts Bot with its name, template and decision tree to the server where it is saved
+    */
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
 
       let payload = JSON.stringify({
         name: this.botName,
-        template: this.template,
+        template: this.$route.params.template,
         tree: this.$store.state.tree
       })
       console.log(payload)
       let request = new Request(url, {
         method: 'POST',
-        mode: 'CORS',
+        mode: 'cors',
         headers: headers,
         body: payload
       })
-
       fetch(request).then(response => {
         if (response.ok) {
+          this.$store.state.tree = null
           this.$router.push({name: 'Overview'})
         } else { console.log(response) }
       })

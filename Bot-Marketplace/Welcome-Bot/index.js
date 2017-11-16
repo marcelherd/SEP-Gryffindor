@@ -4,7 +4,7 @@ const { promisify } = require('util');
 // Loading .env File which contains all enviroment variables with values
 const { config } = require('dotenv');
 
-const dataTree= require('C:/Users/Daniel/Desktop/SEP-Gryffindor-master/Bot-Marketplace/Hello-World-Bot/tree.json');
+const dataTree= require('./config.json');
 
 var node=dataTree.tree.root;
 var firstmessage=true;
@@ -29,19 +29,19 @@ function timeout(ms = 3000) {
 
 // build the first tree with the options from json
  function buildFirstTree() {
-    console.log("sind drin");
-    var antwortsatz="";
+    //console.log("sind drin");
+    var answer="";
     var counter=0;
-    antwortsatz+= dataTree.tree.root.data +"\n"+"           ";
+    answer+= dataTree.greeting +"\n"+"           ";
     while(counter<dataTree.tree.root.children.length){
         
-        antwortsatz+= node.children[counter].data +"\n"+"           ";
+        answer+= node.children[counter].data +"\n"+"           ";
         
         counter++;
     }
     
-    //console.log(antwortsatz);
-    return antwortsatz;
+    //console.log(answer);
+    return answer;
 }
 class GreetingBot {
     constructor(accountID = '85041411', username = 'daniele', password ='456rtz456rtz', csds = process.env.LP_CSDS, baum=dataTree.json) {
@@ -86,9 +86,11 @@ class GreetingBot {
                        
                         this.sendMessage(body.dialogId,  nextStep(body.changes[0].event.message));
                     } else{  
-                        if(firstmessage===false){
-                            this.sendMessage( body.dialogId,   buildFirstTree());
-                        }
+                        
+                        
+                        
+                            //this.sendMessage( body.dialogId,   buildFirstTree());
+                        
                     }
                } 
         });
@@ -139,10 +141,11 @@ class GreetingBot {
         response = await this.subscribeToConversations();
     }
 
+    
     /**
      * Shutsdown the bot
      */
-    shutdown() {
+    stop() {
         this.core.dispose();
         this.core.removeAllListeners();
         this.core = null;

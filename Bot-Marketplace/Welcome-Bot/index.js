@@ -4,9 +4,9 @@ const { promisify } = require('util');
 // Loading .env File which contains all enviroment variables with values
 const { config } = require('dotenv');
 
-const dataTree= require('C:/Users/Daniel/Desktop/SEP-Gryffindor-master/Bot-Marketplace/Hello-World-Bot/tree.json');
-
-var node=dataTree.tree.root;
+const dataTree= require('./config.json');
+console.log(dataTree);
+var node = dataTree.root;
 var firstmessage=true;
 config();
 
@@ -32,8 +32,8 @@ function timeout(ms = 3000) {
     console.log("sind drin");
     var antwortsatz="";
     var counter=0;
-    antwortsatz+= dataTree.tree.root.data +"\n"+"           ";
-    while(counter<dataTree.tree.root.children.length){
+    antwortsatz+= dataTree.root.data +"\n"+"           ";
+    while(counter<dataTree.root.children.length){
         
         antwortsatz+= node.children[counter].data +"\n"+"           ";
         

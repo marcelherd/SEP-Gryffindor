@@ -8,9 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "node-agent-sdk": "^0.2.19",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "fs": "0.0.1-security",
+    "node-agent-sdk": "^0.2.19"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "template": "Welcome-Bot"
 }

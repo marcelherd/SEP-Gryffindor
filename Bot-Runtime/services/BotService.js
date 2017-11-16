@@ -4,9 +4,10 @@
  *
  * @module services/BotService
  */
-
+const fs = require('fs'); 
 const cache = require('../cache');
-
+const dockerode = require('dockerode');
+let docker = new dockerode({socketPath: '/var/run/docker.sock'});
 // TODO: move this to its own class
 /**
  * @typedef {Object} Bot
@@ -49,9 +50,27 @@ exports.save = function (name, template, tree) {
     tree,
     status: 'NOT_RUNNING',
   };
-
+  fs.writeFileSync('../Bot-Marketplace/' + template +'/config.json', JSON.stringify(bot.tree), 'utf8', function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log("file has been saved successfully");
+    }
+});
+  console.log('Building Bot...');
+  docker.buildImage({
+    context: '../Bot-Marketplace/'+ template,
+    src: ['Dockerfile', 'index.js','package.json', 'config.json']
+  }, {
+    t: bot.id
+  }, function(error, output) {
+    if (error) {
+      return console.error(error);
+    }
+    output.pipe(process.stdout);
+  });
   cache.bots.push(bot);
-
+  
   return bot.id;
 };
 

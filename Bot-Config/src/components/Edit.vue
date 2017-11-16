@@ -53,7 +53,7 @@ export default {
     fetchData () {
       let id = this.$route.params.id
 
-      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`, {
+      fetch(`http://141.19.145.162:3000/api/v1/manage/bot/${id}`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
@@ -74,7 +74,7 @@ export default {
         return
       }
 
-      let url = `http://localhost:3000/api/v1/manage/bot/${this.bot.id}`
+      let url = `http://141.19.145.162:3000/api/v1/manage/bot/${this.bot.id}`
       console.log(this.bot.tree)
       console.log(this.$store.state.tree)
       let payload = JSON.stringify({

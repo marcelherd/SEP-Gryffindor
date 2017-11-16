@@ -25,6 +25,7 @@
  *
  * @module components/Tree
  */
+
 import TreeItem from '@/components/TreeItem'
 import Tree from '@/model/tree.js'
 import Node from '@/model/treenode.js'

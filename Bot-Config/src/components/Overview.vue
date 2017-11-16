@@ -86,7 +86,11 @@ export default {
      * Fetches the bot data from the bot runtime.
      */
     fetchData () {
-      fetch('http://localhost:3000/api/v1/manage/bot/')
+      fetch('http://localhost:3000/api/v1/manage/bot/', {
+        headers: {
+          'x-access-token': localStorage.getItem('token')
+        }
+      })
       .then(response => response.json())
       .then(data => {
         this.bots = data
@@ -112,7 +116,7 @@ export default {
       let action = (bot.status === 'RUNNING' ? 'stop' : 'start')
       let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}/${action}`
 
-      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
         method: 'POST',
         mode: 'cors',
@@ -137,7 +141,7 @@ export default {
     remove (bot) {
       let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}`
 
-      let headers = new Headers()
+      let headers = new Headers({ 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
         method: 'DELETE',
         mode: 'cors',

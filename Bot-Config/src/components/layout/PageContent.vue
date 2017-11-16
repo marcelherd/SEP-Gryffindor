@@ -7,7 +7,9 @@
         <md-icon>menu</md-icon>
       </md-button>
 
-      <h2 class="md-title">{{ pageTitle }}</h2>
+      <h2 class="md-title with-buttons">{{ pageTitle }}</h2>
+
+      <md-button @click="logout">Logout</md-button>
     </md-toolbar>
 
     <div class="page-content">
@@ -39,6 +41,12 @@ export default {
      */
     toggleSidenav () {
       this.$refs.mainSidebar.toggleSidenav()
+    },
+
+    logout () {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push({ name: 'Login' })
+      })
     }
 
   }
@@ -48,5 +56,9 @@ export default {
 <style>
 .page-content {
   padding: 16px;
+}
+
+.with-buttons {
+  flex: 1;
 }
 </style>

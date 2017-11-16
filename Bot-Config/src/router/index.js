@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import store from '@/store/index'
+
 import Index from '@/components/Index'
+import Login from '@/components/Login'
 import Overview from '@/components/Overview'
 import Edit from '@/components/Edit'
 
@@ -10,7 +13,7 @@ import Create from '@/components/Create'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -18,7 +21,11 @@ export default new Router({
       component: Index
     },
     {
-
+      path: '/Login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/TemplateSelection',
       name: 'TemplateSelection',
       component: TemplateSelection
@@ -40,3 +47,16 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login') {
+    // if not logged in
+    if (!store.getters.isLoggedIn) {
+      return next('Login')
+    }
+  }
+
+  return next()
+})
+
+export default router

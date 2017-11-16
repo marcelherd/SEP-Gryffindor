@@ -43,7 +43,7 @@ export default {
     */
     post () {
       let url = `http://localhost:3000/api/v1/manage/bot`
-      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
 
       let payload = JSON.stringify({
         name: this.botName,

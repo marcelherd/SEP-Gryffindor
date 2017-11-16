@@ -9,8 +9,8 @@ Vue.use(Vuex)
 // saves the app's state
 const state = {
   tree: null,
-  selected: null
-
+  selected: null,
+  loggedIn: !!localStorage.getItem('token')
 }
 
 export default new Vuex.Store({

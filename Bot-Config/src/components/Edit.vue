@@ -53,7 +53,11 @@ export default {
     fetchData () {
       let id = this.$route.params.id
 
-      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`)
+      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`, {
+        headers: {
+          'x-access-token': localStorage.getItem('token')
+        }
+      })
       .then(response => response.json())
       .then(data => {
         this.bot = data
@@ -78,7 +82,7 @@ export default {
         tree: this.bot.tree
       })
 
-      let headers = new Headers({ 'Content-Type': 'application/json' })
+      let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
         method: 'PATCH',
         mode: 'cors',

@@ -8,7 +8,14 @@ Vue.material.registerTheme('default', {
     color: 'blue-grey',
     hue: '900'
   },
-  accent: 'red',
-  warn: 'deep-orange',
+  accent: {
+    color: 'yellow',
+    hue: '600',
+    textColor: 'black'
+  },
+  warn: {
+    color: 'green',
+    hue: '900'
+  },
   background: 'white'
 })

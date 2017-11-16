@@ -1,0 +1,30 @@
+{  "name":"test",
+    "template":"Welcome-Bot",
+    "tree":{  
+       "root":{  
+          "data":"Options",
+          "children":[  
+             {  
+                "data":"1. Do you have a question? ",
+                "children":[  ],
+                "id":1
+             },
+             {  
+                "data":"2. Forgotten Password",
+                "children":[  
+                   {  
+                      "data":"Please click following link to reset your Password: google.de/resetPassword",
+                      "children":[  
+ 
+                      ],
+                      "id":4
+                   }
+                ],
+                "id":2
+             }
+          ],
+          "id":0
+       },
+       "nodeID":4
+    }
+ }

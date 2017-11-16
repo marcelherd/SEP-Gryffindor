@@ -41,7 +41,7 @@ export default {
   },
   data () {
     return {
-      option: 'none',
+      option: '',
       tree: new Tree()
     }
   },
@@ -59,6 +59,7 @@ export default {
     */
     add () {
       this.tree.add(this.option, this.$store.state.selected.id)
+      this.option = ''
       this.giveTreeToParent()
     },
     /**

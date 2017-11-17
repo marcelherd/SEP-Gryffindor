@@ -10,7 +10,6 @@
 | Marcel| 	Herd	| 	1527440
 | Gordon| Shumway |
 
-
 # Bot Config
 
 **Beschreibung:**
@@ -86,4 +85,3 @@ Laufzeitumgebung um Bots zu erstellen, löschen und verwalten.
     ├── chache.js                # Dient zum Speichern von Objekten im Cache. Initialisiert 2 Anfangsbots
     ├── config.js                # Konfiguriert die Express app
     └── index.js                 # Initialisiert Bot-Runtime Server
-    

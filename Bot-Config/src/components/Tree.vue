@@ -4,11 +4,18 @@
       <label>Option</label>
       <md-input v-model="option"></md-input>
     </md-input-container>
+
     <md-button exact class="md-raised md-accent" @click="add">Add option </md-button>
     <md-button cexact class="md-raised md-accent" @click="deleteNode">Delete option </md-button>
+
     <div class= "tree" v-if="this.$store.state.tree == null" >
-      <div v-bind:class ="{selected: this.$store.state.selected === tree.root}" @click="select(tree.root.id)" v-if = "tree.root.data !== null">{{tree.root.data}} </div>
-      <tree-item :key = "child.id" v-for = "child in tree.root.children" :node="child">
+      <div :class="{selected: this.$store.state.selected === tree.root}"
+        @click="select(tree.root.id)"
+        v-if = "tree.root.data !== null">{{tree.root.data}}
+      </div>
+      <tree-item :key="child.id"
+        v-for = "child in tree.root.children"
+        :node="child">
       </tree-item>
     </div>
     <div class= "tree" v-else >

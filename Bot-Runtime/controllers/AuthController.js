@@ -110,7 +110,7 @@ exports.authenticate = function (req, res) {
     if (user && user.password === req.body.password) {
       // Create and send token
       const payload = {
-        id: user._id,
+        _id: user._id,
         username: user.username,
         admin: user.admin,
       };
@@ -122,6 +122,7 @@ exports.authenticate = function (req, res) {
       res.json({
         success: true,
         message: 'Authentication succesful',
+        user: payload,
         token,
       });
     } else {

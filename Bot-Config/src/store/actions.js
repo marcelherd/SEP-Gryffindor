@@ -15,7 +15,7 @@ export const setTemplate = ({ commit }, template) => {
 export const login = ({ commit }, credentials) => {
   commit(types.LOGIN)
 
-  let url = `http://141.19.145.163:3000/api/v1/authenticate`
+  let url = `http://localhost:3000/api/v1/authenticate`
 
   let payload = JSON.stringify(credentials)
 

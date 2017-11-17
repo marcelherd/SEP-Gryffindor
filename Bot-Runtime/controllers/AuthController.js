@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config');
 const User = require('../models/User');
+const Bot = require('../models/Bot');
 
 /**
  * Checks whether the request is authorized.
@@ -101,7 +102,7 @@ exports.isAdmin = function (req, res, next) {
  */
 exports.authenticate = function (req, res) {
   User.findOne({
-    name: req.body.name,
+    username: req.body.username,
   }, (err, user) => {
     if (err) throw err;
 
@@ -110,7 +111,7 @@ exports.authenticate = function (req, res) {
       // Create and send token
       const payload = {
         id: user._id,
-        name: user.name,
+        username: user.username,
         admin: user.admin,
       };
 
@@ -137,17 +138,16 @@ exports.authenticate = function (req, res) {
  */
 exports.setup = function (req, res) {
   User.findOne({
-    name: 'superuser',
+    username: 'superuser',
   }, (err, user) => {
     if (err) throw err;
 
-    console.log(user);
-
     if (!user) {
       const superuser = new User({
-        name: 'superuser',
+        username: 'superuser',
         password: '123qwe',
-        admin: false,
+        admin: true,
+        bots: [],
       });
 
       superuser.save((saveErr) => {

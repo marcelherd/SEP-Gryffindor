@@ -28,14 +28,28 @@ exports.findUser = function (req, res, next, id) {
 /**
  * TODO: documentation
  *
+ * @param {*} req
+ * @param {*} res
+ */
+exports.getUsers = function (req, res) {
+  User.find({ }, (err, users) => {
+    if (err) throw err;
+
+    res.json(users);
+  });
+};
+
+/**
+ * TODO: documentation
+ *
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
  */
 exports.postUser = function (req, res) {
-  const { name, password, admin } = req.body;
+  const { username, password, admin } = req.body;
 
   const newUser = new User({
-    name, password, admin,
+    username, password, admin,
   });
 
   newUser.save((err, user) => {

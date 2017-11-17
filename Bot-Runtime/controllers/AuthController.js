@@ -137,7 +137,7 @@ exports.authenticate = function (req, res) {
  */
 exports.setup = function (req, res) {
   User.findOne({
-    name: 'derthomas',
+    name: 'superuser',
   }, (err, user) => {
     if (err) throw err;
 
@@ -145,8 +145,8 @@ exports.setup = function (req, res) {
 
     if (!user) {
       const superuser = new User({
-        name: 'derthomas',
-        password: 'geheim',
+        name: 'superuser',
+        password: '123qwe',
         admin: false,
       });
 

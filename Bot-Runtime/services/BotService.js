@@ -6,8 +6,14 @@
  */
 const fs = require('fs');
 const cache = require('../cache');
+<<<<<<< HEAD
 const dockerode = require('dockerode');
 let docker = new dockerode({ socketPath: '/var/run/docker.sock' });
+=======
+const Dockerode = require('dockerode');
+
+const docker = new Dockerode({ socketPath: '/var/run/docker.sock' });
+>>>>>>> cd5fecf5b38bae7fc2dea395094bdd491fc72c5a
 // TODO: move this to its own class
 /**
  * @typedef {Object} Bot
@@ -51,15 +57,24 @@ exports.save = function (name, template, tree, greeting) {
     greeting,
     status: 'NOT_RUNNING',
   };
+<<<<<<< HEAD
   fs.writeFileSync('../Bot-Marketplace/' + template + '/config.json', JSON.stringify(bot), 'utf8', function (err) {
     if (err) {
       console.log(err);
     } else {
       console.log("file has been saved successfully");
+=======
+  fs.writeFileSync(`../Bot-Marketplace/${template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('file has been saved successfully');
+>>>>>>> cd5fecf5b38bae7fc2dea395094bdd491fc72c5a
     }
   });
   console.log('Building Bot...');
   docker.buildImage({
+<<<<<<< HEAD
     context: '../Bot-Marketplace/' + template,
     src: ['Dockerfile', 'index.js', 'package.json', 'config.json']
   }, {
@@ -71,6 +86,18 @@ exports.save = function (name, template, tree, greeting) {
       output.pipe(process.stdout);
       console.log('Bot built');
     });
+=======
+    context: `../Bot-Marketplace/${template}`,
+    src: ['Dockerfile', 'index.js', 'package.json', 'config.json'],
+  }, {
+    t: bot.id,
+  }, (error, output) => {
+    if (error) {
+      return console.error(error);
+    }
+    output.pipe(process.stdout);
+  });
+>>>>>>> cd5fecf5b38bae7fc2dea395094bdd491fc72c5a
   cache.bots.push(bot);
 
   return bot.id;

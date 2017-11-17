@@ -47,7 +47,7 @@ export default {
     * posts Bot with its name, template and decision tree to the server where it is saved
     */
     post () {
-      let url = `http://localhost:3000/api/v1/manage/bot`
+      let url = `http://141.19.145.163:3000/api/v1/manage/bot`
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
 
       let payload = JSON.stringify({

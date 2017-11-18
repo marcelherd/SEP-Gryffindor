@@ -31,8 +31,9 @@ export const login = ({ commit }, credentials) => {
     .then(response => response.json())
     .then((data) => {
       if (data.success) {
-        commit(types.LOGIN_SUCCESS)
+        commit(types.LOGIN_SUCCESS, data.user)
         localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
       } else {
         throw new Error(data.message)
       }
@@ -42,6 +43,7 @@ export const login = ({ commit }, credentials) => {
 export const logout = ({ commit }) => {
   return new Promise((resolve) => {
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
     commit(types.LOGOUT)
     resolve()
   })

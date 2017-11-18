@@ -3,10 +3,11 @@ import Router from 'vue-router'
 
 import store from '@/store/index'
 
-import Index from '@/components/Index'
 import Login from '@/components/Login'
 import Overview from '@/components/Overview'
 import Edit from '@/components/Edit'
+import Administration from '@/components/Administration'
+import NewUser from '@/components/NewUser'
 
 import TemplateSelection from '@/components/TemplateSelection'
 import Create from '@/components/Create'
@@ -15,11 +16,6 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index
-    },
     {
       path: '/Login',
       name: 'Login',
@@ -31,12 +27,12 @@ const router = new Router({
       component: TemplateSelection
     },
     {
-      path: '/overview',
+      path: '/Overview',
       name: 'Overview',
       component: Overview
     },
     {
-      path: '/overview/bot/:id',
+      path: '/Overview/bot/:id',
       name: 'Edit',
       component: Edit
     },
@@ -44,6 +40,20 @@ const router = new Router({
       path: '/Create/:template',
       name: 'Create',
       component: Create
+    },
+    {
+      path: '/Administration',
+      name: 'Administration',
+      component: Administration
+    },
+    {
+      path: '/Administration/new',
+      name: 'NewUser',
+      component: NewUser
+    },
+    {
+      path: '*',
+      redirect: '/Overview'
     }
   ]
 })
@@ -53,6 +63,12 @@ router.beforeEach((to, from, next) => {
     // if not logged in
     if (!store.getters.isLoggedIn) {
       return next('Login')
+    }
+  }
+
+  if (to.name === 'Login') {
+    if (store.getters.isLoggedIn) {
+      return next(to.name)
     }
   }
 

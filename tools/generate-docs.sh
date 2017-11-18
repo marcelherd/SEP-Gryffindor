@@ -8,3 +8,6 @@ npm run jsdoc
 cd /home/marcelherd/SEP-Gryffindor/Bot-Config
 npm install
 npm run jsdoc
+cd /home/marcelherd/SEP-Gryffindor/Bot-Marketplace
+npm install
+npm run jsdoc

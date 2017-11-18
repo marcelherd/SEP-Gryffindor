@@ -13,5 +13,7 @@
   },
   "author": "",
   "license": "MIT",
-  "template": "Welcome-Bot"
+  "__bottertoast_bot_template__": {
+    "name": "Hello-World-Bot"
+  }
 }

@@ -5,6 +5,7 @@
  * @module controllers/BotController
  */
 
+const Bot = require('../models/Bot');
 const botService = require('../services/BotService');
 
 /**
@@ -17,7 +18,7 @@ const botService = require('../services/BotService');
  * @param {string} id - The ID of the bot
  */
 exports.findBot = function (req, res, next, id) {
-  req.bot = botService.findById(parseInt(id, 10));
+  req.bot = req.user.bots.find(item => item.id === id);
 
   if (req.bot) {
     next();
@@ -34,8 +35,7 @@ exports.findBot = function (req, res, next, id) {
  * @param {Response} res - The HTTP response
  */
 exports.getBots = function (req, res) {
-  const bots = botService.findAll();
-  res.send(JSON.stringify(bots));
+  res.send(JSON.stringify(req.user.bots));
 };
 
 /**
@@ -50,17 +50,32 @@ exports.getBots = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.postBot = function (req, res) {
-  // TODO: extract validation logic
-  if (!req.body.name || !req.body.template) {
-    res.status(400).send('Malformed data');
+  if (!req.body.name || !req.body.template || !req.body.greeting) {
+    res.status(400).json({
+      success: false,
+      message: 'Body is missing one or more required parameters',
+    });
   } else {
-    const {
-      name, template, tree, greeting,
-    } = req.body;
-    const id = botService.save(name, template, tree, greeting);
+    const bot = new Bot({
+      name: req.body.name,
+      running: req.body.running || false,
+      environment: req.body.environment || 'STAGING',
+      template: req.body.template,
+      greeting: req.body.greeting,
+      dialogTree: req.body.dialogTree || {},
+    });
 
-    // TODO: send a more useful response message?
-    res.status(201).send(`${id}`);
+    const newBot = req.user.bots.create(bot);
+    req.user.bots.push(newBot);
+
+    req.user.save((err) => {
+      if (err) throw err;
+
+      res.status(201).json({
+        success: true,
+        message: newBot,
+      });
+    });
   }
 };
 
@@ -81,11 +96,17 @@ exports.getBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.deleteBot = function (req, res) {
-  // TODO: handle internal errors
-  botService.delete(req.bot);
+  const index = req.user.bots.findIndex(item => item.id === req.bot.id);
+  req.user.bots.splice(index, 1);
 
-  // TODO: send a more useful response message?
-  res.send('Bot deleted');
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: 'Bot deleted',
+    });
+  });
 };
 
 /**
@@ -95,11 +116,22 @@ exports.deleteBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.updateBot = function (req, res) {
-  // TODO: handle internal errors
-  botService.update(req.bot, req.body);
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
 
-  // TODO: send a more useful response message?
-  res.send('Bot updated');
+  bot.name = req.body.name || bot.name;
+  bot.running = req.body.running || bot.running;
+  bot.environment = req.body.environment || bot.environment;
+  bot.greeting = req.body.greeting || bot.greeting;
+  bot.dialogTree = req.body.dialogTree || bot.dialogTree;
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: bot,
+    });
+  });
 };
 
 /**
@@ -109,11 +141,18 @@ exports.updateBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.startBot = function (req, res) {
-  // TODO: handle internal errors
-  botService.start(req.bot);
+  botService.start(req.bot).then(() => {
+    req.bot.running = true;
 
-  // TODO: send a more useful response message?
-  res.send('Bot started');
+    req.user.save((err) => {
+      if (err) throw err;
+
+      res.json({
+        success: true,
+        message: req.bot,
+      });
+    });
+  });
 };
 
 /**
@@ -123,11 +162,18 @@ exports.startBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.stopBot = function (req, res) {
-  // TODO: handle internal errors
-  botService.stop(req.bot);
+  botService.stop(req.bot).then(() => {
+    req.bot.running = false;
 
-  // TODO: send a more useful response message?
-  res.send('Bot stopped');
+    req.user.save((err) => {
+      if (err) throw err;
+
+      res.json({
+        success: true,
+        message: req.bot,
+      });
+    });
+  });
 };
 
 /**
@@ -137,9 +183,16 @@ exports.stopBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.restartBot = function (req, res) {
-  // TODO: handle internal errors
-  botService.restart(req.bot);
+  botService.restart(req.bot).then(() => {
+    req.bot.running = true;
 
-  // TODO: send a more useful response message?
-  res.send('Bot restarted');
+    req.user.save((err) => {
+      if (err) throw err;
+
+      res.json({
+        success: true,
+        message: req.bot,
+      });
+    });
+  });
 };

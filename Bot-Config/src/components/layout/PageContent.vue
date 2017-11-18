@@ -9,7 +9,14 @@
 
       <h2 class="md-title with-buttons">{{ pageTitle }}</h2>
 
-      <md-button @click="logout">Logout</md-button>
+      <md-menu md-align-trigger md-direction="bottom left">
+        <md-button md-menu-trigger>{{ user.username }} &#9660;</md-button>
+
+        <md-menu-content>
+          <md-menu-item v-if="user.admin" @click="$router.push('Administration')">Administration</md-menu-item>
+          <md-menu-item @click="logout">Log out</md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-toolbar>
 
     <div class="page-content">
@@ -33,6 +40,11 @@ export default {
   props: ['pageTitle'],
   components: {
     'app-sidebar': Sidebar
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    }
   },
   methods: {
 

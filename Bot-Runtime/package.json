@@ -32,5 +32,9 @@
     "type": "git",
     "url": "https://github.com/marcelherd/SEP-Gryffindor.git"
   },
+  "bugs": {
+    "url": "https://github.com/marcelherd/SEP-Gryffindor/issues"
+  },
+  "homepage": "https://github.com/marcelherd/SEP-Gryffindor#readme",
   "license": "MIT"
 }

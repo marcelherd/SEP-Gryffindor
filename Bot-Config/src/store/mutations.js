@@ -10,8 +10,9 @@ export default {
   [types.LOGIN] (state) {
     state.pending = true
   },
-  [types.LOGIN_SUCCESS] (state) {
+  [types.LOGIN_SUCCESS] (state, user) {
     state.loggedIn = true
+    state.user = user
     state.pending = false
   },
   [types.LOGOUT] (state) {

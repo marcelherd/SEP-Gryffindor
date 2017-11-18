@@ -13,34 +13,36 @@ const authController = require('../controllers/AuthController');
 const botController = require('../controllers/BotController');
 const userController = require('../controllers/UserController');
 
-router.param('bot_id', botController.findBot);
 router.param('user_id', userController.findUser);
+router.param('bot_id', botController.findBot);
 
 router.use(authController.isAuthenticated);
 router.use(authController.isAuthorized);
 
-router.route('/bot')
+router.route('/users/')
+  .get(authController.isAdmin, userController.getUsers)
+  .post(authController.isAdmin, userController.postUser);
+
+router.route('/users/:user_id')
+  .get(userController.getUser)
+  .delete(authController.isAdmin, userController.deleteUser);
+
+router.route('/users/:user_id/bots')
   .get(botController.getBots)
   .post(botController.postBot);
 
-router.route('/bot/:bot_id')
+router.route('/users/:user_id/bots/:bot_id')
   .get(botController.getBot)
   .delete(botController.deleteBot)
   .patch(botController.updateBot);
 
-router.route('/bot/:bot_id/start')
+router.route('/users/:user_id/bots/:bot_id/start')
   .post(botController.startBot);
 
-router.route('/bot/:bot_id/restart')
+router.route('/users/:user_id/bots/:bot_id/restart')
   .post(botController.restartBot);
 
-router.route('/bot/:bot_id/stop')
+router.route('/users/:user_id/bots/:bot_id/stop')
   .post(botController.stopBot);
-
-router.route('/users/')
-  .post(authController.isAdmin, userController.postUser);
-
-router.route('/users/:user_id')
-  .get(userController.getUser);
 
 module.exports = router;

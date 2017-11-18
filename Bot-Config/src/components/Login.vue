@@ -1,14 +1,14 @@
 <template>
   <div class="login-container">
     <div class="login">
-      <img src="/static/product_white.png" width="120" height="80" class="product-logo">
+      <img src="/static/product_white.png" class="product-logo">
 
       <div class="flash-message" v-if="flashMessage">
         <p>{{ flashMessage }}</p>
         <span class="close" @click="closeMessage">&times;</span>
       </div>
 
-      <input type="text" placeholder="Username" v-model="name">
+      <input type="text" placeholder="Username" v-model="username">
       <input type="password" placeholder="Password" v-model="password">
       <div class="login-controls">
         <button @click="login" class="login-button">
@@ -24,7 +24,7 @@ export default {
   name: 'Login',
   data () {
     return {
-      name: '',
+      username: '',
       password: '',
       flashMessage: ''
     }
@@ -32,7 +32,7 @@ export default {
   methods: {
     login () {
       this.$store.dispatch('login', {
-        name: this.name,
+        username: this.username,
         password: this.password
       }).then(() => {
         this.$router.push({ name: 'Overview' })
@@ -56,6 +56,8 @@ export default {
 }
 
 .product-logo {
+  width: 120px;
+  height: 80px;
   position: relative;
   top: -25px;
 }

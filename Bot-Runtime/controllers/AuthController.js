@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config');
 const User = require('../models/User');
-const Bot = require('../models/Bot');
 
 /**
  * Checks whether the request is authorized.

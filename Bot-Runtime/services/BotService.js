@@ -42,6 +42,7 @@ exports.save = function (bot) {
  * Starts the given bot.
  *
  * @param {Bot} bot - The bot that is to be started
+ * @returns {Promise} TODO
  */
 exports.start = function (bot) {
   return new Promise((resolve) => {
@@ -55,6 +56,7 @@ exports.start = function (bot) {
  * Stops the given bot.
  *
  * @param {Bot} bot - The bot that is to be stopped
+ * @returns {Promise} TODO
  */
 exports.stop = function (bot) {
   return new Promise((resolve) => {
@@ -68,6 +70,7 @@ exports.stop = function (bot) {
  * Restarts the given bot.
  *
  * @param {Bot} bot - The bot that is to be restarted
+ * @returns {Promise} TODO
  */
 exports.restart = function (bot) {
   return new Promise((resolve) => {

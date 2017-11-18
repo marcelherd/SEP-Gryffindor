@@ -1,24 +1,37 @@
 {
   "name": "bot-marketplace",
   "version": "1.0.0",
-  "description": "Provides the bot templates for the config",
-  "main": "app.js",
+  "description": "Bottertoast marketplace",
+  "main": "index.js",
   "scripts": {
-    "start": "node ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/marcelherd/SEP-Gryffindor.git"
+    "dev": "nodemon .",
+    "start": "npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsdoc": "jsdoc -d ./doc -c jsdoc.json"
   },
   "dependencies": {
     "express": "^4.16.2",
     "body-parser": "^1.18.2",
-    "cors": "^2.8.4"
+    "cors": "^2.8.4",
+    "morgan": "^1.9.0"
   },
-  "author": "Simon",
-  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "jsdoc": "^3.5.5",
+    "nodemon": "^1.12.1"
+  },
+  "author": "Team Gryffindor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelherd/SEP-Gryffindor.git"
+  },
   "bugs": {
     "url": "https://github.com/marcelherd/SEP-Gryffindor/issues"
   },
-  "homepage": "https://github.com/marcelherd/SEP-Gryffindor#readme"
+  "homepage": "https://github.com/marcelherd/SEP-Gryffindor#readme",
+  "license": "MIT"
 }

@@ -8,6 +8,7 @@
 
 const express = require('express');
 const parser = require('body-parser');
+const morgan = require('morgan');
 const cors = require('cors');
 
 const discoveryService = require('./services/DiscoveryService');
@@ -18,6 +19,8 @@ app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
 
 app.use(cors());
+
+app.use(morgan('dev'));
 
 /**
  * Responds with a JSON array containing all available bot templates.

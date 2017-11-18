@@ -24,7 +24,8 @@ router.route('/users/')
   .post(authController.isAdmin, userController.postUser);
 
 router.route('/users/:user_id')
-  .get(userController.getUser);
+  .get(userController.getUser)
+  .delete(authController.isAdmin, userController.deleteUser);
 
 router.route('/users/:user_id/bots')
   .get(botController.getBots)

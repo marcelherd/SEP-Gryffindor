@@ -66,6 +66,23 @@ exports.postUser = function (req, res) {
  * @param {*} req
  * @param {*} res
  */
+exports.deleteUser = function (req, res) {
+  User.remove({ _id: req.user.id }, (err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: 'User deleted',
+    });
+  });
+};
+
+/**
+ * TODO: documentation
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 exports.getUser = function (req, res) {
   res.json(req.user);
 };

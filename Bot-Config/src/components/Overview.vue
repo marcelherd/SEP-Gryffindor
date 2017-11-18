@@ -62,7 +62,7 @@ export default {
   },
   data () {
     return {
-      bots: null
+      bots: []
     }
   },
   created () {

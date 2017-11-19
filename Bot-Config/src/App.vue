@@ -22,6 +22,6 @@ body {
 
 #app {
   height: 100%;
-  font-family: 'Open Sans', 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 </style>

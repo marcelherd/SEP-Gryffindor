@@ -17,5 +17,6 @@ export default {
   },
   [types.LOGOUT] (state) {
     state.loggedIn = false
+    state.user = null
   }
 }

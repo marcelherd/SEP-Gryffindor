@@ -14,7 +14,7 @@ export default {
 
 <style>
 .bt-page-content {
-  margin-top: 64px;
-  margin-bottom: 64px;
+  margin-top: 48px;
+  margin-bottom: 48px;
 }
 </style>

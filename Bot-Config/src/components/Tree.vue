@@ -53,7 +53,7 @@ export default {
     }
   },
   beforeMount () {
-    if (this.$store.state.tree !== null) {
+    if (this.$store.state.tree != null) {
       this.tree.nodeID = this.$store.state.tree.nodeID
       this.tree.root = this.$store.state.tree.root
       this.$store.dispatch('updateTree', this.tree)

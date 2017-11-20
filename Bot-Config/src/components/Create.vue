@@ -53,7 +53,7 @@ export default {
       let payload = JSON.stringify({
         name: this.botName,
         template: this.$route.params.template,
-        tree: this.$store.state.tree,
+        dialogTree: this.$store.state.tree,
         greeting: this.greeting
       })
       console.log(payload)

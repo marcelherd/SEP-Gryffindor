@@ -66,7 +66,7 @@ export default {
       .then(response => response.json())
       .then(data => {
         this.bot = data
-        this.$store.dispatch('updateTree', data.tree)
+        this.$store.dispatch('updateTree', data.dialogTree)
       })
     },
 
@@ -80,12 +80,10 @@ export default {
       }
 
       let url = `http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/${this.bot._id}`
-      console.log(this.bot.tree)
-      console.log(this.$store.state.tree)
       let payload = JSON.stringify({
         name: this.bot.name,
         greeting: this.bot.greeting,
-        dialogTree: this.bot.tree
+        dialogTree: this.bot.dialogTree
       })
 
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })

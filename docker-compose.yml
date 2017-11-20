@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '127.0.0.1:27017:27017'
+  bot-config:
+    build: './Bot-Config'
+    ports:
+      - '127.0.0.1:8080:8080'
+  bot-runtime:
+    build: './Bot-Runtime'
+    ports:
+      - '127.0.0.1:3000:3000'
+  bot-marketplace:
+    build: '.'
+    ports:
+      - '127.0.0.1:4000:4000'
+

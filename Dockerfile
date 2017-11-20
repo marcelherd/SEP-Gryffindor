@@ -1,10 +1,12 @@
 FROM node:alpine
 
+WORKDIR /usr/src
+COPY Bots .
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json .
+COPY /Bot-Marketplace/package.json .
 # For npm@5 or later, copy package-lock.json as well
 # COPY package.json package-lock.json ./
 #RUN apk --no-cache add curl 
@@ -14,7 +16,7 @@ RUN npm install
 # RUN npm install --only=production
 
 # Bundle app source
-COPY . .
+COPY /Bot-Marketplace .
 
 EXPOSE 8080
 CMD [ "npm", "start" ]

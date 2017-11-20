@@ -8,10 +8,6 @@ export const setSelected = ({ commit }, selection) => {
   commit(types.SET_SELECTED, selection)
 }
 
-export const setTemplate = ({ commit }, template) => {
-  commit(types.SET_TEMPLATE, template)
-}
-
 export const login = ({ commit }, credentials) => {
   commit(types.LOGIN)
 

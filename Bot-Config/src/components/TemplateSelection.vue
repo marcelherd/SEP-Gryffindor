@@ -2,7 +2,7 @@
   <page-content page-title="Templates">
     <h2> Select Template </h2>
      <md-layout md-gutter="24">
-    <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" v-for="template in this.templates">
+    <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" :key="template.name" v-for="template in this.templates">
       <md-card>
         <md-card-media>
           <img src="/static/robot.jpeg">

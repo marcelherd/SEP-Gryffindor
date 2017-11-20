@@ -1,8 +1,18 @@
 <template>
   <bt-page-container pageTitle="New user">
     <md-layout md-column>
-      <input v-model="user.username" type="text" placeholder="Username" class="bt-input">
-      <input v-model="user.password" type="password" placeholder="Password" class="bt-input">
+      <div class="bt-form">
+        <div class="bt-form-section">
+          <div class="bt-form-section-header">Account details</div>
+          <input v-model="user.username" type="text" placeholder="Username" class="bt-input">
+          <input v-model="user.password" type="password" placeholder="Password" class="bt-input">
+        </div>
+
+        <div class="bt-form-section">
+          <div class="bt-form-section-header">Bot configuration</div>
+          <input  type="text" placeholder="Brand ID" class="bt-input">
+        </div>
+      </div>
       <md-layout md-align="end">
         <button @click="save" class="bt-button">Save</button>
       </md-layout>
@@ -55,6 +65,17 @@ export default {
 
 .bt-input:focus {
   outline: 0;
+}
+
+.bt-form-section:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.bt-form-section-header {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 5px;
 }
 
 .bt-button {

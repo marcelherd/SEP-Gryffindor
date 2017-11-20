@@ -9,4 +9,4 @@ module.exports = mongoose.model('User', new Schema({
   password: String,
   admin: Boolean,
   bots: [Bot.schema],
-}));
+}, { usePushEach: true }));

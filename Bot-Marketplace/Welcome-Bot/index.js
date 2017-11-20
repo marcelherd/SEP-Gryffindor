@@ -15,7 +15,9 @@ function timeout(ms = 3000) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Goes deeper in the tree 
+/**
+* select the operations number and give the new Option
+*/
  function nextStep( optionNumber){
     node= node.children[optionNumber-1];
     console.log(node.children[0])
@@ -27,7 +29,9 @@ function timeout(ms = 3000) {
 
 
 
-// build the first tree with the options from json
+    /**
+     * Build the first Tree with greeting an options
+     */
  function buildFirstTree() {
     //console.log("sind drin");
     var answer="";
@@ -74,7 +78,10 @@ class GreetingBot {
             console.error('Connection to UMS closed with reason', reason);
             this.core.reconnect(reason !== 4401 || reason !== 4407);
         });
-        // this is the interactive Part
+       /**
+       * This function is used to find out what the consumer want and send him the right message
+       * Which later get consumed by other functions.
+       */
         this.core.on('ms.MessagingEventNotification', body => {
             
            
@@ -89,13 +96,14 @@ class GreetingBot {
                         
                         
                         
-                            //this.sendMessage( body.dialogId,   buildFirstTree());
+                            this.sendMessage( body.dialogId,   buildFirstTree());
                         
                     }
                } 
         });
         this.core.on('cqm.ExConversationChangeNotification', body => {
-          
+            //this.joinConversation(body.dialogId, 'MANAGER');
+            //this.sendMessage( body.dialogId, buildFirstTree());
             body.changes
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
                 .forEach(async change => {
@@ -160,7 +168,7 @@ class GreetingBot {
      * @param {string} convState the conversation state for which should be subscribed
      * @param {boolean} agentOnly if set it will only subscribe to conversation in which the agent is or which are suitable for his skills
      */
-    async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
+    async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
         if (!this.isConnected) return;
         return await this.core.subscribeExConversations({ 'convState': [convState] });
     }
@@ -182,6 +190,7 @@ class GreetingBot {
      * @param {string} role role of the agent (AGENT, MANAGER)
      */
     async joinConversation(conversationId, role = 'AGENT') {
+        //console.log(conversationId);
         if (!this.isConnected) return;
         return await this.core.updateConversationField({
             'conversationId': conversationId,

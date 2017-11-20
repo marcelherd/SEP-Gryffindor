@@ -14,6 +14,7 @@ export default {
 
 <style>
 .bt-page-content {
+  align-items: flex-start;
   margin-top: 48px;
   margin-bottom: 48px;
 }

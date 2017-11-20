@@ -65,7 +65,7 @@ export default {
 
 .bt-login-icon {
   width: 110px;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 .bt-login-flash-message {
@@ -76,7 +76,11 @@ export default {
   border-radius: 4px;
 }
 
-.bt-login-flash-message p {
+.bt-login-flash-message p,
+.bt-login-flash-message span {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
   padding: 0;
   margin: 0;
   font-size: 1.05rem;

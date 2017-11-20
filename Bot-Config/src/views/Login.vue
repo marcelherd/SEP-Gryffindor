@@ -1,5 +1,5 @@
 <template>
-  <bt-page-container pageTitle="Login">
+  <bt-page-container pageTitle="">
     <bt-login-form />
   </bt-page-container>
 </template>

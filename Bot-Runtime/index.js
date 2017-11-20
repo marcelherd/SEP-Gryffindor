@@ -29,6 +29,7 @@ app.use(cors());
 app.use(morgan('dev'));
 
 mongoose.connect(config.database, config.databaseOptions);
+mongoose.Promise = global.Promise;
 
 // creates a superuser if it doesn't exist
 authService.setupUsers();

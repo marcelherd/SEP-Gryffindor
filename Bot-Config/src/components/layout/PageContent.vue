@@ -3,9 +3,9 @@
     <app-sidebar ref="mainSidebar"></app-sidebar>
 
     <md-toolbar>
-      <md-button class="md-icon-button">
+      <router-link to="/Overview" exact tag="md-button" class="md-icon-button">
         <img src="/static/favicon.png">
-      </md-button>
+      </router-link>
 
       <h2 class="md-title with-buttons">{{ pageTitle }}</h2>
 

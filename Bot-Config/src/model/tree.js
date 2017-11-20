@@ -17,7 +17,7 @@ class Tree {
    */
   add (data, nodeID) {
     let parent
-    console.log(this)
+    (this)
     if (this.findBFS(nodeID)) {
       parent = this.findBFS(nodeID)
     } else {
@@ -32,7 +32,7 @@ class Tree {
       if (!this.root) {
         this.root = node
       } else {
-        return console.log('Root node is already assigned')
+        return ('Root node is already assigned')
       }
     }
   }
@@ -120,7 +120,7 @@ class Tree {
     // }
     // Tree.prototype.print = function () {
     //   if (!this.root) {
-    //     return console.log('No root node found')
+    //     return ('No root node found')
     //   }
     //   var newline = new Node('|')
     //   var queue = [this.root, newline]
@@ -135,11 +135,11 @@ class Tree {
     //       queue.push(node.children[i])
     //     }
     //   }
-    //   console.log(string.slice(0, -2).trim())
+    //   (string.slice(0, -2).trim())
     // }
     // Tree.prototype.printByLevel = function () {
     //   if (!this.root) {
-    //     return console.log('No root node found')
+    //     return ('No root node found')
     //   }
     //   var newline = new Node('\n')
     //   var queue = [this.root, newline]
@@ -154,7 +154,7 @@ class Tree {
     //       queue.push(node.children[i])
     //     }
     //   }
-    //   console.log(string.trim())
+    //   (string.trim())
     // }
 }
 export default Tree

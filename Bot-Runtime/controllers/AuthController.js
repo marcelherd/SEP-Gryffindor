@@ -104,7 +104,6 @@ exports.authenticate = function (req, res) {
     username: req.body.username,
   }, (err, user) => {
     if (err) throw err;
-
     // Authentication successful
     if (user && user.password === req.body.password) {
       // Create and send token

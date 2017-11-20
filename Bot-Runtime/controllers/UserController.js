@@ -32,6 +32,7 @@ exports.findUser = function (req, res, next, id) {
  * @param {*} res
  */
 exports.getUsers = function (req, res) {
+  console.log('callledd this!');
   User.find({ }, (err, users) => {
     if (err) throw err;
 

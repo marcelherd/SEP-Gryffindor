@@ -129,34 +129,3 @@ exports.authenticate = function (req, res) {
     }
   });
 };
-
-/**
- * TODO: remove
- *
- * @param {*} req
- * @param {*} res
- */
-exports.setup = function (req, res) {
-  User.findOne({
-    username: 'superuser',
-  }, (err, user) => {
-    if (err) throw err;
-
-    if (!user) {
-      const superuser = new User({
-        username: 'superuser',
-        password: '123qwe',
-        admin: true,
-        bots: [],
-      });
-
-      superuser.save((saveErr) => {
-        if (saveErr) throw saveErr;
-
-        return res.json({ success: true, message: 'Superuser created' });
-      });
-    } else {
-      return res.status(403).json({ success: false, message: 'Forbidden' });
-    }
-  });
-};

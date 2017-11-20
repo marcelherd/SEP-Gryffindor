@@ -11,8 +11,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const config = require('./config');
+
 const authenticateRoutes = require('./routes/authenticate');
 const manageRoutes = require('./routes/manage');
+
+const authService = require('./services/AuthService');
 
 const app = express();
 
@@ -26,6 +29,9 @@ app.use(cors());
 app.use(morgan('dev'));
 
 mongoose.connect(config.database, config.databaseOptions);
+
+// creates a superuser if it doesn't exist
+authService.setupUsers();
 
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);

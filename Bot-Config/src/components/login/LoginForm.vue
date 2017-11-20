@@ -126,7 +126,8 @@ export default {
   letter-spacing: 2px;
 }
 
-.bt-login-button:hover {
+.bt-login-button:hover,
+.bt-login-button:focus {
   text-decoration: none;
   color: #151722;
   background-color: #FFCB4C;

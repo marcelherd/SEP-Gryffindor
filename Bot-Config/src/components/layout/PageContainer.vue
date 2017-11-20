@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import PageHeader from '@/components/layout/PageHeader'
+import PageHeader from '@/components/layout/header/PageHeader'
 import PageContent from '@/components/layout/PageContent'
 import PageFooter from '@/components/layout/PageFooter'
 

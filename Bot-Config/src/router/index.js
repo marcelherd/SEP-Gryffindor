@@ -5,6 +5,8 @@ import store from '@/store/index'
 
 import Login from '@/views/Login'
 import Overview from '@/views/Overview'
+import Administration from '@/views/Administration'
+import UserCreate from '@/views/UserCreate'
 
 Vue.use(Router)
 
@@ -19,6 +21,16 @@ const router = new Router({
       path: '/Overview/:userId',
       name: 'Overview',
       component: Overview
+    },
+    {
+      path: '/Administration',
+      name: 'Administration',
+      component: Administration
+    },
+    {
+      path: '/Administration/new',
+      name: 'UserCreate',
+      component: UserCreate
     }
   ]
 })

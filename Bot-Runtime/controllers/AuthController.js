@@ -101,7 +101,7 @@ exports.isAdmin = function (req, res, next) {
  */
 exports.authenticate = function (req, res) {
   User.findOne({
-    name: req.body.name,
+    username: req.body.username,
   }, (err, user) => {
     if (err) throw err;
 
@@ -109,8 +109,8 @@ exports.authenticate = function (req, res) {
     if (user && user.password === req.body.password) {
       // Create and send token
       const payload = {
-        id: user._id,
-        name: user.name,
+        _id: user._id,
+        username: user.username,
         admin: user.admin,
       };
 
@@ -121,6 +121,7 @@ exports.authenticate = function (req, res) {
       res.json({
         success: true,
         message: 'Authentication succesful',
+        user: payload,
         token,
       });
     } else {
@@ -137,17 +138,16 @@ exports.authenticate = function (req, res) {
  */
 exports.setup = function (req, res) {
   User.findOne({
-    name: 'derthomas',
+    username: 'superuser',
   }, (err, user) => {
     if (err) throw err;
 
-    console.log(user);
-
     if (!user) {
       const superuser = new User({
-        name: 'derthomas',
-        password: 'geheim',
-        admin: false,
+        username: 'superuser',
+        password: '123qwe',
+        admin: true,
+        bots: [],
       });
 
       superuser.save((saveErr) => {

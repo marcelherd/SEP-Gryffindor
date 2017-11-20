@@ -10,7 +10,7 @@ Vue.material.registerTheme('default', {
   },
   accent: {
     color: 'yellow',
-    hue: '700',
+    hue: '600',
     textColor: 'black'
   },
   warn: {

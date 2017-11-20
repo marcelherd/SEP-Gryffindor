@@ -1,27 +1,27 @@
 <template>
   <page-content page-title="Overview">
-    <md-layout md-gutter="24" v-if="bots">
-      <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" v-for="(bot, index) in bots" :key="bot.id">
+    <md-layout md-gutter="24" v-if="bots.length > 0">
+      <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex="25" v-for="(bot, index) in bots" :key="bot._id">
 
-        <md-card :class="bot.status === 'RUNNING' ? 'md-warn' : 'md-primary'">
+        <md-card :class="bot.running ? 'md-warn' : 'md-primary'">
           <md-card-media>
             <img src="/static/robot.jpeg" alt="Robot">
           </md-card-media>
 
           <md-card-header>
             <div class="md-title">{{ bot.name }}</div>
-            <div class="md-subhead">{{ bot.template }} <span style="float:right">{{ formatStatus(bot.status) }}</span></div>
+            <div class="md-subhead">{{ bot.template }} <span style="float:right">{{ formatStatus(bot.running) }}</span></div>
           </md-card-header>
 
 
           <md-card-actions>
             <md-button @click="toggle(bot)" class="md-icon-button">
-              <md-icon v-if="bot.status === 'RUNNING'">pause</md-icon>
+              <md-icon v-if="bot.running">pause</md-icon>
               <md-icon v-else>play_arrow</md-icon>
             </md-button>
 
             <router-link tag="md-button" class="md-icon-button"
-              :to="{ name: 'Edit', params: { id: bot.id }}">
+              :to="{ name: 'Edit', params: { id: bot._id }}">
               <md-icon>edit</md-icon>
             </router-link>
 
@@ -62,7 +62,7 @@ export default {
   },
   data () {
     return {
-      bots: null
+      bots: []
     }
   },
   created () {
@@ -86,7 +86,7 @@ export default {
      * Fetches the bot data from the bot runtime.
      */
     fetchData () {
-      fetch('http://localhost:3000/api/v1/manage/bot/', {
+      fetch(`http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
@@ -100,11 +100,11 @@ export default {
     /**
      * Returns a human readable string representation of the given bot status.
      *
-     * @param {string} status - The bot status
+     * @param {string} running - Whether the bot is currently running
      * @return {string} A human readable string representation of the given bot status
      */
-    formatStatus (status) {
-      return (status === 'NOT_RUNNING' ? 'Not running' : 'Running')
+    formatStatus (running) {
+      return (running ? 'Running' : 'Not running')
     },
 
     /**
@@ -113,8 +113,8 @@ export default {
      * @param {Bot} bot - the bot that should be started/stopped
      */
     toggle (bot) {
-      let action = (bot.status === 'RUNNING' ? 'stop' : 'start')
-      let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}/${action}`
+      let action = (bot.running ? 'stop' : 'start')
+      let url = `http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/${bot._id}/${action}`
 
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
@@ -127,7 +127,7 @@ export default {
         if (response.ok) {
           this.fetchData()
         } else {
-          throw new Error(`Could not change bot status with id: ${bot.id} (${response.status} ${response.statusText})`)
+          throw new Error(`Could not change bot status with id: ${bot._id} (${response.status} ${response.statusText})`)
         }
       })
       .catch(error => console.log(error.message))
@@ -139,7 +139,7 @@ export default {
      * @param {Bot} bot - The bot that is to be deleted
      */
     remove (bot) {
-      let url = `http://localhost:3000/api/v1/manage/bot/${bot.id}`
+      let url = `http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/${bot._id}`
 
       let headers = new Headers({ 'x-access-token': localStorage.getItem('token') })
       let request = new Request(url, {
@@ -152,7 +152,7 @@ export default {
         if (response.ok) {
           this.fetchData()
         } else {
-          throw new Error(`Could not delete bot with id: ${bot.id} (${response.status} ${response.statusText})`)
+          throw new Error(`Could not delete bot with id: ${bot._id} (${response.status} ${response.statusText})`)
         }
       })
       .catch(error => console.log(error.message))

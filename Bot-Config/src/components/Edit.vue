@@ -58,7 +58,7 @@ export default {
     fetchData () {
       let id = this.$route.params.id
 
-      fetch(`http://localhost:3000/api/v1/manage/bot/${id}`, {
+      fetch(`http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/${id}`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
@@ -79,12 +79,13 @@ export default {
         return
       }
 
-      let url = `http://localhost:3000/api/v1/manage/bot/${this.bot.id}`
+      let url = `http://localhost:3000/api/v1/manage/users/${this.$store.getters.user._id}/bots/${this.bot._id}`
       console.log(this.bot.tree)
       console.log(this.$store.state.tree)
       let payload = JSON.stringify({
         name: this.bot.name,
-        tree: this.bot.tree
+        greeting: this.bot.greeting,
+        dialogTree: this.bot.tree
       })
 
       let headers = new Headers({ 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('token') })
@@ -99,7 +100,7 @@ export default {
         if (response.ok) {
           this.$router.push({ name: 'Overview' })
         } else {
-          throw new Error(`Could not save changes to bot with id: ${this.bot.id} (${response.status} ${response.statusText})`)
+          throw new Error(`Could not save changes to bot with id: ${this.bot._id} (${response.status} ${response.statusText})`)
         }
         this.$store.dispatch('updateTree', null)
         this.$store.dispatch('setSelected', null)

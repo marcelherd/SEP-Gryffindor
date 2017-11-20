@@ -9,12 +9,12 @@
        </md-card-media>
 
         <md-card-header>
-          <div class="md-title">{{template}}</div>
+          <div class="md-title">{{template.name}}</div>
         </md-card-header>
 
         <md-card-actions>
           <router-link exact class="md-raised md-accent" tag="md-button"
-              :to="{ name: 'Create', params: { template: template }}">
+              :to="{ name: 'Create', params: { template: template.name }}">
           Select
           </router-link>
         </md-card-actions>

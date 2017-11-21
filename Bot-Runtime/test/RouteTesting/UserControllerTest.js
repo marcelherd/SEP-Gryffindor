@@ -52,6 +52,8 @@ describe('Users', () => {
         .set('x-access-token', resToken)
         .end((err, res) => {
           chai.expect(res).to.have.status(200);
+          chai.expect(res.body).to.be.a('array');
+          chai.expect(res.body).to.have.lengthOf(1);
           done();
         });
     });
@@ -67,7 +69,7 @@ describe('Users', () => {
     });
   });
   describe('/GET USERS', () => {
-    it('should fail cause no authentication token is set ', (done) => {
+    it('should fwork with given authentication token ', (done) => {
       chai.request(server)
         .get('/api/v1/manage/users')
         .set('x-access-token', resToken)
@@ -79,10 +81,11 @@ describe('Users', () => {
   });
   describe('/GET USERS', () => {
     it('should fail cause invalid authentication token is used', (done) => {
-      resToken += '@';
+      let resToken2 = resToken;
+      resToken2 += '@';
       chai.request(server)
         .get('/api/v1/manage/users')
-        .set('x-access-token', resToken)
+        .set('x-access-token', resToken2)
         .end((err, res) => {
           chai.expect(res).to.have.status(403);
           done();
@@ -90,18 +93,36 @@ describe('Users', () => {
     });
   });
   describe('/POST USERS', () => {
-    it('should fail cause invalid authentication token is used', (done) => {
+    it('should fail cause no authentication token is sued', (done) => {
       const body = {
-        username: 'superuser',
-        password: '123qwe',
+        username: 'Simon',
+        password: 'Simon',
       };
       chai.request(server)
         .get('/api/v1/manage/users')
-        .set('x-access-token', resToken)
+        .send(body)
         .end((err, res) => {
           chai.expect(res).to.have.status(403);
           done();
         });
     });
   });
+  describe('/POST USERS', () => {
+    it('should save a user with authentication token', (done) => {
+      const body = {
+        username: 'Simon',
+        password: 'Simon',
+      };
+      chai.request(server)
+        .get('/api/v1/manage/users')
+        .set('x-access-token', resToken)
+        .send(body)
+        .end((err, res) => {
+          chai.expect(res.body[1]).to.be.a('Object');
+          chai.expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
+  // TODO : Stuff with user_id
 });

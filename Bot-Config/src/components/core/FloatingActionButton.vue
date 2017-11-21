@@ -1,10 +1,7 @@
 <template>
-  <md-layout md-align="end" md-vertical-align="end">
-    <button @click="onClick" class="bt-fab">
-      <slot />
-    </button>
-  </md-layout>
-
+  <button @click="onClick" class="bt-fab">
+    <slot />
+  </button>
 </template>
 
 <script>
@@ -24,6 +21,7 @@ export default {
 <style>
 .bt-fab {
   position: absolute;
+  bottom: calc(160px + 5%);
   right: 5%;
   width: 56px;
   height: 56px;

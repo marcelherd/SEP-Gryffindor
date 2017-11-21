@@ -5,6 +5,7 @@ import store from '@/store/index'
 
 import Login from '@/views/Login'
 import Overview from '@/views/Overview'
+import Account from '@/views/Account'
 import Administration from '@/views/Administration'
 import UserCreate from '@/views/UserCreate'
 
@@ -21,6 +22,11 @@ const router = new Router({
       path: '/Overview/:userId',
       name: 'Overview',
       component: Overview
+    },
+    {
+      path: '/Account',
+      name: 'Account',
+      component: Account
     },
     {
       path: '/Administration',

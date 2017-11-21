@@ -2,7 +2,7 @@
   <md-layout md-flex="100" md-vertical-align="center" class="bt-page-header">
     <md-layout md-flex="25">
       <div @click="home" class="bt-page-header-icon">
-        <img src="/static/favicon.png" />
+        <img src="/static/icon.png" />
       </div>
     </md-layout>
     <md-layout md-flex="50" >
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import UserMenu from '@/components/layout/header/menu/UserMenu'
+import UserMenu from '@/components/layout/header/UserMenu'
 
 export default {
   name: 'bt-page-header',

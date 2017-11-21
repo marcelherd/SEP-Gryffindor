@@ -10,7 +10,8 @@
 
         <div class="bt-form-section">
           <div class="bt-form-section-header">Bot configuration</div>
-          <input  type="text" placeholder="Brand ID" class="bt-input">
+          <input type="text" placeholder="Brand ID for production" class="bt-input">
+          <input type="text" placeholder="Brand ID for staging" class="bt-input">
         </div>
       </div>
       <md-layout md-align="end">

@@ -1,10 +1,11 @@
 <template>
-  <md-layout v-if="user" md-flex="20" class="bt-user-menu">
-    <md-menu md-align-trigger md-direction="bottom left">
+  <md-layout v-if="user" md-flex="20" md-align="end" class="bt-user-menu">
+    <md-menu md-align-trigger md-direction="bottom" md-auto-width>
       <md-button md-menu-trigger>{{ user.username }} &#9660;</md-button>
 
       <md-menu-content>
-        <md-menu-item v-if="user.admin" @click="navigate('Administration')">Administration</md-menu-item>
+        <md-menu-item @click="navigate('Account')">Account</md-menu-item>
+        <md-menu-item @click="navigate('Administration')" v-if="user.admin">Admin</md-menu-item>
         <md-menu-item @click="logout">Log out</md-menu-item>
       </md-menu-content>
     </md-menu>

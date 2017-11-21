@@ -32,5 +32,13 @@ export default {
     })
 
     return fetch(request)
+  },
+
+  findBots (userId) {
+    return fetch(`${URL + userId}/bots`, {
+      headers: {
+        'x-access-token': localStorage.getItem('token')
+      }
+    }).then(response => response.json())
   }
 }

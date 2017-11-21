@@ -78,8 +78,23 @@ describe('Users', () => {
     });
   });
   describe('/GET USERS', () => {
-    it('should fail cause no authentication token is set ', (done) => {
+    it('should fail cause invalid authentication token is used', (done) => {
       resToken += '@';
+      chai.request(server)
+        .get('/api/v1/manage/users')
+        .set('x-access-token', resToken)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(403);
+          done();
+        });
+    });
+  });
+  describe('/POST USERS', () => {
+    it('should fail cause invalid authentication token is used', (done) => {
+      const body = {
+        username: 'superuser',
+        password: '123qwe',
+      };
       chai.request(server)
         .get('/api/v1/manage/users')
         .set('x-access-token', resToken)

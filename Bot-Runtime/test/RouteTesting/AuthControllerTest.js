@@ -4,13 +4,13 @@
 
 const chai = require('chai');
 const mongoose = require('mongoose');
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 const chaiHttp = require('chai-http');
-const server = require('../index');
-const authService = require('../services/AuthService');
+const server = require('../../index');
+const authService = require('../../services/AuthService');
 
 chai.use(chaiHttp);
-// Usermanagement testcases
+
 describe('Users', () => {
   beforeEach((done) => { //Before each test we empty the database
     User.remove({}, (err) => {
@@ -20,9 +20,10 @@ describe('Users', () => {
         done();
       }
     });
-    authService.setupUsers();
+    authService.setupUsers(); // here we add a superuser which is needed for testing
   });
-  describe('/POST USERS', () => {
+  // POST AUTHENTICATE
+  describe('/POST AUTHENTICATE', () => {
     it('should fail at adding user cause user not registered in database and therefore not authorized', (done) => {
       const body = {
         username: 'simon',
@@ -37,7 +38,7 @@ describe('Users', () => {
         });
     });
   });
-  describe('/POST USERS', () => {
+  describe('/POST AUTHENTICATE', () => {
     it('should return authentication token', (done) => {
       const body = {
         username: 'superuser',
@@ -49,6 +50,17 @@ describe('Users', () => {
         .end((err, res) => {
           chai.expect(res.body.token).to.be.a('string');
           chai.expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('/POST AUTHENTICATE', () => {
+    it('should fail with bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/authenticate')
+        .send(null)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(401);
           done();
         });
     });

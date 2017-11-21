@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon .",
     "start": "npm run dev",
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
     "jsdoc": "jsdoc -d ./doc -c jsdoc.json"
   },
   "dependencies": {

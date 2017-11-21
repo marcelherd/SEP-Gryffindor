@@ -17,7 +17,6 @@ class Tree {
    */
   add (data, nodeID) {
     let parent
-    (this)
     if (this.findBFS(nodeID)) {
       parent = this.findBFS(nodeID)
     } else {

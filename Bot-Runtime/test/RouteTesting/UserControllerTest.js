@@ -4,10 +4,10 @@
 
 const chai = require('chai');
 const mongoose = require('mongoose');
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 const chaiHttp = require('chai-http');
-const server = require('../index');
-const authService = require('../services/AuthService');
+const server = require('../../index');
+const authService = require('../../services/AuthService');
 
 let resToken;
 
@@ -24,7 +24,9 @@ describe('Users', () => {
       authService.setupUsers();
     });
   });
-  describe('/GET USERS', () => {
+
+  // already tested in AuthControllerTest but needed here to generate Authentication token
+  describe('/POST AUTHENTICATE', () => {
     it('should return authentication token for next test', (done) => {
       const body = {
         username: 'superuser',
@@ -42,6 +44,7 @@ describe('Users', () => {
         });
     });
   });
+  // Test Route: /users/
   describe('/GET USERS', () => {
     it('tests whether the authentication with given token works ', (done) => {
       chai.request(server)
@@ -49,6 +52,39 @@ describe('Users', () => {
         .set('x-access-token', resToken)
         .end((err, res) => {
           chai.expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('/GET USERS', () => {
+    it('should fail cause no authentication token is set ', (done) => {
+      chai.request(server)
+        .get('/api/v1/manage/users')
+        .end((err, res) => {
+          chai.expect(res).to.have.status(403);
+          done();
+        });
+    });
+  });
+  describe('/GET USERS', () => {
+    it('should fail cause no authentication token is set ', (done) => {
+      chai.request(server)
+        .get('/api/v1/manage/users')
+        .set('x-access-token', resToken)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('/GET USERS', () => {
+    it('should fail cause no authentication token is set ', (done) => {
+      resToken += '@';
+      chai.request(server)
+        .get('/api/v1/manage/users')
+        .set('x-access-token', resToken)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(403);
           done();
         });
     });

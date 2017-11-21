@@ -7,7 +7,7 @@
     </md-layout>
     <md-layout md-vertical-align="end">
       <div class="bt-page-footer-contact">
-        <p>BOTTERBROT</p>
+        <p>BOTTERTOAST</p>
         <p>Mannheim, Germany 2017</p>
       </div>
     </md-layout>

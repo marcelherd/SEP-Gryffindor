@@ -6,7 +6,7 @@
  */
 
 const Bot = require('../models/Bot');
-const botService = require('../services/BotService');
+const DockerService = require('../services/DockerService');
 
 /**
  * Finds the corresponding bot for the given ID
@@ -70,7 +70,7 @@ exports.postBot = function (req, res) {
 
     req.user.save((err) => {
       if (err) throw err;
-
+      DockerService.buildImage(newBot);
       res.status(201).json({
         success: true,
         message: newBot,
@@ -141,7 +141,7 @@ exports.updateBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.startBot = function (req, res) {
-  botService.start(req.bot).then(() => {
+  DockerService.start(req.bot).then(() => {
     req.bot.running = true;
 
     req.user.save((err) => {
@@ -162,7 +162,7 @@ exports.startBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.stopBot = function (req, res) {
-  botService.stop(req.bot).then(() => {
+  DockerService.stop(req.bot).then(() => {
     req.bot.running = false;
 
     req.user.save((err) => {
@@ -183,7 +183,7 @@ exports.stopBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.restartBot = function (req, res) {
-  botService.restart(req.bot).then(() => {
+  DockerService.restart(req.bot).then(() => {
     req.bot.running = true;
 
     req.user.save((err) => {

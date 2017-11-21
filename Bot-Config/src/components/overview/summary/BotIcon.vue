@@ -16,8 +16,8 @@ export default {
     }
   },
   created () {
-    const eyes = [':', ';']
-    const mouths = [')', ']', '3']
+    const eyes = [':', ';', 'x']
+    const mouths = [')', ']', '3', '>']
 
     const eye = eyes[Math.floor(Math.random() * eyes.length)]
     const mouth = mouths[Math.floor(Math.random() * mouths.length)]
@@ -49,6 +49,6 @@ export default {
 }
 
 .bt-bot-icon.bt-bot-inactive {
-  border: 1px solid #757575;
+  border: 3px solid #757575;
 }
 </style>

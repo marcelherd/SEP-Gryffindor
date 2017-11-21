@@ -9,7 +9,7 @@
         </div>
       </div>
       <md-layout md-align="end">
-        <button @click="save" class="bt-button">Save</button>
+        <button class="bt-button">Save</button>
       </md-layout>
     </md-layout>
   </bt-page-container>

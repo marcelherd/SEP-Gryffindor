@@ -1,1 +1,1 @@
-{"id":2,"name":"test","template":"Welcome-Bot","tree":{"root":{"data":"Options","children":[{"data":"test","children":[],"id":1},{"data":"xd","children":[{"data":"sdfsdf","children":[],"id":4},{"data":"sdfsdf","children":[],"id":5}],"id":2},{"data":"ba","children":[],"id":3}],"id":0},"nodeID":5},"greeting":"hello","status":"NOT_RUNNING"}
+{"_id":"5a14e9dfe5e23a53a48523c6","dialogTree":{"nodeID":1,"root":{"id":0,"children":[{"id":1,"children":[],"data":"sdfg"}],"data":"Options"}},"greeting":"sdfg","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"sdfg"}

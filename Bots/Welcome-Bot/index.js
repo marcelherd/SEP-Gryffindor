@@ -6,7 +6,7 @@ const { config } = require('dotenv');
 
 const dataTree= require('./config.json');
 
-var node=dataTree.tree.root;
+var node=dataTree.dialogTree.root;
 var firstmessage=true;
 config();
 
@@ -37,7 +37,7 @@ function timeout(ms = 3000) {
     var answer="";
     var counter=0;
     answer+= dataTree.greeting +"\n"+"           ";
-    while(counter<dataTree.tree.root.children.length){
+    while(counter<dataTree.dialogTree.root.children.length){
         
         answer+= node.children[counter].data +"\n"+"           ";
         

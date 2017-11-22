@@ -8,6 +8,7 @@ const fs = require('fs');
 const Dockerode = require('dockerode');
 
 const docker = new Dockerode({ socketPath: '/var/run/docker.sock' });
+let portCounter = 4001;
 
 /**
  * Creates and saves a new bot.
@@ -21,10 +22,10 @@ exports.buildImage = function (bot) {
     if (err) {
       console.log(err);
     } else {
-      console.log('file has been saved successfully');
+      console.log('File has been saved successfully');
     }
   });
-  console.log('Building Bot...');
+  console.log('Building Bot...'+ bot.id);
   docker.buildImage({
     context: `../Bots/${bot.template}`,
     src: ['Dockerfile', 'index.js', 'package.json', 'config.json'],
@@ -45,12 +46,33 @@ exports.buildImage = function (bot) {
  * @returns {Promise} TODO
  */
 exports.start = function (bot) {
+  bot.status = 'RUNNING';
+  console.log('Building container...');
   return new Promise((resolve) => {
-    // TODO: start the bot here
-    console.log(`Starting bot ${bot.name} (${bot.id})...`);
+    let createOptions = {
+    name: bot.id,
+    Image: bot.id,
+    Tty:true,
+    ExposedPorts: {
+        "8080:": {},
+    },
+    HostConfig: 
+       {PortBindings: {'8080/tcp': [{HostIp: '127.0.0.1', HostPort: (++portCounter).toString }]}}
+ 
+};
+docker.createContainer(createOptions, function(err, bot){
+  var container = docker.getContainer(bot.id);
+  container.start(function(err, data){
+    if(err) console.log(err);
+  });
+
+});
     resolve();
   });
-};
+  
+
+
+}
 
 /**
  * Stops the given bot.
@@ -62,6 +84,15 @@ exports.stop = function (bot) {
   return new Promise((resolve) => {
     // TODO: stop the bot here
     console.log(`Stopping bot ${bot.name} (${bot.id})...`);
+    var container = docker.getContainer(bot.id);
+    
+    // query API for container info
+    container.stop(function (err, data) {
+      if(err){
+      console.log(err);
+    }})
+    bot.status = 'false';
+    console.log('Bot stopped');
     resolve();
   });
 };

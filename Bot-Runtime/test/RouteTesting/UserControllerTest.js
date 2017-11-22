@@ -10,6 +10,7 @@ const server = require('../../index');
 const authService = require('../../services/AuthService');
 
 let resToken;
+let id;
 
 chai.use(chaiHttp);
 // Usermanagement testcases
@@ -19,9 +20,9 @@ describe('Users', () => {
       if (err) {
         console.log(err);
       } else {
+        authService.setupUsers();
         done();
       }
-      authService.setupUsers();
     });
   });
 
@@ -114,11 +115,14 @@ describe('Users', () => {
         password: 'Simon',
       };
       chai.request(server)
-        .get('/api/v1/manage/users')
+        .post('/api/v1/manage/users')
         .set('x-access-token', resToken)
         .send(body)
         .end((err, res) => {
-          chai.expect(res.body[1]).to.be.a('Object');
+          id = res.body.id;
+          chai.expect(res.body).to.have.property('id');
+          chai.expect(res.body.id).to.not.equal('null');
+          chai.expect(res.body.success).to.be.true;
           chai.expect(res).to.have.status(200);
           done();
         });

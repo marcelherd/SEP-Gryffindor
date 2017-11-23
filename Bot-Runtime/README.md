@@ -11,7 +11,7 @@ Laufzeitumgebung um Bots zu erstellen, löschen und verwalten.
     ├── routes
     │   └── manages.js                       # Verwaltung der Routen zum Frontend
     ├── services
-    │   └── Botservice.js                    # Interkation mit persistenten Bots
+    │   └── DockerService.js                    # Interkation mit persistenten Bots
     ├── .editorconfig            # EsLint Konfiguraitonsdatei Abstände
     ├── .eslintignore            # EsLint Ignoredatei
     ├── .eslintrc.json           # EsLint Konfigurationsdatei Regeln (airbnb styleguide)

@@ -2,7 +2,7 @@
   <bt-page-container pageTitle="Overview">
     <bt-bot-summary :bot="bot" v-for="(bot, index) in bots" :key="bot._id" />
 
-    <bt-fab to="/Administration/new">
+    <bt-fab to="/Create">
       <md-icon>add</md-icon>
     </bt-fab>
   </bt-page-container>

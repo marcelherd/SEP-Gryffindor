@@ -104,7 +104,6 @@ exports.authenticate = function (req, res) {
     username: req.body.username,
   }, (err, user) => {
     if (err) throw err;
-
     // Authentication successful
     if (user && user.password === req.body.password) {
       // Create and send token
@@ -126,37 +125,6 @@ exports.authenticate = function (req, res) {
       });
     } else {
       res.status(401).json({ success: false, message: 'Authentication failed.' });
-    }
-  });
-};
-
-/**
- * TODO: remove
- *
- * @param {*} req
- * @param {*} res
- */
-exports.setup = function (req, res) {
-  User.findOne({
-    username: 'superuser',
-  }, (err, user) => {
-    if (err) throw err;
-
-    if (!user) {
-      const superuser = new User({
-        username: 'superuser',
-        password: '123qwe',
-        admin: true,
-        bots: [],
-      });
-
-      superuser.save((saveErr) => {
-        if (saveErr) throw saveErr;
-
-        return res.json({ success: true, message: 'Superuser created' });
-      });
-    } else {
-      return res.status(403).json({ success: false, message: 'Forbidden' });
     }
   });
 };

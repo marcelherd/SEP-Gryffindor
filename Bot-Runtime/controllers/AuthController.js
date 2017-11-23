@@ -78,13 +78,16 @@ exports.isAuthorized = function (req, res, next) {
  * @param {*} next
  */
 exports.isAdmin = function (req, res, next) {
-  if (req.auth === undefined) {
-    return res.status(403).json({
-      success: false,
-      message: 'Permission denied',
-    });
+  const { admin } = req.auth;
+
+  if (admin) {
+    return next();
   }
-  return next();
+
+  return res.status(403).json({
+    success: false,
+    message: 'Permission denied',
+  });
 };
 
 /**

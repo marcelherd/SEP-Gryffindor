@@ -1,4 +1,6 @@
-const JsonWebToken = require('jsonwebtoken');
+const { CastError } = require('mongoose');
+
+const { JsonWebTokenError } = require('jsonwebtoken');
 
 /**
  * This module defines the endpoints
@@ -22,12 +24,13 @@ router.use(authController.isAuthenticated);
 router.use(authController.isAuthorized);
 
 router.use((err, req, res, next) => {
-  if (err instanceof JsonWebToken.JsonWebTokenError) {
+  if (err instanceof JsonWebTokenError) {
     return res.status(403).json({
       success: false,
       message: 'Bad token',
     });
   }
+
   return next();
 });
 router.route('/users/')

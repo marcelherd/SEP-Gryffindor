@@ -1,3 +1,5 @@
+const JsonWebToken = require('jsonwebtoken');
+
 /**
  * This module defines the endpoints
  * of the manage HTTP interface.
@@ -19,6 +21,15 @@ router.param('bot_id', botController.findBot);
 router.use(authController.isAuthenticated);
 router.use(authController.isAuthorized);
 
+router.use((err, req, res, next) => {
+  if (err instanceof JsonWebToken.JsonWebTokenError) {
+    return res.status(403).json({
+      success: false,
+      message: 'Bad token',
+    });
+  }
+  return next();
+});
 router.route('/users/')
   .get(authController.isAdmin, userController.getUsers)
   .post(authController.isAdmin, userController.postUser);

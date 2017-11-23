@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon .",
     "start": "npm run dev",
-    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
+    "test": "nyc mocha test/**/*.js",
     "jsdoc": "jsdoc -d ./doc -c jsdoc.json"
   },
   "dependencies": {
@@ -29,7 +29,8 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "jsdoc": "^3.5.5",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "nyc": "^11.3.0"
   },
   "author": "Team Gryffindor",
   "repository": {

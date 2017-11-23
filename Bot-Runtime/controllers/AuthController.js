@@ -22,10 +22,7 @@ exports.isAuthenticated = function (req, res, next) {
   if (token) {
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
-        res.status(403).json({
-          success: false,
-          message: 'Bad token',
-        });
+        return next(err);
       }
 
       req.auth = decoded;
@@ -81,16 +78,13 @@ exports.isAuthorized = function (req, res, next) {
  * @param {*} next
  */
 exports.isAdmin = function (req, res, next) {
-  const { admin } = req.auth;
-
-  if (admin) {
-    return next();
+  if (req.auth === undefined) {
+    return res.status(403).json({
+      success: false,
+      message: 'Permission denied',
+    });
   }
-
-  return res.status(403).json({
-    success: false,
-    message: 'Permission denied',
-  });
+  return next();
 };
 
 /**

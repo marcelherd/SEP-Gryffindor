@@ -8,8 +8,8 @@
         <span class="close" @click="closeMessage">&times;</span>
       </div>
 
-      <input type="text" placeholder="Username" v-model="username">
-      <input type="password" placeholder="Password" v-model="password">
+      <input id="username" type="text" placeholder="Username" v-model="username">
+      <input id="password" idtype="password" placeholder="Password" v-model="password">
       <div class="login-controls">
         <button @click="login" class="login-button">
         Login

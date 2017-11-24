@@ -24,7 +24,7 @@ describe('Users', () => {
   });
   // POST AUTHENTICATE
   describe('/POST AUTHENTICATE', () => {
-    it('should fail at adding user cause user not registered in database and therefore not authorized', (done) => {
+    it('should not return authentication cause user not registered in database and therefore not authorized', (done) => {
       const body = {
         username: 'simon',
         password: 'simon',
@@ -37,8 +37,6 @@ describe('Users', () => {
           done();
         });
     });
-  });
-  describe('/POST AUTHENTICATE', () => {
     it('should return authentication token', (done) => {
       const body = {
         username: 'superuser',
@@ -53,8 +51,6 @@ describe('Users', () => {
           done();
         });
     });
-  });
-  describe('/POST AUTHENTICATE', () => {
     it('should fail with bad request', (done) => {
       chai.request(server)
         .post('/api/v1/authenticate')

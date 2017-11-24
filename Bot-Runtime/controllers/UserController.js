@@ -14,7 +14,12 @@ const User = require('../models/User');
  */
 exports.findUser = function (req, res, next, id) {
   User.findById(id, (err, user) => {
-    if (err) return next(err);
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: 'User does not exist',
+      });
+    }
 
     if (user) {
       req.user = user;

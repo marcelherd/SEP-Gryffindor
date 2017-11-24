@@ -22,10 +22,7 @@ exports.isAuthenticated = function (req, res, next) {
   if (token) {
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
-        res.status(403).json({
-          success: false,
-          message: 'Bad token',
-        });
+        return next(err);
       }
 
       req.auth = decoded;

@@ -6,18 +6,15 @@
   "scripts": {
     "dev": "nodemon .",
     "start": "npm run dev",
-    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
+    "test": "nyc mocha test/**/*.js",
     "jsdoc": "jsdoc -d ./doc -c jsdoc.json"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
     "cors": "^2.8.4",
     "dockerode": "^2.5.3",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
-    "mocha": "^4.0.1",
     "mongoose": "^4.13.2",
     "morgan": "^1.9.0",
     "request": "^2.83.0"
@@ -29,7 +26,8 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "jsdoc": "^3.5.5",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "nyc": "^11.3.0"
   },
   "author": "Team Gryffindor",
   "repository": {

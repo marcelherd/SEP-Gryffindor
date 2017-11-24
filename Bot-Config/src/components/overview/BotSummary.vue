@@ -8,7 +8,7 @@
         <p class="bt-bot-name">{{ bot.name }}</p>
       </md-layout>
       <md-layout md-flex>
-        <p class="bt-bot-uptime">Born 09/09/09 awake since 00:00 09/09/09</p>
+        <p class="bt-bot-uptime">{{ statusText }}</p>
       </md-layout>
     </md-layout>
     <md-layout md-flex>
@@ -30,6 +30,23 @@ export default {
   components: {
     'bt-bot-icon': BotIcon,
     'bt-bot-statistics': BotStatistics
+  },
+  computed: {
+    statusText () {
+      const createdDate = new Date(this.bot.createdAt)
+      const created = `${createdDate.getDate()}/${createdDate.getMonth()}/${createdDate.getFullYear().toString().substr(-2)}`
+
+      const statusChangedDate = new Date(this.bot.statusChanged)
+
+      if (statusChangedDate.getFullYear() === 2000) {
+        return `Born ${created}`
+      }
+
+      const statusChanged = `${statusChangedDate.getDate()}/${statusChangedDate.getMonth()}/${statusChangedDate.getFullYear().toString().substr(-2)}`
+      const state = (this.bot.running ? 'awake' : 'asleep')
+
+      return `Born ${created} ${state} since ${statusChanged}`
+    }
   }
 }
 </script>

@@ -18,6 +18,8 @@
   "author": "",
   "license": "MIT",
   "__bottertoast_bot_template__": {
-    "name": "Welcome-Bot"
+    "name": "Welcome Bot",
+	"description": "This bot welcomes every new message and greets in a suitable manner.",
+	"message": "Hello! Olá! Bonjour! Hallo!"
   }
 }

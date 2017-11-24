@@ -12,6 +12,8 @@
     "author": "",
     "license": "MIT",
     "__bottertoast_bot_template__": {
-        "name": "FAQ-Bot"
+        "name": "FAQ Bot",
+		"description": "This bot answers common questions with preset information. You can edit its tonality and possible replies after feeding it its knowledge!",
+		"message": "We're open every Monday to Thursday from 8 to 11am!"
     }
 }

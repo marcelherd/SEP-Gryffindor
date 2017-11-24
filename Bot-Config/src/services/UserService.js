@@ -1,4 +1,6 @@
-const URL = 'http://localhost:3000/api/v1/manage/users/'
+import config from '@/services/config'
+
+const URL = `http://${config.server}:3000/api/v1/manage/users/`
 
 export default {
   get (userId) {

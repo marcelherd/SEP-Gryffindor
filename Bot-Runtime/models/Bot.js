@@ -9,4 +9,5 @@ module.exports = mongoose.model('Bot', new Schema({
   template: String,
   greeting: String,
   dialogTree: Object,
-}, { minimize: false }));
+  statusChanged: { type: Date, default: new Date('2000-01-01').toISOString() },
+}, { minimize: false, timestamps: true }));

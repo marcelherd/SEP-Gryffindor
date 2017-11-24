@@ -143,6 +143,7 @@ exports.updateBot = function (req, res) {
 exports.startBot = function (req, res) {
   DockerService.start(req.bot).then(() => {
     req.bot.running = true;
+    req.bot.statusChanged = new Date().toISOString();
 
     req.user.save((err) => {
       if (err) throw err;
@@ -164,6 +165,7 @@ exports.startBot = function (req, res) {
 exports.stopBot = function (req, res) {
   DockerService.stop(req.bot).then(() => {
     req.bot.running = false;
+    req.bot.statusChanged = new Date().toISOString();
 
     req.user.save((err) => {
       if (err) throw err;
@@ -185,6 +187,7 @@ exports.stopBot = function (req, res) {
 exports.restartBot = function (req, res) {
   DockerService.restart(req.bot).then(() => {
     req.bot.running = true;
+    req.bot.statusChanged = new Date().toISOString();
 
     req.user.save((err) => {
       if (err) throw err;

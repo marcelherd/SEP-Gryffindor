@@ -1,0 +1,15 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "airbnb",
+    "rules": {
+      "no-console": "off",
+      "no-plusplus": "off",
+      "no-param-reassign": "off",
+      "no-underscore-dangle": "off",
+      "func-names": "off",
+      "consistent-return": "off"
+    }
+}

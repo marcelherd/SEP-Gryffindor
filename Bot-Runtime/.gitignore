@@ -11,3 +11,5 @@ yarn-error.log*
 
 # JSDoc generated documentation
 doc/
+
+.nyc_output

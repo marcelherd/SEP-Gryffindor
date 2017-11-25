@@ -14,22 +14,22 @@
           <input type="text" placeholder="Brand ID for staging" class="bt-input">
         </div>
       </div>
-      <md-layout md-align="end">
-        <button @click="save" class="bt-button">Save</button>
-      </md-layout>
+      <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
   </bt-page-container>
 </template>
 
 <script>
 import PageContainer from '@/components/layout/PageContainer'
+import Button from '@/components/core/Button'
 
 import UserService from '@/services/UserService'
 
 export default {
-  name: 'overview',
+  name: 'user-create',
   components: {
-    'bt-page-container': PageContainer
+    'bt-page-container': PageContainer,
+    'bt-button': Button
   },
   data () {
     return {
@@ -77,23 +77,5 @@ export default {
   font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 5px;
-}
-
-.bt-button {
-  height: 30px;
-  padding: 0 8px 0 8px;
-  border: 0;
-  cursor: pointer;
-  background-color: transparent;
-  color: #FF8729;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.bt-button:hover,
-.bt-button:focus {
-  text-decoration: none;
-  color: white;
-  background-color: #FF8729;
 }
 </style>

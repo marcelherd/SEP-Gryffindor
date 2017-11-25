@@ -1,22 +1,29 @@
 <template>
-  <md-layout v-on:click="alert('click')" :md-flex="flex" md-column class="bt-tile">
-    <md-layout md-flex class="bt-tile-title">{{ template.name }}</md-layout>
-    <md-layout md-flex class="bt-tile-preview">
-      <md-layout md-flex class="bt-tile-icon">
-        <img src="/static/favicon.png" />
+  <md-layout :md-flex="flex" class="bt-tile">
+    <div @click="handleClick" class="bt-tile-wrapper">
+      <md-layout md-flex class="bt-tile-title">{{ template.name }}</md-layout>
+      <md-layout md-flex class="bt-tile-preview">
+        <md-layout md-flex class="bt-tile-icon">
+          <img src="/static/favicon.png" />
+        </md-layout>
+        <md-layout md-flex="70" class="bt-tile-message">
+          <span>{{ template.message }}</span>
+        </md-layout>
       </md-layout>
-      <md-layout md-flex="70" class="bt-tile-message">
-        <span>{{ template.message }}</span>
-      </md-layout>
-    </md-layout>
-    <md-layout md-flex class="bt-tile-description">{{ template.description }}</md-layout>
+      <md-layout md-flex class="bt-tile-description">{{ template.description }}</md-layout>
+    </div>
   </md-layout>
 </template>
 
 <script>
 export default {
   name: 'bt-tile',
-  props: ['template', 'flex']
+  props: ['template', 'flex'],
+  methods: {
+    handleClick () {
+      this.$emit('click')
+    }
+  }
 }
 </script>
 
@@ -24,6 +31,16 @@ export default {
 .bt-tile {
   box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px 5px;
   margin: 32px;
+}
+
+.bt-tile:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.22) 2px 4px 55px 5px;
+}
+
+.bt-tile-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .bt-tile-title {

@@ -9,6 +9,7 @@ import Marketplace from '@/views/Marketplace'
 import Account from '@/views/Account'
 import Administration from '@/views/Administration'
 import UserCreate from '@/views/UserCreate'
+import BotEdit from '@/views/BotEdit'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ const router = new Router({
       path: '/Overview/:userId',
       name: 'Overview',
       component: Overview
+    },
+    {
+      path: '/Overview/:userId/Edit/:botId',
+      name: 'BotEdit',
+      component: BotEdit
     },
     {
       path: '/Create',

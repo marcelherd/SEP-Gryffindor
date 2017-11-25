@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-align="center" md-vertical-align="center">
+  <md-layout md-flex md-align="center" md-vertical-align="center">
     <bt-badge text="1" type="success" />
     <bt-badge text="2" type="fail" />
     <bt-badge text="3" type="new" />

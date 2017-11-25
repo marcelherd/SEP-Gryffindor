@@ -1,7 +1,9 @@
 <template>
   <bt-page-container pageTitle="Select bot template">
     <md-layout md-flex>
-      <bt-tile v-for="(template, index) in templates" flex="40" :template="template" :key="index" />
+      <bt-tile @click="navigate(template)"
+        v-for="(template, index) in templates" flex="40"
+        :template="template" :key="index" />
     </md-layout>
   </bt-page-container>
 </template>
@@ -30,6 +32,16 @@ export default {
     fetchData () {
       MarketplaceService.getTemplates().then((data) => {
         this.templates = data
+      })
+    },
+
+    navigate (template) {
+      console.log('navigate')
+      this.$router.push({
+        name: 'BotCreate',
+        params: {
+          template: template.name
+        }
       })
     }
   }

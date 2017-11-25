@@ -1,21 +1,21 @@
 <template>
-  <md-layout md-flex="100" class="bt-bot-summary">
+  <md-layout md-flex="100" md-gutter="24" class="bt-bot-summary">
     <md-layout md-flex="10">
       <bt-bot-icon :bot="bot" />
     </md-layout>
     <md-layout md-flex md-column>
-      <md-layout md-flex>
+      <md-layout md-flex md-vertical-align="start">
         <p class="bt-bot-name">{{ bot.name }}</p>
       </md-layout>
-      <md-layout md-flex>
+      <md-layout md-flex md-vertical-align="center">
         <p class="bt-bot-uptime">{{ statusText }}</p>
       </md-layout>
     </md-layout>
     <md-layout md-flex>
       <bt-bot-statistics :bot="bot" />
     </md-layout>
-    <md-layout md-flex="10" md-align="end" md-vertical-align="end">
-      <span style="padding: 10px;">EDIT</span>
+    <md-layout md-flex="10" md-vertical-align="end">
+      <bt-button @click="edit(bot)">Edit</bt-button>
     </md-layout>
   </md-layout>
 </template>
@@ -23,13 +23,15 @@
 <script>
 import BotIcon from '@/components/overview/summary/BotIcon'
 import BotStatistics from '@/components/overview/summary/BotStatistics'
+import Button from '@/components/core/Button'
 
 export default {
   name: 'bt-bot-summary',
   props: ['bot'],
   components: {
     'bt-bot-icon': BotIcon,
-    'bt-bot-statistics': BotStatistics
+    'bt-bot-statistics': BotStatistics,
+    'bt-button': Button
   },
   computed: {
     statusText () {
@@ -46,6 +48,17 @@ export default {
       const state = (this.bot.running ? 'awake' : 'asleep')
 
       return `Born ${created} ${state} since ${statusChanged}`
+    }
+  },
+  methods: {
+    edit (bot) {
+      this.$router.push({
+        name: 'BotEdit',
+        params: {
+          userId: this.$route.params.userId,
+          botId: bot._id
+        }
+      })
     }
   }
 }

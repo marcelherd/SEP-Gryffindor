@@ -2,37 +2,42 @@
   <bt-page-container pageTitle="Account details">
     <md-layout md-column>
       <div class="bt-form">
-        <div class="bt-form-section">
-          <div class="bt-form-section-header">Bot configuration</div>
-          <input type="text" placeholder="Brand ID for production" class="bt-input">
-          <input type="text" placeholder="Brand ID for staging" class="bt-input">
-        </div>
+        <bt-form-section header="Bot configuration">
+          <bt-input v-model="user.brandId" type="text" placeholder="Brand ID for production" />
+          <bt-input v-model="user.stagingId" type="text" placeholder="Brand ID for staging" />
+        </bt-form-section>
       </div>
-      <md-layout md-align="end">
-        <button class="bt-button">Save</button>
-      </md-layout>
+      <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
   </bt-page-container>
 </template>
 
 <script>
 import PageContainer from '@/components/layout/PageContainer'
+import FormSection from '@/components/core/FormSection'
+import Button from '@/components/core/Button'
+import Input from '@/components/core/Input'
 
 export default {
   name: 'overview',
   components: {
-    'bt-page-container': PageContainer
+    'bt-page-container': PageContainer,
+    'bt-form-section': FormSection,
+    'bt-button': Button,
+    'bt-input': Input
   },
   data () {
     return {
-    }
-  },
-  computed: {
-    user () {
-      return this.$store.getters.user
+      user: {
+        brandId: '',
+        stagingId: ''
+      }
     }
   },
   methods: {
+    save () {
+      alert('TODO')
+    }
   }
 }
 </script>

@@ -28,7 +28,8 @@ export default {
   color: #ABABAB;
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
 .bt-button:hover,

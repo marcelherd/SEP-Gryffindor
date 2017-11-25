@@ -7,7 +7,7 @@
         <md-table-row>
           <md-table-head>Username</md-table-head>
           <md-table-head>Admin</md-table-head>
-          <md-table-head></md-table-head>
+          <md-table-head>Actions</md-table-head>
         </md-table-row>
       </md-table-header>
 
@@ -16,9 +16,20 @@
           <md-table-cell>{{ user.username }}</md-table-cell>
           <md-table-cell>{{ user.admin ? 'yes' : 'no' }}</md-table-cell>
           <md-table-cell>
-            <md-button @click="remove(user)" class="md-icon-button">
-              <md-icon>delete</md-icon>
-            </md-button>
+            <md-layout md-flex>
+              <md-layout md-flex="80" md-vertical-align="center">
+                <span class="bt-inline-link" @click="manage(user)">
+                  <md-icon>settings</md-icon>
+                  Manage bots
+                </span>
+              </md-layout>
+              <md-layout md-flex md-align="end">
+                <md-button @click="remove(user)" class="md-icon-button">
+                  <md-icon>delete</md-icon>
+                </md-button>
+              </md-layout>
+            </md-layout>
+
           </md-table-cell>
         </md-table-row>
       </md-table-body>
@@ -64,11 +75,33 @@ export default {
           this.fetchData()
         }
       })
+    },
+    manage (user) {
+      this.$router.push({
+        name: 'Overview',
+        params: {
+          userId: user._id
+        }
+      })
     }
   }
 }
 </script>
 
 <style>
+.bt-inline-link {
+  font-weight: 700;
+}
 
+.bt-inline-link i.md-icon {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  font-size: 18px;
+}
+
+.bt-inline-link:hover {
+  cursor: pointer;
+}
 </style>

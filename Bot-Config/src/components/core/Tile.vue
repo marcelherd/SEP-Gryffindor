@@ -4,7 +4,7 @@
       <md-layout md-flex class="bt-tile-title">{{ template.name }}</md-layout>
       <md-layout md-flex class="bt-tile-preview">
         <md-layout md-flex class="bt-tile-icon">
-          <img src="/static/favicon.png" />
+          <img src="/static/robot-icon.png" />
         </md-layout>
         <md-layout md-flex="70" class="bt-tile-message">
           <span>{{ template.message }}</span>
@@ -41,6 +41,16 @@ export default {
 .bt-tile-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.bt-tile-icon {
+  min-width: 0;
+}
+
+.bt-tile-icon img {
+  width: 72px;
+  max-width: 100%;
+  max-height: 100px;
 }
 
 .bt-tile-title {

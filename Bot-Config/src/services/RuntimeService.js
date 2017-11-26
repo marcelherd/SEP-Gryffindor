@@ -61,7 +61,8 @@ export default {
       mode: 'cors',
       body: payload,
       headers: {
-        'x-access-token': localStorage.getItem('token')
+        'x-access-token': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
       }
     })
 
@@ -94,6 +95,22 @@ export default {
         'x-access-token': localStorage.getItem('token')
       }
     }).then(response => response.json())
+  },
+
+  saveBot (userId, bot) {
+    bot.template = bot.template.replace(' ', '-')
+
+    let request = new Request(`${URL + userId}/bots/`, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(bot),
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return fetch(request).then(response => response.json())
   }
 
 }

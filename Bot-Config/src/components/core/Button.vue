@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-align="end">
+  <md-layout :md-align="align ? align : 'end'">
     <button @click="handleClick" class="bt-button" :class="`bt-button-${theme}`">
       <slot />
     </button>
@@ -9,7 +9,7 @@
 <script>
 export default {
   name: 'bt-button',
-  props: ['theme'],
+  props: ['theme', 'align'],
   methods: {
     handleClick () {
       this.$emit('click')

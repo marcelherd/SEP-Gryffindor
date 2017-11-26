@@ -24,4 +24,11 @@ body {
   height: 100%;
   font-family: 'Open Sans', sans-serif;
 }
+
+.bt-header-1 {
+  font-size: 48px;
+  font-weight: 500;
+  color: #FFD244;
+  margin-bottom: 48px;
+}
 </style>

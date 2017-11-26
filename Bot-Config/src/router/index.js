@@ -6,6 +6,7 @@ import store from '@/store/index'
 import Login from '@/views/Login'
 import Overview from '@/views/Overview'
 import Marketplace from '@/views/Marketplace'
+import BotCreate from '@/views/BotCreate'
 import Account from '@/views/Account'
 import Administration from '@/views/Administration'
 import UserCreate from '@/views/UserCreate'
@@ -34,6 +35,11 @@ const router = new Router({
       path: '/Create',
       name: 'Marketplace',
       component: Marketplace
+    },
+    {
+      path: '/Create/:template',
+      name: 'BotCreate',
+      component: BotCreate
     },
     {
       path: '/Account',

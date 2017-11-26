@@ -50,7 +50,7 @@ import FloatingActionButton from '@/components/core/FloatingActionButton'
 import RuntimeService from '@/services/RuntimeService'
 
 export default {
-  name: 'overview',
+  name: 'administration',
   components: {
     'bt-page-container': PageContainer,
     'bt-fab': FloatingActionButton

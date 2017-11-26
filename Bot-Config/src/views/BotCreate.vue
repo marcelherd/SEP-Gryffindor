@@ -1,12 +1,16 @@
 <template>
-  <bt-page-container pageTitle="Account details">
+  <bt-page-container pageTitle="Bot details">
+    <md-layout md-flex="100">
+      <h1 class="bt-header-1">Feed the {{ bot.template }}</h1>
+    </md-layout>
     <md-layout md-column>
       <bt-form-section header="Bot configuration">
-        <bt-input v-model="user.brandId" type="text" placeholder="Brand ID for production" />
-        <bt-input v-model="user.stagingId" type="text" placeholder="Brand ID for staging" />
+        <bt-input v-model="bot.name" type="text" placeholder="Name" />
+        <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
       </bt-form-section>
       <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
+
   </bt-page-container>
 </template>
 
@@ -19,27 +23,37 @@ import Input from '@/components/core/Input'
 import RuntimeService from '@/services/RuntimeService'
 
 export default {
-  name: 'account',
+  name: 'bot-create',
   components: {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
     'bt-button': Button,
     'bt-input': Input
+
   },
   data () {
     return {
-      user: {
-        _id: this.$store.getters.user._id,
-        brandId: this.$store.getters.user.brandId || '',
-        stagingId: this.$store.getters.user.stagingId || ''
+      bot: {
+        name: '',
+        greeting: '',
+        template: this.$route.params.template
       }
     }
   },
   methods: {
     save () {
-      RuntimeService.updateUser(this.user).then(() => {
-        alert('Account saved.')
-      })
+      const userId = this.$store.getters.user._id
+
+      RuntimeService.saveBot(userId, this.bot)
+        .then((data) => {
+          this.$router.push({
+            name: 'BotEdit',
+            params: {
+              userId,
+              botId: data.message._id
+            }
+          })
+        })
     }
   }
 }

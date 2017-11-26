@@ -18,5 +18,8 @@ export default {
   [types.LOGOUT] (state) {
     state.loggedIn = false
     state.user = null
+  },
+  [types.UPDATE_USER] (state, user) {
+    state.user = user
   }
 }

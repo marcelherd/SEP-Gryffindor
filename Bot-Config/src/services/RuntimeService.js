@@ -66,7 +66,7 @@ export default {
       }
     })
 
-    return fetch(request)
+    return fetch(request).then(response => response.json())
   },
 
   deleteUser (userId) {

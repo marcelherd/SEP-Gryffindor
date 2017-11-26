@@ -37,8 +37,13 @@ export default {
   },
   methods: {
     save () {
-      RuntimeService.updateUser(this.user).then(() => {
-        alert('Account saved.')
+      RuntimeService.updateUser(this.user).then((data) => {
+        if (data.success) {
+          this.$store.dispatch('updateUser', this.user._id)
+            .then(() => {
+              alert('User saved')
+            })
+        }
       })
     }
   }

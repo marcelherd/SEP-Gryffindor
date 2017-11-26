@@ -33,3 +33,11 @@ export const logout = ({ commit }) => {
     resolve()
   })
 }
+
+export const updateUser = ({ commit }, userId) => {
+  return RuntimeService.findUserById(userId)
+    .then((data) => {
+      commit(types.UPDATE_USER, data)
+      localStorage.setItem('user', JSON.stringify(data))
+    })
+}

@@ -1,5 +1,6 @@
 <template>
   <bt-page-container pageTitle="Account details">
+    <bt-flash-message ref="flashMessage" />
     <md-layout md-column>
       <bt-form-section header="Bot configuration">
         <bt-input v-model="user.brandId" type="text" placeholder="Brand ID for production" />
@@ -13,6 +14,7 @@
 <script>
 import PageContainer from '@/components/layout/PageContainer'
 import FormSection from '@/components/core/FormSection'
+import FlashMessage from '@/components/core/FlashMessage'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
 
@@ -23,6 +25,7 @@ export default {
   components: {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
+    'bt-flash-message': FlashMessage,
     'bt-button': Button,
     'bt-input': Input
   },
@@ -41,7 +44,8 @@ export default {
         if (data.success) {
           this.$store.dispatch('updateUser', this.user._id)
             .then(() => {
-              alert('User saved')
+              console.log(this.$refs)
+              this.$refs.flashMessage.pushMessage('Account saved.')
             })
         }
       })

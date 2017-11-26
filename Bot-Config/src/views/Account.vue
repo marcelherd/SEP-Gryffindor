@@ -18,6 +18,8 @@ import FormSection from '@/components/core/FormSection'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
 
+import RuntimeService from '@/services/RuntimeService'
+
 export default {
   name: 'overview',
   components: {
@@ -29,6 +31,7 @@ export default {
   data () {
     return {
       user: {
+        _id: this.$route.params.userId,
         brandId: this.$store.getters.user.brandId || '',
         stagingId: this.$store.getters.user.stagingId || ''
       }
@@ -36,7 +39,9 @@ export default {
   },
   methods: {
     save () {
-      alert('TODO')
+      RuntimeService.updateUser(this.user).then(() => {
+        alert('Account saved.')
+      })
     }
   }
 }

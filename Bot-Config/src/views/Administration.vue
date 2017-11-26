@@ -47,7 +47,7 @@
 import PageContainer from '@/components/layout/PageContainer'
 import FloatingActionButton from '@/components/core/FloatingActionButton'
 
-import UserService from '@/services/UserService'
+import RuntimeService from '@/services/RuntimeService'
 
 export default {
   name: 'overview',
@@ -65,12 +65,12 @@ export default {
   },
   methods: {
     fetchData () {
-      UserService.getAll().then(data => {
+      RuntimeService.findAllUsers().then(data => {
         this.users = data
       })
     },
     remove (user) {
-      UserService.delete(user).then((response) => {
+      RuntimeService.deleteUser(user._id).then((response) => {
         if (response.ok) {
           this.fetchData()
         }

@@ -13,7 +13,7 @@ import PageContainer from '@/components/layout/PageContainer'
 import BotSummary from '@/components/overview/BotSummary'
 import FloatingActionButton from '@/components/core/FloatingActionButton'
 
-import UserService from '@/services/UserService'
+import RuntimeService from '@/services/RuntimeService'
 
 export default {
   name: 'overview',
@@ -32,8 +32,8 @@ export default {
   },
   methods: {
     fetchData () {
-      const id = this.$route.params.userId
-      UserService.findBots(id).then((data) => {
+      const userId = this.$route.params.userId
+      RuntimeService.findBotsByUser(userId).then((data) => {
         this.bots = data
       })
     }

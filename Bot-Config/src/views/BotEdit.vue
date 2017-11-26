@@ -9,7 +9,7 @@
 <script>
 import PageContainer from '@/components/layout/PageContainer'
 
-import UserService from '@/services/UserService'
+import RuntimeService from '@/services/RuntimeService'
 
 export default {
   name: 'bot-edit',
@@ -28,7 +28,7 @@ export default {
     fetchData () {
       const { userId, botId } = this.$route.params
 
-      UserService.findBot(userId, botId).then((data) => {
+      RuntimeService.findBotById(userId, botId).then((data) => {
         this.bot = data
       })
     }

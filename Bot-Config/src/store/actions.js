@@ -1,5 +1,7 @@
 import * as types from './mutation-types'
 
+import RuntimeService from '@/services/RuntimeService'
+
 export const updateTree = ({ commit }, tree) => {
   commit(types.UPDATE_TREE, tree)
 }
@@ -11,20 +13,7 @@ export const setSelected = ({ commit }, selection) => {
 export const login = ({ commit }, credentials) => {
   commit(types.LOGIN)
 
-  let url = `http://localhost:3000/api/v1/authenticate`
-
-  let payload = JSON.stringify(credentials)
-
-  let headers = new Headers({ 'Content-Type': 'application/json' })
-  let request = new Request(url, {
-    method: 'POST',
-    mode: 'cors',
-    headers: headers,
-    body: payload
-  })
-
-  return fetch(request)
-    .then(response => response.json())
+  return RuntimeService.authenticate(credentials)
     .then((data) => {
       if (data.success) {
         commit(types.LOGIN_SUCCESS, data.user)

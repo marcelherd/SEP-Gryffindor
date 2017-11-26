@@ -23,7 +23,7 @@ import FormSection from '@/components/core/FormSection'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
 
-import UserService from '@/services/UserService'
+import RuntimeService from '@/services/RuntimeService'
 
 export default {
   name: 'user-create',
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     save () {
-      UserService.save(this.user).then((response) => {
+      RuntimeService.save(this.user).then((response) => {
         if (response.ok) {
           this.$router.push({ name: 'Administration' })
         }

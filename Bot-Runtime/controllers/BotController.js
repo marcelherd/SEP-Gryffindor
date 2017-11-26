@@ -70,7 +70,9 @@ exports.postBot = function (req, res) {
 
     req.user.save((err) => {
       if (err) throw err;
+
       DockerService.buildImage(newBot);
+
       res.status(201).json({
         success: true,
         message: newBot,

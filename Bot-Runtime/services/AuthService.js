@@ -19,6 +19,7 @@ exports.setupUsers = function () {
       const superuser = new User({
         username: 'superuser',
         password: '123qwe',
+        brandId: '85041411',
         admin: true,
         bots: [],
       });

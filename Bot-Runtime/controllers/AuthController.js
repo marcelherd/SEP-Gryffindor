@@ -108,6 +108,8 @@ exports.authenticate = function (req, res) {
         _id: user._id,
         username: user.username,
         admin: user.admin,
+        brandId: user.brandId,
+        stagingId: user.stagingId,
       };
 
       const token = jwt.sign(payload, config.secret, {

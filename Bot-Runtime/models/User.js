@@ -7,6 +7,8 @@ const { Schema } = mongoose;
 module.exports = mongoose.model('User', new Schema({
   username: String,
   password: String,
+  brandId: String,
+  stagingId: String,
   admin: Boolean,
   bots: [Bot.schema],
 }, { usePushEach: true, timestamps: true }));

@@ -29,8 +29,8 @@ export default {
   data () {
     return {
       user: {
-        brandId: '',
-        stagingId: ''
+        brandId: this.$store.getters.user.brandId || '',
+        stagingId: this.$store.getters.user.stagingId || ''
       }
     }
   },

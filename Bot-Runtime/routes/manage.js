@@ -39,7 +39,8 @@ router.route('/users/')
 
 router.route('/users/:user_id')
   .get(userController.getUser)
-  .delete(authController.isAdmin, userController.deleteUser);
+  .delete(authController.isAdmin, userController.deleteUser)
+  .patch(userController.updateUser);
 
 router.route('/users/:user_id/bots')
   .get(botController.getBots)

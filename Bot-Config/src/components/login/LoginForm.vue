@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .bt-login-form {
   align-items: flex-start;
   padding: 70px;

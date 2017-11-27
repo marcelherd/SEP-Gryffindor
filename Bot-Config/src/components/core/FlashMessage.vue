@@ -25,6 +25,9 @@ export default {
     },
     closeMessage () {
       this.message = ''
+    },
+    setType (type) {
+      this.type = type
     }
   }
 }

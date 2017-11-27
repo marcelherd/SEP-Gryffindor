@@ -10,7 +10,6 @@
       </bt-form-section>
       <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
-
   </bt-page-container>
 </template>
 
@@ -29,7 +28,6 @@ export default {
     'bt-form-section': FormSection,
     'bt-button': Button,
     'bt-input': Input
-
   },
   data () {
     return {

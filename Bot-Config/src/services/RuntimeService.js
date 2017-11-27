@@ -111,6 +111,25 @@ export default {
     })
 
     return fetch(request).then(response => response.json())
+  },
+
+  updateBot (userId, bot) {
+    let payload = {
+      name: bot.name,
+      greeting: bot.greeting
+    }
+
+    let request = new Request(`${URL + userId}/bots/${bot._id}`, {
+      method: 'PATCH',
+      mode: 'cors',
+      body: JSON.stringify(payload),
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return fetch(request).then(response => response.json())
   }
 
 }

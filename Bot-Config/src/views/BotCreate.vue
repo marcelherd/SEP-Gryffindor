@@ -16,13 +16,20 @@
             <div class="bt-tree-node-children">
               <div class="bt-tree-node bt-intent-node">
                 <span class="bt-tree-node-title">Password forgotten</span>
+                <span class="bt-tree-node-answer">"Use this link to reset your password"</span>
                 <div class="bt-tree-node-children">
                   <div class="bt-tree-node bt-utterance-node">
-                    <span class="bt-tree-node-title">I forgot my password</span>
+                    <span class="bt-tree-node-title">
+                      <md-icon>person</md-icon>
+                      I forgot my password
+                    </span>
                     <div class="bt-tree-node-children"></div>
                   </div>
                   <div class="bt-tree-node bt-utterance-node">
-                    <span class="bt-tree-node-title">I have forgotten my password</span>
+                    <span class="bt-tree-node-title">
+                      <md-icon>person</md-icon>
+                      I have forgotten my password
+                      </span>
                     <div class="bt-tree-node-children"></div>
                   </div>
                 </div>
@@ -112,7 +119,10 @@ export default {
 
 .bt-intent-node > .bt-tree-node-title {
   border: 1px solid #6363FF;
-  border-top-left-radius: 0px;
+  color: #6363FF;
+}
+
+.bt-intent-node > .bt-tree-node-answer {
   color: #6363FF;
 }
 
@@ -134,7 +144,8 @@ export default {
   color: white;
 }
 
-.bt-tree-node-title {
+.bt-tree-node-title,
+.bt-tree-node-answer {
   padding: 8px;
   border-radius: 16px;
 }

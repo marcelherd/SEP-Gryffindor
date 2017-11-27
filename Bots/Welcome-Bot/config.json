@@ -1,1 +1,36 @@
-{"updatedAt":"2017-11-27T07:45:32.943Z","createdAt":"2017-11-27T07:45:32.943Z","_id":"5a1bc29ccb4dae2ee3b867d3","dialogTree":{},"greeting":"Howdy!","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"My Awesome Bot!","statusChanged":"2000-01-01T00:00:00.000Z"}
+{
+  "name": "test",
+  "template": "Welcome-Bot",
+  "dialogTree": {
+    "root": {
+      "data": "Options",
+      "children": [
+        {
+          "data": "1. I forgot my password",
+          "children": [
+            {
+              "data": "Please click the following link to reset your password: www.bottertoast.de/resetPassword",
+              "children": [],
+              "id": 2
+            }
+          ],
+          "id": 1
+        },
+        {
+          "data": "2. Tell me a joke",
+          "children": [
+            {
+              "data": "Moses had the first tablet that could connect to the cloud.",
+              "children": [],
+              "id": 4
+            }
+          ],
+          "id": 3
+        }
+      ],
+      "id": 0
+    },
+    "nodeID": 4
+  },
+  "greeting": "Hi my NAME IS wait for it ..... SLIM SHADY. Im a bot not a human tho. Select one of the following options please."
+}

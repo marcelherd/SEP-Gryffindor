@@ -1,1 +1,1 @@
-{"updatedAt":"2017-11-26T13:08:02.682Z","createdAt":"2017-11-26T13:08:02.682Z","_id":"5a1abcb2c3ae52023c35f46f","dialogTree":{},"greeting":"XD","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"XD","statusChanged":"2000-01-01T00:00:00.000Z"}
+{"updatedAt":"2017-11-27T07:45:32.943Z","createdAt":"2017-11-27T07:45:32.943Z","_id":"5a1bc29ccb4dae2ee3b867d3","dialogTree":{},"greeting":"Howdy!","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"My Awesome Bot!","statusChanged":"2000-01-01T00:00:00.000Z"}

@@ -4,9 +4,10 @@ const { promisify } = require('util');
 // Loading .env File which contains all enviroment letiables with values
 const { config } = require('dotenv');
 
-const dataTree = require('./config.json');
+const botConfig = require('./config.json');
 
-let node = dataTree.dialogTree.root;
+const { root } = botConfig.dialogTree;
+let node = root;
 config();
 
 
@@ -17,6 +18,17 @@ function timeout(ms = 3000) {
 /**
 * select the operations number and give the new Option
 */
+function repeatStep() {
+  let counter = 0;
+  let answer = 'Im not sure I understood you. Please repeat your answer:\n\t';
+  while (counter < node.children.length) {
+    answer += `${node.children[counter].data}\n\t`;
+
+    counter++;
+  }
+
+  return answer;
+}
 function nextStep(optionNumber) {
   node = node.children[optionNumber - 1];
   console.log(node.children[0]);
@@ -27,22 +39,21 @@ function nextStep(optionNumber) {
 /**
  * Build the first Tree with greeting an options
  */
+
 function buildFirstTree() {
-  // console.log("sind drin");
   let answer = '';
   let counter = 0;
-  answer += `${dataTree.greeting}\n\t`;
-  while (counter < dataTree.dialogTree.root.children.length) {
-    answer += `${node.children[counter].data}\n\t`;
+  answer += `${botConfig.greeting}\n\t`;
+  while (counter < root.children.length) {
+    answer += `${root.children[counter].data}\n\t`;
 
     counter++;
   }
 
-  // console.log(answer);
   return answer;
 }
 class GreetingBot {
-  constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS, baum = dataTree.json) {
+  constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -74,7 +85,7 @@ class GreetingBot {
       this.core.reconnect(reason !== 4401 || reason !== 4407);
     });
     /**
-    * This function is used to find out what the consumer want and send him the right message
+    * This function is used to find out what the consumer wants and send him the right message
     * Which later get consumed by other functions.
     */
     this.core.on('ms.MessagingEventNotification', (body) => {
@@ -84,13 +95,11 @@ class GreetingBot {
           + 1 && body.changes[0].event.message > 0) {
           this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
         } else {
-          this.sendMessage(body.dialogId, buildFirstTree());
+          this.sendMessage(body.dialogId, repeatStep());
         }
       }
     });
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
-      // this.joinConversation(body.dialogId, 'MANAGER');
-      // this.sendMessage( body.dialogId, buildFirstTree());
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
         .forEach(async (change) => {
@@ -201,12 +210,146 @@ class GreetingBot {
    */
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
+    if (message.includes('http')) {
+      return this.sendLink(conversationId, message);
+    }
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
         contentType: 'text/plain',
         message,
+      },
+    });
+  }
+  const STRUCTURED_CONTENT = {
+  "type": "vertical",
+  "elements": [
+    {
+      "type": "image",
+      "url": "http://cdn.bgr.com/2016/08/iphone-8-concept.jpg?quality=98&strip=all",
+      "tooltip": "image tooltip",
+      "click": {
+        "actions": [
+          {
+            "type": "navigate",
+            "name": "Navigate to store via image",
+            "lo": 23423423,
+            "la": 2423423423
+          }
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "text": "product name (Title)",
+      "tooltip": "text tooltip",
+      "style": {
+        "bold": true,
+        "size": "large"
+      }
+    },
+    {
+      "type": "text",
+      "text": "product name (Title)",
+      "tooltip": "text tooltip"
+    },
+    {
+      "type": "button",
+      "tooltip": "button tooltip",
+      "title": "Add to cart",
+      "click": {
+        "actions": [
+          {
+            "type": "link",
+            "name": "Add to cart",
+            "uri": "https://example.com"
+          }
+        ]
+      }
+    },
+    {
+      "type": "horizontal",
+      "elements": [
+        {
+          "type": "button",
+          "title": "Buy",
+          "tooltip": "Buy this broduct",
+          "click": {
+            "actions": [
+              {
+                "type": "link",
+                "name": "Buy",
+                "uri": "https://example.com"
+              }
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "title": "Find similar",
+          "tooltip": "store is the thing",
+          "click": {
+            "actions": [
+              {
+                "type": "link",
+                "name": "Buy",
+                "uri": "https://search.com"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "tooltip": "button tooltip",
+      "title": "Publish text",
+      "click": {
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "my text"
+          }
+        ]
+      }
+    },
+    {
+      "type": "map",
+      "lo": 64.128597,
+      "la": -21.89611,
+      "tooltip": "map tooltip"
+    },
+    {
+      "type": "button",
+      "tooltip": "button tooltip",
+      "title": "Navigate",
+      "click": {
+        "actions": [
+          {
+            "type": "publishText",
+            "text": "my text"
+          },
+          {
+            "type": "navigate",
+            "name": "Navigate to store via image",
+            "lo": 23423423,
+            "la": 2423423423
+          }
+        ]
+      }
+    }
+  ]
+}
+  async sendLink(conversationId, message) {
+    if (!this.isConnected) return;
+    const index = message.indexOf('http');
+    const link = message.substr(index, (message.length) - 1);
+    return this.core.publishEvent({
+      dialogId: conversationId,
+      event: {
+        type: 'RichContentEvent',
+        content: this.STRUCTURED_CONTENT
       },
     });
   }

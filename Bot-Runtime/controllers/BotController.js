@@ -98,7 +98,7 @@ exports.getBot = function (req, res) {
 exports.deleteBot = function (req, res) {
   const index = req.user.bots.findIndex(item => item.id === req.bot.id);
   req.user.bots.splice(index, 1);
-
+  DockerService.delete(req.bot);
   req.user.save((err) => {
     if (err) throw err;
 

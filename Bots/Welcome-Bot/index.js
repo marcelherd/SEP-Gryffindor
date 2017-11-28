@@ -6,7 +6,7 @@ const { config } = require('dotenv');
 
 const dataTree= require('./config.json');
 
-var node=dataTree.tree.root;
+var node=dataTree.dialogTree.root;
 var firstmessage=true;
 config();
 
@@ -21,7 +21,7 @@ function timeout(ms = 3000) {
  function nextStep( optionNumber){
     node= node.children[optionNumber-1];
     console.log(node.children[0])
-    
+
     return(node.children[0].data);
 
 }
@@ -37,13 +37,13 @@ function timeout(ms = 3000) {
     var answer="";
     var counter=0;
     answer+= dataTree.greeting +"\n"+"           ";
-    while(counter<dataTree.tree.root.children.length){
-        
+    while(counter<dataTree.dialogTree.root.children.length){
+
         answer+= node.children[counter].data +"\n"+"           ";
-        
+
         counter++;
     }
-    
+
     //console.log(answer);
     return answer;
 }
@@ -56,8 +56,8 @@ class GreetingBot {
         this.isConnected = false;
         this.core = new Agent({ accountId: accountID, username: username, password: password, csdsDomain: csds });
         this.openConversations = {};
-       
-    
+
+
 
         this.init();
     }
@@ -83,23 +83,23 @@ class GreetingBot {
        * Which later get consumed by other functions.
        */
         this.core.on('ms.MessagingEventNotification', body => {
-            
-           
+
+
                if(body.changes[0].__isMe === false ){
                     //console.log(body.changes[0].event.message);
-                    
-                   
+
+
                     if(body.changes[0].event.message != NaN && body.changes[0].event.message< node.children.length+1 && body.changes[0].event.message>0 ){
-                       
+
                         this.sendMessage(body.dialogId,  nextStep(body.changes[0].event.message));
-                    } else{  
-                        
-                        
-                        
+                    } else{
+
+
+
                             this.sendMessage( body.dialogId,   buildFirstTree());
-                        
+
                     }
-               } 
+               }
         });
         this.core.on('cqm.ExConversationChangeNotification', body => {
             //this.joinConversation(body.dialogId, 'MANAGER');
@@ -107,24 +107,24 @@ class GreetingBot {
             body.changes
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
                 .forEach(async change => {
-                    
+
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                      await this.joinConversation(change.result.convId, 'MANAGER');
                      await this.sendMessage( change.result.convId, buildFirstTree());
                     firstmessage=false;
-                    
+
                 });
-           
+
             body.changes
                 .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
                 .forEach(change => delete this.openConversations[change.result.convId]);
         });
-       
+
         this.promisifyFunctions();
     }
 
     /**
-     * Utility function which transform the used SDK function into promised based once. 
+     * Utility function which transform the used SDK function into promised based once.
      * Which later get consumed by other functions.
      */
     promisifyFunctions() {
@@ -149,7 +149,7 @@ class GreetingBot {
         response = await this.subscribeToConversations();
     }
 
-    
+
     /**
      * Shutsdown the bot
      */

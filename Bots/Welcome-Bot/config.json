@@ -9,7 +9,7 @@
           "data": "1. I forgot my password",
           "children": [
             {
-              "data": "Please click the following link to reset your password: www.bottertoast.de/resetPassword",
+              "data": "Please click the following link to reset your password: http://www.bottertoast.de/resetPassword",
               "children": [],
               "id": 2
             }

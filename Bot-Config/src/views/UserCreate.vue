@@ -4,7 +4,7 @@
       <div class="bt-form">
         <bt-form-section header="Account Details">
           <bt-input v-model="user.username" type="text" placeholder="Username" />
-          <bt-input v-model="user.password" type="password" placeholder="Password" />
+          <bt-input v-model="user.password" type="password" placeholder="Passwort" />
         </bt-form-section>
 
         <bt-form-section header="Bot configuration">

@@ -1,1 +1,1 @@
-{"_id":"5a1c4444a1bc996209db5b07","dialogTree":{"nodeID":1,"root":{"id":0,"children":[{"id":1,"children":[],"data":"dsadsa"}],"data":"Options"}},"greeting":"dsadsadsa","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"dsadsadsa"}
+{"updatedAt":"2017-11-28T12:52:10.888Z","createdAt":"2017-11-28T12:52:10.888Z","_id":"5a1d5bfada93632228ddf052","dialogTree":{},"greeting":"Bonjoure","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"Mynew Bot","statusChanged":"2000-01-01T00:00:00.000Z"}

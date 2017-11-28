@@ -26,16 +26,47 @@ exports.buildImage = function (bot) {
     }
   });
   console.log('Building Bot...');
-  docker.buildImage({
-    context: `../Bots/${bot.template}`,
-    src: ['Dockerfile', 'index.js', 'package.json', 'config.json'],
-  }, {
-    t: bot.id,
-  }, (error, output) => {
-    if (error) {
-      return console.error(error);
-    }
-    output.pipe(process.stdout);
+  return new Promise((resolve) => {
+    docker.buildImage({
+      context: `../Bots/${bot.template}`,
+      src: ['Dockerfile', 'index.js', 'package.json', 'config.json'],
+    }, {
+      t: bot.id,
+    }, (error, output) => {
+      docker.modem.followProgress(output, onFinished, onProgress);
+      function onFinished(err, result) {
+        return new Promise((resolver) => {
+          const createOptions = {
+            name: `${bot._id}`,
+            Image: `${bot._id}`,
+            Tty: true,
+            ExposedPorts: {
+              '9999:': {},
+            },
+            HostConfig: {
+              PortBindings: {
+                '9999/tcp': [
+                  {
+                    HostIp: '127.0.0.1',
+                    HostPort: '9999',
+                  },
+                ],
+              },
+            },
+          };
+
+          docker.createContainer(createOptions);
+          resolver();
+        });
+      }
+      function onProgress(err, result) {
+      }
+      if (error) {
+        return console.error(error);
+      }
+      output.pipe(process.stdout);
+    });
+    resolve();
   });
 };
 
@@ -49,9 +80,12 @@ exports.start = function (bot) {
   return new Promise((resolve) => {
     // TODO: start the bot here
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
+    const container = docker.getContainer(bot.id);
+    container.start();
     resolve();
   });
 };
+
 
 /**
  * Stops the given bot.
@@ -62,7 +96,17 @@ exports.start = function (bot) {
 exports.stop = function (bot) {
   return new Promise((resolve) => {
     // TODO: stop the bot here
-    console.log(`Stopping bot ${bot.name} (${bot.id})...`);
+
+    console.log(`Stopping bot ${bot.name} (${bot._id})...`);
+    const container = docker.getContainer(bot.id);
+    // query API for container info
+    container.stop((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    bot.status = 'false';
+    console.log('Bot stopped');
     resolve();
   });
 };
@@ -77,6 +121,39 @@ exports.restart = function (bot) {
   return new Promise((resolve) => {
     // TODO: restart the bot here
     console.log(`Restarting bot ${bot.name} (${bot.id})...`);
+    resolve();
+  });
+};
+
+/**
+ * Deletes Image + Container of the given Bot.
+ *
+ * @param {Bot} bot - The bot that is to be started
+ * @returns {Promise} TODO
+ */
+exports.delete = function (bot) {
+  return new Promise((resolve) => {
+    // TODO: start the bot here
+    console.log(bot);
+    console.log(`Deleting bot ${bot.name} (${bot.id})...`);
+
+    const container = docker.getContainer(bot.id);
+    this.stop(bot);
+    container.remove((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+    const removeOptions = {
+      force: true,
+      noprune: false,
+    };
+    const image = docker.getImage(bot.id);
+    image.remove(removeOptions, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
     resolve();
   });
 };

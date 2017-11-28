@@ -29,6 +29,6 @@ body {
   font-size: 48px;
   font-weight: 500;
   color: #FFD244;
-  margin-bottom: 48px;
+  margin-bottom: 28px;
 }
 </style>

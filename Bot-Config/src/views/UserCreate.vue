@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     save () {
-      RuntimeService.save(this.user).then((response) => {
+      RuntimeService.saveUser(this.user).then((response) => {
         if (response.ok) {
           this.$router.push({ name: 'Administration' })
         }

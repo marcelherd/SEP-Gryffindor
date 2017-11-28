@@ -1,11 +1,11 @@
 <template>
   <md-layout md-flex="100" md-vertical-align="center" class="bt-page-header">
-    <md-layout md-flex="25">
+    <md-layout md-flex="25" md-flex-large="15">
       <div @click="home" class="bt-page-header-icon">
         <img src="/static/icon.png" />
       </div>
     </md-layout>
-    <md-layout md-flex="50" >
+    <md-layout md-flex="50">
       {{ pageTitle }}
     </md-layout>
     <bt-user-menu />

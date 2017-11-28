@@ -13,8 +13,8 @@
         </md-layout>
       </md-layout>
       <div class="bt-login-input-container">
-        <input v-model="username" type="text" placeholder="Username" class="bt-login-input">
-        <input v-model="password" type="password" placeholder="Password" class="bt-login-input">
+        <input v-model="username" @keyup.enter="login" ref="usernameInput" type="text" placeholder="Username" class="bt-login-input">
+        <input v-model="password" @keyup.enter="login" type="password" placeholder="Password" class="bt-login-input">
       </div>
       <md-layout md-align="end" class="bt-login-controls">
         <button @click="login" class="bt-login-button">Login</button>
@@ -32,6 +32,9 @@ export default {
       password: '',
       flashMessage: ''
     }
+  },
+  mounted () {
+    this.$refs.usernameInput.focus()
   },
   methods: {
     login () {

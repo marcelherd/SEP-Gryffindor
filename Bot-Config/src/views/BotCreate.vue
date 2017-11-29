@@ -1,49 +1,28 @@
 <template>
   <bt-page-container pageTitle="Bot details">
     <md-layout md-flex="100">
-      <h1 class="bt-header-1">Feed the {{ bot.template }}</h1>
-    </md-layout>
-    <md-layout md-column>
-      <bt-form-section header="Bot configuration">
-        <bt-input v-model="bot.name" type="text" placeholder="Name" />
-        <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
-      </bt-form-section>
 
-      <bt-form-section header="Dialog Tree">
-        <div class="bt-dialog-tree">
-          <div class="bt-tree-node bt-root-node">
-            <span class="bt-tree-node-title">Greeting</span>
-            <div class="bt-tree-node-children">
-              <div class="bt-tree-node bt-intent-node">
-                <span class="bt-tree-node-title">Password forgotten</span>
-                <span class="bt-tree-node-answer">"Use this link to reset your password"</span>
-                <div class="bt-tree-node-children">
-                  <div class="bt-tree-node bt-utterance-node">
-                    <span class="bt-tree-node-title">
-                      <md-icon>person</md-icon>
-                      I forgot my password
-                    </span>
-                    <div class="bt-tree-node-children"></div>
-                  </div>
-                  <div class="bt-tree-node bt-utterance-node">
-                    <span class="bt-tree-node-title">
-                      <md-icon>person</md-icon>
-                      I have forgotten my password
-                      </span>
-                    <div class="bt-tree-node-children"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="bt-tree-node bt-intent-node">
-                <span class="bt-tree-node-title">Username forgotten</span>
-                <div class="bt-tree-node-children"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </bt-form-section>
+      <md-layout md-flex-offset="30" md-flex="70">
+        <h1 class="bt-header-1">Create the {{ bot.template }}</h1>
+      </md-layout>
 
-      <bt-button @click="save" theme="orange">Save</bt-button>
+      <md-layout md-flex="30">
+        <bt-form-section header="Avatar">
+          Image upload here
+        </bt-form-section>
+      </md-layout>
+
+
+      <md-layout md-flex>
+        <md-layout md-flex="80" md-column>
+          <bt-form-section header="Bot configuration">
+            <bt-input v-model="bot.name" type="text" placeholder="Name" />
+            <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+          </bt-form-section>
+          <bt-button @click="save" theme="orange">Save</bt-button>
+        </md-layout>
+      </md-layout>
+
     </md-layout>
   </bt-page-container>
 </template>

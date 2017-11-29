@@ -1,5 +1,5 @@
 <template>
-  <md-layout v-if="user" md-flex="20" md-align="end" class="bt-user-menu">
+  <md-layout v-if="user" md-flex md-align="end" class="bt-user-menu">
     <md-menu md-align-trigger md-direction="bottom" md-auto-width>
       <md-button md-menu-trigger>{{ user.username }} &#9660;</md-button>
 

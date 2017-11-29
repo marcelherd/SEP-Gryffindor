@@ -48,6 +48,15 @@ export default {
   background-color: #FF8729;
 }
 
+.bt-button.bt-button-yellow {
+  color: #FFD244;
+}
+
+.bt-button.bt-button-yellow:hover,
+.bt-button.bt-button-yellow:focus {
+  color: #FF7544;
+}
+
 .bt-button.bt-button-blue {
   color: #80CFB8;
 }

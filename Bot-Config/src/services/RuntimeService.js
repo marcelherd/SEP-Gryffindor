@@ -130,6 +130,20 @@ export default {
     })
 
     return fetch(request).then(response => response.json())
+  },
+
+  toggleBot (userId, bot) {
+    let action = (bot.running ? 'stop' : 'start')
+    let request = new Request(`${URL + userId}/bots/${bot._id}/${action}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      }
+    })
+
+    return fetch(request).then(response => response.json())
   }
 
 }

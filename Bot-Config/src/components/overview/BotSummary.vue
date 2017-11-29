@@ -15,15 +15,19 @@
       <bt-bot-statistics :bot="bot" />
     </md-layout>
     <md-layout md-flex="10" md-vertical-align="end">
-      <bt-button @click="edit(bot)">Edit</bt-button>
+      <bt-switch :initial="bot.running"  @click="toggle(bot)" />
+      <bt-button @click="edit(bot)" theme="yellow">Edit</bt-button>
     </md-layout>
   </md-layout>
 </template>
 
 <script>
+import RuntimeService from '@/services/RuntimeService'
+
 import BotIcon from '@/components/overview/summary/BotIcon'
 import BotStatistics from '@/components/overview/summary/BotStatistics'
 import Button from '@/components/core/Button'
+import Switch from '@/components/core/Switch'
 
 export default {
   name: 'bt-bot-summary',
@@ -31,7 +35,8 @@ export default {
   components: {
     'bt-bot-icon': BotIcon,
     'bt-bot-statistics': BotStatistics,
-    'bt-button': Button
+    'bt-button': Button,
+    'bt-switch': Switch
   },
   computed: {
     statusText () {
@@ -57,6 +62,14 @@ export default {
         params: {
           userId: this.$route.params.userId,
           botId: bot._id
+        }
+      })
+    },
+
+    toggle (bot) {
+      RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
+        if (data.success) {
+          this.$emit('update')
         }
       })
     }

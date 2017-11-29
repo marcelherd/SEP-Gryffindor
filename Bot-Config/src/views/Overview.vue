@@ -1,6 +1,6 @@
 <template>
   <bt-page-container pageTitle="Overview">
-    <bt-bot-summary :bot="bot" v-for="(bot, index) in bots" :key="bot._id" />
+    <bt-bot-summary :bot="bot" v-for="(bot, index) in bots" :key="bot._id" @update="fetchData" />
 
     <bt-fab to="/Create">
       <md-icon>add</md-icon>

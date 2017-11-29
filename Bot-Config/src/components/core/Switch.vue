@@ -1,0 +1,90 @@
+<template>
+  <md-layout md-align="end">
+    <label class="switch">
+      <input type="checkbox" v-model="checked" @click="handleClick">
+      <span class="slider round"></span>
+    </label>
+  </md-layout>
+</template>
+
+<script>
+export default {
+  name: 'bt-switch',
+  props: ['initial'],
+  data () {
+    return {
+      checked: this.initial
+    }
+  },
+  methods: {
+    handleClick () {
+      this.$emit('click')
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  width: 37px;
+  height: 18px;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  display:none;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #FFD244;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #FFD244;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(19px);
+  -ms-transform: translateX(19px);
+  transform: translateX(19px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+

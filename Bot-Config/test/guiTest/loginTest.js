@@ -1,9 +1,5 @@
 require('chromedriver')
 const {Builder, By, Key, until} = require('selenium-webdriver')
-var delayInMilliseconds = 1000 // 1 second
-
-
-console.log('Start')
 
 let driver = new Builder().forBrowser('chrome').build()
 driver.get('http://localhost:8080/#/Login')

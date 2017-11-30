@@ -94,6 +94,9 @@
                 </div>
               </md-layout>
             </md-layout>
+            <md-layout>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action">Delete</bt-button>
+            </md-layout>
           </div>
         </div>
 
@@ -180,6 +183,10 @@ export default {
         value: ''
       }
       this.newIntent.utterances = [{ text: '' }]
+    },
+
+    deleteIntent (index) {
+      this.bot.intents.splice(index, 1)
     },
 
     save () {

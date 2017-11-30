@@ -103,11 +103,10 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', (body) => {
-      console.log("test 1");
       // console.log(`originatorID: ${body.changes[0].originatorId}`);
       // console.log(`agent: ${this.core.agentId}`);
-      if (body.changes[0].originatorId !== this.core.agentId) {
-          console.log("test 2");
+      // if (body.changes[0].originatorId !== this.core.agentId) {
+      if (!body.changes[0].__isMe) {
         if (!Number.isNaN(body.changes[0].event.message) &&
           body.changes[0].event.message < node.children.length +
           1 && body.changes[0].event.message > 0) {
@@ -120,7 +119,7 @@ class GreetingBot {
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-        .forEach(async(change) => {
+        .forEach(async (change) => {
           this.openConversations[change.result.convId] = change.result.conversationDetails;
           await this.joinConversation(change.result.convId, 'MANAGER');
           await this.sendMessage(change.result.convId, buildFirstTree());
@@ -263,10 +262,10 @@ class GreetingBot {
               "actions": [{
                 "type": "link",
                 "name": "Add to cart",
-                "uri": "http://www.google.com"
+                "uri": link
               }]
             }
-          }, ]
+          },]
         }
       }
     });

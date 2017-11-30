@@ -1,1 +1,36 @@
-{"updatedAt":"2017-11-29T14:19:43.289Z","createdAt":"2017-11-29T14:19:43.289Z","_id":"5a1ec1ff178089395c9b73c6","dialogTree":{},"greeting":"ASDasd","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"EDAD","statusChanged":"2000-01-01T00:00:00.000Z"}
+{
+  "name": "test",
+  "template": "Welcome-Bot",
+  "greeting": "Hi my Name is....wait for it SLIM SHADY",
+  "dialogTree": {
+    "root": {
+      "data": "Options",
+      "children": [
+        {
+          "data": "1. Do you have a question? ",
+          "children": [
+            {
+              "data": "Link to FAQ Bot",
+              "children": [],
+              "id": 3
+            }
+          ],
+          "id": 1
+        },
+        {
+          "data": "2. Forgotten Password",
+          "children": [
+            {
+              "data": "Please click following link to reset your Password: http://google.de/resetPassword",
+              "children": [],
+              "id": 4
+            }
+          ],
+          "id": 2
+        }
+      ],
+      "id": 0
+    },
+    "nodeID": 4
+  }
+}

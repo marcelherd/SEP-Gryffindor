@@ -13,10 +13,6 @@ export default {
 </script>
 
 <style>
-.bt-form-section {
-  margin-top: 20px;
-}
-
 .bt-form-section-header {
   font-size: 11px;
   font-weight: 800;

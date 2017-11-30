@@ -22,7 +22,7 @@
                 <div class="bt-card-utterances">
                   <input placeholder="Type utterance" class="bt-card-utterance"
                     v-for="(utterance, index) in newIntent.utterances" v-model="utterance.text" :key="index"
-                    @keyup="checkNewUtterance($event, index)" />
+                    @keyup="checkNewUtterance($event, newIntent, index)" />
                 </div>
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
@@ -67,7 +67,7 @@
                 <div class="bt-card-utterances">
                   <input placeholder="Type utterance" class="bt-card-utterance"
                     v-for="(utterance, index) in intent.utterances" v-model="utterance.text" :key="index"
-                    @keyup="checkNewUtterance($event, index)" />
+                    @keyup="checkNewUtterance($event, intent, index)" />
                 </div>
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
@@ -148,27 +148,22 @@ export default {
       const { userId, botId } = this.$route.params
 
       RuntimeService.findBotById(userId, botId).then((data) => {
-        data.intents = []
         this.bot = data
       })
     },
 
-    addUtterance () {
+    addUtterance (intent) {
       let newUtterance = { text: '' }
-      this.newIntent.utterances.push(newUtterance)
+      intent.utterances.push(newUtterance)
     },
 
-    checkNewUtterance ($event, index) {
-      if (index === (this.newIntent.utterances.length - 1) && $event.keyCode >= 49 && $event.keyCode <= 90) {
-        this.addUtterance()
+    checkNewUtterance ($event, intent, index) {
+      if (index === (intent.utterances.length - 1) && $event.keyCode >= 49 && $event.keyCode <= 90) {
+        this.addUtterance(intent)
       }
     },
 
     addIntent () {
-      if (this.newIntent.utterances.length > 1) {
-        this.newIntent.utterances.splice(-1, 1)
-      }
-
       this.bot.intents.push({
         name: this.newIntent.name,
         answer: {

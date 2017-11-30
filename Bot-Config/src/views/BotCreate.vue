@@ -7,7 +7,7 @@
       </md-layout>
 
       <md-layout md-flex="30">
-        <bt-form-section header="Avatar">
+        <bt-form-section header="Profile Picture">
           Image upload here
         </bt-form-section>
       </md-layout>
@@ -15,7 +15,7 @@
 
       <md-layout md-flex>
         <md-layout md-flex="80" md-column>
-          <bt-form-section header="Bot configuration">
+          <bt-form-section header="Bot Configuration">
             <bt-input v-model="bot.name" type="text" placeholder="Name" />
             <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
           </bt-form-section>
@@ -72,65 +72,4 @@ export default {
 </script>
 
 <style>
-.bt-dialog-tree {
-  margin-top: 20px;
-}
-
-.bt-tree-node-title {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.bt-root-node > .bt-tree-node-title {
-  border: 1px solid #636363;
-  color: #636363;
-}
-
-.bt-root-node > .bt-tree-node-title:hover {
-  cursor: pointer;
-  background-color: #636363;
-  color: white;
-}
-
-.bt-intent-node > .bt-tree-node-title {
-  border: 1px solid #6363FF;
-  color: #6363FF;
-}
-
-.bt-intent-node > .bt-tree-node-answer {
-  color: #6363FF;
-}
-
-.bt-intent-node > .bt-tree-node-title:hover {
-  cursor: pointer;
-  background-color: #6363FF;
-  color: white;
-}
-
-.bt-utterance-node > .bt-tree-node-title {
-  border: 1px solid #FF8729;
-  border-top-right-radius: 0px;
-  color: #FF8729;
-}
-
-.bt-utterance-node > .bt-tree-node-title:hover {
-  cursor: pointer;
-  background-color: #FF8729;
-  color: white;
-}
-
-.bt-tree-node-title,
-.bt-tree-node-answer {
-  padding: 8px;
-  border-radius: 16px;
-}
-
-.bt-tree-node .bt-tree-node-children {
-  margin-top: 25px;
-  padding-left: 25px;
-}
 </style>

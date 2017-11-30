@@ -75,8 +75,6 @@ describe('User Tests', () => {
           done();
         });
     });
-
-
     it('should save user from body with authentication token', (done) => {
       const body = {
         username: 'Simon',
@@ -110,6 +108,76 @@ describe('User Tests', () => {
           chai.expect(res).to.have.status(403);
           done();
         });
+    });
+    it('should fail cause a normal user tries to post a new user', (done) => {
+      const userA = {
+        username: 'BjornA',
+        password: 'BjornA',
+      };
+      const userB = {
+        username: 'BjornB',
+        password: 'BjornB',
+      };
+
+      const resToken = jwt.sign(userA, config.secret, {
+        expiresIn: '1d',
+      });
+
+      // Post userA
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userA)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200);
+          chai.expect(res.body.username).to.equal('BjornA');
+          chai.expect(res.body.password).to.equal('BjornA');
+        });
+
+      // Post userB with userA token
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', resToken)
+        .send(userB)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(403);
+        });
+      done();
+    });
+    // TODO: Ask what should happen, when posting same user with different parameters again
+    it('should not overwrite existing user', (done) => {
+      let idUserC;
+
+      const userC = {
+        username: 'BjornA',
+        password: 'A',
+      };
+      const userD = {
+        username: 'BjornA',
+        password: 'B',
+      };
+
+      // Post userC
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userC)
+        .end((err, res) => {
+          idUserC = res.body.id;
+          chai.expect(res).to.have.status(200);
+        });
+
+      // Post a new userD instead of updating userC
+      chai.request(server)
+        .post('/api/v1/manage/users/')
+        .set('x-access-token', this.token)
+        .send(userD)
+        .end((err, res) => {
+          chai.expect(res.body.id).to.not.equal(idUserC);
+          chai.expect(res.body.password).to.equal('B');
+          chai.expect(res).to.have.status(200);
+        });
+      done();
     });
   });
   describe('/GET/USERS user_id', () => {
@@ -150,7 +218,7 @@ describe('User Tests', () => {
         .get(`/api/v1/manage/users/${myId}`)
         .set('x-access-token', this.token)
         .end((err, res) => {
-          chai.expect(res).to.have.status(403);
+          chai.expect(res).to.have.status(400);
           done();
         });
     });
@@ -162,7 +230,7 @@ describe('User Tests', () => {
         .delete(`/api/v1/manage/users/${id}`)
         .set('x-access-token', this.token)
         .end((err, res) => {
-          chai.expect(res).to.have.status(404);
+          chai.expect(res).to.have.status(400);
           done();
         });
     });
@@ -206,4 +274,3 @@ describe('User Tests', () => {
     });
   });
 });
-

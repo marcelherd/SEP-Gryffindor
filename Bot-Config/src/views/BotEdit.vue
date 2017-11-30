@@ -9,6 +9,48 @@
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
       </bt-form-section>
+
+      <bt-form-section header="Dialog configuration">
+        <div class="bt-card">
+          <div class="bt-card-header">
+            <input v-model="newIntent.name" placeholder="Enter title" />
+          </div>
+          <div class="bt-card-body">
+            <md-layout md-flex="100">
+              <md-layout md-flex="50" md-column>
+                <span class="bt-card-subtitle">If user says something like</span>
+                <div class="bt-card-utterances">
+                  <input placeholder="Type utterance" class="bt-card-utterance"
+                    v-for="(utterance, index) in newIntent.utterances" v-model="utterance.text" :key="index"
+                    @keyup="checkNewUtterance($event, index)" />
+                </div>
+              </md-layout>
+              <md-layout md-flex md-column md-vertical-align="end" md-align="start">
+                <span class="bt-card-subtitle">Reply with</span>
+                <div>
+                  <input placeholder="Type answer" class="bt-card-answer" />
+                  <md-layout md-align="end">
+                    <md-button-toggle md-single class="bt-button-toggle">
+                      <md-button class="md-icon-button md-toggle">
+                        <md-icon>title</md-icon>
+                      </md-button>
+                      <md-button class="md-icon-button">
+                        <md-icon>link</md-icon>
+                      </md-button>
+                      <md-button class="md-icon-button">
+                        <md-icon>android</md-icon>
+                      </md-button>
+                    </md-button-toggle>
+                  </md-layout>
+                </div>
+              </md-layout>
+            </md-layout>
+            <md-layout>
+              <bt-button class="bt-card-action">Save</bt-button>
+            </md-layout>
+          </div>
+        </div>
+      </bt-form-section>
       <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
   </bt-page-container>
@@ -34,7 +76,16 @@ export default {
   },
   data () {
     return {
-      bot: {}
+      bot: {},
+      newIntent: {
+        name: '',
+        answer: '',
+        utterances: [
+          {
+            text: ''
+          }
+        ]
+      }
     }
   },
   created () {
@@ -47,6 +98,17 @@ export default {
       RuntimeService.findBotById(userId, botId).then((data) => {
         this.bot = data
       })
+    },
+
+    addUtterance () {
+      let newUtterance = { text: '' }
+      this.newIntent.utterances.push(newUtterance)
+    },
+
+    checkNewUtterance ($event, index) {
+      if (index === (this.newIntent.utterances.length - 1) && $event.keyCode >= 49 && $event.keyCode <= 90) {
+        this.addUtterance()
+      }
     },
 
     save () {
@@ -67,4 +129,128 @@ export default {
 </script>
 
 <style>
+.bt-card {
+  box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px 5px;
+}
+
+.bt-card input:focus {
+  outline: 0;
+}
+
+.bt-card-header {
+  padding: 12px;
+  padding-left: 20px;
+  background-color: #FBE500;
+  font-size: 24px;
+}
+
+.bt-card-header input {
+  border: 0;
+  background-color: transparent;
+  font-size: 24px;
+  outline: 0;
+}
+
+.bt-card-body {
+  padding: 12px;
+  padding-left: 20px;
+}
+
+.bt-card-subtitle {
+  color: #aaa;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.bt-card-utterance {
+  border: 2px solid black;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.bt-card-utterance:first-child {
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+}
+
+.bt-card-utterance:last-of-type {
+  border-radius: 8px;
+  border-top-left-radius: 0;
+}
+
+.bt-card-utterance:only-of-type {
+  border-radius: 8px !important;
+}
+
+.bt-card-utterances input {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.bt-card-answer {
+  border: 2px solid black;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.bt-button-toggle {
+  padding: 8px;
+}
+
+.bt-button-toggle .md-button:hover {
+  background-color: #F9F2AE !important;
+}
+
+.bt-button-toggle .md-button.md-toggle {
+  background-color: #FBE500;
+}
+
+.bt-card-action {
+  margin-top: 20px;
+}
+
+.bt-card-header ::-webkit-input-placeholder {
+  color: #888;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-position: under;
+}
+.bt-card-header ::-moz-placeholder {
+  color: #888;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-position: under;
+}
+.bt-card-header ::-ms-placeholder {
+  color: #888;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-position: under;
+}
+.bt-card-header ::placeholder {
+  color: #888;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-position: under;
+}
+
+::-webkit-input-placeholder {
+    color:#BDBDBD;
+}
+::-moz-placeholder {
+    color:#BDBDBD;
+}
+::-ms-placeholder {
+    color:#BDBDBD;
+}
+::placeholder {
+    color:#BDBDBD;
+}
 </style>

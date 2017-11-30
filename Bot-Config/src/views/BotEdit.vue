@@ -10,7 +10,7 @@
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
       </bt-form-section>
 
-      <bt-form-section header="Dialog configuration">
+      <bt-form-section header="Dialogue configuration">
         <div class="bt-card">
           <div class="bt-card-header">
             <input v-model="newIntent.name" placeholder="Enter title" />
@@ -137,6 +137,10 @@ export default {
   outline: 0;
 }
 
+.bt-card input:focus {
+  background-color: #FBE500;
+}
+
 .bt-card-header {
   padding: 12px;
   padding-left: 20px;
@@ -171,11 +175,6 @@ export default {
   border-bottom-right-radius: 8px;
   padding: 8px;
   font-size: 16px;
-}
-
-.bt-card-utterance:hover,
-.bt-card-utterance:focus {
-  background-color: #FBE500;
 }
 
 .bt-card-utterance:first-child {

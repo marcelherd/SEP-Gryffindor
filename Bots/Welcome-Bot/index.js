@@ -103,10 +103,11 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', (body) => {
+      console.log(body.changes[0].originatorMetadata.role)
       // console.log(`originatorID: ${body.changes[0].originatorId}`);
       // console.log(`agent: ${this.core.agentId}`);
       // if (body.changes[0].originatorId !== this.core.agentId) {
-      if (!body.changes[0].__isMe) {
+      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role!='ASSIGNED_AGENT') {
         if (!Number.isNaN(body.changes[0].event.message) &&
           body.changes[0].event.message < node.children.length +
           1 && body.changes[0].event.message > 0) {

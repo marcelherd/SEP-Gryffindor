@@ -173,6 +173,11 @@ export default {
   font-size: 16px;
 }
 
+.bt-card-utterance:hover,
+.bt-card-utterance:focus {
+  background-color: #FBE500;
+}
+
 .bt-card-utterance:first-child {
   border-radius: 8px;
   border-bottom-left-radius: 0;

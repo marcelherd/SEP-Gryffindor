@@ -28,16 +28,20 @@
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
                 <span class="bt-card-subtitle">Reply with</span>
                 <div>
-                  <input placeholder="Type answer" class="bt-card-answer" />
+                  <input v-model="newIntent.answer.value" :placeholder="answerPlaceholder(newIntent)" class="bt-card-answer" />
+
                   <md-layout md-align="end">
                     <md-button-toggle md-single class="bt-button-toggle">
-                      <md-button class="md-icon-button md-toggle">
+                      <md-button class="md-icon-button" :class="newIntent.answer.type === 'text' ? 'md-toggle' : ''"
+                        @click="newIntent.answer.type = 'text'">
                         <md-icon>title</md-icon>
                       </md-button>
-                      <md-button class="md-icon-button">
+                      <md-button class="md-icon-button" :class="newIntent.answer.type === 'link' ? 'md-toggle' : ''"
+                        @click="newIntent.answer.type = 'link'">
                         <md-icon>link</md-icon>
                       </md-button>
-                      <md-button class="md-icon-button">
+                      <md-button class="md-icon-button" :class="newIntent.answer.type === 'skill' ? 'md-toggle' : ''"
+                        @click="newIntent.answer.type = 'skill'">
                         <md-icon>android</md-icon>
                       </md-button>
                     </md-button-toggle>
@@ -46,11 +50,53 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button class="bt-card-action">Save</bt-button>
+              <bt-button @click="addIntent" class="bt-card-action">Save</bt-button>
             </md-layout>
           </div>
         </div>
       </bt-form-section>
+
+      <div v-for="(intent, index) in bot.intents" :key="index" class="bt-card">
+          <div class="bt-card-header">
+            <input v-model="intent.name" placeholder="Enter title" />
+          </div>
+          <div class="bt-card-body">
+            <md-layout md-flex="100">
+              <md-layout md-flex="50" md-column>
+                <span class="bt-card-subtitle">If user says something like</span>
+                <div class="bt-card-utterances">
+                  <input placeholder="Type utterance" class="bt-card-utterance"
+                    v-for="(utterance, index) in intent.utterances" v-model="utterance.text" :key="index"
+                    @keyup="checkNewUtterance($event, index)" />
+                </div>
+              </md-layout>
+              <md-layout md-flex md-column md-vertical-align="end" md-align="start">
+                <span class="bt-card-subtitle">Reply with</span>
+                <div>
+                  <input v-model="intent.answer.value" :placeholder="answerPlaceholder(intent)" class="bt-card-answer" />
+
+                  <md-layout md-align="end">
+                    <md-button-toggle md-single class="bt-button-toggle">
+                      <md-button class="md-icon-button" :class="intent.answer.type === 'text' ? 'md-toggle' : ''"
+                        @click="intent.answer.type = 'text'">
+                        <md-icon>title</md-icon>
+                      </md-button>
+                      <md-button class="md-icon-button" :class="intent.answer.type === 'link' ? 'md-toggle' : ''"
+                        @click="intent.answer.type = 'link'">
+                        <md-icon>link</md-icon>
+                      </md-button>
+                      <md-button class="md-icon-button" :class="intent.answer.type === 'skill' ? 'md-toggle' : ''"
+                        @click="intent.answer.type = 'skill'">
+                        <md-icon>android</md-icon>
+                      </md-button>
+                    </md-button-toggle>
+                  </md-layout>
+                </div>
+              </md-layout>
+            </md-layout>
+          </div>
+        </div>
+
       <bt-button @click="save" theme="orange">Save</bt-button>
     </md-layout>
   </bt-page-container>
@@ -79,7 +125,10 @@ export default {
       bot: {},
       newIntent: {
         name: '',
-        answer: '',
+        answer: {
+          type: 'text',
+          value: ''
+        },
         utterances: [
           {
             text: ''
@@ -96,6 +145,7 @@ export default {
       const { userId, botId } = this.$route.params
 
       RuntimeService.findBotById(userId, botId).then((data) => {
+        data.intents = []
         this.bot = data
       })
     },
@@ -111,6 +161,27 @@ export default {
       }
     },
 
+    addIntent () {
+      if (this.newIntent.utterances.length > 1) {
+        this.newIntent.utterances.splice(-1, 1)
+      }
+
+      this.bot.intents.push({
+        name: this.newIntent.name,
+        answer: {
+          type: this.newIntent.answer.type,
+          value: this.newIntent.answer.value
+        },
+        utterances: this.newIntent.utterances
+      })
+      this.newIntent.name = ''
+      this.newIntent.answer = {
+        type: 'text',
+        value: ''
+      }
+      this.newIntent.utterances = [{ text: '' }]
+    },
+
     save () {
       const { userId } = this.$route.params
 
@@ -123,6 +194,20 @@ export default {
           this.$refs.flashMessage.pushMessage(data.message)
         }
       })
+    },
+
+    answerPlaceholder (intent) {
+      if (intent.answer.type === 'text') {
+        return 'Type answer'
+      }
+
+      if (intent.answer.type === 'link') {
+        return 'Type link'
+      }
+
+      if (intent.answer.type === 'skill') {
+        return 'Type skill'
+      }
     }
   }
 }
@@ -131,6 +216,7 @@ export default {
 <style>
 .bt-card {
   box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px 5px;
+  margin-bottom: 48px;
 }
 
 .bt-card input:focus {
@@ -138,13 +224,13 @@ export default {
 }
 
 .bt-card input:focus {
-  background-color: #FBE500;
+  background-color: #FAD232;
 }
 
 .bt-card-header {
   padding: 12px;
   padding-left: 20px;
-  background-color: #FBE500;
+  background-color: #FAD232;
   font-size: 24px;
 }
 
@@ -213,7 +299,7 @@ export default {
 }
 
 .bt-button-toggle .md-button.md-toggle {
-  background-color: #FBE500;
+  background-color: #FAD232;
 }
 
 .bt-card-action {

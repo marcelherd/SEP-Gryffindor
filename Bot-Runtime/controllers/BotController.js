@@ -55,7 +55,7 @@ exports.postBot = function (req, res) {
       success: false,
       message: 'Body is missing one or more required parameters',
     });
-  } else {
+  } else if (req.body.template === 'Welcome-Bot') {
     const bot = new Bot({
       name: req.body.name,
       running: req.body.running || false,
@@ -78,6 +78,9 @@ exports.postBot = function (req, res) {
         message: newBot,
       });
     });
+  } else {
+    // Luis To To be implemented
+
   }
 };
 

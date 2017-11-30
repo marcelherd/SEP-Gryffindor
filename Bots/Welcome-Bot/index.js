@@ -1,12 +1,20 @@
-const { Agent } = require('node-agent-sdk');
+const {
+  Agent
+} = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
-const { promisify } = require('util');
+const {
+  promisify
+} = require('util');
 // Loading .env File which contains all enviroment letiables with values
-const { config } = require('dotenv');
+const {
+  config
+} = require('dotenv');
 
 const botConfig = require('./config.json');
 
-const { root } = botConfig.dialogTree;
+const {
+  root
+} = botConfig.dialogTree;
 let node = root;
 config();
 
@@ -16,8 +24,8 @@ function timeout(ms = 3000) {
 }
 
 /**
-* select the operations number and give the new Option
-*/
+ * select the operations number and give the new Option
+ */
 function repeatStep() {
   let counter = 0;
   let answer = 'Im not sure I understood you. Please repeat your answer:\n\t';
@@ -29,6 +37,7 @@ function repeatStep() {
 
   return answer;
 }
+
 function nextStep(optionNumber) {
   node = node.children[optionNumber - 1];
   console.log(node.children[0]);
@@ -60,7 +69,10 @@ class GreetingBot {
 
     this.isConnected = false;
     this.core = new Agent({
-      accountId: accountID, username, password, csdsDomain: csds,
+      accountId: accountID,
+      username,
+      password,
+      csdsDomain: csds,
     });
     this.openConversations = {};
 
@@ -72,7 +84,9 @@ class GreetingBot {
    * Initialized the event handler.
    */
   init() {
-    this.core.on('connected', () => { this.isConnected = true; });
+    this.core.on('connected', () => {
+      this.isConnected = true;
+    });
 
     this.core.on('error', (err) => {
       this.isConnected = false;
@@ -85,14 +99,18 @@ class GreetingBot {
       this.core.reconnect(reason !== 4401 || reason !== 4407);
     });
     /**
-    * This function is used to find out what the consumer wants and send him the right message
-    * Which later get consumed by other functions.
-    */
+     * This function is used to find out what the consumer wants and send him the right message
+     * Which later get consumed by other functions.
+     */
     this.core.on('ms.MessagingEventNotification', (body) => {
-      if (body.changes[0].__isMe === false) {
+      console.log("test 1");
+      // console.log(`originatorID: ${body.changes[0].originatorId}`);
+      // console.log(`agent: ${this.core.agentId}`);
+      if (body.changes[0].originatorId !== this.core.agentId) {
+          console.log("test 2");
         if (!Number.isNaN(body.changes[0].event.message) &&
-          body.changes[0].event.message < node.children.length
-          + 1 && body.changes[0].event.message > 0) {
+          body.changes[0].event.message < node.children.length +
+          1 && body.changes[0].event.message > 0) {
           this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
         } else {
           this.sendMessage(body.dialogId, repeatStep());
@@ -102,7 +120,7 @@ class GreetingBot {
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-        .forEach(async (change) => {
+        .forEach(async(change) => {
           this.openConversations[change.result.convId] = change.result.conversationDetails;
           await this.joinConversation(change.result.convId, 'MANAGER');
           await this.sendMessage(change.result.convId, buildFirstTree());
@@ -170,7 +188,9 @@ class GreetingBot {
    */
   async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
     if (!this.isConnected) return;
-    return this.core.subscribeExConversations({ convState: [convState] });
+    return await this.core.subscribeExConversations({
+      convState: [convState]
+    });
   }
 
   /**
@@ -180,7 +200,9 @@ class GreetingBot {
    */
   async setStateOfAgent(state = 'ONLINE') {
     if (!this.isConnected) return;
-    return this.core.setAgentState({ availability: state });
+    return await this.core.setAgentState({
+      availability: state
+    });
   }
 
   /**
@@ -192,7 +214,7 @@ class GreetingBot {
   async joinConversation(conversationId, role = 'AGENT') {
     // console.log(conversationId);
     if (!this.isConnected) return;
-    return this.core.updateConversationField({
+    return await this.core.updateConversationField({
       conversationId,
       conversationField: [{
         field: 'ParticipantsChange',
@@ -211,9 +233,9 @@ class GreetingBot {
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
     if (message.includes('http')) {
-      return this.sendLink(conversationId, message);
+      return await this.sendLink(conversationId, message);
     }
-    return this.core.publishEvent({
+    return await this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
@@ -222,140 +244,34 @@ class GreetingBot {
       },
     });
   }
-  const STRUCTURED_CONTENT = {
-  "type": "vertical",
-  "elements": [
-    {
-      "type": "image",
-      "url": "http://cdn.bgr.com/2016/08/iphone-8-concept.jpg?quality=98&strip=all",
-      "tooltip": "image tooltip",
-      "click": {
-        "actions": [
-          {
-            "type": "navigate",
-            "name": "Navigate to store via image",
-            "lo": 23423423,
-            "la": 2423423423
-          }
-        ]
-      }
-    },
-    {
-      "type": "text",
-      "text": "product name (Title)",
-      "tooltip": "text tooltip",
-      "style": {
-        "bold": true,
-        "size": "large"
-      }
-    },
-    {
-      "type": "text",
-      "text": "product name (Title)",
-      "tooltip": "text tooltip"
-    },
-    {
-      "type": "button",
-      "tooltip": "button tooltip",
-      "title": "Add to cart",
-      "click": {
-        "actions": [
-          {
-            "type": "link",
-            "name": "Add to cart",
-            "uri": "https://example.com"
-          }
-        ]
-      }
-    },
-    {
-      "type": "horizontal",
-      "elements": [
-        {
-          "type": "button",
-          "title": "Buy",
-          "tooltip": "Buy this broduct",
-          "click": {
-            "actions": [
-              {
-                "type": "link",
-                "name": "Buy",
-                "uri": "https://example.com"
-              }
-            ]
-          }
-        },
-        {
-          "type": "button",
-          "title": "Find similar",
-          "tooltip": "store is the thing",
-          "click": {
-            "actions": [
-              {
-                "type": "link",
-                "name": "Buy",
-                "uri": "https://search.com"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "type": "button",
-      "tooltip": "button tooltip",
-      "title": "Publish text",
-      "click": {
-        "actions": [
-          {
-            "type": "publishText",
-            "text": "my text"
-          }
-        ]
-      }
-    },
-    {
-      "type": "map",
-      "lo": 64.128597,
-      "la": -21.89611,
-      "tooltip": "map tooltip"
-    },
-    {
-      "type": "button",
-      "tooltip": "button tooltip",
-      "title": "Navigate",
-      "click": {
-        "actions": [
-          {
-            "type": "publishText",
-            "text": "my text"
-          },
-          {
-            "type": "navigate",
-            "name": "Navigate to store via image",
-            "lo": 23423423,
-            "la": 2423423423
-          }
-        ]
-      }
-    }
-  ]
-}
+
   async sendLink(conversationId, message) {
     if (!this.isConnected) return;
     const index = message.indexOf('http');
     const link = message.substr(index, (message.length) - 1);
-    return this.core.publishEvent({
+    return await this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'RichContentEvent',
-        content: this.STRUCTURED_CONTENT
-      },
+        content: {
+          "type": "vertical",
+          "elements": [{
+            "type": "button",
+            "tooltip": "button tooltip",
+            "title": "Add to cart",
+            "click": {
+              "actions": [{
+                "type": "link",
+                "name": "Add to cart",
+                "uri": "http://www.google.com"
+              }]
+            }
+          }, ]
+        }
+      }
     });
   }
 }
-
-
 console.log('Initializing the hello world bot...');
 const bot = new GreetingBot(); // This will use the values set in the process.env
 console.log('Starting the hello world bot...');

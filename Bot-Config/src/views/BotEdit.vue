@@ -153,7 +153,7 @@ export default {
     },
 
     addUtterance (intent) {
-      let newUtterance = { text: '' }
+      let newUtterance = { text: '', intentName: intent.name }
       intent.utterances.push(newUtterance)
     },
 
@@ -177,7 +177,7 @@ export default {
         type: 'text',
         value: ''
       }
-      this.newIntent.utterances = [{ text: '' }]
+      this.newIntent.utterances = [{ text: '', intentName: '' }]
     },
 
     deleteIntent (index) {
@@ -186,6 +186,12 @@ export default {
 
     save () {
       const { userId } = this.$route.params
+
+      this.bot.intents.forEach((intent) => {
+        intent.utterances.forEach((utterance) => {
+          utterance.intentName = intent.name
+        })
+      })
 
       RuntimeService.updateBot(userId, this.bot).then((data) => {
         if (data.success) {

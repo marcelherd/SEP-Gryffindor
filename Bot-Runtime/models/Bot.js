@@ -17,6 +17,7 @@ module.exports = mongoose.model('Bot', new Schema({
     },
     utterances: [{
       text: String,
+      intentName: String,
     }],
   }],
   statusChanged: { $type: Date, default: new Date('2000-01-01').toISOString() },

@@ -10,7 +10,8 @@ const {
   config
 } = require('dotenv');
 
-const botConfig = require('./config.json');
+const botConfig = JSON.parse(process.env.NODE_ENV);
+
 
 const {
   root

@@ -20,53 +20,35 @@ const docker = new Dockerode({ socketPath });
  * @returns {number} The id of the saved bot
  */
 exports.buildImage = function (bot) {
-  fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('file has been saved successfully');
-    }
-  });
   console.log('Building Bot...');
   return new Promise((resolve) => {
-    docker.buildImage({
-      context: `../Bots/${bot.template}`,
-      src: ['Dockerfile', 'index.js', 'package.json', 'config.json'],
-    }, {
-      t: bot.id,
-    }, (error, output) => {
-      docker.modem.followProgress(output, onFinished, onProgress);
-      function onFinished(err, result) {
-        return new Promise((resolver) => {
-          const createOptions = {
-            name: `${bot._id}`,
-            Image: `${bot._id}`,
-            Tty: true,
-            ExposedPorts: {
-              '9999:': {},
-            },
-            HostConfig: {
-              PortBindings: {
-                '9999/tcp': [
-                  {
-                    HostIp: '127.0.0.1',
-                    HostPort: '9999',
-                  },
-                ],
-              },
-            },
-          };
-
-          docker.createContainer(createOptions);
-          resolver();
+    console.log(JSON.stringify(bot));
+    const createOptions = {
+      name: `${bot._id}`,
+      Image: ((bot.template).toLowerCase()),
+      Tty: true,
+      Env: [`NODE_ENV=${JSON.stringify(bot)}`],
+    };
+    docker.createContainer(createOptions, (err) => {
+      if (err) {
+        docker.buildImage({
+          context: `../Bots/${bot.template}`,
+          src: ['Dockerfile', 'index.js', 'package.json'],
+        }, {
+          t: ((bot.template).toLowerCase()),
+        }, (error, output) => {
+          docker.modem.followProgress(output, onFinished, onProgress);
+          function onFinished() {
+            docker.createContainer(createOptions);
+          }
+          function onProgress() {
+          }
+          if (error) {
+            return console.error(error);
+          }
+          output.pipe(process.stdout);
         });
       }
-      function onProgress(err, result) {
-      }
-      if (error) {
-        return console.error(error);
-      }
-      output.pipe(process.stdout);
     });
     resolve();
   });
@@ -83,7 +65,13 @@ exports.start = function (bot) {
     // TODO: start the bot here
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
     const container = docker.getContainer(bot.id);
-    container.start();
+    container.inspect((error, data) => {
+      if (data.State.Status === 'exited' || data.State.Status === 'created') {
+        container.start();
+        console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
+        bot.status = 'running';
+      }
+    });
     resolve();
   });
 };
@@ -102,13 +90,18 @@ exports.stop = function (bot) {
     console.log(`Stopping bot ${bot.name} (${bot._id})...`);
     const container = docker.getContainer(bot.id);
     // query API for container info
-    container.stop((err) => {
-      if (err) {
-        console.log(err);
+    container.inspect((error, data) => {
+      if (data.State.Status !== 'exited') {
+        container.stop((err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            (console.log(`Bot ${bot.name} (${bot._id}) stopped`));
+            bot.status = 'false';
+          }
+        });
       }
     });
-    bot.status = 'false';
-    console.log('Bot stopped');
     resolve();
   });
 };
@@ -142,16 +135,6 @@ exports.delete = function (bot) {
     const container = docker.getContainer(bot.id);
     this.stop(bot);
     container.remove((err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
-    const removeOptions = {
-      force: true,
-      noprune: false,
-    };
-    const image = docker.getImage(bot.id);
-    image.remove(removeOptions, (err) => {
       if (err) {
         console.log(err);
       }

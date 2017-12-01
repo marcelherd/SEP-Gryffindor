@@ -1,3 +1,5 @@
+const { setInterval } = require('timers');
+
 // node 7.x
 // uses async/await - promises
 
@@ -30,8 +32,19 @@ exports.addUtterance = async (config) => {
       json: true,
       body: config.utterance,
     });
+    let results;
+    const interval = setInterval(async () => {
+      let success = true;
+      results = await utterancePromise;
+      for (let i = 0; i < results.length && success; i++) {
+        success = success && results[i].details.statusId === 0;
+      }
+      if (success) {
+        clearInterval(interval);
+      }
+    }, 500);
 
-    const results = await utterancePromise;
+
     console.log(results);
 
     console.log('Add utterance done');

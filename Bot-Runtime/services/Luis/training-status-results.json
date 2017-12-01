@@ -1,1 +1,28 @@
-{"request":null,"response":[{"modelId":"0115d8fe-902e-4c1d-aed3-125754854dc3","details":{"statusId":0,"status":"Success","exampleCount":12,"trainingDateTime":"2017-12-01T12:16:21Z"}},{"modelId":"b7890941-bae9-4901-994e-c9047f11f85b","details":{"statusId":0,"status":"Success","exampleCount":12,"trainingDateTime":"2017-12-01T12:16:21Z"}},{"modelId":"2f3ac0ba-4fa7-4ccd-a71a-f579866aca7c","details":{"statusId":0,"status":"Success","exampleCount":12,"trainingDateTime":"2017-12-01T12:16:21Z"}}]}
+{
+  "request": null,
+  "response": [{
+    "modelId": "20f6ff08-1adf-4f8c-932f-4aff06711f8c",
+    "details": {
+      "statusId": 0,
+      "status": "Success",
+      "exampleCount": 12,
+      "trainingDateTime": "2017-12-01T15:07:27Z"
+    }
+  }, {
+    "modelId": "dbde2e28-89e1-42d9-931e-a8da7a0e3a5a",
+    "details": {
+      "statusId": 0,
+      "status": "Success",
+      "exampleCount": 10,
+      "trainingDateTime": "2017-12-01T15:07:27Z"
+    }
+  }, {
+    "modelId": "aa1c49ce-161c-4bf2-b531-c2f3adc7a580",
+    "details": {
+      "statusId": 0,
+      "status": "Success",
+      "exampleCount": 11,
+      "trainingDateTime": "2017-12-01T15:07:27Z"
+    }
+  }]
+}

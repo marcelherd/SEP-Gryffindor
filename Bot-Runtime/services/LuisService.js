@@ -22,11 +22,9 @@ let appId;
 
 const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
-
-
 const readDataFromFile = async () => {
   try {
-    const data = await readFile('../Bots/FAQ-Bot/config.json', {
+    const data = await readFile('../../Bots/FAQ-Bot/config.json', {
       encoding: 'utf8',
     });
     return JSON.parse(data);

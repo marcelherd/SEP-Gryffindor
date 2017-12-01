@@ -64,6 +64,7 @@ exports.postBot = function (req, res) {
       template: req.body.template,
       greeting: req.body.greeting,
       dialogTree: req.body.dialogTree || {},
+      intents: req.body.intents || [],
     });
 
     const newBot = req.user.bots.create(bot);
@@ -129,6 +130,7 @@ exports.updateBot = function (req, res) {
   bot.environment = req.body.environment || bot.environment;
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
+  bot.intents = req.body.intents || bot.intents;
 
   req.user.save((err) => {
     if (err) throw err;

@@ -81,8 +81,7 @@ exports.postBot = function (req, res) {
       });
     });
   } else {
-    Luis.addNewApp());
-
+    Luis.addNewApp();
   }
 };
 

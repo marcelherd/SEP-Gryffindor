@@ -50,7 +50,7 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="addIntent" class="bt-card-action">Save</bt-button>
+              <bt-button @click="addIntent" class="bt-card-action">Save Intent</bt-button>
             </md-layout>
           </div>
         </div>
@@ -95,12 +95,12 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="deleteIntent(index)" class="bt-card-action">Delete</bt-button>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action">Delete Intent</bt-button>
             </md-layout>
           </div>
         </div>
 
-      <bt-button @click="save" theme="orange">Save</bt-button>
+      <bt-button @click="save" theme="orange">Save Bot</bt-button>
     </md-layout>
   </bt-page-container>
 </template>

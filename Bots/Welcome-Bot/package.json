@@ -1,5 +1,5 @@
 {
-  "name": "faq-bot",
+  "name": "welcome-bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -25,8 +25,8 @@
   "author": "",
   "license": "MIT",
   "__bottertoast_bot_template__": {
-    "name": "FAQ Bot",
-    "description": "This bot answers all your questions .",
-    "message": "I am omniscient"
+    "name": "Welcome Bot",
+    "description": "This bot greets you kindly.",
+    "message": "Hello! Olá! Bonjour! Hallo!"
   }
 }

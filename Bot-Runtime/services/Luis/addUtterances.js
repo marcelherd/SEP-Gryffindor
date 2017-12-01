@@ -2,9 +2,8 @@
 // uses async/await - promises
 
 const rp = require('request-promise');
-const path = require('path');
 
-const sendUtteranceToApi = async (options) => {
+exports.sendUtteranceToApi = async (options) => {
   try {
     let response;
     if (options.method === 'POST') {
@@ -19,10 +18,10 @@ const sendUtteranceToApi = async (options) => {
   }
 };
 
-const addUtterance = async (config) => {
+exports.addUtterance = async (config) => {
   try {
     // Add an utterance
-    const utterancePromise = sendUtteranceToApi({
+    const utterancePromise = this.sendUtteranceToApi({
       uri: config.uri,
       method: 'POST',
       headers: {
@@ -41,5 +40,3 @@ const addUtterance = async (config) => {
     // throw err;
   }
 };
-
-module.exports = addUtterance;

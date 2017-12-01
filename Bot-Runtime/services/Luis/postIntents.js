@@ -22,7 +22,6 @@ const addIntents = async (config) => {
   config.uri = config.uri.replace('{appId}', config.LUIS_appId).replace('{versionId}', config.LUIS_versionId);
 
   config.intentList.forEach((intent) => {
-    console.log(intent);
     config.intentName = intent.name;
     try {
       // JSON for the request body

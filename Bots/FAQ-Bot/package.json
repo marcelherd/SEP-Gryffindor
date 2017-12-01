@@ -1,19 +1,32 @@
 {
-    "name": "faq-bot",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      "start": "node .",
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "dependencies": {
-    },
-    "author": "",
-    "license": "MIT",
-    "__bottertoast_bot_template__": {
-        "name": "FAQ Bot",
-		"description": "This bot answers common questions with preset information. You can edit its tonality and possible replies after feeding it its knowledge!",
-		"message": "We're open every Monday to Thursday from 8 to 11am!"
-    }
+  "name": "faq-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "node-agent-sdk": "^0.2.19"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "*",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "jsdoc": "^3.5.5",
+    "nodemon": "^1.12.1"
+  },
+  "author": "",
+  "license": "MIT",
+  "__bottertoast_bot_template__": {
+    "name": "FAQ Bot",
+    "description": "This bot answers all your questions.",
+    "message": "Hello! Olá! Bonjour! Hallo!"
+  }
 }

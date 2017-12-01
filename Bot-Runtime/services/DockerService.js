@@ -7,8 +7,10 @@
 const fs = require('fs');
 const Dockerode = require('dockerode');
 
+
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
 const docker = new Dockerode({ socketPath });
+
 
 /**
  * Creates and saves a new bot.

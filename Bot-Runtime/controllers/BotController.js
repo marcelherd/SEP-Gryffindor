@@ -7,6 +7,7 @@
 
 const Bot = require('../models/Bot');
 const DockerService = require('../services/DockerService');
+const Luis = require('../services/LuisService');
 
 /**
  * Finds the corresponding bot for the given ID
@@ -79,7 +80,7 @@ exports.postBot = function (req, res) {
       });
     });
   } else {
-    // Luis To To be implemented
+    Luis.addNewApp());
 
   }
 };

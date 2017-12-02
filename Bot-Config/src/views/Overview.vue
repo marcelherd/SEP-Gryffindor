@@ -9,7 +9,6 @@
                 {{ bot.name }}
               </md-layout>
               <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
-                <button @click="editBot(bot)">Edit</button>
               </md-layout>
             </md-layout>
             <md-layout md-flex="100" class="bt-card-header-subtitle">
@@ -44,6 +43,11 @@
                   </div>
                 </md-layout>
               </md-layout>
+            </md-layout>
+          </div>
+          <div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
+            <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
+              <button @click="editBot(bot)">Edit</button>
             </md-layout>
           </div>
         </div>

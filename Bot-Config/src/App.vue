@@ -121,6 +121,11 @@ body {
   margin-right: 20px;
 }
 
+p.bt-card-utterance {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
 .bt-card-utterance:first-child {
   border-radius: 8px;
   border-bottom-left-radius: 0;

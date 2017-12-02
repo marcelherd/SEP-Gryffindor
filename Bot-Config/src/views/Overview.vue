@@ -49,7 +49,7 @@
         </div>
       </md-layout>
     </md-layout>
-    <bt-fab :to="createBotUrl">
+    <bt-fab :to="createBotUrl()">
       <md-icon>add</md-icon>
     </bt-fab>
   </bt-page-container>

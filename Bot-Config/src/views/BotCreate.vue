@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     save () {
-      const userId = this.$store.getters.user._id
+      const userId = this.$route.params.userId
 
       RuntimeService.saveBot(userId, this.bot)
         .then((data) => {

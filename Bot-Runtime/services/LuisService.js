@@ -12,17 +12,20 @@ const createApp = require('./Luis/createApp');
 const postIntents = require('./Luis/postIntents');
 const Utterances = require('./Luis/addUtterances');
 const Training = require('./Luis/train');
+const publish = require('./Luis/publishApp');
+const { setInterval } = require('timers');
+
 
 const readFile = promisify(fs.readFile);
+
 
 const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
 const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;
 
-const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
-const readDataFromFile = async () => {
+const readConfigDataFromFile = async () => {
   try {
     const data = await readFile('../../Bots/FAQ-Bot/config.json', {
       encoding: 'utf8',
@@ -32,26 +35,62 @@ const readDataFromFile = async () => {
     console.log(err);
   }
 };
+const writeEndpointToFile = async (endpointData) => {
+  fs.writeFile('../endpoint.json', JSON.stringify(endpointData), (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+};
+const publishMyApp = async () => {
+  const configAppPublish = {
+    LUIS_subscriptionKey: subscriptionKey,
+    LUIS_appId: appId,
+    LUIS_versionId: versionId,
+    LUIS_region: 'westus',
+    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${appId}/publish`,
+    method: 'POST',
+  };
+  return publish.publishApp(configAppPublish);
+};
 const getTrainingStatus = async () => {
   const trainingStatus = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
     LUIS_versionId: versionId,
-    uri: 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/train'.replace('{appId}', appId).replace('{versionId}', versionId),
+    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${appId}/versions/${versionId}/train`,
     method: 'GET',
   };
-  await Training.train(trainingStatus);
+  let results;
+  const interval = setInterval(async () => {
+    let success = true;
+    results = await Training.train(trainingStatus);
+    for (let i = 0; i < results.response.length && success; i++) {
+      console.log('My results');
+      success = success && results.response[i].details.statusId === 0;
+    }
+    if (success) {
+      console.log('Cleared Interval');
+      clearInterval(interval);
+      const answer = await publishMyApp();
+      const { response } = answer;
+      console.log(response);
+      writeEndpointToFile(response);
+    }
+  }, 500);
 };
 const trainMyApp = async () => {
+  console.log('the Id:');
+  console.log(appId);
   const configTrain = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
     LUIS_versionId: versionId,
-    uri: 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/train'.replace('{appId}', appId).replace('{versionId}', versionId),
-    method: 'POST', // POST to request training, GET to get training status
+    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${appId}/versions/${versionId}/train`,
+    method: 'POST',
   };
   await Training.train(configTrain);
-  await timeout();
   getTrainingStatus();
 };
 const addUtterances = async (intentArray) => {
@@ -60,7 +99,7 @@ const addUtterances = async (intentArray) => {
     LUIS_appId: appId,
     LUIS_versionId: versionId,
     utterance: intentArray,
-    uri: 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/{appId}/versions/{versionId}/examples'.replace('{appId}', appId).replace('{versionId}', versionId),
+    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${appId}/versions/${versionId}/examples`,
   };
   await Utterances.addUtterance(configUtterances);
   trainMyApp();
@@ -85,7 +124,7 @@ const addIntents = async (intents) => {
 const addNewApp = async () => {
   let data;
   try {
-    data = await readDataFromFile();
+    data = await readConfigDataFromFile();
     console.log('Reading was succesfull');
   } catch (err) {
     console.log(err);

@@ -1,28 +1,25 @@
 {
   "request": null,
   "response": [{
-    "modelId": "20f6ff08-1adf-4f8c-932f-4aff06711f8c",
+    "modelId": "427344d4-7697-4f8e-bf1e-4b3d3fdc70af",
     "details": {
-      "statusId": 0,
-      "status": "Success",
-      "exampleCount": 12,
-      "trainingDateTime": "2017-12-01T15:07:27Z"
+      "statusId": 3,
+      "status": "InProgress",
+      "exampleCount": 0
     }
   }, {
-    "modelId": "dbde2e28-89e1-42d9-931e-a8da7a0e3a5a",
+    "modelId": "8e6ffde3-1f94-4118-9edc-7383c412564e",
     "details": {
-      "statusId": 0,
-      "status": "Success",
-      "exampleCount": 10,
-      "trainingDateTime": "2017-12-01T15:07:27Z"
+      "statusId": 3,
+      "status": "InProgress",
+      "exampleCount": 0
     }
   }, {
-    "modelId": "aa1c49ce-161c-4bf2-b531-c2f3adc7a580",
+    "modelId": "d0b269bc-c977-497f-929c-e47b47411ccf",
     "details": {
-      "statusId": 0,
-      "status": "Success",
-      "exampleCount": 11,
-      "trainingDateTime": "2017-12-01T15:07:27Z"
+      "statusId": 3,
+      "status": "InProgress",
+      "exampleCount": 0
     }
   }]
 }

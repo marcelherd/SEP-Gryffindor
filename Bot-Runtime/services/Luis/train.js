@@ -3,8 +3,8 @@ const fse = require('fs-extra');
 const path = require('path');
 
 exports.train = async (config) => {
+  let results;
   try {
-    console.log(config);
     const trainingPromise = utterances.sendUtteranceToApi({
       uri: config.uri,
       method: config.method, // Use POST to request training, GET to get training status
@@ -14,9 +14,9 @@ exports.train = async (config) => {
       json: true,
       body: null, // The body can be empty for a training request
     });
-
-    const results = await trainingPromise;
-
+    console.log('This is before I call the trainingPromise');
+    results = await trainingPromise;
+    console.log(results);
     if (config.method === 'POST') {
       const response = await fse.writeJson(path.join(__dirname, 'training-results.json'), results);
       console.log(`Training request sent. The status of the training request is: ${results.response.status}.`);
@@ -28,4 +28,5 @@ exports.train = async (config) => {
     console.log(`Error in Training:  ${err.message} `);
     // throw err;
   }
+  return results;
 };

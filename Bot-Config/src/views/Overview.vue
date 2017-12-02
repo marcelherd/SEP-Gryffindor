@@ -9,7 +9,6 @@
                 {{ bot.name }}
               </md-layout>
               <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
-                <button @click="editBot(bot)">Edit</button>
               </md-layout>
             </md-layout>
             <md-layout md-flex="100" class="bt-card-header-subtitle">
@@ -44,6 +43,11 @@
                   </div>
                 </md-layout>
               </md-layout>
+            </md-layout>
+          </div>
+          <div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
+            <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
+              <button @click="editBot(bot)">Edit</button>
             </md-layout>
           </div>
         </div>
@@ -134,7 +138,7 @@ export default {
       const createdDate = new Date(bot.createdAt)
 
       const day = createdDate.getDate()
-      const month = createdDate.getMonth()
+      const month = createdDate.getMonth() + 1
       const year = createdDate.getFullYear().toString().substr(-2)
       const hours = createdDate.getHours()
       const minutes = createdDate.getMinutes()
@@ -153,6 +157,13 @@ export default {
       const year = date.getFullYear().toString().substr(-2)
 
       const state = bot.running ? 'awake' : 'asleep'
+
+      const now = new Date()
+      if (now.getDate() === day) {
+        const hours = date.getHours()
+        const minutes = date.getMinutes()
+        return `${state} since ${hours}:${minutes}`
+      }
 
       return `${state} since ${day}/${month}/${year}`
     }

@@ -47,7 +47,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #101929;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -65,17 +65,18 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #FFD244;
+  background-color: white;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #FFD244;
+  box-shadow: 0 0 1px white;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(19px);
   -ms-transform: translateX(19px);
   transform: translateX(19px);
+  background-color: #FAD232;
 }
 
 /* Rounded sliders */

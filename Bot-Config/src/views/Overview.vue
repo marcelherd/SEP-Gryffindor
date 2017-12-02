@@ -13,7 +13,12 @@
               </md-layout>
             </md-layout>
             <md-layout md-flex="100" class="bt-card-header-subtitle">
-              <span>{{ statusText(bot) }}</span>
+              <md-layout md-flex>
+                <span>{{ statusText(bot) }}</span>
+              </md-layout>
+              <md-layout md-flex="20" md-align="end">
+                <bt-switch :initial="bot.running" @click="toggleBot(bot)" />
+              </md-layout>
             </md-layout>
           </div>
           <div class="bt-card-body">
@@ -44,7 +49,7 @@
         </div>
       </md-layout>
     </md-layout>
-    <bt-fab to="/Create">
+    <bt-fab :to="createBotUrl">
       <md-icon>add</md-icon>
     </bt-fab>
   </bt-page-container>
@@ -53,6 +58,7 @@
 <script>
 import PageContainer from '@/components/layout/PageContainer'
 import FloatingActionButton from '@/components/core/FloatingActionButton'
+import Switch from '@/components/core/Switch'
 
 import RuntimeService from '@/services/RuntimeService'
 
@@ -60,7 +66,8 @@ export default {
   name: 'overview',
   components: {
     'bt-page-container': PageContainer,
-    'bt-fab': FloatingActionButton
+    'bt-fab': FloatingActionButton,
+    'bt-switch': Switch
   },
   data () {
     return {
@@ -85,6 +92,21 @@ export default {
           botId: bot._id
         }
       })
+    },
+    toggleBot (bot) {
+      RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
+        if (data.success) {
+          this.fetchData()
+        }
+      })
+    },
+    createBotUrl () {
+      return {
+        name: 'Marketplace',
+        params: {
+          userId: this.$route.params.userId
+        }
+      }
     },
     createdText (bot) {
       const createdDate = new Date(bot.createdAt)

@@ -140,4 +140,9 @@ export default {
 .bt-bot-statistics {
   margin-bottom: 20px;
 }
+
+.bt-bot-statistics .bt-card-utterance {
+  margin-bottom: 0;
+  display: inline-flex;
+}
 </style>

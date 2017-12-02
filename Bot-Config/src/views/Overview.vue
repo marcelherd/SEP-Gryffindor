@@ -138,7 +138,7 @@ export default {
       const createdDate = new Date(bot.createdAt)
 
       const day = createdDate.getDate()
-      const month = createdDate.getMonth()
+      const month = createdDate.getMonth() + 1
       const year = createdDate.getFullYear().toString().substr(-2)
       const hours = createdDate.getHours()
       const minutes = createdDate.getMinutes()
@@ -157,6 +157,13 @@ export default {
       const year = date.getFullYear().toString().substr(-2)
 
       const state = bot.running ? 'awake' : 'asleep'
+
+      const now = new Date()
+      if (now.getDate() === day) {
+        const hours = date.getHours()
+        const minutes = date.getMinutes()
+        return `${state} since ${hours}:${minutes}`
+      }
 
       return `${state} since ${day}/${month}/${year}`
     }

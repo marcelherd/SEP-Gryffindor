@@ -4,7 +4,7 @@
       <h1 class="bt-header-1">{{ bot.name }}</h1>
     </md-layout>
     <bt-flash-message ref="flashMessage" />
-    <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
+    <md-layout md-column v-if="bot.template !== 'FAQ-Bot'">
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
@@ -103,7 +103,7 @@
       <bt-button @click="save" theme="orange">Save Bot</bt-button>
     </md-layout>
 
-    <md-layout md-column v-if="bot.template === 'Welcome-Bot'">
+    <md-layout md-column v-if="bot.template === 'aWelcome-Bot'">
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
@@ -235,140 +235,5 @@ export default {
 </script>
 
 <style>
-.bt-card {
-  box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px 5px;
-  margin-bottom: 48px;
-}
 
-.bt-card input:focus {
-  outline: 0;
-}
-
-.bt-card input:focus {
-  background-color: #FAD232;
-}
-
-.bt-card-header {
-  padding: 12px;
-  padding-left: 20px;
-  background-color: #FAD232;
-  font-size: 24px;
-}
-
-.bt-card-header input {
-  border: 0;
-  background-color: transparent;
-  font-size: 24px;
-  outline: 0;
-}
-
-.bt-card-body {
-  padding: 12px;
-  padding-left: 20px;
-}
-
-.bt-card-subtitle {
-  color: #aaa;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-.bt-card-utterance {
-  border: 2px solid black;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.bt-card-utterance:first-child {
-  border-radius: 8px;
-  border-bottom-left-radius: 0;
-}
-
-.bt-card-utterance:last-of-type {
-  border-radius: 8px;
-  border-top-left-radius: 0;
-}
-
-.bt-card-utterance:only-of-type {
-  border-radius: 8px !important;
-}
-
-.bt-card-utterances input {
-  display: block;
-  width: 80%;
-  margin-bottom: 6px;
-}
-
-.bt-card-answer-config {
-  width: 100%;
-}
-
-.bt-card-answer {
-  width: 80%;
-  margin-left: 20%;
-  border: 2px solid black;
-  border-radius: 8px;
-  border-bottom-left-radius: 0;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.bt-button-toggle {
-  padding: 8px;
-}
-
-.bt-button-toggle .md-button:hover {
-  background-color: #F9F2AE !important;
-}
-
-.bt-button-toggle .md-button.md-toggle {
-  background-color: #FAD232;
-}
-
-.bt-card-action {
-  margin-top: 20px;
-}
-
-.bt-card-header ::-webkit-input-placeholder {
-  color: #888;
-  text-decoration: underline;
-  text-decoration-style: dashed;
-  text-underline-position: under;
-}
-.bt-card-header ::-moz-placeholder {
-  color: #888;
-  text-decoration: underline;
-  text-decoration-style: dashed;
-  text-underline-position: under;
-}
-.bt-card-header ::-ms-placeholder {
-  color: #888;
-  text-decoration: underline;
-  text-decoration-style: dashed;
-  text-underline-position: under;
-}
-.bt-card-header ::placeholder {
-  color: #888;
-  text-decoration: underline;
-  text-decoration-style: dashed;
-  text-underline-position: under;
-}
-
-::-webkit-input-placeholder {
-    color:#BDBDBD;
-}
-::-moz-placeholder {
-    color:#BDBDBD;
-}
-::-ms-placeholder {
-    color:#BDBDBD;
-}
-::placeholder {
-    color:#BDBDBD;
-}
 </style>

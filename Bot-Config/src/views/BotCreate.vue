@@ -72,14 +72,5 @@ export default {
 </script>
 
 <style>
-.bt-profile-picture {
-  width: 100px;
-}
 
-.bt-profile-picture-small {
-  position: relative;
-  bottom: -30px;
-  right: 10px;
-  width: 35px;
-}
 </style>

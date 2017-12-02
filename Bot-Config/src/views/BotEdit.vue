@@ -27,7 +27,7 @@
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
                 <span class="bt-card-subtitle">Reply with</span>
-                <div>
+                <div class="bt-card-answer-config">
                   <input v-model="newIntent.answer.value" :placeholder="answerPlaceholder(newIntent)" class="bt-card-answer" />
 
                   <md-layout md-align="end">
@@ -72,7 +72,7 @@
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
                 <span class="bt-card-subtitle">Reply with</span>
-                <div>
+                <div class="bt-card-answer-config">
                   <input v-model="intent.answer.value" :placeholder="answerPlaceholder(intent)" class="bt-card-answer" />
 
                   <md-layout md-align="end">
@@ -287,10 +287,17 @@ export default {
 
 .bt-card-utterances input {
   display: block;
+  width: 80%;
   margin-bottom: 6px;
 }
 
+.bt-card-answer-config {
+  width: 100%;
+}
+
 .bt-card-answer {
+  width: 80%;
+  margin-left: 20%;
   border: 2px solid black;
   border-radius: 8px;
   border-bottom-left-radius: 0;

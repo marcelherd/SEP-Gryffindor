@@ -18,7 +18,8 @@
 
       <md-layout md-flex="30">
         <bt-form-section header="Profile Picture">
-          Image upload here
+          <img src="/static/robot-icon.png" class="bt-profile-picture" />
+          <img src="/static/robot-icon.png" class="bt-profile-picture-small" />
         </bt-form-section>
       </md-layout>
 
@@ -71,4 +72,14 @@ export default {
 </script>
 
 <style>
+.bt-profile-picture {
+  width: 100px;
+}
+
+.bt-profile-picture-small {
+  position: relative;
+  bottom: -30px;
+  right: 10px;
+  width: 35px;
+}
 </style>

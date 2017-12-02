@@ -4,7 +4,7 @@
       <h1 class="bt-header-1">{{ bot.name }}</h1>
     </md-layout>
     <bt-flash-message ref="flashMessage" />
-    <md-layout md-column>
+    <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
@@ -13,7 +13,7 @@
       <bt-form-section header="Dialogue configuration">
         <div class="bt-card">
           <div class="bt-card-header">
-            <input v-model="newIntent.name" placeholder="Enter title" />
+            <input v-model="newIntent.name" placeholder="Intent name" />
           </div>
           <div class="bt-card-body">
             <md-layout md-flex="100">
@@ -99,6 +99,19 @@
             </md-layout>
           </div>
         </div>
+
+      <bt-button @click="save" theme="orange">Save Bot</bt-button>
+    </md-layout>
+
+    <md-layout md-column v-if="bot.template === 'Welcome-Bot'">
+      <bt-form-section header="Bot configuration">
+        <bt-input v-model="bot.name" type="text" placeholder="Name" />
+        <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+      </bt-form-section>
+
+      <bt-form-section header="Dialog configuration">
+
+      </bt-form-section>
 
       <bt-button @click="save" theme="orange">Save Bot</bt-button>
     </md-layout>

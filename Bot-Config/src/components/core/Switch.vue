@@ -30,8 +30,7 @@ export default {
   position: relative;
   width: 37px;
   height: 18px;
-  margin-right: 8px;
-  margin-top: 8px;
+  margin-right: 5px;
 }
 
 /* Hide default HTML checkbox */

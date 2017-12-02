@@ -31,4 +31,8 @@ body {
   color: #FFD244;
   margin-bottom: 48px;
 }
+
+.md-layout .bt-form-section:not(:first-of-type) {
+  margin-top: 24px;
+}
 </style>

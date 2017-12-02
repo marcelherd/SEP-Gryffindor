@@ -2,16 +2,9 @@
   <bt-page-container pageTitle="Bot details">
     <md-layout md-flex="100">
 
-      <md-layout md-flex-offset="30" md-flex="70">
+      <md-layout md-flex="100">
         <h1 class="bt-header-1">Create the {{ bot.template }}</h1>
       </md-layout>
-
-      <md-layout md-flex="30">
-        <bt-form-section header="Profile Picture">
-          Image upload here
-        </bt-form-section>
-      </md-layout>
-
 
       <md-layout md-flex>
         <md-layout md-flex="80" md-column>
@@ -21,6 +14,12 @@
           </bt-form-section>
           <bt-button @click="save" theme="orange">Save</bt-button>
         </md-layout>
+      </md-layout>
+
+      <md-layout md-flex="30">
+        <bt-form-section header="Profile Picture">
+          Image upload here
+        </bt-form-section>
       </md-layout>
 
     </md-layout>

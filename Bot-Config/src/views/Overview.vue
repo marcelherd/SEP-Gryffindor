@@ -1,5 +1,5 @@
 <template>
-  <bt-page-container pageTitle="Overview">
+  <bt-page-container :pageTitle="pageTitle">
     <md-layout md-flex="100" md-gutter="40">
       <md-layout md-flex="50" v-for="(bot, index) in bots" :key="bot._id">
         <div class="bt-card">
@@ -71,18 +71,40 @@ export default {
   },
   data () {
     return {
-      bots: []
+      bots: [],
+      user: {}
     }
   },
   created () {
     this.fetchData()
   },
+  computed: {
+    pageTitle () {
+      const currentUser = this.user._id
+      const workingUser = this.$store.getters.user._id
+
+      if (currentUser === workingUser) {
+        return 'Overview'
+      } else {
+        return `Overview for user ${this.user.username}`
+      }
+    }
+  },
   methods: {
     fetchData () {
       const userId = this.$route.params.userId
+
       RuntimeService.findBotsByUser(userId).then((data) => {
         this.bots = data
       })
+
+      if (userId === this.$store.getters.user._id) {
+        this.user = this.$store.getters.user
+      } else {
+        RuntimeService.findUserById(userId).then((data) => {
+          this.user = data
+        })
+      }
     },
     editBot (bot) {
       this.$router.push({

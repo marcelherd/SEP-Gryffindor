@@ -4,7 +4,6 @@
  *
  * @module services/
  */
-const fs = require('fs');
 const {
   promisify,
 } = require('util');
@@ -13,10 +12,10 @@ const postIntents = require('./Luis/postIntents');
 const Utterances = require('./Luis/addUtterances');
 const Training = require('./Luis/train');
 const publish = require('./Luis/publishApp');
-const { setInterval } = require('timers');
-
-
-const readFile = promisify(fs.readFile);
+const {
+  setInterval,
+} = require('timers');
+const fileService = require('./FileService');
 
 
 const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
@@ -24,26 +23,7 @@ const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;
 
-
-const readConfigDataFromFile = async () => {
-  try {
-    const data = await readFile('../../Bots/FAQ-Bot/config.json', {
-      encoding: 'utf8',
-    });
-    return JSON.parse(data);
-  } catch (err) {
-    console.log(err);
-  }
-};
-const writeEndpointToFile = async (endpointData) => {
-  fs.writeFile('../endpoint.json', JSON.stringify(endpointData), (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-
-};
-const publishMyApp = async () => {
+const publishMyApp = async() => {
   const configAppPublish = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -54,7 +34,7 @@ const publishMyApp = async () => {
   };
   return publish.publishApp(configAppPublish);
 };
-const getTrainingStatus = async () => {
+const getTrainingStatus = async() => {
   const trainingStatus = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -63,7 +43,7 @@ const getTrainingStatus = async () => {
     method: 'GET',
   };
   let results;
-  const interval = setInterval(async () => {
+  const interval = setInterval(async() => {
     let success = true;
     results = await Training.train(trainingStatus);
     for (let i = 0; i < results.response.length && success; i++) {
@@ -74,13 +54,15 @@ const getTrainingStatus = async () => {
       console.log('Cleared Interval');
       clearInterval(interval);
       const answer = await publishMyApp();
-      const { response } = answer;
+      const {
+        response
+      } = answer;
       console.log(response);
-      writeEndpointToFile(response);
+      fileService.writeEndpointToFile(response);
     }
   }, 500);
 };
-const trainMyApp = async () => {
+const trainMyApp = async() => {
   console.log('the Id:');
   console.log(appId);
   const configTrain = {
@@ -93,7 +75,7 @@ const trainMyApp = async () => {
   await Training.train(configTrain);
   getTrainingStatus();
 };
-const addUtterances = async (intentArray) => {
+const addUtterances = async(intentArray) => {
   const configUtterances = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -105,7 +87,7 @@ const addUtterances = async (intentArray) => {
   trainMyApp();
 };
 
-const addIntents = async (intents) => {
+const addIntents = async(intents) => {
   const intentConfig = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -116,15 +98,16 @@ const addIntents = async (intents) => {
   await postIntents(intentConfig);
   let intentArray = [];
   intents.forEach((intent) => {
+    // intent.uterrances = intent.utterances.splice(intent.utterances.length - 1, 1);
     intentArray = intentArray.concat(intent.utterances);
   });
   addUtterances(intentArray);
 };
 
-const addNewApp = async () => {
+const addNewApp = async() => {
   let data;
   try {
-    data = await readConfigDataFromFile();
+    data = await fileService.readConfigDataFromFile('../../Bots/FAQ-Bot/config.json');
     console.log('Reading was succesfull');
   } catch (err) {
     console.log(err);
@@ -143,4 +126,3 @@ const addNewApp = async () => {
 addNewApp();
 
 module.exports = trainMyApp;
-

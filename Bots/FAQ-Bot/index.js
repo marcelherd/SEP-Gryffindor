@@ -1,22 +1,21 @@
 const {
-  Agent
+  Agent,
 } = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
 const {
-  promisify
+  promisify,
 } = require('util');
 // Loading .env File which contains all enviroment letiables with values
 const {
-  config
+  config,
 } = require('dotenv');
+const LuisService = require('./services/LuisService');
+const FileService = require('../../Bot-Runtime/services/FileService');
+const IntentService = require('./services/IntentService');
 
-const botConfig = JSON.parse(process.env.NODE_ENV);
+let botConfig;
 
 
-const {
-  root
-} = botConfig.dialogTree;
-let node = root;
 config();
 
 
@@ -25,43 +24,13 @@ function timeout(ms = 3000) {
 }
 
 /**
- * select the operations number and give the new Option
- */
-function repeatStep() {
-  let counter = 0;
-  let answer = 'Im not sure I understood you. Please repeat your answer:\n\t';
-  while (counter < node.children.length) {
-    answer += `${node.children[counter].data}\n\t`;
-
-    counter++;
-  }
-
-  return answer;
-}
-
-function nextStep(optionNumber) {
-  node = node.children[optionNumber - 1];
-  console.log(node.children[0]);
-
-  return (node.children[0].data);
-}
-
-/**
  * Build the first Tree with greeting an options
  */
 
-function buildFirstTree() {
-  let answer = '';
-  let counter = 0;
-  answer += `${botConfig.greeting}\n\t`;
-  while (counter < root.children.length) {
-    answer += `${root.children[counter].data}\n\t`;
-
-    counter++;
-  }
-
-  return answer;
-}
+const greetTheCustomer = async () => {
+  botConfig = await FileService.readConfigDataFromFile('./config.json');
+  return botConfig.greeting;
+};
 class GreetingBot {
   constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
@@ -103,28 +72,39 @@ class GreetingBot {
      * This function is used to find out what the consumer wants and send him the right message
      * Which later get consumed by other functions.
      */
-    this.core.on('ms.MessagingEventNotification', (body) => {
-      console.log(body.changes[0].originatorMetadata.role)
-      // console.log(`originatorID: ${body.changes[0].originatorId}`);
-      // console.log(`agent: ${this.core.agentId}`);
-      // if (body.changes[0].originatorId !== this.core.agentId) {
-      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role!='ASSIGNED_AGENT') {
-        if (!Number.isNaN(body.changes[0].event.message) &&
-          body.changes[0].event.message < node.children.length +
-          1 && body.changes[0].event.message > 0) {
-          this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
+    this.core.on('ms.MessagingEventNotification', async (body) => {
+      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT') {
+        const intents = await LuisService.getIntent(body.changes[0].event.message);
+        const topScoringIntent = intents.topScoringIntent.intent;
+        console.log('best matched intent: ');
+        console.log(topScoringIntent);
+        const answer = await IntentService.compareIntent(topScoringIntent);
+        console.log(answer);
+
+
+        if (answer === null) {
+          console.log('Something went wrong! Please transfer to Human');
         } else {
-          this.sendMessage(body.dialogId, repeatStep());
+          this.sendMessage(body.dialogId, answer);
         }
+
+
+      //   if (!Number.isNaN(body.changes[0].event.message) &&
+      //     body.changes[0].event.message < node.children.length +
+      //     1 && body.changes[0].event.message > 0) {
+      //     this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
+      //   } else {
+      //     this.sendMessage(body.dialogId, repeatStep());
+      //   }
       }
     });
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-        .forEach(async (change) => {
+        .forEach(async(change) => {
           this.openConversations[change.result.convId] = change.result.conversationDetails;
           await this.joinConversation(change.result.convId, 'MANAGER');
-          await this.sendMessage(change.result.convId, buildFirstTree());
+          await this.sendMessage(change.result.convId, await greetTheCustomer());
         });
 
       body.changes
@@ -236,7 +216,7 @@ class GreetingBot {
     if (message.includes('http')) {
       return await this.sendLink(conversationId, message);
     }
-    return await this.core.publishEvent({
+    return  this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
@@ -256,40 +236,34 @@ class GreetingBot {
         type: 'RichContentEvent',
         content: {
           "type": "vertical",
-          "elements": [
-            {
-              "type": "horizontal",
-              "elements": [
-                  {
-                      "type": "button",
-                      "title": "Buy",
-                      "tooltip": "Buy this product",
-                      "click": {
-                          "actions": [
-                              {
-                                  "type": "link",
-                                  "name": "Buy",
-                                  "uri": "http://www.google.com"
-                              }
-                          ]
-                      }
-                  },
-                  {
-                      "type": "button",
-                      "title": "Find similar",
-                      "tooltip": "store is the thing",
-                      "click": {
-                          "actions": [
-                              {
-                                  "type": "link",
-                                  "name": "Buy",
-                                  "uri": "http://www.google.com"
-                              }
-                          ]
-                      }
-                  }
-              ]
-          },]
+          "elements": [{
+            "type": "horizontal",
+            "elements": [{
+                "type": "button",
+                "title": "Buy",
+                "tooltip": "Buy this product",
+                "click": {
+                  "actions": [{
+                    "type": "link",
+                    "name": "Buy",
+                    "uri": "http://www.google.com"
+                  }]
+                }
+              },
+              {
+                "type": "button",
+                "title": "Find similar",
+                "tooltip": "store is the thing",
+                "click": {
+                  "actions": [{
+                    "type": "link",
+                    "name": "Buy",
+                    "uri": "http://www.google.com"
+                  }]
+                }
+              }
+            ]
+          }, ]
         }
       }
     });

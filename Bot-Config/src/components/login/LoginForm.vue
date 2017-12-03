@@ -136,16 +136,16 @@ export default {
   background-color: #FFCB4C;
 }
 
-::-webkit-input-placeholder {
+.bt-login-form ::-webkit-input-placeholder {
     color:white;
 }
-::-moz-placeholder {
+.bt-login-form ::-moz-placeholder {
     color:white;
 }
-::-ms-placeholder {
+.bt-login-form ::-ms-placeholder {
     color:white;
 }
-::placeholder {
+.bt-login-form ::placeholder {
     color:white;
 }
 </style>

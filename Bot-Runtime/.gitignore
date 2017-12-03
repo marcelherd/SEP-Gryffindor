@@ -13,3 +13,6 @@ yarn-error.log*
 doc/
 
 .nyc_output
+training-status-results.json
+endpoint.json
+training-results.json

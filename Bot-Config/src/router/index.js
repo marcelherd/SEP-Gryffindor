@@ -32,12 +32,12 @@ const router = new Router({
       component: BotEdit
     },
     {
-      path: '/Create',
+      path: '/Overview/:userId/Create',
       name: 'Marketplace',
       component: Marketplace
     },
     {
-      path: '/Create/:template',
+      path: '/Overview/:userId/Create/:template',
       name: 'BotCreate',
       component: BotCreate
     },

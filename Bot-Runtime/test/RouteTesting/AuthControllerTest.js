@@ -12,7 +12,7 @@ const authService = require('../../services/AuthService');
 chai.use(chaiHttp);
 
 describe('Users', () => {
-  beforeEach((done) => { //Before each test we empty the database
+  beforeEach((done) => { // Before each test we empty the database
     User.remove({}, (err) => {
       if (err) {
         console.log(err);
@@ -23,7 +23,7 @@ describe('Users', () => {
     authService.setupUsers(); // here we add a superuser which is needed for testing
   });
   // POST AUTHENTICATE
-  describe('/POST AUTHENTICATE', () => {
+  describe('POST /authenticate', () => {
     it('should not return authentication cause user not registered in database and therefore not authorized', (done) => {
       const body = {
         username: 'simon',

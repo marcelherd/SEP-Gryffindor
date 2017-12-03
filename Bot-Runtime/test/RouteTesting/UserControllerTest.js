@@ -14,20 +14,30 @@ const jwt = require('jsonwebtoken');
 
 chai.use(chaiHttp);
 
+
+User.remove({}, (err) => {
+  if (err) {
+    console.log(err);
+  }
+});
+
 describe('User Tests', () => {
   beforeEach((done) => {
     const payload = {
       username: 'Simon',
+      password: 'Simon',
       admin: true,
     };
 
     this.token = jwt.sign(payload, config.secret, {
       expiresIn: '1d',
     });
-    authService.setupUsers();
+
+    // authService.setupUsers();
+
     done();
   });
-  describe('/GET USERS', () => {
+  describe('GET /users', () => {
     it('should authenticate with given token ', (done) => {
       chai.request(server)
         .get('/api/v1/manage/users')
@@ -61,7 +71,7 @@ describe('User Tests', () => {
         });
     });
   });
-  describe('/POST USERS', () => {
+  describe('POST /users', () => {
     it('should fail cause no authentication token is used', (done) => {
       const body = {
         username: 'SimonA',
@@ -85,9 +95,8 @@ describe('User Tests', () => {
         .set('x-access-token', this.token)
         .send(body)
         .end((err, res) => {
-          this.id = res.body.id;
-          chai.expect(res.body).to.have.property('id');
-          chai.expect(res.body.id).to.not.equal('null');
+          this.id = res.body.message._id;
+          chai.expect(res.body.message).to.have.property('_id');
           chai.expect(res.body.success).to.be.true;
           chai.expect(res).to.have.status(200);
           done();
@@ -130,19 +139,19 @@ describe('User Tests', () => {
         .send(userA)
         .end((err, res) => {
           chai.expect(res).to.have.status(200);
-          chai.expect(res.body.username).to.equal('BjornA');
-          chai.expect(res.body.password).to.equal('BjornA');
-        });
+          chai.expect(res.body.message.username).to.equal('BjornA');
+          chai.expect(res.body.message.password).to.equal('BjornA');
 
-      // Post userB with userA token
-      chai.request(server)
-        .post('/api/v1/manage/users')
-        .set('x-access-token', resToken)
-        .send(userB)
-        .end((err, res) => {
-          chai.expect(res).to.have.status(403);
+          // Post userB with userA token
+          chai.request(server)
+            .post('/api/v1/manage/users')
+            .set('x-access-token', resToken)
+            .send(userB)
+            .end((err2, res2) => {
+              chai.expect(res2).to.have.status(403);
+              done();
+            });
         });
-      done();
     });
     // TODO: Ask what should happen, when posting same user with different parameters again
     it('should not overwrite existing user', (done) => {
@@ -163,24 +172,24 @@ describe('User Tests', () => {
         .set('x-access-token', this.token)
         .send(userC)
         .end((err, res) => {
-          idUserC = res.body.id;
+          idUserC = res.body.message._id;
           chai.expect(res).to.have.status(200);
-        });
 
-      // Post a new userD instead of updating userC
-      chai.request(server)
-        .post('/api/v1/manage/users/')
-        .set('x-access-token', this.token)
-        .send(userD)
-        .end((err, res) => {
-          chai.expect(res.body.id).to.not.equal(idUserC);
-          chai.expect(res.body.password).to.equal('B');
-          chai.expect(res).to.have.status(200);
+          // Post a new userD instead of updating userC
+          chai.request(server)
+            .post('/api/v1/manage/users')
+            .set('x-access-token', this.token)
+            .send(userD)
+            .end((err2, res2) => {
+              chai.expect(res2.body.message._id).to.not.equal(idUserC);
+              chai.expect(res2.body.message.password).to.equal('B');
+              chai.expect(res2).to.have.status(200);
+              done();
+            });
         });
-      done();
     });
   });
-  describe('/GET/USERS user_id', () => {
+  describe('GET /users/:user_id', () => {
     it('should return the user cause authentication token is set', (done) => {
       chai.request(server)
         .get(`/api/v1/manage/users/${this.id}`)
@@ -223,7 +232,7 @@ describe('User Tests', () => {
         });
     });
   });
-  describe('/DELETE/USERS user_id', () => {
+  describe('DELETE /users/:user_id', () => {
     it('should fail cause no user with this id exists', (done) => {
       const id = this.id + 1;
       chai.request(server)
@@ -259,7 +268,8 @@ describe('User Tests', () => {
         .delete(`/api/v1/manage/users/${this.id}`)
         .set('x-access-token', this.token)
         .end((err, res) => {
-          chai.expect(res).to.have.status(200);
+          // chai.expect(res).to.have.status(200);
+          chai.expect(res.body.message).equals('User deleted');
           done();
         });
     });
@@ -268,7 +278,7 @@ describe('User Tests', () => {
         .get(`/api/v1/manage/users/${this.id}`)
         .set('x-access-token', this.token)
         .end((err, res) => {
-          chai.expect(res).to.have.status(404);
+          chai.expect(res).to.have.status(500);
           done();
         });
     });

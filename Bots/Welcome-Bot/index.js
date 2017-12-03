@@ -10,7 +10,8 @@ const {
   config,
 } = require('dotenv');
 
-const botConfig = require('./config.json');
+const botConfig = JSON.parse(process.env.NODE_ENV);
+
 
 const {
   root,
@@ -260,17 +261,39 @@ class GreetingBot {
         type: 'RichContentEvent',
         content: {
           "type": "vertical",
-          "elements": [{
-            "type": "button",
-            "tooltip": "button tooltip",
-            "title": "Add to cart",
-            "click": {
-              "actions": [{
-                "type": "link",
-                "name": "Add to cart",
-                "uri": link
-              }]
-            }
+          "elements": [
+            {
+              "type": "horizontal",
+              "elements": [
+                  {
+                      "type": "button",
+                      "title": "Buy",
+                      "tooltip": "Buy this product",
+                      "click": {
+                          "actions": [
+                              {
+                                  "type": "link",
+                                  "name": "Buy",
+                                  "uri": "http://www.google.com"
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "type": "button",
+                      "title": "Find similar",
+                      "tooltip": "store is the thing",
+                      "click": {
+                          "actions": [
+                              {
+                                  "type": "link",
+                                  "name": "Buy",
+                                  "uri": "http://www.google.com"
+                              }
+                          ]
+                      }
+                  }
+              ]
           },]
         }
       }

@@ -1,0 +1,30 @@
+{
+  "name": "Mein Geiler Bot",
+  "greeting": "Ich bin Horny",
+  "intents": [
+    {
+      "name": "Passwort Vergessen",
+      "answer": "Hier dein Link",
+      "utterances": [
+        {
+          "text": "Ich habe mein Passwort vergessen"
+        },
+        {
+          "text": "Was Passwort ist blyad"
+        }
+      ]
+    },
+    {
+      "name": "Was Kostet sky go",
+      "answer": "50 Du hoe",
+      "utterances": [
+        {
+          "text": "Ey was kostn der shit hier"
+        },
+        {
+          "text": "WAS KOSTEN?"
+        }
+      ]
+    }
+  ]
+}

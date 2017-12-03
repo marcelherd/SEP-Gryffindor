@@ -116,7 +116,9 @@ export default {
   updateBot (userId, bot) {
     let payload = {
       name: bot.name,
-      greeting: bot.greeting
+      greeting: bot.greeting,
+      dialogTree: bot.dialogTree || {},
+      intents: bot.intents || []
     }
 
     let request = new Request(`${URL + userId}/bots/${bot._id}`, {

@@ -16,5 +16,8 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
+
+ENV NODE_ENV=platzhalter
+
 CMD [ "npm", "start" ]
 

@@ -56,33 +56,35 @@ exports.postBot = function (req, res) {
       success: false,
       message: 'Body is missing one or more required parameters',
     });
-  } else if (req.body.template === 'Welcome-Bot') {
-    const bot = new Bot({
-      name: req.body.name,
-      running: req.body.running || false,
-      environment: req.body.environment || 'STAGING',
-      template: req.body.template,
-      greeting: req.body.greeting,
-      dialogTree: req.body.dialogTree || {},
-      intents: req.body.intents || [],
-    });
-
-    const newBot = req.user.bots.create(bot);
-    req.user.bots.push(newBot);
-
-    req.user.save((err) => {
-      if (err) throw err;
-
-      DockerService.buildImage(newBot);
-
-      res.status(201).json({
-        success: true,
-        message: newBot,
-      });
-    });
-  } else {
-    Luis.addNewApp();
   }
+  const bot = new Bot({
+    name: req.body.name,
+    running: req.body.running || false,
+    environment: req.body.environment || 'STAGING',
+    template: req.body.template,
+    greeting: req.body.greeting,
+    dialogTree: req.body.dialogTree || {
+      root: {
+        data: 'Conversation',
+        children: [],
+      },
+    },
+    intents: req.body.intents || [],
+  });
+
+  const newBot = req.user.bots.create(bot);
+  req.user.bots.push(newBot);
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    DockerService.buildImage(newBot);
+
+    res.status(201).json({
+      success: true,
+      message: newBot,
+    });
+  });
 };
 
 /**

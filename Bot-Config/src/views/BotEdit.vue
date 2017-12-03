@@ -110,7 +110,9 @@
       </bt-form-section>
 
       <bt-form-section header="Dialog configuration">
-
+        <div class="bt-tree">
+          <bt-tree-node :node="bot.dialogTree.root" isRoot="true" />
+        </div>
       </bt-form-section>
 
       <bt-button @click="save" theme="orange">Save Bot</bt-button>
@@ -122,6 +124,7 @@
 import PageContainer from '@/components/layout/PageContainer'
 import FormSection from '@/components/core/FormSection'
 import FlashMessage from '@/components/core/FlashMessage'
+import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
 
@@ -133,6 +136,7 @@ export default {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
     'bt-flash-message': FlashMessage,
+    'bt-tree-node': TreeNode,
     'bt-button': Button,
     'bt-input': Input
   },
@@ -235,5 +239,7 @@ export default {
 </script>
 
 <style>
-
+.bt-tree {
+  width: 500px;
+}
 </style>

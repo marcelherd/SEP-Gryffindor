@@ -1,20 +1,20 @@
 const {
-  Agent
+  Agent,
 } = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
 const {
-  promisify
+  promisify,
 } = require('util');
 // Loading .env File which contains all enviroment letiables with values
 const {
-  config
+  config,
 } = require('dotenv');
 
 const botConfig = JSON.parse(process.env.NODE_ENV);
 
 
 const {
-  root
+  root,
 } = botConfig.dialogTree;
 let node = root;
 config();
@@ -41,7 +41,7 @@ function repeatStep() {
 
 function nextStep(optionNumber) {
   node = node.children[optionNumber - 1];
-  console.log(node.children[0]);
+  
 
   return (node.children[0].data);
 }
@@ -104,15 +104,20 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', (body) => {
-      console.log(body.changes[0].originatorMetadata.role)
+      //console.log(body.changes[0].originatorMetadata.role)
       // console.log(`originatorID: ${body.changes[0].originatorId}`);
       // console.log(`agent: ${this.core.agentId}`);
       // if (body.changes[0].originatorId !== this.core.agentId) {
+      console.log(node.children.length);
       if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role!='ASSIGNED_AGENT') {
         if (!Number.isNaN(body.changes[0].event.message) &&
           body.changes[0].event.message < node.children.length +
           1 && body.changes[0].event.message > 0) {
           this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
+          if (node.children.length === 1) {
+            node = root;
+            this.setAgentState('OFFLINE');
+          }
         } else {
           this.sendMessage(body.dialogId, repeatStep());
         }
@@ -187,7 +192,7 @@ class GreetingBot {
    * @param {string} convState the conversation state for which should be subscribed
    * @param {boolean} agentOnly if set it will only subscribe to conversation in which the agent is or which are suitable for his skills
    */
-  async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
+  async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
     if (!this.isConnected) return;
     return await this.core.subscribeExConversations({
       convState: [convState]

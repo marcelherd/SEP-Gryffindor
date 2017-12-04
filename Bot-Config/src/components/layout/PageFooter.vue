@@ -8,7 +8,7 @@
     <md-layout md-vertical-align="end">
       <div class="bt-page-footer-contact">
         <p>BOTTERTOAST</p>
-        <p>Mannheim, Germany 2017</p>
+        <p>Mannheim, {{ $t('core.country') }} 2017</p>
       </div>
     </md-layout>
   </md-layout>

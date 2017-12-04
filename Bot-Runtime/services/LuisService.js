@@ -12,6 +12,7 @@ const postIntents = require('./Luis/postIntents');
 const Utterances = require('./Luis/addUtterances');
 const Training = require('./Luis/train');
 const publish = require('./Luis/publishApp');
+const deleteApp = require('./Luis/deleteApp');
 const {
   setInterval,
 } = require('timers');
@@ -55,10 +56,10 @@ const getTrainingStatus = async() => {
       clearInterval(interval);
       const answer = await publishMyApp();
       const {
-        response
+        response,
       } = answer;
       console.log(response);
-      fileService.writeEndpointToFile(response);
+      await fileService.writeToFile(response, './Luis/endpoint.json');
     }
   }, 500);
 };
@@ -103,11 +104,18 @@ const addIntents = async(intents) => {
   });
   addUtterances(intentArray);
 };
+const deleteOldApp = async (deleteAppId) => {
+  const deleteThisApp = {
+    LUIS_subscriptionKey: subscriptionKey,
+    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${deleteAppId}`,
+  };
+  await deleteApp(deleteThisApp);
+};
 
-const addNewApp = async() => {
+exports.addNewApp = async (path) => {
   let data;
   try {
-    data = await fileService.readConfigDataFromFile('../../Bots/FAQ-Bot/config.json');
+    data = await fileService.readConfigDataFromFile(path);
     console.log('Reading was succesfull');
   } catch (err) {
     console.log(err);
@@ -119,10 +127,27 @@ const addNewApp = async() => {
     culture: 'en-us',
     uri: postAppUri,
   };
+  try {
+    let apps = await fileService.getAppIds();
+    const getId = async () => {
+      for (let i = 0; i < apps.length; i++) {
+        if (apps[i].n === appConfig.appName) {
+          const { id } = apps[i];
+          apps.splice(i, 1);
+          return id;
+        }
+      }
+    };
+    const deleteId = await getId();
+    await deleteOldApp(deleteId);
+    console.log(apps);
+    await fileService.writeAppIdsAfterDeletion(apps, './Luis/apps.json');
+  } catch (err) {
+    console.log(err);
+    console.log('No App created yet, so just create First one');
+  }
   appId = await createApp(appConfig);
+  await fileService.writeAppIds(appId, appConfig.appName);
   addIntents(data.intents);
 };
-
-addNewApp();
-
-module.exports = trainMyApp;
+this.addNewApp('../../Bots/FAQ-Bot/config.json');

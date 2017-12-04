@@ -47,10 +47,11 @@ const createApp = async (config) => {
     // Create app returns an app ID
     const appId = results.response;
     console.log(`Called createApp, created app with ID ${appId}`);
+
     return appId;
   } catch (err) {
     console.log(`Error creating app:  ${err.message} `);
-    throw err;
+    return err;
   }
 };
 

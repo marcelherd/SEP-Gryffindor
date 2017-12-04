@@ -1,1 +1,13 @@
-{"updatedAt":"2017-12-01T01:16:04.934Z","createdAt":"2017-12-01T01:16:04.934Z","_id":"5a20ad54575b8e2fd547d6d5","dialogTree":{},"greeting":"Hello","template":"Welcome-Bot","environment":"STAGING","running":false,"name":"Botter","statusChanged":"2000-01-01T00:00:00.000Z","intents":[]}
+{
+  "updatedAt": "2017-12-01T01:16:04.934Z",
+  "createdAt": "2017-12-01T01:16:04.934Z",
+  "_id": "5a20ad54575b8e2fd547d6d5",
+  "dialogTree": {},
+  "greeting": "Hello",
+  "template": "Welcome-Bot",
+  "environment": "STAGING",
+  "running": false,
+  "name": "Botter",
+  "statusChanged": "2000-01-01T00:00:00.000Z",
+  "intents": []
+}

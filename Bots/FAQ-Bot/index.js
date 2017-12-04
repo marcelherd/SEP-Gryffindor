@@ -10,8 +10,8 @@ const {
   config,
 } = require('dotenv');
 const LuisService = require('./services/LuisService');
-const FileService = require('../../Bot-Runtime/services/FileService');
 const IntentService = require('./services/IntentService');
+const fileService = require('../../Bot-Runtime/services/FileService');
 
 let botConfig;
 
@@ -28,9 +28,10 @@ function timeout(ms = 3000) {
  */
 
 const greetTheCustomer = async () => {
-  botConfig = await FileService.readConfigDataFromFile('./config.json');
+  botConfig = await fileService.readConfigDataFromFile('./config.json');
   return botConfig.greeting;
 };
+
 class GreetingBot {
   constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;

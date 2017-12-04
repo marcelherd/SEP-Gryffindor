@@ -5,6 +5,7 @@ const {
 } = require('util');
 
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 exports.readConfigDataFromFile = async (path) => {
   try {
@@ -13,15 +14,46 @@ exports.readConfigDataFromFile = async (path) => {
     });
     return JSON.parse(data);
   } catch (err) {
-    console.log(err);
+    console.log('errrrr');
+    throw err;
   }
 };
 
-exports.writeEndpointToFile = async(endpointData) => {
-  fs.writeFile('../endpoint.json', JSON.stringify(endpointData), (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-
+exports.writeToFile = async (data, path) => fs.writeFile(path, JSON.stringify(data), (err) => {
+  if (err) {
+    console.log(err);
+  }
+});
+exports.writeAppIdsAfterDeletion = async (apps, path) => {
+  exports.writeToFile(apps, path);
 };
+
+exports.writeAppIds = async (appId, name) => {
+  try {
+    const apps = await this.readConfigDataFromFile('./apps.json');
+    apps.push({
+      n: name,
+      id: appId,
+    });
+    fs.writeFile('./apps.json', JSON.stringify(apps), (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  } catch (err) {
+    const apps = [];
+    apps.push({
+      n: name,
+      id: appId,
+    });
+    await writeFile('./apps.json', JSON.stringify(apps), (error) => {
+      if (error) {
+        return error;
+      }
+      return 'success';
+    });
+  }
+};
+
+exports.getAppIds = async () => exports.readConfigDataFromFile('./apps.json');
+

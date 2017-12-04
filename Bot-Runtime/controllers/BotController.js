@@ -71,6 +71,9 @@ exports.postBot = function (req, res) {
     },
     intents: req.body.intents || [],
   });
+  if (bot.template === 'FAQ-Bot') {
+    Luis.addNewApp();
+  }
 
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);

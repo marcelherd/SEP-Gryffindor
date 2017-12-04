@@ -16,6 +16,7 @@
   "dependencies": {
     "chromedriver": "^2.33.2",
     "vue": "^2.5.2",
+    "vue-i18n": "^7.3.2",
     "vue-material": "^0.7.5",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.0"

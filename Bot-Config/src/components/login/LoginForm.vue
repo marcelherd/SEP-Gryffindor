@@ -13,11 +13,11 @@
         </md-layout>
       </md-layout>
       <div class="bt-login-input-container">
-        <input v-model="username" @keyup.enter="login" ref="usernameInput" type="text" placeholder="Username" class="bt-login-input">
-        <input v-model="password" @keyup.enter="login" type="password" placeholder="Password" class="bt-login-input">
+        <input v-model="username" @keyup.enter="login" ref="usernameInput" type="text" :placeholder="$t('login.lblUsername')" class="bt-login-input">
+        <input v-model="password" @keyup.enter="login" type="password" :placeholder="$t('login.lblPassword')" class="bt-login-input">
       </div>
       <md-layout md-align="end" class="bt-login-controls">
-        <button @click="login" class="bt-login-button">Login</button>
+        <button @click="login" class="bt-login-button">{{ $t('login.btnLogin') }}</button>
       </md-layout>
     </md-layout>
   </md-layout>

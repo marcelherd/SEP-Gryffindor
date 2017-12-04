@@ -84,11 +84,7 @@ exports.postBot = function (req, res) {
       success: true,
       message: newBot,
     });
-<<<<<<< HEAD
-  }
-=======
   });
->>>>>>> 2de30773017307181195962b2337d0e236afa15c
 };
 
 /**

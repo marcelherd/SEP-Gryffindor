@@ -59,7 +59,7 @@ const getTrainingStatus = async() => {
         response,
       } = answer;
       console.log(response);
-      await fileService.writeToFile(response, './endpoint.json');
+      await fileService.writeToFile(response, './Luis/endpoint.json');
     }
   }, 500);
 };
@@ -112,10 +112,10 @@ const deleteOldApp = async (deleteAppId) => {
   await deleteApp(deleteThisApp);
 };
 
-exports.addNewApp = async () => {
+exports.addNewApp = async (path) => {
   let data;
   try {
-    data = await fileService.readConfigDataFromFile('../Bots/FAQ-Bot/config.json');
+    data = await fileService.readConfigDataFromFile(path);
     console.log('Reading was succesfull');
   } catch (err) {
     console.log(err);
@@ -141,7 +141,7 @@ exports.addNewApp = async () => {
     const deleteId = await getId();
     await deleteOldApp(deleteId);
     console.log(apps);
-    await fileService.writeAppIdsAfterDeletion(apps, './apps.json');
+    await fileService.writeAppIdsAfterDeletion(apps, './Luis/apps.json');
   } catch (err) {
     console.log(err);
     console.log('No App created yet, so just create First one');
@@ -150,3 +150,4 @@ exports.addNewApp = async () => {
   await fileService.writeAppIds(appId, appConfig.appName);
   addIntents(data.intents);
 };
+this.addNewApp('../../Bots/FAQ-Bot/config.json');

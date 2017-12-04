@@ -11,8 +11,9 @@ const {
 } = require('dotenv');
 const LuisService = require('./services/LuisService');
 const IntentService = require('./services/IntentService');
+const fileService = require('../../Bot-Runtime/services/FileService');
 
-const botConfig = JSON.parse(process.env.NODE_ENV);
+let botConfig;
 
 
 config();
@@ -26,7 +27,10 @@ function timeout(ms = 3000) {
  * Build the first Tree with greeting an options
  */
 
-const greetTheCustomer = async () => botConfig.greeting;
+const greetTheCustomer = async () => {
+  botConfig = await fileService.readConfigDataFromFile('./config.json');
+  return botConfig.greeting;
+};
 
 class GreetingBot {
   constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {

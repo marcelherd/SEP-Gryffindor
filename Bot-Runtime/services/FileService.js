@@ -30,12 +30,12 @@ exports.writeAppIdsAfterDeletion = async (apps, path) => {
 
 exports.writeAppIds = async (appId, name) => {
   try {
-    const apps = await this.readConfigDataFromFile('./apps.json');
+    const apps = await this.readConfigDataFromFile('./Luis/apps.json');
     apps.push({
       n: name,
       id: appId,
     });
-    fs.writeFile('./apps.json', JSON.stringify(apps), (err) => {
+    fs.writeFile('./Luis/apps.json', JSON.stringify(apps), (err) => {
       if (err) {
         console.log(err);
       }
@@ -46,7 +46,7 @@ exports.writeAppIds = async (appId, name) => {
       n: name,
       id: appId,
     });
-    await writeFile('./apps.json', JSON.stringify(apps), (error) => {
+    await writeFile('./Luis/apps.json', JSON.stringify(apps), (error) => {
       if (error) {
         return error;
       }
@@ -55,5 +55,5 @@ exports.writeAppIds = async (appId, name) => {
   }
 };
 
-exports.getAppIds = async () => exports.readConfigDataFromFile('./apps.json');
+exports.getAppIds = async () => exports.readConfigDataFromFile('./Luis/apps.json');
 

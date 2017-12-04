@@ -72,7 +72,7 @@ exports.postBot = function (req, res) {
     intents: req.body.intents || [],
   });
   if (bot.template === 'FAQ-Bot') {
-    Luis.addNewApp();
+    Luis.addNewApp('../Bots/FAQ-Bot/config.json');
   }
 
   const newBot = req.user.bots.create(bot);

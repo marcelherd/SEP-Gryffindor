@@ -9,7 +9,13 @@
  * The bot platform root component.
  */
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    const locale = localStorage.getItem('locale')
+    if (locale !== null) {
+      this.$i18n.locale = locale
+    }
+  }
 }
 </script>
 

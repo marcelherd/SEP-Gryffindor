@@ -8,6 +8,11 @@ const messages = {
     core: {
       country: 'Germany'
     },
+    menu: {
+      btnAccount: 'Account',
+      btnAdmin: 'Admin',
+      btnLogout: 'Log out'
+    },
     login: {
       lblUsername: 'Username',
       lblPassword: 'Password',
@@ -24,11 +29,19 @@ const messages = {
       lblConversations: 'I had {conversations} conversations so far',
       lblForwards: 'And forwarded {forwards} times',
       btnEdit: 'Edit'
+    },
+    marketplace: {
+      lblPageTitle: 'Select bot template'
     }
   },
   de: {
     core: {
       country: 'Deutschland'
+    },
+    menu: {
+      btnAccount: 'Konto',
+      btnAdmin: 'Admin',
+      btnLogout: 'Ausloggen'
     },
     login: {
       lblUsername: 'Benutzername',
@@ -46,6 +59,9 @@ const messages = {
       lblConversations: 'Ich hatte bisher {conversations} Konversationen',
       lblForwards: 'Und habe {forwards} mal weitergeleitet',
       btnEdit: 'Bearbeiten'
+    },
+    marketplace: {
+      lblPageTitle: 'Wähle eine Bot Vorlage aus'
     }
   }
 }

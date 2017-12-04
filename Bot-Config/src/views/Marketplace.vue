@@ -1,5 +1,5 @@
 <template>
-  <bt-page-container pageTitle="Select bot template">
+  <bt-page-container :pageTitle="$t('marketplace.lblPageTitle')">
     <md-layout md-flex>
       <bt-tile @click="navigate(template)"
         v-for="(template, index) in templates" flex="40"

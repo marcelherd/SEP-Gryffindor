@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "chromedriver": "^2.33.2",
+    "flag-icon-css": "^2.8.0",
     "vue": "^2.5.2",
     "vue-i18n": "^7.3.2",
     "vue-material": "^0.7.5",

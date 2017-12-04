@@ -14,6 +14,7 @@ export default {
 </script>
 
 <style src="vue-material/dist/vue-material.css"></style>
+<style src="flag-icon-css/css/flag-icon.min.css"></style>
 
 <style>
 body {

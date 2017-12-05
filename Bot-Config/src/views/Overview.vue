@@ -32,13 +32,13 @@
                 <md-layout md-flex md-flex-offset="5">
                   <div class="bt-card-utterances bt-bot-statistics">
                     <p class="bt-card-utterance">
-                      Hi! I'm {{ bot.name }} the {{ bot.template }}!
+                      {{ $t('overview.lblIntroduction', { name: bot.name, template: bot.template }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      I had 0 conversations so far
+                      {{ $t('overview.lblConversations', { conversations: 0 }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      And forwarded 0 times
+                      {{ $t('overview.lblForwards', { forwards: 0 }) }}
                     </p>
                   </div>
                 </md-layout>
@@ -47,7 +47,7 @@
           </div>
           <div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
             <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
-              <button @click="editBot(bot)">Edit</button>
+              <button @click="editBot(bot)">{{ $t('overview.btnEdit') }}</button>
             </md-layout>
           </div>
         </div>
@@ -88,9 +88,9 @@ export default {
       const workingUser = this.$store.getters.user._id
 
       if (currentUser === workingUser) {
-        return 'Overview'
+        return this.$t('overview.lblPageTitle')
       } else {
-        return `Overview for user ${this.user.username}`
+        return this.$t('overview.lblPageTitleUser', { user: this.user.username })
       }
     }
   },
@@ -143,29 +143,29 @@ export default {
       const hours = createdDate.getHours()
       const minutes = createdDate.getMinutes()
 
-      return `Born ${day}/${month}/${year} ${hours}:${minutes}`
+      return `${this.$t('overview.lblBorn')} ${day}/${month}/${year} ${hours}:${minutes}`
     },
     statusText (bot) {
       const date = new Date(bot.statusChanged)
 
       if (date.getFullYear() === 2000) {
-        return `Bot has never run`
+        return this.$t('overview.lblNeverRan')
       }
 
       const day = date.getDate()
       const month = date.getMonth() + 1
       const year = date.getFullYear().toString().substr(-2)
 
-      const state = bot.running ? 'awake' : 'asleep'
+      const state = bot.running ? this.$t('overview.lblAwake') : this.$t('overview.lblAsleep')
 
       const now = new Date()
       if (now.getDate() === day) {
         const hours = date.getHours()
         const minutes = date.getMinutes()
-        return `${state} since ${hours}:${minutes}`
+        return `${state} ${hours}:${minutes}`
       }
 
-      return `${state} since ${day}/${month}/${year}`
+      return `${state} ${day}/${month}/${year}`
     }
   }
 }

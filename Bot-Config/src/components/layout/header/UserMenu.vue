@@ -4,9 +4,15 @@
       <md-button md-menu-trigger>{{ user.username }} &#9660;</md-button>
 
       <md-menu-content>
-        <md-menu-item @click="navigate('Account')">Account</md-menu-item>
-        <md-menu-item @click="navigate('Administration')" v-if="user.admin">Admin</md-menu-item>
-        <md-menu-item @click="logout">Log out</md-menu-item>
+        <md-menu-item @click="navigate('Account')">
+          {{ $t('menu.btnAccount') }}
+        </md-menu-item>
+        <md-menu-item @click="navigate('Administration')" v-if="user.admin">
+          {{ $t('menu.btnAdmin') }}
+        </md-menu-item>
+        <md-menu-item @click="logout">
+          {{ $t('menu.btnLogout') }}
+        </md-menu-item>
       </md-menu-content>
     </md-menu>
   </md-layout>

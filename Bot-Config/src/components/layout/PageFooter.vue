@@ -13,8 +13,8 @@
     </md-layout>
     <md-layout md-flex="15" md-align="center" md-vertical-align="end">
       <div class="bt-page-footer-language">
-        <span class="flag-icon flag-icon-de" @click="setLanguage('de')"></span>
-        <span class="flag-icon flag-icon-us" @click="setLanguage('en')"></span>
+        <span class="bt-lang-selection" @click="setLanguage('de')">de</span>
+        <span class="bt-lang-selection" @click="setLanguage('en')">en</span>
       </div>
     </md-layout>
   </md-layout>
@@ -57,5 +57,10 @@ export default {
 
 .bt-page-footer-language .flag-icon:hover {
   cursor: pointer;
+}
+
+.bt-lang-selection:not(:last-child) {
+  padding-right: 6px;
+  border-right: 1px solid white;
 }
 </style>

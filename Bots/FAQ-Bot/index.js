@@ -103,10 +103,10 @@ class GreetingBot {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] )
         .forEach(async(change) => {
-          if(change.result.conversationDetails.skillId == '1000666232'){
-          this.openConversations[change.result.convId] = change.result.conversationDetails;
-          await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
-          await this.sendMessage(change.result.convId, await greetTheCustomer());
+          if (change.result.conversationDetails.skillId == '1000666232') {
+            this.openConversations[change.result.convId] = change.result.conversationDetails;
+            await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
+            await this.sendMessage(change.result.convId, await greetTheCustomer());
           }
         });
 

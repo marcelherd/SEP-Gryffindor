@@ -64,7 +64,7 @@ exports.start = function (bot) {
   return new Promise((resolve) => {
     // TODO: start the bot here
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
-    const container = docker.getContainer(bot.id);
+    const container = docker.getContainer(bot._id);
     container.inspect((error, data) => {
       if (data.State.Status === 'exited' || data.State.Status === 'created') {
         container.start();
@@ -88,7 +88,7 @@ exports.stop = function (bot) {
     // TODO: stop the bot here
 
     console.log(`Stopping bot ${bot.name} (${bot._id})...`);
-    const container = docker.getContainer(bot.id);
+    const container = docker.getContainer(bot._id);
     // query API for container info
     container.inspect((error, data) => {
       if (data.State.Status !== 'exited') {
@@ -132,7 +132,7 @@ exports.delete = function (bot) {
     console.log(bot);
     console.log(`Deleting bot ${bot.name} (${bot.id})...`);
 
-    const container = docker.getContainer(bot.id);
+    const container = docker.getContainer(bot._id);
     this.stop(bot);
     container.remove((err) => {
       if (err) {

@@ -4,7 +4,7 @@
   "intents": [
     {
       "name": "Passwort Vergessen",
-      "answer": "Hier dein Link",
+      "answer": "https://www.google.com",
       "utterances": [
         {
           "text": "Ich habe mein Passwort vergessen",

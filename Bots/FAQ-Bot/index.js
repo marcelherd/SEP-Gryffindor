@@ -74,7 +74,6 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', async (body) => {
-      
       if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId =='1000666232') {
         const intents = await LuisService.getIntent(body.changes[0].event.message);
         const topScoringIntent = intents.topScoringIntent.intent;
@@ -86,6 +85,8 @@ class GreetingBot {
 
         if (answer === null) {
           console.log('Something went wrong! Please transfer to Human');
+        } else if (answer.includes('http')) {
+          this.sendLink(body.dialogId, answer);
         } else {
           this.sendMessage(body.dialogId, answer);
         }
@@ -238,37 +239,21 @@ class GreetingBot {
       dialogId: conversationId,
       event: {
         type: 'RichContentEvent',
-        content: {
-          "type": "vertical",
-          "elements": [{
-            "type": "horizontal",
-            "elements": [{
-                "type": "button",
-                "title": "Buy",
-                "tooltip": "Buy this product",
-                "click": {
-                  "actions": [{
-                    "type": "link",
-                    "name": "Buy",
-                    "uri": "http://www.google.com"
-                  }]
-                }
-              },
-              {
-                "type": "button",
-                "title": "Find similar",
-                "tooltip": "store is the thing",
-                "click": {
-                  "actions": [{
-                    "type": "link",
-                    "name": "Buy",
-                    "uri": "http://www.google.com"
-                  }]
-                }
-              }
-            ]
-          }, ]
-        }
+        content:
+        {
+          "type": "button",
+          "tooltip": "button tooltip",
+          "title": "Reset Password",
+          "click": {
+              "actions": [
+                  {
+                      "type": "link",
+                      "name": "Reset Password",
+                      "uri": "http://www.google.com"
+                  }
+              ]
+          }
+      },
       }
     });
   }

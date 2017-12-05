@@ -74,7 +74,8 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', async (body) => {
-      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT') {
+      
+      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId =='1000666232') {
         const intents = await LuisService.getIntent(body.changes[0].event.message);
         const topScoringIntent = intents.topScoringIntent.intent;
         console.log('best matched intent: ');
@@ -103,10 +104,10 @@ class GreetingBot {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] )
         .forEach(async(change) => {
-          if(change.result.conversationDetails.skillId == '1000666232'){
-          this.openConversations[change.result.convId] = change.result.conversationDetails;
-          await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
-          await this.sendMessage(change.result.convId, await greetTheCustomer());
+          if (change.result.conversationDetails.skillId == '1000666232') {
+            this.openConversations[change.result.convId] = change.result.conversationDetails;
+            await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
+            await this.sendMessage(change.result.convId, await greetTheCustomer());
           }
         });
 

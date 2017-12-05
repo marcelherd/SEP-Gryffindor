@@ -1,11 +1,11 @@
 <template>
   <md-layout md-flex="100" class="bt-page-footer">
-    <md-layout md-flex="15" md-flex-xsmall="50" md-flex-small="30" md-flex-medium="30" md-flex-large="20" md-align="center" md-vertical-align="center">
+    <md-layout md-flex="15" md-flex-xsmall="50" md-flex-small="15" md-flex-medium="15" md-flex-large="15" md-align="center" md-vertical-align="center">
       <div class="bt-page-footer-icon">
         <img src="/static/product_white.png" />
       </div>
     </md-layout>
-    <md-layout md-flex md-vertical-align="end">
+    <md-layout md-flex md-vertical-align="center">
       <div class="bt-page-footer-contact">
         <p>BOTTERTOAST</p>
         <p>Mannheim, {{ $t('core.country') }} 2017</p>
@@ -13,8 +13,8 @@
     </md-layout>
     <md-layout md-flex="15" md-align="center" md-vertical-align="end">
       <div class="bt-page-footer-language">
-        <span class="flag-icon flag-icon-de" @click="setLanguage('de')"></span>
-        <span class="flag-icon flag-icon-us" @click="setLanguage('en')"></span>
+        <span class="bt-lang-selection" @click="setLanguage('de')">de</span>
+        <span class="bt-lang-selection" @click="setLanguage('en')">en</span>
       </div>
     </md-layout>
   </md-layout>
@@ -34,16 +34,14 @@ export default {
 
 <style>
 .bt-page-footer {
-  height: 160px;
+  height: 100px;
   background-color: #101929;
   color: white;
 }
 
 .bt-page-footer-icon {
-  width: 140px;
-}
-.bt-page-footer-contact {
-  margin-bottom: 40px;
+  margin-top: 10px;
+  width: 100px;
 }
 
 .bt-page-footer-contact p {
@@ -57,5 +55,10 @@ export default {
 
 .bt-page-footer-language .flag-icon:hover {
   cursor: pointer;
+}
+
+.bt-lang-selection:not(:last-child) {
+  padding-right: 6px;
+  border-right: 1px solid white;
 }
 </style>

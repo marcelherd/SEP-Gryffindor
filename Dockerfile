@@ -1,7 +1,7 @@
 FROM node:alpine
 
-WORKDIR /usr/src
-COPY Bots .
+WORKDIR /usr/src/ 
+COPY Bots Bots 
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -18,5 +18,5 @@ RUN npm install
 # Bundle app source
 COPY /Bot-Marketplace .
 
-EXPOSE 8080
+EXPOSE 4000
 CMD [ "npm", "start" ]

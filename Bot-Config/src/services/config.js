@@ -1,3 +1,3 @@
 export default {
-  server: 'localhost'
+  server: '141.19.145.161'
 }

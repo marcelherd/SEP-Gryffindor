@@ -1,7 +1,6 @@
-const FileService = require('../../../Bot-Runtime/services/FileService');
 
 exports.compareIntent = async (recognizedIntent) => {
-  const data = await FileService.readConfigDataFromFile('./config.json');
+  const data = JSON.parse(process.env.NODE_ENV);
   for (let i = 0; i < data.intents.length; i++) {
     const intent = data.intents[i];
     if (intent.name === recognizedIntent) {

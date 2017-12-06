@@ -9,10 +9,8 @@ const {
 const {
   config,
 } = require('dotenv');
-const LuisService = require('./services/LuisService');
-const IntentService = require('./services/IntentService');
-const fileService = require('../../Bot-Runtime/services/FileService');
-
+LuisService = require('./LuisService');
+IntentService = require('./IntentService');
 let botConfig;
 
 
@@ -27,8 +25,9 @@ function timeout(ms = 3000) {
  * Build the first Tree with greeting an options
  */
 
-const greetTheCustomer = async () => {
-  botConfig = await fileService.readConfigDataFromFile('./config.json');
+const greetTheCustomer = () => {
+  botConfig = JSON.parse(process.env.NODE_ENV);
+  console.log(botConfig);
   return botConfig.greeting;
 };
 
@@ -85,7 +84,7 @@ class GreetingBot {
 
         if (answer === null) {
           console.log('Something went wrong! Please transfer to Human');
-        } else if (answer.includes('http')) {
+        } else if (answer.value.includes('http')) {
           this.sendLink(body.dialogId, answer);
         } else {
           this.sendMessage(body.dialogId, answer);
@@ -218,6 +217,9 @@ class GreetingBot {
    */
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
+    if (message.type != undefined) {
+      message = message.value;
+    }
     if (message.includes('http')) {
       return await this.sendLink(conversationId, message);
     }

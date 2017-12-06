@@ -17,6 +17,8 @@ const {
   setInterval,
 } = require('timers');
 const fileService = require('./FileService');
+const fs = require('fs');
+const readAFile = promisify(fs.readFile);
 
 
 const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
@@ -47,9 +49,12 @@ const getTrainingStatus = async() => {
   const interval = setInterval(async() => {
     let success = true;
     results = await Training.train(trainingStatus);
+    console.log(`len: ${results.response.length}`);
     for (let i = 0; i < results.response.length && success; i++) {
       console.log('My results');
+      console.log(`index: ${i}, statusId: ${results.response[i].details.statusId}`);
       success = success && results.response[i].details.statusId === 0;
+      console.log(`Success: ${success}`);
     }
     if (success) {
       console.log('Cleared Interval');
@@ -59,7 +64,8 @@ const getTrainingStatus = async() => {
         response,
       } = answer;
       console.log(response);
-      await fileService.writeToFile(response, './Luis/endpoint.json');
+      await fileService.writeToFile(response, 'services//Luis/', 'endpoint.json');
+
     }
   }, 500);
 };
@@ -100,6 +106,7 @@ const addIntents = async(intents) => {
   let intentArray = [];
   intents.forEach((intent) => {
     // intent.uterrances = intent.utterances.splice(intent.utterances.length - 1, 1);
+    intent.utterances.splice(-1, 1);
     intentArray = intentArray.concat(intent.utterances);
   });
   addUtterances(intentArray);
@@ -111,11 +118,12 @@ const deleteOldApp = async (deleteAppId) => {
   };
   await deleteApp(deleteThisApp);
 };
+const readMyFile = async path => JSON.parse(await readAFile(path, { encoding: 'utf-8' }));
 
 exports.addNewApp = async (path) => {
   let data;
   try {
-    data = await fileService.readConfigDataFromFile(path);
+    data = await readMyFile(path);
     console.log('Reading was succesfull');
   } catch (err) {
     console.log(err);
@@ -141,13 +149,14 @@ exports.addNewApp = async (path) => {
     const deleteId = await getId();
     await deleteOldApp(deleteId);
     console.log(apps);
-    await fileService.writeAppIdsAfterDeletion(apps, './Luis/apps.json');
+    await fileService.writeAppIdsAfterDeletion(apps, 'services/Luis', '/apps.json');
+
   } catch (err) {
     console.log(err);
     console.log('No App created yet, so just create First one');
   }
   appId = await createApp(appConfig);
   await fileService.writeAppIds(appId, appConfig.appName);
-  addIntents(data.intents);
+  return addIntents(data.intents);
 };
-this.addNewApp('../../Bots/FAQ-Bot/config.json');
+//this.addNewApp('../../Bots/FAQ-Bot/config.json');

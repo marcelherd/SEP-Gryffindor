@@ -1,10 +1,10 @@
-const fileService = require('../../../Bot-Runtime/services/FileService');
+
 const rp = require('request-promise');
 
 const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
 
 exports.getIntent = async (query) => {
-  const endpointData = await fileService.readConfigDataFromFile('../../Bot-Runtime/services/Luis/endpoint.json');
+  const endpointData = JSON.parse(process.env.NODE_ENV2);
   const myUri = `${endpointData.endpointUrl}?q=${query}&verbose=true`;
   console.log(myUri);
   const callEndpointApi = async (options) => {

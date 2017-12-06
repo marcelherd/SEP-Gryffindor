@@ -14,6 +14,7 @@
     <md-layout md-flex="15" md-align="center" md-vertical-align="end">
       <div class="bt-page-footer-language">
         <span class="bt-lang-selection" @click="setLanguage('de')">de</span>
+        <span class="bt-lang-separator">|</span>
         <span class="bt-lang-selection" @click="setLanguage('en')">en</span>
       </div>
     </md-layout>
@@ -53,11 +54,12 @@ export default {
   font-size: 1.1rem;
 }
 
-.bt-page-footer-language .flag-icon:hover {
+.bt-page-footer-language .bt-lang-selection:hover {
   cursor: pointer;
+  opacity: .7;
 }
 
-.bt-lang-selection:not(:last-child) {
+.bt-lang-selection:not(:last-child)::before {
   padding-right: 6px;
   border-right: 1px solid white;
 }

@@ -123,7 +123,7 @@ exports.addNewApp = async (path) => {
   const appConfig = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_versionId: versionId,
-    appName: `${data.name} application`,
+    appName: `${data._id}${data.updatedAt}`,
     culture: 'en-us',
     uri: postAppUri,
   };

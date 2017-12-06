@@ -1,1 +1,38 @@
-{"updatedAt":"2017-12-06T09:54:20.163Z","createdAt":"2017-12-06T09:54:20.163Z","_id":"5a27be4cb56c67422a2cd7f6","dialogTree":{"root":{"children":[],"data":"Conversation"}},"greeting":"Stellen Sie bitte ihre Frage!","template":"FAQ-Bot","environment":"STAGING","running":false,"name":"Geschenkte Fragen Bot","statusChanged":"2000-01-01T00:00:00.000Z","intents":[{"name":"Sky Ticket","_id":"5a27bea8b56c67422a2cd7fd","utterances":[{"text":"Sky Ticket","intentName":"Sky Ticket","_id":"5a27bea8b56c67422a2cd7ff"},{"text":"","intentName":"Sky Ticket","_id":"5a27bea8b56c67422a2cd7fe"}],"answer":{"type":"text","value":"Sky Ticket kostet 10€ im Monat"}},{"name":"Sky Go","_id":"5a27bea8b56c67422a2cd7fa","utterances":[{"text":"Sky Go","intentName":"Sky Go","_id":"5a27bea8b56c67422a2cd7fc"},{"text":"","intentName":"Sky Go","_id":"5a27bea8b56c67422a2cd7fb"}],"answer":{"type":"text","value":"Sky Go kostet 50€ im Monat"}},{"name":"Sky Abo","_id":"5a27bea8b56c67422a2cd7f7","utterances":[{"text":"Sky Abo","intentName":"Sky Abo","_id":"5a27bea8b56c67422a2cd7f9"},{"text":"","intentName":"Sky Abo","_id":"5a27bea8b56c67422a2cd7f8"}],"answer":{"type":"text","value":"Ein Sky Abo ist ab 50€ erhältlich"}}]}
+{
+  "name": "Mein Geiler Bot",
+  "greeting": "Ich bin Horny",
+  "intents": [
+    {
+      "name": "Passwort Vergessen",
+      "answer": {"type" : "link" , "value" : "https://www.google.com"},
+      "utterances": [
+        {
+          "text": "Ich habe mein Passwort vergessen",
+          "intentName": "Passwort Vergessen",
+          "entityLabels": []
+        },
+        {
+          "text": "Was Passwort ist blyad",
+          "intentName": "Passwort Vergessen",
+          "entityLabels": []
+        }
+      ]
+    },
+    {
+      "name": "Was Kostet sky go",
+      "answer": "50 Du hoe",
+      "utterances": [
+        {
+          "text": "Ey was kostn der shit hier",
+          "intentName": "Was Kostet sky go",
+          "entityLabels": []
+        },
+        {
+          "text": "WAS KOSTEN?",
+          "intentName": "Was Kostet sky go",
+          "entityLabels": []
+        }
+      ]
+    }
+  ]
+}

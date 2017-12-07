@@ -57,28 +57,6 @@ const getTrainingStatus = async () => {
   };
   let results;
   try {
-    const interval = setInterval(async () => {
-      results = await Training.train(trainingStatus);
-      const trainingTotal = results.response.length;
-      console.log('here are the results!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.log(results);
-      const successfullyTrained = results.response.filter(current => current.details.statusId === 0);
-      if (successfullyTrained.length === trainingTotal) {
-        console.log('Cleared Interval');
-        clearInterval(interval);
-        const answer = await publishMyApp();
-        const {
-          response,
-        } = answer;
-        await fileService.writeToFile(response, './Luis/endpoint.json');
-        return response;
-      }
-    }, 500);
-  } catch (err) {
-    throw err;
-  }
-  let results;
-  try {
     let result = false;
     do {
       results = await Training.train(trainingStatus);
@@ -181,8 +159,7 @@ const addNewApp = async (path) => {
     const appConfig = {
       LUIS_subscriptionKey: subscriptionKey,
       LUIS_versionId: versionId,
-      // appName: `${data._id}${data.updatedAt}`,
-      appName: `${data.name}`,
+      appName: `${data._id}${data.updatedAt}`,
       culture: 'en-us',
       uri: postAppUri,
     };

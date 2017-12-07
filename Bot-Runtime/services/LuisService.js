@@ -26,7 +26,7 @@ const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;
 
-const publishMyApp = async() => {
+const publishMyApp = async () => {
   const configAppPublish = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -37,7 +37,7 @@ const publishMyApp = async() => {
   };
   return publish.publishApp(configAppPublish);
 };
-const getTrainingStatus = async() => {
+const getTrainingStatus = async () => {
   const trainingStatus = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -46,7 +46,7 @@ const getTrainingStatus = async() => {
     method: 'GET',
   };
   let results;
-  const interval = setInterval(async() => {
+  const interval = setInterval(async () => {
     let success = true;
     results = await Training.train(trainingStatus);
     console.log(`len: ${results.response.length}`);
@@ -63,13 +63,14 @@ const getTrainingStatus = async() => {
       const {
         response,
       } = answer;
-      console.log(response);
-      await fileService.writeToFile(response, 'services//Luis/', 'endpoint.json');
-
+      await fileService.writeToFile(response, './Luis/endpoint.json');
+      return response;
     }
   }, 500);
 };
-const trainMyApp = async() => {
+
+
+const trainMyApp = async () => {
   console.log('the Id:');
   console.log(appId);
   const configTrain = {
@@ -80,9 +81,11 @@ const trainMyApp = async() => {
     method: 'POST',
   };
   await Training.train(configTrain);
-  getTrainingStatus();
+  return getTrainingStatus();
 };
-const addUtterances = async(intentArray) => {
+
+
+const addUtterances = async (intentArray) => {
   const configUtterances = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -91,10 +94,10 @@ const addUtterances = async(intentArray) => {
     uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${appId}/versions/${versionId}/examples`,
   };
   await Utterances.addUtterance(configUtterances);
-  trainMyApp();
+  return trainMyApp();
 };
 
-const addIntents = async(intents) => {
+const addIntents = async (intents) => {
   const intentConfig = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -109,8 +112,10 @@ const addIntents = async(intents) => {
     intent.utterances.splice(-1, 1);
     intentArray = intentArray.concat(intent.utterances);
   });
-  addUtterances(intentArray);
+  return addUtterances(intentArray);
 };
+
+
 const deleteOldApp = async (deleteAppId) => {
   const deleteThisApp = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -119,6 +124,7 @@ const deleteOldApp = async (deleteAppId) => {
   await deleteApp(deleteThisApp);
 };
 const readMyFile = async path => JSON.parse(await readAFile(path, { encoding: 'utf-8' }));
+
 
 exports.addNewApp = async (path) => {
   let data;
@@ -136,11 +142,13 @@ exports.addNewApp = async (path) => {
     uri: postAppUri,
   };
   try {
-    let apps = await fileService.getAppIds();
+    const apps = await fileService.getAppIds();
     const getId = async () => {
       for (let i = 0; i < apps.length; i++) {
         if (apps[i].n === appConfig.appName) {
-          const { id } = apps[i];
+          const {
+            id,
+          } = apps[i];
           apps.splice(i, 1);
           return id;
         }
@@ -150,13 +158,15 @@ exports.addNewApp = async (path) => {
     await deleteOldApp(deleteId);
     console.log(apps);
     await fileService.writeAppIdsAfterDeletion(apps, 'services/Luis', '/apps.json');
-
   } catch (err) {
     console.log(err);
     console.log('No App created yet, so just create First one');
   }
-  appId = await createApp(appConfig);
-  await fileService.writeAppIds(appId, appConfig.appName);
-  return addIntents(data.intents);
+  try {
+    appId = await createApp(appConfig);
+    await fileService.writeAppIds(appId, appConfig.appName);
+    return addIntents(data.intents);
+  } catch (err) {
+    return err;
+  }
 };
-//this.addNewApp('../../Bots/FAQ-Bot/config.json');

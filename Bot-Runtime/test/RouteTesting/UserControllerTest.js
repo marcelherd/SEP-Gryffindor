@@ -37,6 +37,8 @@ describe('User Tests', () => {
 
     done();
   });
+
+
   describe('GET /users', () => {
     it('should authenticate with given token ', (done) => {
       chai.request(server)
@@ -45,7 +47,7 @@ describe('User Tests', () => {
         .end((err, res) => {
           chai.expect(res).to.have.status(200);
           chai.expect(res.body).to.be.a('array');
-          chai.expect(res.body).to.have.lengthOf(1);
+          // chai.expect(res.body).to.have.lengthOf(1);
           done();
         });
     });
@@ -71,6 +73,8 @@ describe('User Tests', () => {
         });
     });
   });
+
+
   describe('POST /users', () => {
     it('should fail cause no authentication token is used', (done) => {
       const body = {
@@ -82,6 +86,34 @@ describe('User Tests', () => {
         .send(body)
         .end((err, res) => {
           chai.expect(res).to.have.status(403);
+          done();
+        });
+    });
+    it('should fail cause no username was specified', (done) => {
+      const body = {
+        password: 'SimonA',
+      };
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(body)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(400);
+          chai.expect(res.body.success).to.have.equal(false);
+          done();
+        });
+    });
+    it('should fail cause no password was specified', (done) => {
+      const body = {
+        username: 'SimonA',
+      };
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(body)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(400);
+          chai.expect(res.body.success).to.have.equal(false);
           done();
         });
     });
@@ -141,7 +173,6 @@ describe('User Tests', () => {
           chai.expect(res).to.have.status(200);
           chai.expect(res.body.message.username).to.equal('BjornA');
           chai.expect(res.body.message.password).to.equal('BjornA');
-
           // Post userB with userA token
           chai.request(server)
             .post('/api/v1/manage/users')
@@ -174,7 +205,6 @@ describe('User Tests', () => {
         .end((err, res) => {
           idUserC = res.body.message._id;
           chai.expect(res).to.have.status(200);
-
           // Post a new userD instead of updating userC
           chai.request(server)
             .post('/api/v1/manage/users')
@@ -189,6 +219,8 @@ describe('User Tests', () => {
         });
     });
   });
+
+
   describe('GET /users/:user_id', () => {
     it('should return the user cause authentication token is set', (done) => {
       chai.request(server)
@@ -232,6 +264,8 @@ describe('User Tests', () => {
         });
     });
   });
+
+
   describe('DELETE /users/:user_id', () => {
     it('should fail cause no user with this id exists', (done) => {
       const id = this.id + 1;
@@ -280,6 +314,162 @@ describe('User Tests', () => {
         .end((err, res) => {
           chai.expect(res).to.have.status(500);
           done();
+        });
+    });
+  });
+
+
+  describe('PATCH /users/:user_id', () => {
+    it('succeeds: user should update stagingID and brandID of himself', (done) => {
+      let userID;
+
+      const userA = {
+        username: 'BjornA',
+        password: 'BjornA',
+        brandId: 'Skai',
+        stagingId: '01234567',
+      };
+
+      const changes = {
+        brandId: 'Hohnbach',
+        stagingId: '76543210',
+      };
+
+      const resToken = jwt.sign(userA, config.secret, {
+        expiresIn: '1d',
+      });
+
+      // Post userA
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userA)
+        .end((err, res) => {
+          userID = res.body.message._id;
+          chai.expect(res).to.have.status(200);
+          chai.expect(res.body.message.brandId).to.equal('Skai');
+          chai.expect(res.body.message.stagingId).to.equal('01234567');
+          // UserA changes his IDs
+          chai.request(server)
+            .patch(`/api/v1/manage/users/${userID}`)
+            .set('x-access-token', resToken)
+            .send(changes)
+            .end((err2, res2) => {
+              chai.expect(res2).to.have.status(200);
+              chai.expect(res2.body.message.username).to.equal('BjornA');
+              chai.expect(res2.body.message.brandId).to.equal('Hohnbach');
+              chai.expect(res2.body.message.stagingId).to.equal('76543210');
+              done();
+            });
+        });
+    });
+    it('fails: admin tries to change IDs of non-existant user', (done) => {
+      const changes = {
+        brandId: 'Hohnbach',
+        stagingId: '76543210',
+      };
+
+      // Admin tries to change IDs
+      chai.request(server)
+        .patch('/api/v1/manage/users/NaN')
+        .set('x-access-token', this.token)
+        .send(changes)
+        .end((err2, res2) => {
+          chai.expect(res2).to.have.status(400);
+          done();
+        });
+    });
+    it('fails: user tries to change IDs of another user', (done) => {
+      let userID;
+
+      const userA = {
+        username: 'BjornA',
+        password: 'BjornA',
+        brandId: 'Skai',
+        stagingId: '01234567',
+      };
+
+      const userB = {
+        username: 'BjornB',
+        password: 'BjornB',
+      };
+
+      const resToken = jwt.sign(userA, config.secret, {
+        expiresIn: '1d',
+      });
+
+      const changes = {
+        brandId: 'Hohnbach',
+        stagingId: '76543210',
+      };
+
+      // Post userA
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userA)
+        .end((err, res) => {
+          userID = res.body.message._id;
+          // Post userB
+          chai.request(server)
+            .post('/api/v1/manage/users')
+            .set('x-access-token', this.token)
+            .send(userB)
+            .end((err2, res2) => {
+              userID = res2.body.message._id;
+              chai.expect(res2).to.have.status(200);
+              // UserA tries to change IDs od userB
+              chai.request(server)
+                .patch(`/api/v1/manage/users/${userID}`)
+                .set('x-access-token', resToken)
+                .send(changes)
+                .end((err3, res3) => {
+                  chai.expect(res3).to.have.status(200);
+                  chai.expect(res3.body.message.username).to.equal('BjornB');
+                  chai.expect(res3.body.message.brandId).to.equal('Skai');
+                  chai.expect(res3.body.message.stagingId).to.equal('01234567');
+                  done();
+                });
+            });
+        });
+    });
+    it('succeeds: admin can update stagingID and brandID of users', (done) => {
+      let userID;
+
+      const userA = {
+        username: 'BjornA',
+        password: 'BjornA',
+        brandId: 'Skai',
+        stagingId: '01234567',
+      };
+
+      const changes = {
+        brandId: 'Hohnbach',
+        stagingId: '76543210',
+      };
+
+      // Post userA
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userA)
+        .end((err, res) => {
+          userID = res.body.message._id;
+          chai.expect(res).to.have.status(200);
+          chai.expect(res.body.message.brandId).to.equal('Skai');
+          chai.expect(res.body.message.stagingId).to.equal('01234567');
+          // Admin changes IDs of userA
+          chai.request(server)
+            .patch(`/api/v1/manage/users/${userID}`)
+            .set('x-access-token', this.token)
+            .send(changes)
+            .end((err2, res2) => {
+              chai.expect(res2).to.have.status(200);
+              chai.expect(res2.body.message.username).to.equal('BjornA');
+              chai.expect(res2.body.message.brandId).to.equal('Hohnbach');
+              chai.expect(res2.body.message.stagingId).to.equal('76543210');
+              done();
+            });
         });
     });
   });

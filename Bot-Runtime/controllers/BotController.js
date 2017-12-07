@@ -36,7 +36,7 @@ exports.findBot = function (req, res, next, id) {
  * @param {Response} res - The HTTP response
  */
 exports.getBots = function (req, res) {
-  res.send(JSON.stringify(req.user.bots));
+  res.send(JSON.stringify(req.bots));
 };
 
 /**

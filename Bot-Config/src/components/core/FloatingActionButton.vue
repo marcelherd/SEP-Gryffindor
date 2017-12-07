@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick" class="bt-fab" :style="style">
+  <button @click="onClick" class="bt-fab">
     <slot />
   </button>
 </template>
@@ -8,28 +8,10 @@
 export default {
   name: 'bt-fab',
   props: ['to'],
-  data () {
-    return {
-      style: {}
-    }
-  },
-  created () {
-    window.addEventListener('resize', this.handleResize)
-  },
   methods: {
     onClick () {
       if (this.to) {
         this.$router.push(this.to)
-      }
-    },
-    handleResize () {
-      const body = document.body
-      const html = document.documentElement
-
-      const height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
-
-      this.style = {
-        top: `calc(${height - 156}px - 5%)`
       }
     }
   }
@@ -38,7 +20,7 @@ export default {
 
 <style>
 .bt-fab {
-  position: absolute;
+  position: fixed;
   bottom: calc(100px + 5%);
   right: 5%;
   width: 56px;

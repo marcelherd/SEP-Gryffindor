@@ -8,6 +8,7 @@
 const Bot = require('../models/Bot');
 const DockerService = require('../services/DockerService');
 const Luis = require('../services/LuisService');
+const fs = require('fs');
 
 /**
  * Finds the corresponding bot for the given ID
@@ -36,7 +37,7 @@ exports.findBot = function (req, res, next, id) {
  * @param {Response} res - The HTTP response
  */
 exports.getBots = function (req, res) {
-  res.send(JSON.stringify(req.user.bots));
+  res.send(JSON.stringify(req.bots));
 };
 
 /**
@@ -50,7 +51,7 @@ exports.getBots = function (req, res) {
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
  */
-exports.postBot = function (req, res) {
+exports.postBot = async function (req, res) {
   if (!req.body.name || !req.body.template || !req.body.greeting) {
     res.status(400).json({
       success: false,
@@ -71,17 +72,21 @@ exports.postBot = function (req, res) {
     },
     intents: req.body.intents || [],
   });
-  if (bot.template === 'FAQ-Bot') {
-    Luis.addNewApp('../Bots/FAQ-Bot/config.json');
-  }
-
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
-
+  if (bot.template === 'FAQ-Bot') {
+    try {
+      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+    } catch (err) {
+      return res.json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+  DockerService.buildImage(bot);
   req.user.save((err) => {
     if (err) throw err;
-
-    DockerService.buildImage(newBot);
 
     res.status(201).json({
       success: true,
@@ -126,7 +131,7 @@ exports.deleteBot = function (req, res) {
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
  */
-exports.updateBot = function (req, res) {
+exports.updateBot = async function (req, res) {
   const bot = req.user.bots.find(item => item.id === req.bot.id);
 
   bot.name = req.body.name || bot.name;
@@ -135,10 +140,27 @@ exports.updateBot = function (req, res) {
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
+  fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('File has been saved successfully');
+    }
+  });
+  if (bot.template === 'FAQ-Bot') {
+    try {
+      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+    } catch (err) {
+      return res.json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+  DockerService.delete(bot).then(DockerService.buildImage(bot));
 
   req.user.save((err) => {
     if (err) throw err;
-
     res.json({
       success: true,
       message: bot,

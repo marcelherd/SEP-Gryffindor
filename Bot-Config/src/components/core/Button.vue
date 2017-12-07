@@ -22,7 +22,8 @@ export default {
 .bt-button {
   height: 30px;
   padding: 0 8px 0 8px;
-  border: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
   cursor: pointer;
   background-color: transparent;
   color: #ABABAB;
@@ -65,5 +66,15 @@ export default {
 .bt-button.bt-button-blue:focus {
   color: white;
   background-color: #80CFB8;
+}
+
+.bt-button.bt-button-red {
+  color: #FF2B4C;
+}
+
+.bt-button.bt-button-red:hover,
+.bt-button.bt-button-red:focus {
+  color: white;
+  background-color: #FF2B4C;
 }
 </style>

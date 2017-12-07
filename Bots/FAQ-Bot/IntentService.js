@@ -1,4 +1,5 @@
-const FileService = require('../../../Bot-Runtime/services/FileService');
+
+const FileService = require('../../Bot-Runtime/services/FileService');
 
 exports.compareIntent = async (recognizedIntent) => {
   try {

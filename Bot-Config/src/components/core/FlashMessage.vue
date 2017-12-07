@@ -38,7 +38,7 @@ export default {
   padding: 16px;
   margin-bottom: 16px;
   border-radius: 4px;
-  border: 1px solid black;
+  border: 1px solid #FAD232;
 }
 
 .bt-flash-message.bt-flash-message-error {

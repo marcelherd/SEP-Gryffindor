@@ -21,6 +21,7 @@ exports.publishApp = async (config) => {
     console.log('publish successful');
     return { request: options.body, response };
   } catch (err) {
+    console.log('nooooo whyyyy doeeee');
     throw err;
   }
 };

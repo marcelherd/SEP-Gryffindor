@@ -36,8 +36,7 @@ exports.addUtterance = async (config) => {
     results = await utterancePromise;
     console.log('Add utterance done');
   } catch (err) {
-    console.log(`Error adding utterance:  ${err.message} `);
-    // throw err;
+    throw err.message;
   }
   return results;
 };

@@ -25,8 +25,7 @@ const deleteApp = async (config) => {
 
     return response;
   } catch (err) {
-    console.log(`Error deleting app:  ${err.message} `);
-    return err;
+    throw err;
   }
 };
 

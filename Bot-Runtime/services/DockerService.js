@@ -31,7 +31,7 @@ exports.buildImage = async function (bot) {
     console.log(JSON.stringify(bot));
     if (bot.template === 'FAQ-Bot') {
       console.log(bot);
-      await timeout(17000);
+      // await timeout(17000);
       const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
       createOptions = {
         name: `${bot._id}`,

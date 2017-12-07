@@ -72,18 +72,9 @@ exports.postBot = async function (req, res) {
     },
     intents: req.body.intents || [],
   });
+  console.log(bot);
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
-  if (bot.template === 'FAQ-Bot') {
-    try {
-      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
-    } catch (err) {
-      return res.json({
-        success: false,
-        message: err.message,
-      });
-    }
-  }
   DockerService.buildImage(bot);
   req.user.save((err) => {
     if (err) throw err;
@@ -102,6 +93,7 @@ exports.postBot = async function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.getBot = function (req, res) {
+  console.log(req.bot);
   res.send(JSON.stringify(req.bot));
 };
 
@@ -149,7 +141,8 @@ exports.updateBot = async function (req, res) {
   });
   if (bot.template === 'FAQ-Bot') {
     try {
-      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+      await Luis.createApp('../Bots/FAQ-Bot/config.json');
+      DockerService.delete(bot).then(DockerService.buildImage(bot));
     } catch (err) {
       return res.json({
         success: false,
@@ -157,7 +150,7 @@ exports.updateBot = async function (req, res) {
       });
     }
   }
-  DockerService.delete(bot).then(DockerService.buildImage(bot));
+  // DockerService.delete(bot).then(DockerService.buildImage(bot));
 
   req.user.save((err) => {
     if (err) throw err;

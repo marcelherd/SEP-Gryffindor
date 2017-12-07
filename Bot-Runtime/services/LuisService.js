@@ -18,6 +18,7 @@ const {
 } = require('timers');
 const fileService = require('./FileService');
 const fs = require('fs');
+const waitUntil = require('async-wait-until');
 
 const readAFile = promisify(fs.readFile);
 
@@ -73,6 +74,27 @@ const getTrainingStatus = async () => {
         return response;
       }
     }, 500);
+  } catch (err) {
+    throw err;
+  }
+  let results;
+  try {
+    let result = false;
+    do {
+      results = await Training.train(trainingStatus);
+      result = await waitUntil(async () => {
+        const trainingTotal = results.response.length;
+        const successfullyTrained = results.response.filter(current => current.details.statusId === 0);
+        return successfullyTrained.length === trainingTotal;
+      }, 600)
+    } while(result === false);
+    console.log(result);
+    const answer = await publishMyApp();
+    const {
+      response,
+    } = answer;
+    await fileService.writeToFile(response, 'services/Luis', 'endpoint.json');
+    return response;
   } catch (err) {
     throw err;
   }
@@ -198,12 +220,11 @@ exports.createApp = async (path) => {
     const intentArray = await addIntents(intents);
     await addUtterances(intentArray);
     await trainMyApp();
-    await getTrainingStatus();
-    const results = await publishMyApp();
+    const results = await getTrainingStatus();
+    // const results = await publishMyApp();
     console.log('here I return thou my promise');
     return results;
   } catch (err) {
     throw err;
   }
 };
-

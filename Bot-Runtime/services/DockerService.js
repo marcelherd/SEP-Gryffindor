@@ -183,14 +183,4 @@ exports.delete = function (bot) {
     });
     resolve();
   });
-
-  /*
-    const container = docker.getContainer(bot.id);
-    console.log(container);
-    this.stop(bot).then(container.remove()).catch((err) => {
-      console.log(err);
-    });
-    resolve();
-  });
-  */
 };

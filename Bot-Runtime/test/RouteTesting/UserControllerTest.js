@@ -307,12 +307,12 @@ describe('User Tests', () => {
           done();
         });
     });
-    it('checks whether deletion was successful ', (done) => {
+    it('fails: deleted user tries to get data about himself', (done) => {
       chai.request(server)
         .get(`/api/v1/manage/users/${this.id}`)
         .set('x-access-token', this.token)
         .end((err, res) => {
-          chai.expect(res).to.have.status(500);
+          chai.expect(res).to.have.status(400);
           done();
         });
     });

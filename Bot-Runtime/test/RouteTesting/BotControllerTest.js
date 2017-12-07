@@ -1,4 +1,3 @@
-//
 const chai = require('chai');
 const mongoose = require('mongoose');
 const User = require('../../models/User');
@@ -105,6 +104,102 @@ describe('Bots', () => {
           chai.expect(res).to.have.status(400);
           chai.expect(res.body.success).to.equal(false);
           done();
+        });
+    });
+    it('fails: deleted users should not be able to create bots', (done) => {
+      let idUserB;
+
+      const bot = {
+        name: 'Botter',
+        running: false,
+        template: 'Welcome-Bot',
+        greeting: 'Hello',
+      };
+
+      const userB = {
+        username: 'BjornB',
+        password: 'BjornB',
+        admin: 'true',
+      };
+
+      const tokenB = jwt.sign(userB, config.secret, {
+        expiresIn: '1d',
+      });
+
+      // Create userB
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userB)
+        .end((err, res) => {
+          idUserB = res.body.message._id;
+          chai.expect(res).to.have.status(200);
+          chai.expect(res.body.message.username).to.equal('BjornB');
+          chai.expect(res.body.message.password).to.equal('BjornB');
+          // Delete userB
+          chai.request(server)
+            .delete(`/api/v1/manage/users/${idUserB}`)
+            .set('x-access-token', this.token)
+            .end((err2, res2) => {
+              chai.expect(res2.body.message).equals('User deleted');
+              // Deleted userB tries to create bot
+              chai.request(server)
+                .post(`/api/v1/manage/users/${idUserA}/bots`)
+                .set('x-access-token', tokenB)
+                .send(bot)
+                .end((err3, res3) => {
+                  chai.expect(res3).to.have.status(400);
+                  done();
+                });
+            });
+        });
+    });
+    it('fails: deleted admin should not be able to create bots for other users / admins', (done) => {
+      let userID;
+
+      const bot = {
+        name: 'Botter',
+        running: false,
+        template: 'Welcome-Bot',
+        greeting: 'Hello',
+      };
+
+      const userB = {
+        username: 'BjornB',
+        password: 'BjornB',
+        admin: 'true',
+      };
+
+      const tokenB = jwt.sign(userB, config.secret, {
+        expiresIn: '1d',
+      });
+
+      // Create userB
+      chai.request(server)
+        .post('/api/v1/manage/users')
+        .set('x-access-token', this.token)
+        .send(userB)
+        .end((err, res) => {
+          userID = res.body.message._id;
+          chai.expect(res).to.have.status(200);
+          chai.expect(res.body.message.username).to.equal('BjornB');
+          chai.expect(res.body.message.password).to.equal('BjornB');
+          // Delete userB
+          chai.request(server)
+            .delete(`/api/v1/manage/users/${userID}`)
+            .set('x-access-token', this.token)
+            .end((err2, res2) => {
+              chai.expect(res2.body.message).equals('User deleted');
+              // Deleted userB tries to create bot
+              chai.request(server)
+                .post(`/api/v1/manage/users/${idUserA}/bots`)
+                .set('x-access-token', tokenB)
+                .send(bot)
+                .end((err3, res3) => {
+                  chai.expect(res3).to.have.status(400);
+                  done();
+                });
+            });
         });
     });
     it('fails to create a bot: no user id', (done) => {

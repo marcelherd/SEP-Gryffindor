@@ -171,9 +171,10 @@ exports.delete = function (bot) {
   return new Promise((resolve) => {
     // TODO: start the bot here
     console.log(bot);
-    console.log(`Deleting bot ${bot.name} (${bot.id})...`);
+    console.log(`Deleting bot ${bot.name} (${bot._id})...`);
 
-    const container = docker.getContainer(bot.id);
+
+    const container = docker.getContainer(bot._id);
     this.stop(bot);
     container.remove((err) => {
       if (err) {

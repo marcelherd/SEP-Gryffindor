@@ -74,7 +74,7 @@ exports.postBot = function (req, res) {
   });
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
-
+  DockerService.buildImage(bot);
   req.user.save((err) => {
     if (err) throw err;
 
@@ -140,7 +140,7 @@ exports.updateBot = async function (req, res) {
   if (bot.template === 'FAQ-Bot') {
     await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
   }
-  DockerService.buildImage(bot);
+  DockerService.delete(bot).then(DockerService.buildImage(bot));
 
   req.user.save((err) => {
     if (err) throw err;

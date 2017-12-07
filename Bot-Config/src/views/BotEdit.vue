@@ -170,14 +170,28 @@ export default {
   computed: {
     welcomeBotHelp () {
       return `
-        The dialogue configuration allows you to configure how your bot
-
-        The dialogue configuration helps you configure what the bots says to the person it's interacting with
-        To configure it you need to add nodes/text (input)  fields
-        The first node already exists and is called 'conversation '
-        Each further node you add by clicking the plus button adds another node which can either be an option from which the user chooses or an answer( or link to another bot)
-        Whether it's an answer or option is determined by whether the node itself has more nodes underneath it which belong to it
-        This is indicated by the indentation the node has
+        <strong>Dialogue configuration</strong><br>
+        The dialogue configuration allows you to configure which issues your bot is able to assist users with.<br>
+        <br>
+        This can be done by creating text nodes which represent the different options a user has.<br>
+        <br>
+        To create your first node, simply click the plus button next to the conversation node.<br>
+        You can create a multiple choice menu by attaching multiple nodes to another node.<br>
+        If a node only has a single node attached to it, that node will be used as the answer to the node it is attached to.<br>
+        <br>
+        To forward the user to another skill, for instance the FAQ bot, simply enter the corresponding skill ID and prefix it with 'SKILL_'<br>
+        <br>
+        <strong>Example</strong><br>
+        Conversation<br>
+        &nbsp;&nbsp;1. Forgot password<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;http://reset.password.com<br>
+        &nbsp;&nbsp;2. I have a question<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;SKILL_123123123<br>
+        <br>
+        A bot with this configuration will greet the user and then allow him to either choose the option "1. Forgot Password" or "2. I have a question".<br>
+        <br>
+        If the user enters "1", the bot will send him the configured link.<br>
+        If the user enters "2", the bot will forward him to the configured skill.
       `
     }
   },

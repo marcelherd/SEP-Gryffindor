@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick" class="bt-fab" :style="calcPosition()">
+  <button @click="onClick" class="bt-fab" :style="style">
     <slot />
   </button>
 </template>
@@ -8,19 +8,27 @@
 export default {
   name: 'bt-fab',
   props: ['to'],
+  data () {
+    return {
+      style: {}
+    }
+  },
+  created () {
+    window.addEventListener('resize', this.handleResize)
+  },
   methods: {
     onClick () {
       if (this.to) {
         this.$router.push(this.to)
       }
     },
-    calcPosition () {
+    handleResize () {
       const body = document.body
       const html = document.documentElement
 
       const height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
 
-      return {
+      this.style = {
         top: `calc(${height - 156}px - 5%)`
       }
     }

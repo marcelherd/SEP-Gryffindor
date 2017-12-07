@@ -95,7 +95,7 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="deleteIntent(index)" class="bt-card-action">Delete Intent</bt-button>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red">Delete Intent</bt-button>
             </md-layout>
           </div>
         </div>

@@ -57,26 +57,22 @@ const getTrainingStatus = async () => {
   let results;
   try {
     const interval = setInterval(async () => {
-      let success = true;
       results = await Training.train(trainingStatus);
-      console.log(`len: ${results.response.length}`);
-      for (let i = 0; i < results.response.length && success; i++) {
-        console.log('My results');
-        console.log(`index: ${i}, statusId: ${results.response[i].details.statusId}`);
-        success = success && (results.response[i].details.statusId === 0);
-        console.log(`Success: ${success}`);
-      }
-      if (success) {
+      const trainingTotal = results.response.length;
+      console.log('here are the results!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log(results);
+      const successfullyTrained = results.response.filter(current => current.details.statusId === 0);
+      if (successfullyTrained.length === trainingTotal) {
         console.log('Cleared Interval');
         clearInterval(interval);
         const answer = await publishMyApp();
         const {
           response,
         } = answer;
-        await fileService.writeToFile(response, 'services/Luis', 'endpoint.json');
+        await fileService.writeToFile(response, './Luis/endpoint.json');
         return response;
       }
-    }, 15000);
+    }, 500);
   } catch (err) {
     throw err;
   }

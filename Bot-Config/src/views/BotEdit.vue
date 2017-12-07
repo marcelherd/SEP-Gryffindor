@@ -100,7 +100,10 @@
           </div>
         </div>
 
-      <bt-button @click="save" theme="orange">Save Bot</bt-button>
+      <md-layout md-row>
+        <bt-button @click="deleteBot" theme="red" align="start">Delete Bot</bt-button>
+        <bt-button @click="saveBot" theme="orange">Save Bot</bt-button>
+      </md-layout>
     </md-layout>
 
     <md-layout md-column v-if="bot.template === 'Welcome-Bot'">
@@ -115,7 +118,10 @@
         </div>
       </bt-form-section>
 
-      <bt-button @click="save" theme="orange">Save Bot</bt-button>
+      <md-layout md-row class="bt-page-controls">
+        <bt-button @click="deleteBot" theme="red" align="start">Delete Bot</bt-button>
+        <bt-button @click="saveBot" theme="orange">Save Bot</bt-button>
+      </md-layout>
     </md-layout>
   </bt-page-container>
 </template>
@@ -201,7 +207,7 @@ export default {
       this.bot.intents.splice(index, 1)
     },
 
-    save () {
+    saveBot () {
       const { userId } = this.$route.params
 
       this.bot.intents.forEach((intent) => {
@@ -214,6 +220,22 @@ export default {
         if (data.success) {
           this.$refs.flashMessage.setType('info')
           this.$refs.flashMessage.pushMessage('Bot saved.')
+        } else {
+          this.$refs.flashMessage.setType('error')
+          this.$refs.flashMessage.pushMessage(data.message)
+        }
+      })
+    },
+
+    deleteBot () {
+      const { userId, botId } = this.$route.params
+
+      RuntimeService.deleteBot(userId, botId).then((data) => {
+        if (data.success) {
+          this.$router.push({
+            name: 'Overview',
+            params: { userId }
+          })
         } else {
           this.$refs.flashMessage.setType('error')
           this.$refs.flashMessage.pushMessage(data.message)
@@ -241,5 +263,9 @@ export default {
 <style>
 .bt-tree {
   width: 500px;
+}
+
+.bt-page-controls {
+  margin-top: 48px;
 }
 </style>

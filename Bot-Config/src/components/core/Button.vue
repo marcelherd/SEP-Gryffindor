@@ -67,4 +67,14 @@ export default {
   color: white;
   background-color: #80CFB8;
 }
+
+.bt-button.bt-button-red {
+  color: #FF2B4C;
+}
+
+.bt-button.bt-button-red:hover,
+.bt-button.bt-button-red:focus {
+  color: white;
+  background-color: #FF2B4C;
+}
 </style>

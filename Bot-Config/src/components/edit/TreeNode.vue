@@ -5,7 +5,8 @@
         v-model="node.data" @dblclick="handleDblclick($event)"
         @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
     </div>
-    <button @click="addChild">+</button>
+    <button @click="addChild" class="bt-node-add">+</button>
+    <span v-if="!isRoot" @click="deleteMe" class="close">&times;</span>
     <div class="bt-node-children">
       <bt-tree-node :node="child" v-for="(child, index) in node.children" :key="index" />
     </div>
@@ -29,6 +30,11 @@ export default {
         data: '',
         children: []
       })
+    },
+
+    deleteMe () {
+      console.log('emit')
+      this.$emit('deleted', this.node.data)
     },
 
     handleDblclick ($event) {
@@ -74,7 +80,7 @@ export default {
   outline: 0;
 }
 
-.bt-tree-node button {
+.bt-tree-node .bt-node-add {
   min-width: 50px;
   padding: 8px;
   border: 0;
@@ -85,10 +91,19 @@ export default {
   font-size: 24px;
 }
 
-.bt-tree-node button:hover {
+.bt-tree-node .bt-node-add:hover {
   cursor: pointer;
   background-color: #FAD232;
   color: black;
+}
+
+.bt-tree-node .close {
+  padding: 8px;
+  font-size: 1.5rem;
+}
+.bt-tree-node .close:hover {
+  cursor: pointer;
+  color: #aaa;
 }
 
 .bt-tree-node .bt-tree-node {

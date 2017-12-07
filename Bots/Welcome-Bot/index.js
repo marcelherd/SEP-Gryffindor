@@ -107,8 +107,8 @@ class GreetingBot {
     */
 
     this.core.on('ms.MessagingEventNotification', (body) => {
-      let role =  body.changes[0].originatorMetadata.role;
-      if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER'  && this.openConversations[body.dialogId].skillId == '-1') {
+      const { role } = body.changes[0].originatorMetadata;
+      if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER' && this.openConversations[body.dialogId].skillId === '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
@@ -207,7 +207,7 @@ class GreetingBot {
   */
   async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
     if (!this.isConnected) return;
-    return await this.core.subscribeExConversations({
+    return this.core.subscribeExConversations({
       convState: [convState],
     });
   }
@@ -219,7 +219,7 @@ class GreetingBot {
   */
   async setStateOfAgent(state = 'ONLINE') {
     if (!this.isConnected) return;
-    return await this.core.setAgentState({
+    return this.core.setAgentState({
       availability: state,
     });
   }
@@ -233,7 +233,7 @@ class GreetingBot {
   async joinConversation(conversationId, role = 'MANAGER') {
     // console.log(conversationId);
     if (!this.isConnected) return;
-    return await this.core.updateConversationField({
+    return this.core.updateConversationField({
       conversationId,
       conversationField: [{
         field: 'ParticipantsChange',
@@ -269,7 +269,7 @@ class GreetingBot {
 
     const index = message.indexOf('http');
     const link = message.substr(index, (message.length) - 1);
-    const buttonName = message.substr(0,index);
+    const buttonName = message.substr(0, index);
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
@@ -287,7 +287,7 @@ class GreetingBot {
                     actions: [
                       {
                         type: 'link',
-                        name: ButtonName,
+                        name: buttonName,
                         uri: link,
                       },
                     ],

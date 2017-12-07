@@ -51,7 +51,7 @@ exports.getBots = function (req, res) {
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
  */
-exports.postBot = function (req, res) {
+exports.postBot = async function (req, res) {
   if (!req.body.name || !req.body.template || !req.body.greeting) {
     res.status(400).json({
       success: false,
@@ -74,6 +74,16 @@ exports.postBot = function (req, res) {
   });
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
+  if (bot.template === 'FAQ-Bot') {
+    try {
+      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+    } catch (err) {
+      return res.json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
   DockerService.buildImage(bot);
   req.user.save((err) => {
     if (err) throw err;
@@ -138,7 +148,14 @@ exports.updateBot = async function (req, res) {
     }
   });
   if (bot.template === 'FAQ-Bot') {
-    await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+    try {
+      await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+    } catch (err) {
+      return res.json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
   DockerService.delete(bot).then(DockerService.buildImage(bot));
 

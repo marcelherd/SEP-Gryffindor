@@ -1,6 +1,8 @@
 <template>
-  <md-layout md-align="center" class="bt-page-content">
-    <md-layout md-flex="50" md-flex-large="75" md-flex-small="90">
+  <md-layout class="bt-page-content">
+    <md-layout md-flex-offset="25" md-flex="50"
+      md-flex-offset-large="15" md-flex-large="70"
+      md-flex-offset-small="5" md-flex-small="90">
       <slot />
     </md-layout>
   </md-layout>

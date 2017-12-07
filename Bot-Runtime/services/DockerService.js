@@ -4,12 +4,18 @@
  *
  * @module services/
  */
-const fs = require('fs');
 const Dockerode = require('dockerode');
 
 
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
 const docker = new Dockerode({ socketPath });
+const fileService = require('./FileService');
+
+let createOptions;
+
+function timeout(ms = 3000) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 /**
@@ -19,35 +25,68 @@ const docker = new Dockerode({ socketPath });
  * @param {string} template - The template that is to be used for the bot
  * @returns {number} The id of the saved bot
  */
-exports.buildImage = function (bot) {
+exports.buildImage = async function (bot) {
   console.log('Building Bot...');
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     console.log(JSON.stringify(bot));
-    const createOptions = {
-      name: `${bot._id}`,
-      Image: ((bot.template).toLowerCase()),
-      Tty: true,
-      Env: [`NODE_ENV=${JSON.stringify(bot)}`],
-    };
+    if (bot.template === 'FAQ-Bot') {
+      console.log(bot);
+      await timeout(17000);
+      const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
+      createOptions = {
+        name: `${bot._id}`,
+        Image: ((bot.template).toLowerCase()),
+        Tty: true,
+        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV2=${JSON.stringify(endpointData)}`],
+      };
+      console.log(createOptions);
+    } else {
+      createOptions = {
+        name: `${bot._id}`,
+        Image: ((bot.template).toLowerCase()),
+        Tty: true,
+        Env: [`NODE_ENV=${JSON.stringify(bot)}`],
+      };
+    }
     docker.createContainer(createOptions, (err) => {
       if (err) {
-        docker.buildImage({
-          context: `../Bots/${bot.template}`,
-          src: ['Dockerfile', 'index.js', 'package.json'],
-        }, {
-          t: ((bot.template).toLowerCase()),
-        }, (error, output) => {
-          docker.modem.followProgress(output, onFinished, onProgress);
-          function onFinished() {
-            docker.createContainer(createOptions);
-          }
-          function onProgress() {
-          }
-          if (error) {
-            return console.error(error);
-          }
-          output.pipe(process.stdout);
-        });
+        if (bot.template === 'FAQ-Bot') {
+          docker.buildImage({
+            context: `../Bots/${bot.template}`,
+            src: ['Dockerfile', 'index.js', 'package.json', 'LuisService.js', 'IntentService.js'],
+          }, {
+            t: ((bot.template).toLowerCase()),
+          }, (error, output) => {
+            docker.modem.followProgress(output, onFinished, onProgress);
+            function onFinished() {
+              docker.createContainer(createOptions);
+            }
+            function onProgress() {
+            }
+            if (error) {
+              return console.error(error);
+            }
+            output.pipe(process.stdout);
+          });
+        } else {
+          docker.buildImage({
+            context: `../Bots/${bot.template}`,
+            src: ['Dockerfile', 'index.js', 'package.json'],
+          }, {
+            t: ((bot.template).toLowerCase()),
+          }, (error, output) => {
+            docker.modem.followProgress(output, onFinished, onProgress);
+            function onFinished() {
+              docker.createContainer(createOptions);
+            }
+            function onProgress() {
+            }
+            if (error) {
+              return console.error(error);
+            }
+            output.pipe(process.stdout);
+          });
+        }
       }
     });
     resolve();
@@ -66,6 +105,7 @@ exports.start = function (bot) {
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
     const container = docker.getContainer(bot.id);
     container.inspect((error, data) => {
+      console.log(data);
       if (data.State.Status === 'exited' || data.State.Status === 'created') {
         container.start();
         console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
@@ -91,6 +131,7 @@ exports.stop = function (bot) {
     const container = docker.getContainer(bot.id);
     // query API for container info
     container.inspect((error, data) => {
+      console.log(data);
       if (data.State.Status !== 'exited') {
         container.stop((err) => {
           if (err) {

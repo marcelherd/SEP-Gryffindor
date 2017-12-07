@@ -10,7 +10,7 @@ const {
   config,
 } = require('dotenv');
 
-const botConfig = require('./config.json');
+const botConfig = JSON.parse(process.env.NODE_ENV);
 
 const {
   root,
@@ -105,10 +105,10 @@ class GreetingBot {
     * This function is used to find out what the consumer wants and send him the right message
     * Which later get consumed by other functions.
     */
+
     this.core.on('ms.MessagingEventNotification', (body) => {
-      // console.log(body.changes[0]);
-      console.log(this.openConversations[body.dialogId].skillId);
-      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId == '-1') {
+      let role =  body.changes[0].originatorMetadata.role;
+      if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER'  && this.openConversations[body.dialogId].skillId == '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
@@ -252,9 +252,9 @@ class GreetingBot {
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
     if (message.includes('http')) {
-      return await this.sendLink(conversationId, message);
+      return this.sendLink(conversationId, message);
     }
-    return await this.core.publishEvent({
+    return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
@@ -266,8 +266,10 @@ class GreetingBot {
 
   async sendLink(conversationId, message) {
     if (!this.isConnected) return;
+
     const index = message.indexOf('http');
     const link = message.substr(index, (message.length) - 1);
+    const buttonName = message.substr(0,index);
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
@@ -280,28 +282,13 @@ class GreetingBot {
               elements: [
                 {
                   type: 'button',
-                  title: 'Buy',
-                  tooltip: 'Buy this product',
+                  title: buttonName,
                   click: {
                     actions: [
                       {
                         type: 'link',
-                        name: 'Buy',
-                        uri: 'http://www.google.com',
-                      },
-                    ],
-                  },
-                },
-                {
-                  type: 'button',
-                  title: 'Find similar',
-                  tooltip: 'store is the thing',
-                  click: {
-                    actions: [
-                      {
-                        type: 'link',
-                        name: 'Buy',
-                        uri: 'http://www.google.com',
+                        name: ButtonName,
+                        uri: link,
                       },
                     ],
                   },

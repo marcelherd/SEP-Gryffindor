@@ -97,6 +97,18 @@ export default {
     }).then(response => response.json())
   },
 
+  deleteBot (userId, botId) {
+    let request = new Request(`${URL + userId}/bots/${botId}`, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+        'x-access-token': localStorage.getItem('token')
+      }
+    })
+
+    return fetch(request).then(response => response.json())
+  },
+
   saveBot (userId, bot) {
     bot.template = bot.template.replace(' ', '-')
 

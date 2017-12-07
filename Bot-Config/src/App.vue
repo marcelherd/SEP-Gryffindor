@@ -59,6 +59,8 @@ body {
   box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px 5px;
   margin-bottom: 48px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .bt-card input:focus {
@@ -108,6 +110,7 @@ body {
 .bt-card-body {
   padding: 12px;
   padding-left: 20px;
+  flex: 1;
 }
 
 .bt-card-subtitle {

@@ -4,8 +4,7 @@
   "description": "Bottertoast backend",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon .",
-    "start": "npm run dev",
+    "start": "node index.js",
     "test": "nyc mocha test/**/*.js",
     "jsdoc": "jsdoc -d ./doc -c jsdoc.json"
   },

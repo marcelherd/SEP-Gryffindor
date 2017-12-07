@@ -8,6 +8,7 @@
 const Bot = require('../models/Bot');
 const DockerService = require('../services/DockerService');
 const Luis = require('../services/LuisService');
+const fs = require('fs');
 
 /**
  * Finds the corresponding bot for the given ID
@@ -71,17 +72,11 @@ exports.postBot = function (req, res) {
     },
     intents: req.body.intents || [],
   });
-  if (bot.template === 'FAQ-Bot') {
-    Luis.addNewApp('../Bots/FAQ-Bot/config.json');
-  }
-
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
 
   req.user.save((err) => {
     if (err) throw err;
-
-    DockerService.buildImage(newBot);
 
     res.status(201).json({
       success: true,
@@ -126,7 +121,7 @@ exports.deleteBot = function (req, res) {
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
  */
-exports.updateBot = function (req, res) {
+exports.updateBot = async function (req, res) {
   const bot = req.user.bots.find(item => item.id === req.bot.id);
 
   bot.name = req.body.name || bot.name;
@@ -135,10 +130,20 @@ exports.updateBot = function (req, res) {
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
+  fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('File has been saved successfully');
+    }
+  });
+  if (bot.template === 'FAQ-Bot') {
+    await Luis.addNewApp('../Bots/FAQ-Bot/config.json');
+  }
+  DockerService.buildImage(bot);
 
   req.user.save((err) => {
     if (err) throw err;
-
     res.json({
       success: true,
       message: bot,

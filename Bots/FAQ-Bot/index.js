@@ -9,10 +9,8 @@ const {
 const {
   config,
 } = require('dotenv');
-const LuisService = require('./services/LuisService');
-const IntentService = require('./services/IntentService');
-const fileService = require('../../Bot-Runtime/services/FileService');
-
+LuisService = require('./LuisService');
+IntentService = require('./IntentService');
 let botConfig;
 
 
@@ -27,8 +25,9 @@ function timeout(ms = 3000) {
  * Build the first Tree with greeting an options
  */
 
-const greetTheCustomer = async () => {
-  botConfig = await fileService.readConfigDataFromFile('./config.json');
+const greetTheCustomer = () => {
+  botConfig = JSON.parse(process.env.NODE_ENV);
+  console.log(botConfig);
   return botConfig.greeting;
 };
 
@@ -74,8 +73,8 @@ class GreetingBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', async (body) => {
-      
-      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId =='1000666232') {
+      const { role } = body.changes[0].originatorMetadata;
+      if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER' && this.openConversations[body.dialogId] !== undefined && this.openConversations[body.dialogId].skillId === '1000666232') {
         const intents = await LuisService.getIntent(body.changes[0].event.message);
         const topScoringIntent = intents.topScoringIntent.intent;
         console.log('best matched intent: ');
@@ -87,24 +86,15 @@ class GreetingBot {
         if (answer === null) {
           console.log('Something went wrong! Please transfer to Human');
         } else {
-          this.sendMessage(body.dialogId, answer);
+          this.sendMessage(body.dialogId, answer, topScoringIntent);
         }
-
-
-      //   if (!Number.isNaN(body.changes[0].event.message) &&
-      //     body.changes[0].event.message < node.children.length +
-      //     1 && body.changes[0].event.message > 0) {
-      //     this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
-      //   } else {
-      //     this.sendMessage(body.dialogId, repeatStep());
-      //   }
       }
     });
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
-        .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] )
-        .forEach(async(change) => {
-          if (change.result.conversationDetails.skillId == '1000666232') {
+        .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
+        .forEach(async (change) => {
+          if (change.result.conversationDetails.skillId === '1000666232') {
             this.openConversations[change.result.convId] = change.result.conversationDetails;
             await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
             await this.sendMessage(change.result.convId, await greetTheCustomer());
@@ -174,7 +164,7 @@ class GreetingBot {
   async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
     if (!this.isConnected) return;
     return await this.core.subscribeExConversations({
-      convState: [convState]
+      convState: [convState],
     });
   }
 
@@ -186,7 +176,7 @@ class GreetingBot {
   async setStateOfAgent(state = 'ONLINE') {
     if (!this.isConnected) return;
     return await this.core.setAgentState({
-      availability: state
+      availability: state,
     });
   }
 
@@ -199,7 +189,7 @@ class GreetingBot {
   async joinConversation(conversationId, role = 'AGENT') {
     // console.log(conversationId);
     if (!this.isConnected) return;
-    return await this.core.updateConversationField({
+    return this.core.updateConversationField({
       conversationId,
       conversationField: [{
         field: 'ParticipantsChange',
@@ -215,12 +205,12 @@ class GreetingBot {
    * @param {string} conversationId id of the conversation which should be joined
    * @param {string} message text message which will be sent to the client
    */
-  async sendMessage(conversationId, message) {
+  async sendMessage(conversationId, message, topScoringIntent) {
     if (!this.isConnected) return;
-    if (message.includes('http')) {
-      return await this.sendLink(conversationId, message);
+    if (message.type !== undefined && message.type === 'link') {
+      return this.sendLink(conversationId, message.value, topScoringIntent);
     }
-    return  this.core.publishEvent({
+    return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
@@ -230,46 +220,30 @@ class GreetingBot {
     });
   }
 
-  async sendLink(conversationId, message) {
+  async sendLink(conversationId, message, topScoringIntent) {
+    console.log('here we go');
+    console.log(message);
+    console.log(topScoringIntent);
     if (!this.isConnected) return;
-    const index = message.indexOf('http');
-    const link = message.substr(index, (message.length) - 1);
-    return await this.core.publishEvent({
+    return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'RichContentEvent',
         content: {
-          "type": "vertical",
-          "elements": [{
-            "type": "horizontal",
-            "elements": [{
-                "type": "button",
-                "title": "Buy",
-                "tooltip": "Buy this product",
-                "click": {
-                  "actions": [{
-                    "type": "link",
-                    "name": "Buy",
-                    "uri": "http://www.google.com"
-                  }]
-                }
-              },
+          "type": 'button',
+          "tooltpip": 'button tooltip',
+          "title": topScoringIntent,
+          "click": {
+            "actions": [
               {
-                "type": "button",
-                "title": "Find similar",
-                "tooltip": "store is the thing",
-                "click": {
-                  "actions": [{
-                    "type": "link",
-                    "name": "Buy",
-                    "uri": "http://www.google.com"
-                  }]
-                }
-              }
-            ]
-          }, ]
-        }
-      }
+                "type": 'link',
+                "name": 'Reset Password',
+                "uri": message,
+              },
+            ],
+          },
+        },
+      },
     });
   }
 }

@@ -13,7 +13,7 @@
       <bt-form-section header="Dialogue configuration">
         <div class="bt-card">
           <div class="bt-card-header">
-            <input v-model="newIntent.name" placeholder="Intent name" />
+            <input v-model="newIntent.name" placeholder="Question" />
           </div>
           <div class="bt-card-body">
             <md-layout md-flex="100">
@@ -112,7 +112,7 @@
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
       </bt-form-section>
 
-      <bt-form-section header="Dialog configuration">
+      <bt-form-section header="Dialog configuration" :helpText="welcomeBotHelp">
         <div class="bt-tree">
           <bt-tree-node :node="bot.dialogTree.root" isRoot="true" @deleted="deleteNode" />
         </div>
@@ -123,6 +123,7 @@
         <bt-button @click="saveBot" theme="orange">Save Bot</bt-button>
       </md-layout>
     </md-layout>
+
   </bt-page-container>
 </template>
 
@@ -165,6 +166,20 @@ export default {
   },
   created () {
     this.fetchData()
+  },
+  computed: {
+    welcomeBotHelp () {
+      return `
+        The dialogue configuration allows you to configure how your bot
+
+        The dialogue configuration helps you configure what the bots says to the person it's interacting with
+        To configure it you need to add nodes/text (input)  fields
+        The first node already exists and is called 'conversation '
+        Each further node you add by clicking the plus button adds another node which can either be an option from which the user chooses or an answer( or link to another bot)
+        Whether it's an answer or option is determined by whether the node itself has more nodes underneath it which belong to it
+        This is indicated by the indentation the node has
+      `
+    }
   },
   methods: {
     fetchData () {

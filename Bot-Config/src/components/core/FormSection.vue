@@ -10,6 +10,7 @@
     <slot />
 
     <md-dialog-alert
+      md-content="test"
       :md-content-html="helpText"
       md-ok-text="Ok"
       ref="dialog">

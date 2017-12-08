@@ -8,6 +8,7 @@
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+        <bt-select v-model="bot.environment" values="['Staging', 'Production']" />
       </bt-form-section>
 
       <bt-form-section header="Dialogue configuration">
@@ -110,6 +111,7 @@
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+        <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
       <bt-form-section header="Dialog configuration" :helpText="welcomeBotHelp">
@@ -134,6 +136,7 @@ import FlashMessage from '@/components/core/FlashMessage'
 import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
+import Select from '@/components/core/Select'
 
 import RuntimeService from '@/services/RuntimeService'
 
@@ -145,7 +148,8 @@ export default {
     'bt-flash-message': FlashMessage,
     'bt-tree-node': TreeNode,
     'bt-button': Button,
-    'bt-input': Input
+    'bt-input': Input,
+    'bt-select': Select
   },
   data () {
     return {
@@ -193,6 +197,12 @@ export default {
         If the user enters "1", the bot will send him the configured link.<br>
         If the user enters "2", the bot will forward him to the configured skill.
       `
+    },
+    environments () {
+      return [
+        'Staging',
+        'Production'
+      ]
     }
   },
   methods: {

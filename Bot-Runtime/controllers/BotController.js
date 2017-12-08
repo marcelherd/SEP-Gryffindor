@@ -61,7 +61,7 @@ exports.postBot = async function (req, res) {
   const bot = new Bot({
     name: req.body.name,
     running: req.body.running || false,
-    environment: req.body.environment || 'STAGING',
+    environment: req.body.environment || 'Staging',
     template: req.body.template,
     greeting: req.body.greeting,
     dialogTree: req.body.dialogTree || {

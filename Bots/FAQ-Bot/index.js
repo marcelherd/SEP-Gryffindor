@@ -75,18 +75,20 @@ class GreetingBot {
     this.core.on('ms.MessagingEventNotification', async (body) => {
       const { role } = body.changes[0].originatorMetadata;
       if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER' && this.openConversations[body.dialogId] !== undefined && this.openConversations[body.dialogId].skillId === '1000666232') {
-        const intents = await LuisService.getIntent(body.changes[0].event.message);
-        const topScoringIntent = intents.topScoringIntent.intent;
-        console.log('best matched intent: ');
-        console.log(topScoringIntent);
-        const answer = await IntentService.compareIntent(topScoringIntent);
-        console.log(answer);
-
-
-        if (answer === null) {
-          console.log('Something went wrong! Please transfer to Human');
-        } else {
-          this.sendMessage(body.dialogId, answer, topScoringIntent);
+        try {
+          const intents = await LuisService.getIntent(body.changes[0].event.message);
+          const topScoringIntent = intents.topScoringIntent.intent;
+          console.log('best matched intent: ');
+          console.log(topScoringIntent);
+          const answer = await IntentService.compareIntent(topScoringIntent);
+          console.log(answer);
+          if (answer === null) {
+            console.log('Something went wrong! Please transfer to Human');
+          } else {
+            this.sendMessage(body.dialogId, answer, topScoringIntent);
+          }
+        } catch (err) {
+          console.log(err);
         }
       }
     });
@@ -163,7 +165,7 @@ class GreetingBot {
    */
   async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
     if (!this.isConnected) return;
-    return await this.core.subscribeExConversations({
+    return this.core.subscribeExConversations({
       convState: [convState],
     });
   }
@@ -175,7 +177,7 @@ class GreetingBot {
    */
   async setStateOfAgent(state = 'ONLINE') {
     if (!this.isConnected) return;
-    return await this.core.setAgentState({
+    return this.core.setAgentState({
       availability: state,
     });
   }

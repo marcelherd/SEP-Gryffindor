@@ -46,7 +46,6 @@ const publishMyApp = async () => {
     throw err;
   }
 };
-
 const getTrainingStatus = async () => {
   const trainingStatus = {
     LUIS_subscriptionKey: subscriptionKey,

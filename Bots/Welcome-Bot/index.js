@@ -9,6 +9,7 @@ const {
 const {
   config,
 } = require('dotenv');
+const rp = require('request-promise');
 
 const botConfig = JSON.parse(process.env.NODE_ENV);
 
@@ -20,20 +21,44 @@ let greeting = false;
 config();
 
 
-function timeout(ms = 3000) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
-function nextStep(optionNumber) {
+const incrementConvCounter = async () => {
+  const options = {
+    uri: 'http://ip/:port/api/v1/manage/users/:userId/bots/:botId/conversation',
+    json: true,
+  };
+  try {
+    const response = await rp.get(options);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const incrementTransferCounter = async () => {
+  const options = {
+    uri: 'http://ip/:port/api/v1/manage/users/:userId/bots/:botId/conversation',
+    json: true,
+  };
+  try {
+    const response = await rp.get(options);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const nextStep = (optionNumber) => {
   node = node.children[optionNumber - 1];
   return (node.children[0].data);
-}
+};
 
 /**
 * Build the first Tree with greeting an options
 */
 
-function buildFirstTree() {
+const buildFirstTree = () => {
   let answer = '';
   let counter = 0;
   answer += `${botConfig.greeting}\n\t`;
@@ -44,11 +69,11 @@ function buildFirstTree() {
   }
 
   return answer;
-}
+};
 /**
 * select the operations number and give the new Option
 */
-function repeatStep() {
+const repeatStep = () => {
   let counter = 0;
   let answer = '';
   if (greeting) {
@@ -63,7 +88,20 @@ function repeatStep() {
     }
   }
   return answer;
-}
+};
+const skillTransfer = (answer) => {
+  if (answer.includes('SKILL')) {
+    return true;
+  }
+  return false;
+};
+
+const getSkill = (answer) => {
+  let newSkill = answer.split('__')[1];
+  newSkill = parseInt(newSkill, 10);
+  return newSkill;
+};
+
 class GreetingBot {
   constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
@@ -112,27 +150,34 @@ class GreetingBot {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
-          this.sendMessage(body.dialogId, nextStep(body.changes[0].event.message));
-          if (node.children.length === 1) {
-            node = root;
-            greeting = true;
-            this.core.updateConversationField({
-              conversationId: body.dialogId,
-              conversationField: [
-                {
-                  field: 'Skill',
-                  type: 'UPDATE',
-                  skill: 1000666232,
-                },
-                {
-                  field: 'ParticipantsChange',
-                  type: 'REMOVE',
-                  role: 'MANAGER',
-                  userId: this.core.agentId,
-                }],
-            });
+          const answer = nextStep(body.changes[0].event.message);
+          if (!skillTransfer(answer)) {
+            this.sendMessage(body.dialogId, answer);
+          } else {
+            // will be the Skill Tranfer Counter, needs try catch
+            // incrementTransferCounter();
+            const newSkill = getSkill(answer);
+            if (node.children.length === 1) {
+              node = root;
+              greeting = true;
+              this.core.updateConversationField({
+                conversationId: body.dialogId,
+                conversationField: [
+                  {
+                    field: 'Skill',
+                    type: 'UPDATE',
+                    skill: newSkill,
+                  },
+                  {
+                    field: 'ParticipantsChange',
+                    type: 'REMOVE',
+                    role: 'MANAGER',
+                    userId: this.core.agentId,
+                  }],
+              });
+            }
+            this.openConversations[body.dialogId].skillId = newSkill;
           }
-          this.openConversations[body.dialogId].skillId = 1000666232;
         } else {
           this.sendMessage(body.dialogId, repeatStep());
         }
@@ -224,6 +269,7 @@ class GreetingBot {
     });
   }
 
+
   /**
   * This function is used to join a conversation.
   * It wraps the original SDK function to make it easier to use.
@@ -231,8 +277,9 @@ class GreetingBot {
   * @param {string} role role of the agent (AGENT, MANAGER)
   */
   async joinConversation(conversationId, role = 'MANAGER') {
-    // console.log(conversationId);
     if (!this.isConnected) return;
+    // will be the conv Counter, also needs try catch
+    //  await incrementConvCounter();
     return this.core.updateConversationField({
       conversationId,
       conversationField: [{
@@ -300,8 +347,8 @@ class GreetingBot {
     });
   }
 }
-console.log('Initializing the hello world bot...');
+console.log('Initializing the Welcome bot...');
 const bot = new GreetingBot(); // This will use the values set in the process.env
-console.log('Starting the hello world bot...');
+console.log('Starting the Welcome bot...');
 module.exports = bot.start()
-  .then(_ => console.log('Hello world bot is now up an running!'));
+  .then(_ => console.log('Welcome bot is now up an running!'));

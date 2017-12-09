@@ -9,8 +9,9 @@ const {
 const {
   config,
 } = require('dotenv');
-LuisService = require('./LuisService');
-IntentService = require('./IntentService');
+const LuisService = require('./LuisService');
+const IntentService = require('./IntentService');
+
 let botConfig;
 
 
@@ -83,9 +84,31 @@ class GreetingBot {
           const answer = await IntentService.compareIntent(topScoringIntent);
           console.log(answer);
           if (answer === null) {
+            if (body.changes[0].event.message === 'human') {
+              // transfer to human somehow
+            } else { this.sendMessage(body.dialogId, 'I did not understand. Please try again with different phrasing or type human if you would like to be transferred to a human agent'); }
             console.log('Something went wrong! Please transfer to Human');
+          } else if (answer.type === 'link') {
+            this.sendLink(body.dialogId, answer.value, topScoringIntent);
+          } else if (answer.type === 'skill') {
+            this.core.updateConversationField({
+              conversationId: body.dialogId,
+              conversationField: [
+                {
+                  field: 'Skill',
+                  type: 'UPDATE',
+                  skill: answer.value,
+                },
+                {
+                  field: 'ParticipantsChange',
+                  type: 'REMOVE',
+                  role: 'MANAGER',
+                  userId: this.core.agentId,
+                }],
+            });
+            this.openConversations[body.dialogId].skillId = answer.value;
           } else {
-            this.sendMessage(body.dialogId, answer, topScoringIntent);
+            this.sendMessage(body.dialogId, answer.value);
           }
         } catch (err) {
           console.log(err);
@@ -207,11 +230,8 @@ class GreetingBot {
    * @param {string} conversationId id of the conversation which should be joined
    * @param {string} message text message which will be sent to the client
    */
-  async sendMessage(conversationId, message, topScoringIntent) {
+  async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
-    if (message.type !== undefined && message.type === 'link') {
-      return this.sendLink(conversationId, message.value, topScoringIntent);
-    }
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
@@ -223,24 +243,21 @@ class GreetingBot {
   }
 
   async sendLink(conversationId, message, topScoringIntent) {
-    console.log('here we go');
-    console.log(message);
-    console.log(topScoringIntent);
     if (!this.isConnected) return;
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'RichContentEvent',
         content: {
-          "type": 'button',
-          "tooltpip": 'button tooltip',
-          "title": topScoringIntent,
-          "click": {
-            "actions": [
+          type: 'button',
+          tooltpip: 'button tooltip',
+          title: topScoringIntent,
+          click: {
+            actions: [
               {
-                "type": 'link',
-                "name": 'Reset Password',
-                "uri": message,
+                type: 'link',
+                name: 'Reset Password',
+                uri: message,
               },
             ],
           },

@@ -142,7 +142,7 @@ exports.updateBot = async function (req, res) {
   if (bot.template === 'FAQ-Bot') {
     try {
       await Luis.createApp('../Bots/FAQ-Bot/config.json');
-      // DockerService.delete(bot).then(DockerService.buildImage(bot));
+      DockerService.delete(bot).then(DockerService.buildImage(bot));
     } catch (err) {
       return res.json({
         success: false,
@@ -150,7 +150,7 @@ exports.updateBot = async function (req, res) {
       });
     }
   }
-  // DockerService.delete(bot).then(DockerService.buildImage(bot));
+  DockerService.delete(bot).then(DockerService.buildImage(bot));
 
   req.user.save((err) => {
     if (err) throw err;

@@ -105,11 +105,14 @@ exports.start = function (bot) {
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
     const container = docker.getContainer(bot.id);
     container.inspect((error, data) => {
-      console.log(data);
+      if(data.State !== null){
       if (data.State.Status === 'exited' || data.State.Status === 'created') {
         container.start();
         console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
         bot.status = 'running';
+      } }
+      else{
+        console.log('No container to delete ;-)');
       }
     });
     resolve();
@@ -132,6 +135,7 @@ exports.stop = function (bot) {
     // query API for container info
     container.inspect((error, data) => {
       console.log(data);
+      if(data !== null){
       if (data.State.Status !== 'exited') {
         container.stop((err) => {
           if (err) {
@@ -142,6 +146,7 @@ exports.stop = function (bot) {
           }
         });
       }
+    }
     });
     resolve();
   });

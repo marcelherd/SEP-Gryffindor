@@ -14,11 +14,13 @@ const Training = require('./Luis/train');
 const publish = require('./Luis/publishApp');
 const deleteApp = require('./Luis/deleteApp');
 const {
-  setInterval,
+  setTimeout,
 } = require('timers');
 const fileService = require('./FileService');
 const fs = require('fs');
 const waitUntil = require('async-wait-until');
+
+const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const readAFile = promisify(fs.readFile);
 
@@ -63,8 +65,8 @@ const getTrainingStatus = async () => {
         const trainingTotal = results.response.length;
         const successfullyTrained = results.response.filter(current => current.details.statusId === 0);
         return successfullyTrained.length === trainingTotal;
-      }, 600)
-    } while(result === false);
+      }, 600);
+    } while (result === false);
     console.log(result);
     const answer = await publishMyApp();
     const {

@@ -48,8 +48,12 @@ exports.buildImage = async function (bot) {
         Env: [`NODE_ENV=${JSON.stringify(bot)}`],
       };
     }
+    console.log('HERE I SHOULD CREATE THE CONTAINER!');
     docker.createContainer(createOptions, (err) => {
+      console.log('is there an error here?');
+      console.log(err);
       if (err) {
+        console.log('GOT AN ERROR HERE');
         if (bot.template === 'FAQ-Bot') {
           docker.buildImage({
             context: `../Bots/${bot.template}`,
@@ -69,6 +73,7 @@ exports.buildImage = async function (bot) {
             output.pipe(process.stdout);
           });
         } else {
+          console.log('I should build the image here!');
           docker.buildImage({
             context: `../Bots/${bot.template}`,
             src: ['Dockerfile', 'index.js', 'package.json'],
@@ -105,13 +110,13 @@ exports.start = function (bot) {
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
     const container = docker.getContainer(bot.id);
     container.inspect((error, data) => {
-      if(data.State !== null){
-      if (data.State.Status === 'exited' || data.State.Status === 'created') {
-        container.start();
-        console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
-        bot.status = 'running';
-      } }
-      else{
+      if (data.State !== null) {
+        if (data.State.Status === 'exited' || data.State.Status === 'created') {
+          container.start();
+          console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
+          bot.status = 'running';
+        }
+      } else {
         console.log('No container to delete ;-)');
       }
     });
@@ -135,18 +140,18 @@ exports.stop = function (bot) {
     // query API for container info
     container.inspect((error, data) => {
       console.log(data);
-      if(data !== null){
-      if (data.State.Status !== 'exited') {
-        container.stop((err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            (console.log(`Bot ${bot.name} (${bot._id}) stopped`));
-            bot.status = 'false';
-          }
-        });
+      if (data !== null) {
+        if (data.State.Status !== 'exited') {
+          container.stop((err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              (console.log(`Bot ${bot.name} (${bot._id}) stopped`));
+              bot.status = 'false';
+            }
+          });
+        }
       }
-    }
     });
     resolve();
   });

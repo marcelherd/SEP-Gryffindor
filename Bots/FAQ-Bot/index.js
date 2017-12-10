@@ -266,8 +266,8 @@ class GreetingBot {
     });
   }
 }
-console.log('Initializing the hello world bot...');
+console.log('Initializing the FAQ bot...');
 const bot = new GreetingBot(); // This will use the values set in the process.env
-console.log('Starting the hello world bot...');
+console.log('Starting the FAQ bot...');
 module.exports = bot.start()
-  .then(_ => console.log('Hello world bot is now up an running!'));
+  .then(_ => console.log('FAQ bot is now up an running!'));

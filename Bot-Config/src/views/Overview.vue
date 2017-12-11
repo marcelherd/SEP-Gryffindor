@@ -35,10 +35,10 @@
                       {{ $t('overview.lblIntroduction', { name: bot.name, template: bot.template }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      {{ $t('overview.lblConversations', { conversations: 0 }) }}
+                      {{ $t('overview.lblConversations', { conversations: bot.conversations }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      {{ $t('overview.lblForwards', { forwards: 0 }) }}
+                      {{ $t('overview.lblForwards', { forwards: bot.forwards }) }}
                     </p>
                   </div>
                 </md-layout>

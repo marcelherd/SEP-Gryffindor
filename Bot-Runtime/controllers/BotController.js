@@ -64,6 +64,8 @@ exports.postBot = async function (req, res) {
     environment: req.body.environment || 'Staging',
     template: req.body.template,
     greeting: req.body.greeting,
+    conversations: req.body.conversations || 0,
+    forwards: req.body.forwards || 0,
     dialogTree: req.body.dialogTree || {
       root: {
         data: 'Conversation',
@@ -140,6 +142,7 @@ exports.updateBot = async function (req, res) {
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
+
   fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
     if (err) {
       console.log(err);
@@ -230,6 +233,36 @@ exports.restartBot = function (req, res) {
         success: true,
         message: req.bot,
       });
+    });
+  });
+};
+
+exports.conversation = function (req, res) {
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
+
+  bot.conversations++;
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: req.bot,
+    });
+  });
+};
+
+exports.forward = function (req, res) {
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
+
+  bot.forwards++;
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: req.bot,
     });
   });
 };

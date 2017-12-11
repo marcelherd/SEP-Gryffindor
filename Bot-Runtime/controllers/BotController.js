@@ -156,7 +156,7 @@ exports.updateBot = async function (req, res) {
     }
   }
 
-  DockerService.delete(bot).then(DockerService.buildImage(bot));
+  DockerService.delete(bot).then(DockerService.buildImage(bot, req.user._id));
 
   req.user.save((err) => {
     if (err) throw err;

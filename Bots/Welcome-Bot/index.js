@@ -15,6 +15,7 @@ const rp = require('request-promise');
 // const botConfig = require('./config.json');
 const botConfig = JSON.parse(process.env.NODE_ENV);
 const userId = JSON.parse(process.env.NODE_ENV_USER);
+console.log(userId);
 
 const {
   root,

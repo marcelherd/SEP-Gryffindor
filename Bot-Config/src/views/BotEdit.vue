@@ -8,7 +8,7 @@
       <bt-form-section header="Bot configuration">
         <bt-input v-model="bot.name" type="text" placeholder="Name" />
         <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
-        <bt-select v-model="bot.environment" values="['Staging', 'Production']" />
+        <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
       <bt-form-section header="Dialogue configuration">

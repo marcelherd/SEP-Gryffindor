@@ -13,17 +13,12 @@ const fileService = require('./FileService');
 
 let createOptions;
 
-function timeout(ms = 3000) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
 /**
  * Creates and saves a new bot.
  *
  * @param {string} name - The name for the bot
  * @param {string} template - The template that is to be used for the bot
- * @returns {number} The id of the saved bot
+ * @returns {promise} - When Image is fully built
  */
 exports.buildImage = async function (bot) {
   console.log('Building Bot...');
@@ -31,7 +26,6 @@ exports.buildImage = async function (bot) {
     console.log(JSON.stringify(bot));
     if (bot.template === 'FAQ-Bot') {
       console.log(bot);
-      // await timeout(17000);
       const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
       createOptions = {
         name: `${bot._id}`,

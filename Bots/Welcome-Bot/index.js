@@ -29,7 +29,7 @@ const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: 'http://ip/:port/api/v1/manage/users/:userId/bots/:botId/conversation',
+    uri: `http://ip/:port/api/v1/manage/users/:userId/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -42,7 +42,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: 'http://ip/:port/api/v1/manage/users/:userId/bots/:botId/conversation',
+    uri: `http://ip/:port/api/v1/manage/users/:userId/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {

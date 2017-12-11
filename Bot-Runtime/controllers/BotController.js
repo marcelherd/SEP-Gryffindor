@@ -75,7 +75,7 @@ exports.postBot = async function (req, res) {
   console.log(bot);
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
-  DockerService.buildImage(bot);
+  await DockerService.buildImage(bot);
   req.user.save((err) => {
     if (err) throw err;
 

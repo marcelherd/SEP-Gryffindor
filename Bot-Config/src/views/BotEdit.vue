@@ -48,7 +48,7 @@
                       </md-button>
                       <md-button class="md-icon-button" :class="newIntent.answer.type === 'skill' ? 'md-toggle' : ''"
                         @click="newIntent.answer.type = 'skill'">
-                        <md-icon>android</md-icon>
+                        <img src="/static/forward-icon.png" />
                       </md-button>
                     </md-button-toggle>
                   </md-layout>
@@ -93,7 +93,7 @@
                       </md-button>
                       <md-button class="md-icon-button" :class="intent.answer.type === 'skill' ? 'md-toggle' : ''"
                         @click="intent.answer.type = 'skill'">
-                        <md-icon>android</md-icon>
+                        <img src="/static/forward-icon.png" />
                       </md-button>
                     </md-button-toggle>
                   </md-layout>

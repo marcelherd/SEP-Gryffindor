@@ -140,8 +140,8 @@ export default {
       const day = createdDate.getDate()
       const month = createdDate.getMonth() + 1
       const year = createdDate.getFullYear().toString().substr(-2)
-      const hours = createdDate.getHours()
-      const minutes = createdDate.getMinutes()
+      const hours = ('0' + createdDate.getHours()).slice(-2)
+      const minutes = ('0' + createdDate.getMinutes()).slice(-2)
 
       return `${this.$t('overview.lblBorn')} ${day}/${month}/${year} ${hours}:${minutes}`
     },
@@ -160,8 +160,8 @@ export default {
 
       const now = new Date()
       if (now.getDate() === day) {
-        const hours = date.getHours()
-        const minutes = date.getMinutes()
+        const hours = ('0' + date.getHours()).slice(-2)
+        const minutes = ('0' + date.getMinutes()).slice(-2)
         return `${state} ${hours}:${minutes}`
       }
 

@@ -1,3 +1,4 @@
+
 const {
   Agent,
 } = require('node-agent-sdk');
@@ -11,13 +12,16 @@ const {
 } = require('dotenv');
 const rp = require('request-promise');
 
+// const botConfig = require('./config.json');
 const botConfig = JSON.parse(process.env.NODE_ENV);
 
 const {
   root,
 } = botConfig.dialogTree;
 let node = root;
+let lastnode = root;
 let greeting = false;
+let theLast = false;
 config();
 
 
@@ -49,10 +53,40 @@ const incrementTransferCounter = async () => {
   }
 };
 
-const nextStep = (optionNumber) => {
+function lastStep() {
+  node = lastnode;
+  let counter = 0;
+  let answer = 'Please choose one of the Operations:\n\t';
+  while (counter < lastnode.children.length) {
+    answer += `${lastnode.children[counter].data}\n\t`;
+    counter++;
+  }
+  return answer;
+}
+
+
+/**
+  * This functions goes deeper in thee tree.
+  * If it is a Skilltransfer it returns an empty string an activate the transfer.
+  * @param {integer} optionNumber the number wich child was chosen
+  */
+function nextStep(optionNumber) {
+  lastnode = node;
   node = node.children[optionNumber - 1];
+  if (node.children[0].children[0] === undefined) {
+    theLast = true;
+  }
+  // let faq = node.children[0].data;
+  // let faqtok = faq.split('_');
+
+  // if (faqtok[0] === 'Skill') {
+  //   console.log('hereeeee');
+  //   skilltransfer = true;
+  //   skillIdnumber = faqtok[1];
+  //   return '';
+  // } else {
   return (node.children[0].data);
-};
+}
 
 /**
 * Build the first Tree with greeting an options
@@ -143,10 +177,10 @@ class GreetingBot {
     * This function is used to find out what the consumer wants and send him the right message
     * Which later get consumed by other functions.
     */
-
     this.core.on('ms.MessagingEventNotification', (body) => {
-      const { role } = body.changes[0].originatorMetadata;
-      if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER' && this.openConversations[body.dialogId].skillId === '-1') {
+      // console.log(body.changes[0]);
+      console.log(this.openConversations[body.dialogId].skillId);
+      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId == '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
@@ -178,16 +212,24 @@ class GreetingBot {
             }
             this.openConversations[body.dialogId].skillId = newSkill;
           }
+          console.log('Backsetting');
+          node = root;
+          greeting = true;
+          theLast = false;
+        } else if (body.changes[0].event.message === 'back') {
+          this.sendMessage(body.dialogId, lastStep());
         } else {
           this.sendMessage(body.dialogId, repeatStep());
         }
       }
     });
+
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
         .forEach(async (change) => {
           this.isConnected = true;
+          node = root;
           this.openConversations[change.result.convId] = change.result.conversationDetails;
           await this.joinConversation(change.result.convId, 'MANAGER');
           await this.sendMessage(change.result.convId, buildFirstTree());
@@ -200,6 +242,7 @@ class GreetingBot {
 
     this.promisifyFunctions();
   }
+
   /**
   * Utility function which transform the used SDK function into promised based once.
   * Which later get consumed by other functions.
@@ -232,6 +275,8 @@ class GreetingBot {
     response = await this.setStateOfAgent('AWAY');
     response = await this.subscribeToConversations();
   }
+
+
   /**
   * Shutsdown the bot
   */
@@ -252,7 +297,7 @@ class GreetingBot {
   */
   async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
     if (!this.isConnected) return;
-    return this.core.subscribeExConversations({
+    return  this.core.subscribeExConversations({
       convState: [convState],
     });
   }
@@ -299,9 +344,9 @@ class GreetingBot {
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
     if (message.includes('http')) {
-      return this.sendLink(conversationId, message);
+      return await this.sendLink(conversationId, message);
     }
-    return this.core.publishEvent({
+    return await this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',
@@ -313,10 +358,8 @@ class GreetingBot {
 
   async sendLink(conversationId, message) {
     if (!this.isConnected) return;
-
     const index = message.indexOf('http');
     const link = message.substr(index, (message.length) - 1);
-    const buttonName = message.substr(0, index);
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
@@ -329,12 +372,13 @@ class GreetingBot {
               elements: [
                 {
                   type: 'button',
-                  title: buttonName,
+                  title: 'Buy',
+                  tooltip: 'Buy this product',
                   click: {
                     actions: [
                       {
                         type: 'link',
-                        name: buttonName,
+                        name: 'Buy',
                         uri: link,
                       },
                     ],

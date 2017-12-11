@@ -191,7 +191,7 @@ class GreetingBot {
             // will be the Skill Tranfer Counter, needs try catch
             // incrementTransferCounter();
             const newSkill = getSkill(answer);
-            if (node.children.length === 1) {
+            if (node.children.length === 1 && theLast) {
               node = root;
               greeting = true;
               this.core.updateConversationField({
@@ -209,13 +209,14 @@ class GreetingBot {
                     userId: this.core.agentId,
                   }],
               });
+
+              this.openConversations[body.dialogId].skillId = newSkill;
             }
-            this.openConversations[body.dialogId].skillId = newSkill;
+            console.log('Backsetting');
+            node = root;
+            greeting = true;
+            theLast = false;
           }
-          console.log('Backsetting');
-          node = root;
-          greeting = true;
-          theLast = false;
         } else if (body.changes[0].event.message === 'back') {
           this.sendMessage(body.dialogId, lastStep());
         } else {
@@ -297,7 +298,7 @@ class GreetingBot {
   */
   async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
     if (!this.isConnected) return;
-    return  this.core.subscribeExConversations({
+    return this.core.subscribeExConversations({
       convState: [convState],
     });
   }

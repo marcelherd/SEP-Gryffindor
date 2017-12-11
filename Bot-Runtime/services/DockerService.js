@@ -13,31 +13,25 @@ const fileService = require('./FileService');
 
 let createOptions;
 
-function timeout(ms = 3000) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
 /**
  * Creates and saves a new bot.
  *
  * @param {string} name - The name for the bot
  * @param {string} template - The template that is to be used for the bot
- * @returns {number} The id of the saved bot
+ * @returns {promise} - When Image is fully built
  */
-exports.buildImage = async function (bot) {
+exports.buildImage = async function (bot, userId) {
   console.log('Building Bot...');
   return new Promise(async (resolve) => {
     console.log(JSON.stringify(bot));
     if (bot.template === 'FAQ-Bot') {
       console.log(bot);
-      // await timeout(17000);
       const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
       createOptions = {
         name: `${bot._id}`,
         Image: ((bot.template).toLowerCase()),
         Tty: true,
-        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV2=${JSON.stringify(endpointData)}`],
+        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV2=${JSON.stringify(endpointData)}`,`NODE_ENV_USER=${JSON.stringify(userId)}` ],
       };
       console.log(createOptions);
     } else {
@@ -45,7 +39,7 @@ exports.buildImage = async function (bot) {
         name: `${bot._id}`,
         Image: ((bot.template).toLowerCase()),
         Tty: true,
-        Env: [`NODE_ENV=${JSON.stringify(bot)}`],
+        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
       };
     }
     console.log('HERE I SHOULD CREATE THE CONTAINER!');
@@ -110,7 +104,7 @@ exports.start = function (bot) {
     console.log(`Starting bot ${bot.name} (${bot.id})...`);
     const container = docker.getContainer(bot.id);
     container.inspect((error, data) => {
-      if (data.State !== null) {
+      if (data !== null) {
         if (data.State.Status === 'exited' || data.State.Status === 'created') {
           container.start();
           console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);

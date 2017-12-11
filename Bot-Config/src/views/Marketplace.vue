@@ -12,12 +12,12 @@
               <img src="/static/robot-icon.png" />
             </md-layout>
             <md-layout md-flex class="bt-tile-message">
-              <span>{{ template.message }}</span>
+              <span>{{ getMessage(template) }}</span>
             </md-layout>
           </md-layout>
 
           <md-layout md-flex="100">
-            <p>{{ template.description }}</p>
+            <p>{{ getDescription(template) }}</p>
           </md-layout>
         </div>
       </md-layout>
@@ -58,7 +58,18 @@ export default {
           template: template.name
         }
       })
+    },
+
+    getMessage (template) {
+      const locale = localStorage.getItem('locale') || 'en'
+      return template[locale].message
+    },
+
+    getDescription (template) {
+      const locale = localStorage.getItem('locale') || 'en'
+      return template[locale].description
     }
+
   }
 }
 </script>

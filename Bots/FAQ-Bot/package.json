@@ -28,7 +28,13 @@
   "license": "MIT",
   "__bottertoast_bot_template__": {
     "name": "FAQ Bot",
-    "description": "This bot answers common questions with preset information.",
-    "message": "We're open every Monday to Thursday from 8 to 11am!"
+    "de": {
+      "description": "Dieser Bot beantwortet häufig verkommende Fragen anhand von zuvor festgelegten Informationen.",
+      "message": "Wir haben von Montag bis Freitag von 8 bis 11 Uhr geöffnet!"
+    },
+    "en": {
+      "description": "This bot answers common questions with preset information.",
+      "message": "We're open every Monday to Thursday from 8 to 11am!"
+    }
   }
 }

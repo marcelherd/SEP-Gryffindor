@@ -188,7 +188,8 @@ class GreetingBot {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
         .forEach(async (change) => {   
-          this.isConnected = true;    
+          this.isConnected = true; 
+          node = root;   
           this.openConversations[change.result.convId] = change.result.conversationDetails;
           await this.joinConversation(change.result.convId, 'MANAGER');
           await this.sendMessage(change.result.convId, buildFirstTree());       

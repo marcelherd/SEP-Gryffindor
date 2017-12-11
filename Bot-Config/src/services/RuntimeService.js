@@ -129,6 +129,7 @@ export default {
     let payload = {
       name: bot.name,
       greeting: bot.greeting,
+      environment: bot.environment,
       dialogTree: bot.dialogTree || {},
       intents: bot.intents || []
     }

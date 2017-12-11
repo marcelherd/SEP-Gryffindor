@@ -1,7 +1,12 @@
 <template>
   <bt-page-container pageTitle="Bot Details">
     <md-layout md-flex="100">
-      <h1 class="bt-header-1">{{ bot.name }}</h1>
+      <md-layout md-flex>
+        <h1 class="bt-header-1">{{ bot.name }}</h1>
+      </md-layout>
+      <md-layout md-flex="20" md-vertical-align="center">
+        <bt-switch :initial="bot.running" @click="toggleBot(bot)" theme="white" />
+      </md-layout>
     </md-layout>
     <bt-flash-message ref="flashMessage" />
     <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
@@ -137,6 +142,7 @@ import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
 import Select from '@/components/core/Select'
+import Switch from '@/components/core/Switch'
 
 import RuntimeService from '@/services/RuntimeService'
 
@@ -149,7 +155,8 @@ export default {
     'bt-tree-node': TreeNode,
     'bt-button': Button,
     'bt-input': Input,
-    'bt-select': Select
+    'bt-select': Select,
+    'bt-switch': Switch
   },
   data () {
     return {
@@ -278,6 +285,14 @@ export default {
         } else {
           this.$refs.flashMessage.setType('error')
           this.$refs.flashMessage.pushMessage(data.message)
+        }
+      })
+    },
+
+    toggleBot (bot) {
+      RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
+        if (data.success) {
+          this.fetchData()
         }
       })
     },

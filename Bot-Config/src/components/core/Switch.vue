@@ -2,7 +2,7 @@
   <md-layout md-align="end">
     <label class="switch">
       <input type="checkbox" v-model="checked" @click="handleClick">
-      <span class="slider round"></span>
+      <span class="slider round" :class="theme"></span>
     </label>
   </md-layout>
 </template>
@@ -10,10 +10,10 @@
 <script>
 export default {
   name: 'bt-switch',
-  props: ['initial'],
-  data () {
-    return {
-      checked: this.initial
+  props: ['initial', 'theme'],
+  computed: {
+    checked () {
+      return this.initial
     }
   },
   methods: {
@@ -67,6 +67,10 @@ input:checked + .slider {
   background-color: white;
 }
 
+input:checked + .slider.white {
+  background-color: #FAD232;
+}
+
 input:focus + .slider {
   box-shadow: 0 0 1px white;
 }
@@ -76,6 +80,10 @@ input:checked + .slider:before {
   -ms-transform: translateX(19px);
   transform: translateX(19px);
   background-color: #FAD232;
+}
+
+input:checked + .slider.white:before {
+  background-color: white;
 }
 
 /* Rounded sliders */

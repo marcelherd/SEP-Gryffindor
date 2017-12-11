@@ -41,16 +41,18 @@ exports.isAuthenticated = function (req, res, next) {
  * A request is authorized if the logged in user is an admin
  * or trying to access his own bots.
  *
- * TODO: documentation
- *
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {*} req - The HTTP request
+ * @param {*} res - The HTTP response
+ * @param {*} next - The next middleware, if the request is authorized
  */
 exports.isAuthorized = function (req, res, next) {
-  const { id, admin } = req.auth;
+  const { _id, admin } = req.auth;
 
-  // TODO: documentation
+  // TODO: Implement this properly
+  // Apparently express param resolves after the middleware,
+  // which means that req.user is not available here..
+  // Essentially we just authorize all requests.
+  // This should be fixed.
   if (!req.user) {
     return next();
   }
@@ -60,7 +62,7 @@ exports.isAuthorized = function (req, res, next) {
     return next();
   }
 
-  if (req.user.id === id) {
+  if (req.user._id === _id) {
     return next();
   }
 
@@ -79,6 +81,10 @@ exports.isAuthorized = function (req, res, next) {
  */
 exports.isAdmin = function (req, res, next) {
   const { admin } = req.auth;
+
+  console.log('isAdmin');
+  console.log(`admin: ${admin}`);
+  console.log(`type: ${typeof admin}`);
 
   if (admin) {
     return next();

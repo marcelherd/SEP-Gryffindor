@@ -1,5 +1,15 @@
 <template>
   <bt-page-container :pageTitle="pageTitle">
+    <md-layout md-flex="100" v-if="bots.length < 1">
+      <md-layout md-flex="100">
+        <p>Looks like you have not created any bots yet.</p>
+      </md-layout>
+      <md-layout md-flex="100">
+        <router-link tag="md-button" :to="createBotUrl()">
+          &raquo; Get started now
+        </router-link>
+      </md-layout>
+    </md-layout>
     <md-layout md-flex="100" md-gutter="40">
       <md-layout md-flex="50" v-for="(bot, index) in bots" :key="bot._id">
         <div class="bt-card">
@@ -35,10 +45,10 @@
                       {{ $t('overview.lblIntroduction', { name: bot.name, template: bot.template }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      {{ $t('overview.lblConversations', { conversations: 0 }) }}
+                      {{ $t('overview.lblConversations', { conversations: bot.conversations }) }}
                     </p>
                     <p class="bt-card-utterance">
-                      {{ $t('overview.lblForwards', { forwards: 0 }) }}
+                      {{ $t('overview.lblForwards', { forwards: bot.forwards }) }}
                     </p>
                   </div>
                 </md-layout>
@@ -140,8 +150,8 @@ export default {
       const day = createdDate.getDate()
       const month = createdDate.getMonth() + 1
       const year = createdDate.getFullYear().toString().substr(-2)
-      const hours = createdDate.getHours()
-      const minutes = createdDate.getMinutes()
+      const hours = ('0' + createdDate.getHours()).slice(-2)
+      const minutes = ('0' + createdDate.getMinutes()).slice(-2)
 
       return `${this.$t('overview.lblBorn')} ${day}/${month}/${year} ${hours}:${minutes}`
     },
@@ -160,8 +170,8 @@ export default {
 
       const now = new Date()
       if (now.getDate() === day) {
-        const hours = date.getHours()
-        const minutes = date.getMinutes()
+        const hours = ('0' + date.getHours()).slice(-2)
+        const minutes = ('0' + date.getMinutes()).slice(-2)
         return `${state} ${hours}:${minutes}`
       }
 

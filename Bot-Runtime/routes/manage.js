@@ -1,5 +1,3 @@
-const { CastError } = require('mongoose');
-
 const { JsonWebTokenError } = require('jsonwebtoken');
 
 /**
@@ -20,8 +18,12 @@ const userController = require('../controllers/UserController');
 router.param('user_id', userController.findUser);
 router.param('bot_id', botController.findBot);
 
-router.use(authController.isAuthenticated);
-router.use(authController.isAuthorized);
+const unless = (path, middleware) => function (req, res, next) {
+  return (req.path.startsWith(path) ? next() : middleware(req, res, next));
+};
+
+router.use(unless('/public', authController.isAuthenticated));
+router.use(unless('/public', authController.isAuthorized));
 
 router.use((err, req, res, next) => {
   if (err instanceof JsonWebTokenError) {
@@ -33,6 +35,7 @@ router.use((err, req, res, next) => {
 
   return next();
 });
+
 router.route('/users/')
   .get(authController.isAdmin, userController.getUsers)
   .post(authController.isAdmin, userController.postUser);
@@ -59,5 +62,11 @@ router.route('/users/:user_id/bots/:bot_id/restart')
 
 router.route('/users/:user_id/bots/:bot_id/stop')
   .post(botController.stopBot);
+
+router.route('/public/users/:user_id/bots/:bot_id/conversation')
+  .get(botController.conversation);
+
+router.route('/public/users/:user_id/bots/:bot_id/forward')
+  .get(botController.forward);
 
 module.exports = router;

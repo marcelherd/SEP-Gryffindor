@@ -28,7 +28,13 @@
   "license": "MIT",
   "__bottertoast_bot_template__": {
     "name": "Welcome Bot",
-    "description": "This bot welcomes every new message and greets in a suitable manner.",
-    "message": "Hello! Olá! Bonjour! Hallo!"
+    "de": {
+      "description": "Dieser Bot empfängt neue Kunden und leitet sie, je nach ihrem Anliegen, an einen geeigneten Berater weiter.",
+      "message": "Hallo! Olá! Bonjour! Hello!"
+    },
+    "en": {
+      "description": "This bot welcomes every new message and greets in a suitable manner.",
+      "message": "Hello! Olá! Bonjour! Hallo!"
+    }
   }
 }

@@ -64,6 +64,8 @@ exports.postBot = async function (req, res) {
     environment: req.body.environment || 'Staging',
     template: req.body.template,
     greeting: req.body.greeting,
+    conversations: req.body.conversations || 0,
+    forwards: req.body.forwards || 0,
     dialogTree: req.body.dialogTree || {
       root: {
         data: 'Conversation',
@@ -72,10 +74,11 @@ exports.postBot = async function (req, res) {
     },
     intents: req.body.intents || [],
   });
-  console.log(bot);
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
-  await DockerService.buildImage(bot);
+
+  DockerService.buildImage(bot, req.user._id);
+
   req.user.save((err) => {
     if (err) throw err;
 
@@ -93,7 +96,6 @@ exports.postBot = async function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.getBot = function (req, res) {
-  console.log(req.bot);
   res.send(JSON.stringify(req.bot));
 };
 
@@ -106,7 +108,9 @@ exports.getBot = function (req, res) {
 exports.deleteBot = function (req, res) {
   const index = req.user.bots.findIndex(item => item.id === req.bot.id);
   req.user.bots.splice(index, 1);
+
   DockerService.delete(req.bot);
+
   req.user.save((err) => {
     if (err) throw err;
 
@@ -132,6 +136,7 @@ exports.updateBot = async function (req, res) {
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
+
   fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
     if (err) {
       console.log(err);
@@ -139,10 +144,10 @@ exports.updateBot = async function (req, res) {
       console.log('File has been saved successfully');
     }
   });
+
   if (bot.template === 'FAQ-Bot') {
     try {
       await Luis.createApp('../Bots/FAQ-Bot/config.json');
-      DockerService.delete(bot).then(DockerService.buildImage(bot));
     } catch (err) {
       return res.json({
         success: false,
@@ -150,10 +155,12 @@ exports.updateBot = async function (req, res) {
       });
     }
   }
+
   DockerService.delete(bot).then(DockerService.buildImage(bot));
 
   req.user.save((err) => {
     if (err) throw err;
+
     res.json({
       success: true,
       message: bot,
@@ -223,6 +230,36 @@ exports.restartBot = function (req, res) {
         success: true,
         message: req.bot,
       });
+    });
+  });
+};
+
+exports.conversation = function (req, res) {
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
+
+  bot.conversations++;
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: req.bot,
+    });
+  });
+};
+
+exports.forward = function (req, res) {
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
+
+  bot.forwards++;
+
+  req.user.save((err) => {
+    if (err) throw err;
+
+    res.json({
+      success: true,
+      message: req.bot,
     });
   });
 };

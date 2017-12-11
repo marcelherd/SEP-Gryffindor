@@ -19,6 +19,7 @@ EXPOSE 8080
 
 ENV NODE_ENV=platzhalter
 ENV NODE_ENV2=platzhalter
+ENV NODE_ENV_USER=user
 
 CMD [ "npm", "start" ]
 

@@ -8,6 +8,8 @@ module.exports = mongoose.model('Bot', new Schema({
   environment: String,
   template: String,
   greeting: String,
+  conversations: Number,
+  forwards: Number,
   dialogTree: Object,
   intents: [{
     name: String,

@@ -1,5 +1,15 @@
 <template>
   <bt-page-container :pageTitle="pageTitle">
+    <md-layout md-flex="100" v-if="bots.length < 1">
+      <md-layout md-flex="100">
+        <p>Looks like you have not created any bots yet.</p>
+      </md-layout>
+      <md-layout md-flex="100">
+        <router-link tag="md-button" :to="createBotUrl()">
+          &raquo; Get started now
+        </router-link>
+      </md-layout>
+    </md-layout>
     <md-layout md-flex="100" md-gutter="40">
       <md-layout md-flex="50" v-for="(bot, index) in bots" :key="bot._id">
         <div class="bt-card">

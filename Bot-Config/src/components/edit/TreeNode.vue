@@ -6,9 +6,13 @@
         @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
     </div>
     <button @click="addChild" class="bt-node-add">+</button>
-    <span v-if="!isRoot" @click="deleteMe" class="close">&times;</span>
+    <span v-if="!isRoot" @click="deleteMe" class="close">
+      <md-icon>
+        delete
+      </md-icon>
+    </span>
     <div class="bt-node-children">
-      <bt-tree-node :node="child" v-for="(child, index) in node.children" :key="index" />
+      <bt-tree-node :node="child" v-for="(child, index) in node.children" :key="index" @deleted="deleteNode" />
     </div>
   </div>
 </template>
@@ -33,8 +37,16 @@ export default {
     },
 
     deleteMe () {
-      console.log('emit')
+      // We set data to this components unique identifier, because
+      // data is later used to identify which node is to be deleted.
+      // This way, we minimize the chance of accidental collisions from user input
+      this.node.data = this._uid
       this.$emit('deleted', this.node.data)
+    },
+
+    deleteNode (data) {
+      const index = this.node.children.findIndex((item) => item.data === data)
+      this.node.children.splice(index, 1)
     },
 
     handleDblclick ($event) {
@@ -98,12 +110,12 @@ export default {
 }
 
 .bt-tree-node .close {
-  padding: 8px;
-  font-size: 1.5rem;
+  padding: 13px;
+  margin-left: 20px;
 }
 .bt-tree-node .close:hover {
   cursor: pointer;
-  color: #aaa;
+  color: #FAD232;
 }
 
 .bt-tree-node .bt-tree-node {

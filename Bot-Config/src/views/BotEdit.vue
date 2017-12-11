@@ -121,7 +121,7 @@
 
       <bt-form-section header="Dialog configuration" :helpText="welcomeBotHelp">
         <div class="bt-tree">
-          <bt-tree-node :node="bot.dialogTree.root" isRoot="true" @deleted="deleteNode" />
+          <bt-tree-node :node="bot.dialogTree.root" isRoot="true" />
         </div>
       </bt-form-section>
 
@@ -309,12 +309,6 @@ export default {
       if (intent.answer.type === 'skill') {
         return 'Type skill'
       }
-    },
-
-    deleteNode (data) {
-      console.log('xd')
-      const index = this.bot.dialogTree.root.children.findIndex((item) => item.data === data)
-      this.bot.dialogTree.root.children.splice(index, 1)
     }
   }
 }

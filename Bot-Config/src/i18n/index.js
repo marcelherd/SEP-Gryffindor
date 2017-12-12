@@ -21,7 +21,8 @@ const messages = {
       phProductionId: 'Brand ID for production',
       phStagingId: 'Brand ID for staging',
       btnEdit: 'Edit',
-      btnSave: 'Save'
+      btnSave: 'Save',
+      btnBack: 'Back'
     },
     menu: {
       btnAccount: 'Account',
@@ -99,7 +100,8 @@ const messages = {
       phProductionId: 'Brand ID für die Produktion',
       phStagingId: 'Brand ID für die Testumgebung',
       btnEdit: 'Bearbeiten',
-      btnSave: 'Speichern'
+      btnSave: 'Speichern',
+      btnBack: 'Zurück'
     },
     menu: {
       btnAccount: 'Konto',

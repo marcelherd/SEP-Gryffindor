@@ -131,6 +131,8 @@
       </md-layout>
     </md-layout>
 
+    <a @click="home" class="bt-back-button">&laquo; {{ $t('shared.btnBack') }}</a>
+
     <bt-fab @click="saveBot">
       <md-icon>save</md-icon>
     </bt-fab>
@@ -317,6 +319,13 @@ export default {
       if (intent.answer.type === 'skill') {
         return this.$t('botEdit.phSkillInput')
       }
+    },
+
+    home () {
+      this.$router.push({
+        name: 'Overview',
+        params: { userId: this.$store.getters.user._id }
+      })
     }
   }
 }
@@ -329,5 +338,20 @@ export default {
 
 .bt-page-controls {
   margin-top: 48px;
+}
+
+.md-layout a.bt-back-button {
+  position: fixed;
+  top: 120px;
+  left: 5%;
+  color: black;
+  font-size: 16px;
+}
+
+.md-layout a.bt-back-button:hover {
+  color: black;
+  opacity: .7;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>

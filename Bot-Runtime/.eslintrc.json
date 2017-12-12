@@ -5,10 +5,13 @@
     },
     "extends": "airbnb",
     "rules": {
+      "max-len": "off",
       "no-console": "off",
       "no-plusplus": "off",
       "no-param-reassign": "off",
       "no-underscore-dangle": "off",
+      "no-await-in-loop": "off",
+      "no-loop-func": "off",
       "func-names": "off",
       "consistent-return": "off"
     }

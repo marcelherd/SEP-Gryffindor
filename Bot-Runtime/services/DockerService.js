@@ -23,9 +23,7 @@ let createOptions;
 exports.buildImage = async function (bot, userId) {
   console.log('Building Bot...');
   return new Promise(async (resolve) => {
-    console.log(JSON.stringify(bot));
     if (bot.template === 'FAQ-Bot') {
-      console.log(bot);
       const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
       createOptions = {
         name: `${bot._id}`,
@@ -33,7 +31,6 @@ exports.buildImage = async function (bot, userId) {
         Tty: true,
         Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV2=${JSON.stringify(endpointData)}`,`NODE_ENV_USER=${JSON.stringify(userId)}` ],
       };
-      console.log(createOptions);
     } else {
       createOptions = {
         name: `${bot._id}`,
@@ -42,12 +39,8 @@ exports.buildImage = async function (bot, userId) {
         Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
       };
     }
-    console.log('HERE I SHOULD CREATE THE CONTAINER!');
     docker.createContainer(createOptions, (err) => {
-      console.log('is there an error here?');
-      console.log(err);
       if (err) {
-        console.log('GOT AN ERROR HERE');
         if (bot.template === 'FAQ-Bot') {
           docker.buildImage({
             context: `../Bots/${bot.template}`,
@@ -67,7 +60,6 @@ exports.buildImage = async function (bot, userId) {
             output.pipe(process.stdout);
           });
         } else {
-          console.log('I should build the image here!');
           docker.buildImage({
             context: `../Bots/${bot.template}`,
             src: ['Dockerfile', 'index.js', 'package.json'],
@@ -133,14 +125,13 @@ exports.stop = function (bot) {
     const container = docker.getContainer(bot.id);
     // query API for container info
     container.inspect((error, data) => {
-      console.log(data);
       if (data !== null) {
         if (data.State.Status !== 'exited') {
           container.stop((err) => {
             if (err) {
-              console.log(err);
+              // TODO: error handling
             } else {
-              (console.log(`Bot ${bot.name} (${bot._id}) stopped`));
+              console.log(`Bot ${bot.name} (${bot._id}) stopped`);
               bot.status = 'false';
             }
           });
@@ -174,7 +165,6 @@ exports.restart = function (bot) {
 exports.delete = function (bot) {
   return new Promise((resolve) => {
     // TODO: start the bot here
-    console.log(bot);
     console.log(`Deleting bot ${bot.name} (${bot._id})...`);
 
 
@@ -182,7 +172,7 @@ exports.delete = function (bot) {
     this.stop(bot);
     container.remove((err) => {
       if (err) {
-        console.log(err);
+        // TODO: error handling
       }
     });
     resolve();

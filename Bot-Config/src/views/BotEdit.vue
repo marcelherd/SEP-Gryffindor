@@ -108,7 +108,7 @@
 
       <md-layout md-row>
         <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button @click="saveBot" theme="orange">{{ $t('botEdit.btnSaveBot') }}</bt-button>
+        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 
@@ -127,9 +127,13 @@
 
       <md-layout md-row class="bt-page-controls">
         <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button @click="saveBot" theme="orange">{{ $t('botEdit.btnSaveBot') }}</bt-button>
+        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
+
+    <bt-fab @click="saveBot">
+      <md-icon>save</md-icon>
+    </bt-fab>
 
   </bt-page-container>
 </template>
@@ -138,6 +142,7 @@
 import PageContainer from '@/components/layout/PageContainer'
 import FormSection from '@/components/core/FormSection'
 import FlashMessage from '@/components/core/FlashMessage'
+import FloatingActionButton from '@/components/core/FloatingActionButton'
 import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
@@ -152,6 +157,7 @@ export default {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
     'bt-flash-message': FlashMessage,
+    'bt-fab': FloatingActionButton,
     'bt-tree-node': TreeNode,
     'bt-button': Button,
     'bt-input': Input,

@@ -72,6 +72,7 @@ const messages = {
       btnDeleteBot: 'Delete bot',
       btnSaveIntent: 'Save intent',
       btnDeleteIntent: 'Delete intent',
+      btnTesting: 'Test your bot',
       infoBotSaved: 'Bot saved'
     },
     botCreate: {
@@ -147,6 +148,7 @@ const messages = {
       btnDeleteBot: 'Bot löschen',
       btnSaveIntent: 'Absicht speichern',
       btnDeleteIntent: 'Absicht löschen',
+      btnTesting: 'Probiere deinen Bot aus',
       infoBotSaved: 'Bot wurde gespeichert'
     },
     botCreate: {

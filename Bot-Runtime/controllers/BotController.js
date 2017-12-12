@@ -147,7 +147,8 @@ exports.updateBot = async function (req, res) {
 
   if (bot.template === 'FAQ-Bot') {
     try {
-      await Luis.createApp('../Bots/FAQ-Bot/config.json');
+      const { endpointUrl } = await Luis.createApp('../Bots/FAQ-Bot/config.json');
+      bot.endpointUrl = endpointUrl;
     } catch (err) {
       return res.json({
         success: false,

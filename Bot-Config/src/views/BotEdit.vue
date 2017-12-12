@@ -8,7 +8,7 @@
         <bt-switch :initial="bot.running" @click="toggleBot(bot)" theme="white" />
       </md-layout>
     </md-layout>
-    <bt-flash-message ref="flashMessage" />
+
     <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
       <bt-form-section :header="$t('shared.lblBotConfiguration')">
         <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
@@ -135,13 +135,16 @@
       <md-icon>save</md-icon>
     </bt-fab>
 
+    <md-snackbar ref="snackbar" md-position="top center">
+      <span>{{ flashMessage }}</span>
+    </md-snackbar>
+
   </bt-page-container>
 </template>
 
 <script>
 import PageContainer from '@/components/layout/PageContainer'
 import FormSection from '@/components/core/FormSection'
-import FlashMessage from '@/components/core/FlashMessage'
 import FloatingActionButton from '@/components/core/FloatingActionButton'
 import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
@@ -156,7 +159,6 @@ export default {
   components: {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
-    'bt-flash-message': FlashMessage,
     'bt-fab': FloatingActionButton,
     'bt-tree-node': TreeNode,
     'bt-button': Button,
@@ -178,7 +180,8 @@ export default {
             text: ''
           }
         ]
-      }
+      },
+      flashMessage: 'wat'
     }
   },
   created () {
@@ -270,12 +273,11 @@ export default {
 
       RuntimeService.updateBot(userId, this.bot).then((data) => {
         if (data.success) {
-          this.$refs.flashMessage.setType('info')
-          this.$refs.flashMessage.pushMessage(this.$t('botEdit.infoBotSaved'))
+          this.flashMessage = this.$t('botEdit.infoBotSaved')
         } else {
-          this.$refs.flashMessage.setType('error')
-          this.$refs.flashMessage.pushMessage(data.message)
+          this.flashMessage = data.message || this.$t('core.unknownError')
         }
+        this.$refs.snackbar.open()
       })
     },
 
@@ -289,8 +291,8 @@ export default {
             params: { userId }
           })
         } else {
-          this.$refs.flashMessage.setType('error')
-          this.$refs.flashMessage.pushMessage(data.message)
+          this.flashMessage = data.message
+          this.$refs.snackbar.open()
         }
       })
     },

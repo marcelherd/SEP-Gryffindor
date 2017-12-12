@@ -10,7 +10,8 @@ const messages = {
       username: 'Username',
       password: 'Password',
       yes: 'Yes',
-      no: 'No'
+      no: 'No',
+      unknownError: 'An unknown error has occured.'
     },
     shared: {
       lblBotConfiguration: 'Bot configuration',
@@ -87,7 +88,8 @@ const messages = {
       username: 'Benutzername',
       password: 'Passwort',
       yes: 'Ja',
-      no: 'Nein'
+      no: 'Nein',
+      unknownError: 'Ein unerwarteter Fehler ist aufgetreten.'
     },
     shared: {
       lblBotConfiguration: 'Bot Konfiguration',

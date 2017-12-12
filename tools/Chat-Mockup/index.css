@@ -10,19 +10,35 @@ body {
 }
 
 .bt-chat-header {
-	height: auto;
+	height: 70px;
 	background-color: #FFD244;
-	width: 100%;
-	padding: 15px;
+	padding: 10px;
 	box-sizing: border-box;
 	margin-bottom: 10px;
+	clear: all;
+	display: block;
+}
+
+.bt-chat-details {
+	margin: 5px;
+	display: inline-block;
+	margin-left: 50px;
 }
 
 .bt-chat-onlinenow {
 	font-size: 10px;
 }
 
+.bt-chat-logout {
+	float: right;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-size: 10px;
+	margin: 5px;
+}
+
 .bt-chat-body {
+	clear: all;
 	padding: 10px;
 	box-sizing: border-box;
 }
@@ -35,52 +51,90 @@ body {
 	color: #AAA;
 	text-align: center;
 	width: 100%;
+	margin-bottom: 10px;
 }
 
-.bt-chat-speechbubble-bot, .bt-chat-speechbubble-client, .bt-chat-send-button {
-	padding: 5px;
-	border: 1px solid black;
-	width: auto;
-	border-radius: 10px;
+.bt-chat-bot-response, .bt-chat-client-response {
+	display: block;
+	width: 100%;
+	clear: both;
+}
+
+.bt-chat-icon {
+	width: 38px;
+	height: 38px;
 	margin: 5px;
+	margin-left: 0;
+	z-index: 90;
+	display: inline-block;
+	border: 1px solid #DDD;
+	border-radius: 38px;
+	overflow: hidden;
+	background-color: white;
+	position: absolute;
+}
+
+img {
+	max-width:100%;
+	max-height:100%;
+}
+
+.bt-chat-speechbubble-bot, .bt-chat-speechbubble-client {
+	padding: 10px;
+	width: auto;
+	border-radius: 15px;
+	margin: 5px;
+	display: inline-block;
+	max-width: 200px;
 }
 
 .bt-chat-speechbubble-bot {
-	background-color: black;
-	color: white;
+	left: 25px;
+	border: 1px solid #FFD244;
+	margin-left: 50px;
 }
 
+.bt-chat-speechbubble-client {
+	background-color: black;
+	color: white;
+	float: right;
+	display: block;
+	
+}
 
-.bt-chat-name-bot, .bt-chat-name-client {
+.bt-chat-name-bot{
 	width: 100%;
 	font-size: 10px;
-	margin: 5px;
+	display: block;
+	margin-left: 55px;
 }
 
 .bt-chat-footer {
 	width: 100%;
-	height: 50px;
+	height: auto;
 	bottom: 0;
 	position: absolute;
 	padding: 10px;
 	box-sizing: border-box;
+	background-color: #FFD244;
 }
 
 .bt-chat-textarea {
-	width: 250px;
+	width: 255px;
 	border-radius: 10px;
-	padding: 5px;
-	border: 1px solid black;
 	float: left;
+	background-color: white;
+	padding: 10px;
+	border-radius: 15px;
 }
 
 .bt-chat-send-button {
-	width: 20px;
-	height: 20px;
+	width: 38px;
+	height: 38px;
 	float: right;
 	border-radius: 20px;
 	background-color: black;
 	color: white;
 	text-align: center;
-	
+	line-height: 38px;
 }

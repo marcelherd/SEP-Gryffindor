@@ -11,8 +11,8 @@
     <bt-flash-message ref="flashMessage" />
     <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
       <bt-form-section :header="$t('shared.lblBotConfiguration')">
-        <bt-input v-model="bot.name" type="text" :placeholder="$t('botEdit.phName')" />
-        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('botEdit.phGreeting')" />
+        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
+        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
         <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
@@ -114,8 +114,8 @@
 
     <md-layout md-column v-if="bot.template === 'Welcome-Bot'">
       <bt-form-section :header="$t('shared.lblBotConfiguration')">
-        <bt-input v-model="bot.name" type="text" :placeholder="$t('botEdit.phName')" />
-        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('botEdit.phGreeting')" />
+        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
+        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
         <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
@@ -265,7 +265,7 @@ export default {
       RuntimeService.updateBot(userId, this.bot).then((data) => {
         if (data.success) {
           this.$refs.flashMessage.setType('info')
-          this.$refs.flashMessage.pushMessage('Bot saved.')
+          this.$refs.flashMessage.pushMessage(this.$t('botEdit.infoBotSaved'))
         } else {
           this.$refs.flashMessage.setType('error')
           this.$refs.flashMessage.pushMessage(data.message)

@@ -5,7 +5,7 @@
     <md-table>
       <md-table-header>
         <md-table-row>
-          <md-table-head>{{ $t('admin.colUsername') }}</md-table-head>
+          <md-table-head>{{ $t('core.username') }}</md-table-head>
           <md-table-head>{{ $t('admin.colAdmin') }}</md-table-head>
           <md-table-head>{{ $t('admin.colActions') }}</md-table-head>
         </md-table-row>

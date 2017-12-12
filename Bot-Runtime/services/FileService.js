@@ -15,14 +15,13 @@ exports.readConfigDataFromFile = async (folder, filename) => {
     });
     return JSON.parse(data);
   } catch (err) {
-    console.log('errrrr');
     throw err;
   }
 };
 
 exports.writeToFile = async (data, folder, filename) => fs.writeFile(getPath.resolve(folder, filename), JSON.stringify(data), (err) => {
   if (err) {
-    console.log(err);
+    // TODO: error handling
   }
 });
 exports.writeAppIdsAfterDeletion = async (apps, folder, filename) => {
@@ -38,7 +37,7 @@ exports.writeAppIds = async (appId, name) => {
     });
     fs.writeFile('./services/Luis/apps.json', JSON.stringify(apps), (err) => {
       if (err) {
-        console.log(err);
+        // TODO: error handling
       }
     });
   } catch (err) {

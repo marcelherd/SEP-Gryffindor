@@ -41,8 +41,6 @@ const publishMyApp = async () => {
   };
   try {
     const results = await publish.publishApp(configAppPublish);
-    console.log('My results: ');
-    console.log(results);
     return results;
   } catch (err) {
     throw err;
@@ -67,7 +65,6 @@ const getTrainingStatus = async () => {
         return successfullyTrained.length === trainingTotal;
       }, 600);
     } while (result === false);
-    console.log(result);
     const answer = await publishMyApp();
     const {
       response,
@@ -81,8 +78,6 @@ const getTrainingStatus = async () => {
 
 
 const trainMyApp = async () => {
-  console.log('the Id:');
-  console.log(appId);
   const configTrain = {
     LUIS_subscriptionKey: subscriptionKey,
     LUIS_appId: appId,
@@ -155,8 +150,7 @@ const addNewApp = async (path) => {
   let data;
   try {
     data = await readMyFile(path);
-    console.log(data);
-    console.log('Reading was succesfull');
+
     const appConfig = {
       LUIS_subscriptionKey: subscriptionKey,
       LUIS_versionId: versionId,
@@ -164,7 +158,6 @@ const addNewApp = async (path) => {
       culture: 'en-us',
       uri: postAppUri,
     };
-    console.log(appConfig);
     try {
       const apps = await fileService.getAppIds();
       const getId = async () => {
@@ -182,7 +175,7 @@ const addNewApp = async (path) => {
       await deleteOldApp(deleteId);
       await fileService.writeAppIdsAfterDeletion(apps, 'services/Luis', '/apps.json');
     } catch (err) {
-      console.log('No App created yet. Just procced');
+      // TODO: error handling
     }
     appId = await createApp(appConfig);
     await fileService.writeAppIds(appId, appConfig.appName);
@@ -200,7 +193,6 @@ exports.createApp = async (path) => {
     await trainMyApp();
     const results = await getTrainingStatus();
     // const results = await publishMyApp();
-    console.log('here I return thou my promise');
     return results;
   } catch (err) {
     throw err;

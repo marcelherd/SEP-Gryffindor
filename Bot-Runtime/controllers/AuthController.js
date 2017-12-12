@@ -82,10 +82,6 @@ exports.isAuthorized = function (req, res, next) {
 exports.isAdmin = function (req, res, next) {
   const { admin } = req.auth;
 
-  console.log('isAdmin');
-  console.log(`admin: ${admin}`);
-  console.log(`type: ${typeof admin}`);
-
   if (admin) {
     return next();
   }

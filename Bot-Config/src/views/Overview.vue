@@ -2,11 +2,11 @@
   <bt-page-container :pageTitle="pageTitle">
     <md-layout md-flex="100" v-if="bots.length < 1">
       <md-layout md-flex="100">
-        <p>Looks like you have not created any bots yet.</p>
+        <p>{{ $t('overview.lblNoBots') }}</p>
       </md-layout>
       <md-layout md-flex="100">
         <router-link tag="md-button" :to="createBotUrl()">
-          &raquo; Get started now
+          &raquo; {{ $t('overview.btnGetStarted') }}
         </router-link>
       </md-layout>
     </md-layout>
@@ -57,7 +57,7 @@
           </div>
           <div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
             <md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
-              <button @click="editBot(bot)">{{ $t('overview.btnEdit') }}</button>
+              <button @click="editBot(bot)">{{ $t('shared.btnEdit') }}</button>
             </md-layout>
           </div>
         </div>

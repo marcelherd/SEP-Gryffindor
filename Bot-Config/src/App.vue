@@ -212,15 +212,15 @@ p.bt-card-utterance {
 }
 
 ::-webkit-input-placeholder {
-    color:#BDBDBD;
+    color:#8C8C8C;
 }
 ::-moz-placeholder {
-    color:#BDBDBD;
+    color:#8C8C8C;
 }
 ::-ms-placeholder {
-    color:#BDBDBD;
+    color:#8C8C8C;
 }
 ::placeholder {
-    color:#BDBDBD;
+    color:#8C8C8C;
 }
 </style>

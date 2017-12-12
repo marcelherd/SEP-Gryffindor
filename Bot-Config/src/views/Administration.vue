@@ -1,26 +1,26 @@
 <template>
-  <bt-page-container pageTitle="Administration">
+  <bt-page-container :pageTitle="$t('admin.lblPageTitle')">
     <md-layout md-flex md-column>
 
     <md-table>
       <md-table-header>
         <md-table-row>
-          <md-table-head>Username</md-table-head>
-          <md-table-head>Admin</md-table-head>
-          <md-table-head>Actions</md-table-head>
+          <md-table-head>{{ $t('admin.colUsername') }}</md-table-head>
+          <md-table-head>{{ $t('admin.colAdmin') }}</md-table-head>
+          <md-table-head>{{ $t('admin.colActions') }}</md-table-head>
         </md-table-row>
       </md-table-header>
 
       <md-table-body>
         <md-table-row v-for="(user, index) in users" :key="user._id">
           <md-table-cell>{{ user.username }}</md-table-cell>
-          <md-table-cell>{{ user.admin ? 'yes' : 'no' }}</md-table-cell>
+          <md-table-cell>{{ user.admin ? $t('core.yes') : $t('core.no') }}</md-table-cell>
           <md-table-cell>
             <md-layout md-flex>
               <md-layout md-flex="80" md-vertical-align="center">
                 <span class="bt-inline-link" @click="manage(user)">
                   <md-icon>settings</md-icon>
-                  Manage bots
+                  {{ $t('admin.lblManageBots') }}
                 </span>
               </md-layout>
               <md-layout md-flex md-align="end">

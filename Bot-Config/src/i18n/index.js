@@ -6,7 +6,14 @@ Vue.use(VueI18n)
 const messages = {
   en: {
     core: {
-      country: 'Germany'
+      country: 'Germany',
+      yes: 'Yes',
+      no: 'No'
+    },
+    shared: {
+      lblBotConfiguration: 'Bot configuration',
+      btnEdit: 'Edit',
+      btnSave: 'Save'
     },
     menu: {
       btnAccount: 'Account',
@@ -28,15 +35,35 @@ const messages = {
       lblIntroduction: 'Hi! I\'m {name} the {template}!',
       lblConversations: 'I had {conversations} conversations so far',
       lblForwards: 'And forwarded {forwards} times',
-      btnEdit: 'Edit'
+      lblNoBots: 'Looks like you have not created any bots yet.',
+      btnGetStarted: 'Get started now'
     },
     marketplace: {
       lblPageTitle: 'Select bot template'
+    },
+    account: {
+      lblPageTitle: 'Account details',
+      phProductionId: 'Brand ID for production',
+      phStagingId: 'Brand ID for staging'
+    },
+    admin: {
+      lblPageTitle: 'Administration',
+      lblManageBots: 'Manage bots',
+      colUsername: 'Username',
+      colAdmin: 'Administrator',
+      colActions: 'Actions'
     }
   },
   de: {
     core: {
-      country: 'Deutschland'
+      country: 'Deutschland',
+      yes: 'Ja',
+      no: 'Nein'
+    },
+    shared: {
+      lblBotConfiguration: 'Bot Konfiguration',
+      btnEdit: 'Bearbeiten',
+      btnSave: 'Speichern'
     },
     menu: {
       btnAccount: 'Konto',
@@ -58,10 +85,23 @@ const messages = {
       lblIntroduction: 'Hi! Ich bin {name} der {template}!',
       lblConversations: 'Ich hatte bisher {conversations} Konversationen',
       lblForwards: 'Und habe {forwards} mal weitergeleitet',
-      btnEdit: 'Bearbeiten'
+      lblNoBots: 'Scheinbar hast du noch gar keine Bots erstellt.',
+      btnGetStarted: 'Erstelle jetzt deinen ersten Bot'
     },
     marketplace: {
       lblPageTitle: 'Wähle eine Bot Vorlage aus'
+    },
+    account: {
+      lblPageTitle: 'Konto Details',
+      phProductionId: 'Brand ID für die Produktion',
+      phStagingId: 'Brand ID für die Testumgebung'
+    },
+    admin: {
+      lblPageTitle: 'Administration',
+      lblManageBots: 'Bots verwalten',
+      colUsername: 'Benutzername',
+      colAdmin: 'Administrator',
+      colActions: 'Aktionen'
     }
   }
 }

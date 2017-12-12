@@ -1,12 +1,12 @@
 <template>
-  <bt-page-container pageTitle="Account details">
+  <bt-page-container :pageTitle="$t('account.lblPageTitle')">
     <bt-flash-message ref="flashMessage" />
     <md-layout md-column>
-      <bt-form-section header="Bot configuration">
-        <bt-input v-model="user.brandId" type="text" placeholder="Brand ID for production" />
-        <bt-input v-model="user.stagingId" type="text" placeholder="Brand ID for staging" />
+      <bt-form-section :header="$t('shared.lblBotConfiguration')">
+        <bt-input v-model="user.brandId" type="text" :placeholder="$t('account.phProductionId')" />
+        <bt-input v-model="user.stagingId" type="text" :placeholder="$t('account.phStagingId')" />
       </bt-form-section>
-      <bt-button @click="save" theme="orange">Save</bt-button>
+      <bt-button @click="save" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
     </md-layout>
   </bt-page-container>
 </template>

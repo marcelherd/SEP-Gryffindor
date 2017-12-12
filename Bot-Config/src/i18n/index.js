@@ -12,6 +12,7 @@ const messages = {
     },
     shared: {
       lblBotConfiguration: 'Bot configuration',
+      lblDialogueConfiguration: 'Dialogue configuration',
       btnEdit: 'Edit',
       btnSave: 'Save'
     },
@@ -62,6 +63,7 @@ const messages = {
     },
     shared: {
       lblBotConfiguration: 'Bot Konfiguration',
+      lblDialogueConfiguration: 'Dialog Konfiguration',
       btnEdit: 'Bearbeiten',
       btnSave: 'Speichern'
     },
@@ -102,6 +104,21 @@ const messages = {
       colUsername: 'Benutzername',
       colAdmin: 'Administrator',
       colActions: 'Aktionen'
+    },
+    botEdit: {
+      lblIfUserSays: 'Wenn der Kunde etwas sagt wie',
+      lblReplyWith: 'Dann antworte mit',
+      phName: 'Name',
+      phGreeting: 'Begrüßung',
+      phQuestion: 'Frage',
+      phUtterance: 'Aussage',
+      phTextInput: 'Text',
+      phLinkInput: 'Link',
+      phSkillInput: 'Skill',
+      btnSaveBot: 'Bot speichern',
+      btnDeleteBot: 'Bot löschen',
+      btnSaveIntent: 'Absicht speichern',
+      btnDeleteIntent: 'Absicht löschen'
     }
   }
 }

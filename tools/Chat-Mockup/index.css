@@ -75,7 +75,12 @@ body {
 }
 
 .bt-chat-send-button {
-	width: 40px;
+	width: 20px;
 	height: 20px;
 	float: right;
+	border-radius: 20px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	
 }

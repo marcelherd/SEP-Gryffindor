@@ -101,13 +101,13 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red">{{ $t('botEdit.btnDeleteIntent') }}</bt-button>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red" :confirmation="$t('botEdit.confirmIntentDelete')">{{ $t('botEdit.btnDeleteIntent') }}</bt-button>
             </md-layout>
           </div>
         </div>
 
       <md-layout md-row>
-        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
         <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
@@ -126,7 +126,7 @@
       </bt-form-section>
 
       <md-layout md-row class="bt-page-controls">
-        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
         <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>

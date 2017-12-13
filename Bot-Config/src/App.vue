@@ -211,6 +211,23 @@ p.bt-card-utterance {
   text-underline-position: under;
 }
 
+a.bt-back-button,
+.md-layout a.bt-back-button {
+  position: fixed;
+  top: 120px;
+  left: 5%;
+  color: black;
+  font-size: 16px;
+}
+
+a.bt-back-button:hover,
+.md-layout a.bt-back-button:hover {
+  color: black;
+  opacity: .7;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 ::-webkit-input-placeholder {
     color:#8C8C8C;
 }

@@ -84,6 +84,11 @@ const messages = {
       lblPageTitle: 'Bot details',
       lblHeader: 'Create the {template}',
       lblProfilePicture: 'Profile picture'
+    },
+    testing: {
+      lblPageTitle: 'Testing {name}',
+      lblOnline: 'Online now',
+      phInput: 'Type here...'
     }
   },
   de: {
@@ -165,6 +170,11 @@ const messages = {
       lblPageTitle: 'Bot Details',
       lblHeader: 'Erstelle den {template}',
       lblProfilePicture: 'Profilbild'
+    },
+    testing: {
+      lblPageTitle: 'Teste {name}',
+      lblOnline: 'Jetzt online',
+      phInput: 'Hier schreiben...'
     }
   }
 }

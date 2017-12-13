@@ -127,7 +127,7 @@
 
       <md-layout md-row class="bt-page-controls">
         <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
+        <bt-button @click="testing" theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 
@@ -326,6 +326,16 @@ export default {
         name: 'Overview',
         params: { userId: this.$store.getters.user._id }
       })
+    },
+
+    testing () {
+      const { userId, botId } = this.$route.params
+
+      this.saveBot()
+      this.$router.push({
+        name: 'Testing',
+        params: { userId, botId }
+      })
     }
   }
 }
@@ -338,20 +348,5 @@ export default {
 
 .bt-page-controls {
   margin-top: 48px;
-}
-
-.md-layout a.bt-back-button {
-  position: fixed;
-  top: 120px;
-  left: 5%;
-  color: black;
-  font-size: 16px;
-}
-
-.md-layout a.bt-back-button:hover {
-  color: black;
-  opacity: .7;
-  cursor: pointer;
-  text-decoration: none;
 }
 </style>

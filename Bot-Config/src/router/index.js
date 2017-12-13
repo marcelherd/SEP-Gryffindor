@@ -11,6 +11,7 @@ import Account from '@/views/Account'
 import Administration from '@/views/Administration'
 import UserCreate from '@/views/UserCreate'
 import BotEdit from '@/views/BotEdit'
+import Testing from '@/views/Testing'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ const router = new Router({
       path: '/Overview/:userId/Edit/:botId',
       name: 'BotEdit',
       component: BotEdit
+    },
+    {
+      path: '/Overview/:userId/Edit/:botId/Testing',
+      name: 'Testing',
+      component: Testing
     },
     {
       path: '/Overview/:userId/Create',

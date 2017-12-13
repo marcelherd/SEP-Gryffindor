@@ -10,6 +10,7 @@ const express = require('express');
 const parser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const figlet = require('figlet');
 
 const discoveryService = require('./services/DiscoveryService');
 
@@ -34,5 +35,6 @@ app.get('/api/v1/discover', (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log('Bot Marketplace is running on port 4000!');
+  console.log(figlet.textSync('Bottertoast'));
+  console.log(' Bottertoast Marketplace is running on port 4000!');
 });

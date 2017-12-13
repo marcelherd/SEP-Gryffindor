@@ -141,6 +141,12 @@
       <span>{{ flashMessage }}</span>
     </md-snackbar>
 
+    <div class="bt-overlay" v-if="showOverlay">
+      <div class="bt-overlay-content">
+        <span>{{ $t('botEdit.lblCurrentlyTesting') }}</span>
+      </div>
+    </div>
+
   </bt-page-container>
 </template>
 
@@ -183,7 +189,8 @@ export default {
           }
         ]
       },
-      flashMessage: 'wat'
+      flashMessage: '',
+      showOverlay: false
     }
   },
   created () {
@@ -265,6 +272,8 @@ export default {
     },
 
     saveBot () {
+      this.showOverlay = true
+
       const { userId } = this.$route.params
 
       this.bot.intents.forEach((intent) => {
@@ -280,6 +289,7 @@ export default {
           this.flashMessage = data.message || this.$t('core.unknownError')
         }
         this.$refs.snackbar.open()
+        this.showOverlay = false
       })
     },
 

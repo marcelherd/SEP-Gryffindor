@@ -66,6 +66,7 @@ const messages = {
     botEdit: {
       lblIfUserSays: 'If user says something like',
       lblReplyWith: 'Then reply with',
+      lblCurrentlyTesting: 'Please wait, while the bot is being trained',
       phQuestion: 'Question',
       phUtterance: 'Utterance',
       phTextInput: 'Text',
@@ -152,6 +153,7 @@ const messages = {
     botEdit: {
       lblIfUserSays: 'Wenn der Kunde etwas sagt wie',
       lblReplyWith: 'Dann antworte mit',
+      lblCurrentlyTesting: 'Bitte warten Sie, während der Bot trainiert wird',
       phQuestion: 'Frage',
       phUtterance: 'Aussage',
       phTextInput: 'Text',

@@ -228,6 +228,27 @@ a.bt-back-button:hover,
   text-decoration: none;
 }
 
+.bt-overlay {
+  background-color: rgba(0, 0, 0, .55);
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bt-overlay-content {
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.bt-overlay-content span {
+  font-size: 48px;
+  color: white;
+}
+
 ::-webkit-input-placeholder {
     color:#8C8C8C;
 }

@@ -1,0 +1,153 @@
+body {
+	font-family: sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.bt-chat {
+	width: 350px;
+	height: 90vh;
+	position: relative;
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+	overflow: hidden;
+}
+
+.bt-chat-header {
+	height: 70px;
+	background-color: #FFD244;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	clear: all;
+	display: block;
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+	
+}
+
+.bt-chat-details {
+	margin: 5px;
+	display: inline-block;
+	margin-left: 50px;
+}
+
+.bt-chat-onlinenow {
+	font-size: 10px;
+}
+
+.bt-chat-logout {
+	float: right;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-size: 10px;
+	padding: 5px;
+	color: #555;
+	border-radius: 5px;
+	background-color: rgba(255,255,255,0.5);
+	cursor: pointer;
+}
+
+.bt-chat-body {
+	clear: all;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.bt-chat-timestamp {
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 1px;
+	font-weight: bold;
+	color: #AAA;
+	text-align: center;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.bt-chat-bot-response, .bt-chat-client-response {
+	display: block;
+	width: 100%;
+	clear: both;
+}
+
+.bt-chat-icon {
+	width: 38px;
+	height: 38px;
+	margin: 5px;
+	margin-left: 0;
+	z-index: 90;
+	display: inline-block;
+	border: 1px solid #DDD;
+	border-radius: 38px;
+	overflow: hidden;
+	background-color: white;
+	position: absolute;
+}
+
+img {
+	max-width:100%;
+	max-height:100%;
+}
+
+.bt-chat-speechbubble-bot, .bt-chat-speechbubble-client {
+	padding: 10px;
+	width: auto;
+	border-radius: 15px;
+	margin: 5px;
+	display: inline-block;
+	max-width: 200px;
+}
+
+.bt-chat-speechbubble-bot {
+	left: 25px;
+	border: 1px solid #FFD244;
+	margin-left: 50px;
+}
+
+.bt-chat-speechbubble-client {
+	background-color: black;
+	color: white;
+	float: right;
+	display: block;
+	
+}
+
+.bt-chat-name-bot{
+	width: 100%;
+	font-size: 10px;
+	display: block;
+	margin-left: 55px;
+}
+
+.bt-chat-footer {
+	width: 100%;
+	height: auto;
+	bottom: 0;
+	position: absolute;
+	padding: 10px;
+	box-sizing: border-box;
+	background-color: #FFD244;
+	z-index: 100;
+}
+
+.bt-chat-textarea {
+	width: 260px;
+	border-radius: 10px;
+	float: left;
+	background-color: white;
+	padding: 10px;
+	border-radius: 15px;
+	color: #AAA;
+}
+
+.bt-chat-send-button {
+	width: 38px;
+	height: 38px;
+	float: right;
+	border-radius: 20px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	line-height: 38px;
+}

@@ -22,6 +22,7 @@ module.exports = mongoose.model('Bot', new Schema({
       intentName: String,
     }],
   }],
+  endpointUrl: String,
   statusChanged: { $type: Date, default: new Date('2000-01-01').toISOString() },
 }, {
   usePushEach: true,

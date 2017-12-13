@@ -8,31 +8,31 @@
         <bt-switch :initial="bot.running" @click="toggleBot(bot)" theme="white" />
       </md-layout>
     </md-layout>
-    <bt-flash-message ref="flashMessage" />
+
     <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
-      <bt-form-section header="Bot configuration">
-        <bt-input v-model="bot.name" type="text" placeholder="Name" />
-        <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+      <bt-form-section :header="$t('shared.lblBotConfiguration')">
+        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
+        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
         <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
-      <bt-form-section header="Dialogue configuration">
+      <bt-form-section :header="$t('shared.lblDialogueConfiguration')">
         <div class="bt-card">
           <div class="bt-card-header">
-            <input v-model="newIntent.name" placeholder="Question" />
+            <input v-model="newIntent.name" :placeholder="$t('botEdit.phQuestion')" />
           </div>
           <div class="bt-card-body">
             <md-layout md-flex="100">
               <md-layout md-flex="50" md-column>
-                <span class="bt-card-subtitle">If user says something like</span>
+                <span class="bt-card-subtitle">{{ $t('botEdit.lblIfUserSays') }}</span>
                 <div class="bt-card-utterances">
-                  <input placeholder="Type utterance" class="bt-card-utterance"
+                  <input :placeholder="$t('botEdit.phUtterance')" class="bt-card-utterance"
                     v-for="(utterance, index) in newIntent.utterances" v-model="utterance.text" :key="index"
                     @keyup="checkNewUtterance($event, newIntent, index)" />
                 </div>
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
-                <span class="bt-card-subtitle">Reply with</span>
+                <span class="bt-card-subtitle">{{ $t('botEdit.lblReplyWith') }}</span>
                 <div class="bt-card-answer-config">
                   <input v-model="newIntent.answer.value" :placeholder="answerPlaceholder(newIntent)" class="bt-card-answer" />
 
@@ -56,7 +56,7 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="addIntent" class="bt-card-action">Save Intent</bt-button>
+              <bt-button @click="addIntent" class="bt-card-action">{{ $t('botEdit.btnSaveIntent') }}</bt-button>
             </md-layout>
           </div>
         </div>
@@ -64,20 +64,20 @@
 
       <div v-for="(intent, index) in bot.intents" :key="index" class="bt-card">
           <div class="bt-card-header">
-            <input v-model="intent.name" placeholder="Enter title" />
+            <input v-model="intent.name" :placeholder="$t('botEdit.phQuestion')" />
           </div>
           <div class="bt-card-body">
             <md-layout md-flex="100">
               <md-layout md-flex="50" md-column>
-                <span class="bt-card-subtitle">If user says something like</span>
+                <span class="bt-card-subtitle">{{ $t('botEdit.lblIfUserSays') }}</span>
                 <div class="bt-card-utterances">
-                  <input placeholder="Type utterance" class="bt-card-utterance"
+                  <input :placeholder="$t('botEdit.phUtterance')" class="bt-card-utterance"
                     v-for="(utterance, index) in intent.utterances" v-model="utterance.text" :key="index"
                     @keyup="checkNewUtterance($event, intent, index)" />
                 </div>
               </md-layout>
               <md-layout md-flex md-column md-vertical-align="end" md-align="start">
-                <span class="bt-card-subtitle">Reply with</span>
+                <span class="bt-card-subtitle">{{ $t('botEdit.lblReplyWith') }}</span>
                 <div class="bt-card-answer-config">
                   <input v-model="intent.answer.value" :placeholder="answerPlaceholder(intent)" class="bt-card-answer" />
 
@@ -101,35 +101,45 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red">Delete Intent</bt-button>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red">{{ $t('botEdit.btnDeleteIntent') }}</bt-button>
             </md-layout>
           </div>
         </div>
 
       <md-layout md-row>
-        <bt-button @click="deleteBot" theme="red" align="start">Delete Bot</bt-button>
-        <bt-button @click="saveBot" theme="orange">Save Bot</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 
     <md-layout md-column v-if="bot.template === 'Welcome-Bot'">
-      <bt-form-section header="Bot configuration">
-        <bt-input v-model="bot.name" type="text" placeholder="Name" />
-        <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+      <bt-form-section :header="$t('shared.lblBotConfiguration')">
+        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
+        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
         <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
-      <bt-form-section header="Dialog configuration" :helpText="welcomeBotHelp">
+      <bt-form-section :header="$t('shared.lblDialogueConfiguration')" :helpText="welcomeBotHelp">
         <div class="bt-tree">
           <bt-tree-node :node="bot.dialogTree.root" isRoot="true" />
         </div>
       </bt-form-section>
 
       <md-layout md-row class="bt-page-controls">
-        <bt-button @click="deleteBot" theme="red" align="start">Delete Bot</bt-button>
-        <bt-button @click="saveBot" theme="orange">Save Bot</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
+
+    <a @click="home" class="bt-back-button">&laquo; {{ $t('shared.btnBack') }}</a>
+
+    <bt-fab @click="saveBot">
+      <md-icon>save</md-icon>
+    </bt-fab>
+
+    <md-snackbar ref="snackbar" md-position="top center">
+      <span>{{ flashMessage }}</span>
+    </md-snackbar>
 
   </bt-page-container>
 </template>
@@ -137,7 +147,7 @@
 <script>
 import PageContainer from '@/components/layout/PageContainer'
 import FormSection from '@/components/core/FormSection'
-import FlashMessage from '@/components/core/FlashMessage'
+import FloatingActionButton from '@/components/core/FloatingActionButton'
 import TreeNode from '@/components/edit/TreeNode'
 import Button from '@/components/core/Button'
 import Input from '@/components/core/Input'
@@ -151,7 +161,7 @@ export default {
   components: {
     'bt-page-container': PageContainer,
     'bt-form-section': FormSection,
-    'bt-flash-message': FlashMessage,
+    'bt-fab': FloatingActionButton,
     'bt-tree-node': TreeNode,
     'bt-button': Button,
     'bt-input': Input,
@@ -172,7 +182,8 @@ export default {
             text: ''
           }
         ]
-      }
+      },
+      flashMessage: 'wat'
     }
   },
   created () {
@@ -264,12 +275,11 @@ export default {
 
       RuntimeService.updateBot(userId, this.bot).then((data) => {
         if (data.success) {
-          this.$refs.flashMessage.setType('info')
-          this.$refs.flashMessage.pushMessage('Bot saved.')
+          this.flashMessage = this.$t('botEdit.infoBotSaved')
         } else {
-          this.$refs.flashMessage.setType('error')
-          this.$refs.flashMessage.pushMessage(data.message)
+          this.flashMessage = data.message || this.$t('core.unknownError')
         }
+        this.$refs.snackbar.open()
       })
     },
 
@@ -283,8 +293,8 @@ export default {
             params: { userId }
           })
         } else {
-          this.$refs.flashMessage.setType('error')
-          this.$refs.flashMessage.pushMessage(data.message)
+          this.flashMessage = data.message
+          this.$refs.snackbar.open()
         }
       })
     },
@@ -299,16 +309,23 @@ export default {
 
     answerPlaceholder (intent) {
       if (intent.answer.type === 'text') {
-        return 'Type answer'
+        return this.$t('botEdit.phTextInput')
       }
 
       if (intent.answer.type === 'link') {
-        return 'Type link'
+        return this.$t('botEdit.phLinkInput')
       }
 
       if (intent.answer.type === 'skill') {
-        return 'Type skill'
+        return this.$t('botEdit.phSkillInput')
       }
+    },
+
+    home () {
+      this.$router.push({
+        name: 'Overview',
+        params: { userId: this.$store.getters.user._id }
+      })
     }
   }
 }
@@ -321,5 +338,20 @@ export default {
 
 .bt-page-controls {
   margin-top: 48px;
+}
+
+.md-layout a.bt-back-button {
+  position: fixed;
+  top: 120px;
+  left: 5%;
+  color: black;
+  font-size: 16px;
+}
+
+.md-layout a.bt-back-button:hover {
+  color: black;
+  opacity: .7;
+  cursor: pointer;
+  text-decoration: none;
 }
 </style>

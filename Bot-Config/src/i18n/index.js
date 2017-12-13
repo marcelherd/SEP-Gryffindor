@@ -7,13 +7,22 @@ const messages = {
   en: {
     core: {
       country: 'Germany',
+      username: 'Username',
+      password: 'Password',
       yes: 'Yes',
-      no: 'No'
+      no: 'No',
+      unknownError: 'An unknown error has occured.'
     },
     shared: {
       lblBotConfiguration: 'Bot configuration',
+      lblDialogueConfiguration: 'Dialogue configuration',
+      phName: 'Name',
+      phGreeting: 'Greeting',
+      phProductionId: 'Brand ID for production',
+      phStagingId: 'Brand ID for staging',
       btnEdit: 'Edit',
-      btnSave: 'Save'
+      btnSave: 'Save',
+      btnBack: 'Back'
     },
     menu: {
       btnAccount: 'Account',
@@ -21,8 +30,6 @@ const messages = {
       btnLogout: 'Log out'
     },
     login: {
-      lblUsername: 'Username',
-      lblPassword: 'Password',
       btnLogin: 'Login'
     },
     overview: {
@@ -42,9 +49,7 @@ const messages = {
       lblPageTitle: 'Select bot template'
     },
     account: {
-      lblPageTitle: 'Account details',
-      phProductionId: 'Brand ID for production',
-      phStagingId: 'Brand ID for staging'
+      lblPageTitle: 'Account details'
     },
     admin: {
       lblPageTitle: 'Administration',
@@ -52,18 +57,51 @@ const messages = {
       colUsername: 'Username',
       colAdmin: 'Administrator',
       colActions: 'Actions'
+    },
+    userCreate: {
+      lblPageTitle: 'New user',
+      lblAccountDetails: 'Account details'
+    },
+    botEdit: {
+      lblIfUserSays: 'If user says something like',
+      lblReplyWith: 'Then reply with',
+      phQuestion: 'Question',
+      phUtterance: 'Utterance',
+      phTextInput: 'Text',
+      phLinkInput: 'Link',
+      phSkillInput: 'Skill',
+      btnSaveBot: 'Save bot',
+      btnDeleteBot: 'Delete bot',
+      btnSaveIntent: 'Save intent',
+      btnDeleteIntent: 'Delete intent',
+      btnTesting: 'Test your bot',
+      infoBotSaved: 'Bot saved'
+    },
+    botCreate: {
+      lblPageTitle: 'Bot details',
+      lblHeader: 'Create the {template}',
+      lblProfilePicture: 'Profile picture'
     }
   },
   de: {
     core: {
       country: 'Deutschland',
+      username: 'Benutzername',
+      password: 'Passwort',
       yes: 'Ja',
-      no: 'Nein'
+      no: 'Nein',
+      unknownError: 'Ein unerwarteter Fehler ist aufgetreten.'
     },
     shared: {
       lblBotConfiguration: 'Bot Konfiguration',
+      lblDialogueConfiguration: 'Dialog Konfiguration',
+      phName: 'Name',
+      phGreeting: 'Begrüßung',
+      phProductionId: 'Brand ID für die Produktion',
+      phStagingId: 'Brand ID für die Testumgebung',
       btnEdit: 'Bearbeiten',
-      btnSave: 'Speichern'
+      btnSave: 'Speichern',
+      btnBack: 'Zurück'
     },
     menu: {
       btnAccount: 'Konto',
@@ -71,8 +109,6 @@ const messages = {
       btnLogout: 'Ausloggen'
     },
     login: {
-      lblUsername: 'Benutzername',
-      lblPassword: 'Passwort',
       btnLogin: 'Einloggen'
     },
     overview: {
@@ -92,16 +128,37 @@ const messages = {
       lblPageTitle: 'Wähle eine Bot Vorlage aus'
     },
     account: {
-      lblPageTitle: 'Konto Details',
-      phProductionId: 'Brand ID für die Produktion',
-      phStagingId: 'Brand ID für die Testumgebung'
+      lblPageTitle: 'Konto Details'
     },
     admin: {
       lblPageTitle: 'Administration',
       lblManageBots: 'Bots verwalten',
-      colUsername: 'Benutzername',
       colAdmin: 'Administrator',
       colActions: 'Aktionen'
+    },
+    userCreate: {
+      lblPageTitle: 'Neuer Benutzer',
+      lblAccountDetails: 'Konto Details'
+    },
+    botEdit: {
+      lblIfUserSays: 'Wenn der Kunde etwas sagt wie',
+      lblReplyWith: 'Dann antworte mit',
+      phQuestion: 'Frage',
+      phUtterance: 'Aussage',
+      phTextInput: 'Text',
+      phLinkInput: 'Link',
+      phSkillInput: 'Weiterleitung',
+      btnSaveBot: 'Bot speichern',
+      btnDeleteBot: 'Bot löschen',
+      btnSaveIntent: 'Absicht speichern',
+      btnDeleteIntent: 'Absicht löschen',
+      btnTesting: 'Probiere deinen Bot aus',
+      infoBotSaved: 'Bot wurde gespeichert'
+    },
+    botCreate: {
+      lblPageTitle: 'Bot Details',
+      lblHeader: 'Erstelle den {template}',
+      lblProfilePicture: 'Profilbild'
     }
   }
 }

@@ -1,23 +1,23 @@
 <template>
-  <bt-page-container pageTitle="Bot details">
+  <bt-page-container :pageTitle="$t('botCreate.lblPageTitle')">
     <md-layout md-flex="100">
 
       <md-layout md-flex="100">
-        <h1 class="bt-header-1">Create the {{ bot.template }}</h1>
+        <h1 class="bt-header-1">{{ $t('botCreate.lblHeader', { template: bot.template }) }}</h1>
       </md-layout>
 
       <md-layout md-flex>
         <md-layout md-flex="80" md-column>
-          <bt-form-section header="Bot Configuration">
-            <bt-input v-model="bot.name" type="text" placeholder="Name" />
-            <bt-input v-model="bot.greeting" type="text" placeholder="Greeting" />
+          <bt-form-section :header="$t('shared.lblBotConfiguration')">
+            <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
+            <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
           </bt-form-section>
-          <bt-button @click="save" theme="orange">Save</bt-button>
+          <bt-button @click="save" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
         </md-layout>
       </md-layout>
 
       <md-layout md-flex="30">
-        <bt-form-section header="Profile Picture">
+        <bt-form-section :header="$t('botCreate.lblProfilePicture')">
           <img src="/static/robot-icon.png" class="bt-profile-picture" />
           <img src="/static/robot-icon.png" class="bt-profile-picture-small" />
         </bt-form-section>

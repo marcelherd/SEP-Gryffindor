@@ -24,7 +24,8 @@
     "morgan": "^1.9.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "requestretry": "^1.12.2"
+    "requestretry": "^1.12.2",
+    "figlet": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",

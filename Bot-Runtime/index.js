@@ -9,6 +9,7 @@ const parser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const figlet = require('figlet');
 
 const config = require('./config');
 
@@ -38,7 +39,8 @@ app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);
 
 app.listen(3000, () => {
-  console.log('Bot Runtime is running on port 3000!');
+  console.log(figlet.textSync('Bottertoast'));
+  console.log(' Bottertoast Runtime is running on port 3000!');
 });
 
 module.exports = app;

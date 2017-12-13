@@ -108,7 +108,7 @@
 
       <md-layout md-row>
         <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
+        <bt-button @click="testing" theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 

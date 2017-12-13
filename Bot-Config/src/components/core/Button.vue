@@ -29,7 +29,6 @@ export default {
     },
 
     onClose (type) {
-      console.log(type)
       if (type === 'ok') {
         this.$emit('click')
       }

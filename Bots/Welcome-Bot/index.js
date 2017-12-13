@@ -30,7 +30,7 @@ const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -43,7 +43,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {
@@ -74,7 +74,7 @@ function lastStep() {
 function nextStep(optionNumber) {
   lastnode = node;
   node = node.children[optionNumber - 1];
-  if (!node.children[0].children[0]) {
+  if (node.children[0].children[0] == undefined) {
     theLast = true;
   }
   // let faq = node.children[0].data;
@@ -183,12 +183,20 @@ class WelcomeBot {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
+          if (node.children.length === 1 && theLast) {
+            node = root;
+            greeting = true;
+            theLast = false;
+          }
           const answer = nextStep(body.changes[0].event.message);
           if (!skillTransfer(answer)) {
             this.sendMessage(body.dialogId, answer);
           } else {
-            // will be the Skill Tranfer Counter, needs try catch
-            // incrementTransferCounter();
+           try {
+              incrementTransferCounter();
+           } catch (err) {
+             throw err;
+           }
             const newSkill = getSkill(answer);
             if (node.children.length === 1 && theLast) {
               node = root;

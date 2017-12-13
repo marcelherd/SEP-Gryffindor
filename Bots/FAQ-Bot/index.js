@@ -32,6 +32,32 @@ const greetTheCustomer = () => {
   return botConfig.greeting;
 };
 
+const incrementConvCounter = async () => {
+  const options = {
+    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    json: true,
+  };
+  try {
+    const response = await rp.get(options);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const incrementTransferCounter = async () => {
+  const options = {
+    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    json: true,
+  };
+  try {
+    const response = await rp.get(options);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
 class FAQBot {
   constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
@@ -83,6 +109,11 @@ class FAQBot {
           if (!answer) {
             if (body.changes[0].event.message === 'human') {
               // transfer to human somehow
+              try {
+                incrementTransferCounter();
+             } catch (err) {
+               throw err;
+             }
               this.core.updateConversationField({
                 conversationId: body.dialogId,
                 conversationField: [
@@ -226,6 +257,11 @@ class FAQBot {
    */
   async joinConversation(conversationId, role = 'AGENT') {
     if (!this.isConnected) return;
+    try {
+      await incrementConvCounter();
+    } catch (err) {
+      throw err;
+    }
     return this.core.updateConversationField({
       conversationId,
       conversationField: [{

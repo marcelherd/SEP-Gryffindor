@@ -4,8 +4,8 @@ const rp = require('request-promise');
 const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
 
 exports.getIntent = async (query) => {
-  const endpointData = JSON.parse(process.env.NODE_ENV2);
-  const myUri = `${endpointData.endpointUrl}?q=${query}&verbose=true`;
+  const endpointUrl = JSON.parse(process.env.NODE_ENV_ENDPOINT);
+  const myUri = `${endpointUrl}?q=${query}&verbose=true`;
   console.log(myUri);
   const callEndpointApi = async (options) => {
     try {

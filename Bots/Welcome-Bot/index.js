@@ -14,8 +14,7 @@ const rp = require('request-promise');
 
 // const botConfig = require('./config.json');
 const botConfig = JSON.parse(process.env.NODE_ENV);
-const userId = JSON.parse(process.env.NODE_ENV_USER);
-console.log(userId);
+const user = JSON.parse(process.env.NODE_ENV_USER);
 
 const {
   root,
@@ -31,7 +30,7 @@ const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://ip/:port/api/v1/manage/users/:userId/bots/${botConfig._id}/conversation`,
+    uri: `http://141.19.159.136:3000/api/v1/manage/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -44,7 +43,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://ip/:port/api/v1/manage/users/:userId/bots/${botConfig._id}/forward`,
+    uri: `http://141.19.159.136:3000/api/v1/manage/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {
@@ -75,7 +74,7 @@ function lastStep() {
 function nextStep(optionNumber) {
   lastnode = node;
   node = node.children[optionNumber - 1];
-  if (node.children[0].children[0] === undefined) {
+  if (!node.children[0].children[0]) {
     theLast = true;
   }
   // let faq = node.children[0].data;
@@ -138,8 +137,8 @@ const getSkill = (answer) => {
   return newSkill;
 };
 
-class GreetingBot {
-  constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+class WelcomeBot {
+  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -180,8 +179,6 @@ class GreetingBot {
     * Which later get consumed by other functions.
     */
     this.core.on('ms.MessagingEventNotification', (body) => {
-      // console.log(body.changes[0]);
-      console.log(this.openConversations[body.dialogId].skillId);
       if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId == '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
@@ -214,7 +211,6 @@ class GreetingBot {
 
               this.openConversations[body.dialogId].skillId = newSkill;
             }
-            console.log('Backsetting');
             node = root;
             greeting = true;
             theLast = false;
@@ -326,8 +322,11 @@ class GreetingBot {
   */
   async joinConversation(conversationId, role = 'MANAGER') {
     if (!this.isConnected) return;
-    // will be the conv Counter, also needs try catch
-    //  await incrementConvCounter();
+    try {
+      await incrementConvCounter();
+    } catch (err) {
+      throw err;
+    }
     return this.core.updateConversationField({
       conversationId,
       conversationField: [{
@@ -395,7 +394,18 @@ class GreetingBot {
   }
 }
 console.log('Initializing the Welcome bot...');
-const bot = new GreetingBot(); // This will use the values set in the process.env
+let bot;
+if (botConfig.environment === 'Staging') {
+  bot = new WelcomeBot(user.stagingId || user.brandId);
+
+  if (!user.stagingId) {
+    console.log('[WARNING] No StagingId set, deploying bot to production instead.');
+  }
+}
+else {
+  console.log(botConfig);
+  bot = new WelcomeBot(user.brandId);
+}
 console.log('Starting the Welcome bot...');
 module.exports = bot.start()
   .then(_ => console.log('Welcome bot is now up an running!'));

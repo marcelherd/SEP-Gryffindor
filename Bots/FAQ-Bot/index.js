@@ -12,7 +12,8 @@ const {
 const LuisService = require('./LuisService');
 const IntentService = require('./IntentService');
 
-let botConfig;
+let botConfig = JSON.parse(process.env.NODE_ENV);
+const user = JSON.parse(process.env.NODE_ENV_USER);
 
 
 config();
@@ -27,13 +28,12 @@ function timeout(ms = 3000) {
  */
 
 const greetTheCustomer = () => {
-  botConfig = JSON.parse(process.env.NODE_ENV);
-  console.log(botConfig);
+
   return botConfig.greeting;
 };
 
-class GreetingBot {
-  constructor(accountID = '85041411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+class FAQBot {
+  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -79,13 +79,26 @@ class GreetingBot {
         try {
           const intents = await LuisService.getIntent(body.changes[0].event.message);
           const topScoringIntent = intents.topScoringIntent.intent;
-          console.log('best matched intent: ');
-          console.log(topScoringIntent);
           const answer = await IntentService.compareIntent(topScoringIntent);
-          console.log(answer);
-          if (answer === null) {
+          if (!answer) {
             if (body.changes[0].event.message === 'human') {
               // transfer to human somehow
+              this.core.updateConversationField({
+                conversationId: body.dialogId,
+                conversationField: [
+                  {
+                    field: 'Skill',
+                    type: 'UPDATE',
+                    skill: 1007877832,
+                  },
+                  {
+                    field: 'ParticipantsChange',
+                    type: 'REMOVE',
+                    role: 'MANAGER',
+                    userId: this.core.agentId,
+                  }],
+              });
+              this.openConversations[body.dialogId].skillId = 'human';
             } else { this.sendMessage(body.dialogId, 'I did not understand. Please try again with different phrasing or type human if you would like to be transferred to a human agent'); }
             console.log('Something went wrong! Please transfer to Human');
           } else if (answer.type === 'link') {
@@ -212,7 +225,6 @@ class GreetingBot {
    * @param {string} role role of the agent (AGENT, MANAGER)
    */
   async joinConversation(conversationId, role = 'AGENT') {
-    // console.log(conversationId);
     if (!this.isConnected) return;
     return this.core.updateConversationField({
       conversationId,
@@ -267,7 +279,20 @@ class GreetingBot {
   }
 }
 console.log('Initializing the FAQ bot...');
-const bot = new GreetingBot(); // This will use the values set in the process.env
+let bot;
+console.dir(user);
+if (botConfig.environment === 'Staging') {
+  bot = new FAQBot(user.stagingId || user.brandId);
+
+  if (!user.stagingId) {
+    console.log('[WARNING] No StagingId set, deploying bot to production instead.');
+  }
+}
+else {
+  console.log(botConfig);
+  bot = new FAQBot(user.brandId);
+}
+// This will use the values set in the process.env
 console.log('Starting the FAQ bot...');
 module.exports = bot.start()
   .then(_ => console.log('FAQ bot is now up an running!'));

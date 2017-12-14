@@ -59,7 +59,8 @@ export default {
       newMessage: '',
       messages: [],
       socket: null,
-      openConvs: {}
+      openConvs: {},
+      mounted: null
     }
   },
   created () {
@@ -69,6 +70,7 @@ export default {
   mounted () {
     this.$refs.input.focus()
     this.prepareToConnect()
+    this.mounted = Date.now()
   },
   methods: {
     fetchData () {
@@ -121,8 +123,7 @@ export default {
       socket.onNotification(this.withType('MessagingEvent'), (body) => {
         return body.changes.forEach((change) => {
           // Do not display chat history
-          console.log(`Server: ${change.serverTimestamp} Client: ${Date.now()} Delta: ${Date.now() - change.serverTimestamp}`)
-          if ((Date.now() - change.serverTimestamp) > 100) {
+          if ((this.mounted - change.serverTimestamp) > 100) {
             return
           }
 

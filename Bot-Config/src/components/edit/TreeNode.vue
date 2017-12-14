@@ -5,7 +5,9 @@
         v-model="node.data" @dblclick="handleDblclick($event)"
         @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
     </div>
-    <button @click="addChild" class="bt-node-add">+</button>
+    <button @click="addChild" class="bt-node-add">
+      <md-icon>add</md-icon>
+    </button>
     <span v-if="!isRoot" @click="deleteMe" class="close">
       <md-icon>
         delete
@@ -70,15 +72,15 @@ export default {
 
 .bt-node-input-container {
   border: 1px solid #101929;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
   outline: 0;
+  padding: 10px;
 }
 
 .bt-node-input-container input {
-  margin: 8px;
-  padding: 8px;
-  padding-right: 0;
+  background: transparent;
+  min-width: 300px;
   font-size: 16px;
 }
 
@@ -93,14 +95,11 @@ export default {
 }
 
 .bt-tree-node .bt-node-add {
-  min-width: 50px;
-  padding: 8px;
   border: 0;
   background-color: #101929;
   color: white;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  font-size: 24px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .bt-tree-node .bt-node-add:hover {
@@ -110,7 +109,7 @@ export default {
 }
 
 .bt-tree-node .close {
-  padding: 13px;
+  padding: 8px;
   margin-left: 20px;
 }
 .bt-tree-node .close:hover {

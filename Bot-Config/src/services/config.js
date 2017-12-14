@@ -1,3 +1,3 @@
 export default {
-  server: 'localhost'
+  server: process.env.HOST
 }

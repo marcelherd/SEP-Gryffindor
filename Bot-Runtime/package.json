@@ -25,7 +25,8 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "requestretry": "^1.12.2",
-    "figlet": "^1.2.0"
+    "figlet": "^1.2.0",
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",

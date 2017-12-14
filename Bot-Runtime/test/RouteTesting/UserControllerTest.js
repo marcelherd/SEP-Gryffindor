@@ -10,6 +10,7 @@ const server = require('../../index');
 const authService = require('../../services/AuthService');
 const config = require('../../config');
 const jwt = require('jsonwebtoken');
+const request = require("supertest").agent(server);
 
 
 chai.use(chaiHttp);
@@ -363,7 +364,7 @@ describe('User Tests', () => {
             });
         });
     });
-    it('fails: admin tries to change IDs of non-existant user', (done) => {
+    it('fails: admin tries to change stagingID and brandID of non-existant user', (done) => {
       const changes = {
         brandId: 'Hohnbach',
         stagingId: '76543210',
@@ -379,7 +380,7 @@ describe('User Tests', () => {
           done();
         });
     });
-    it('fails: user tries to change IDs of another user', (done) => {
+    it('fails: user tries to change stagingID and brandID of another user', (done) => {
       let userID;
 
       const userA = {
@@ -472,5 +473,9 @@ describe('User Tests', () => {
             });
         });
     });
+  });
+  after('close', (done) => {
+    server.closeServer();
+    done();
   });
 });

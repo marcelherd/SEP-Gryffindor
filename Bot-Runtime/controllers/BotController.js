@@ -69,7 +69,26 @@ exports.postBot = async function (req, res) {
     dialogTree: req.body.dialogTree || {
       root: {
         data: 'Conversation',
-        children: [],
+        children: [
+          {
+            data: '1. Password forgotten',
+            children: [
+              {
+                data: 'http://bottertoast.com/resetPassword',
+                children: [],
+              },
+            ],
+          },
+          {
+            data: '2. I have a question',
+            children: [
+              {
+                data: 'SKILL_1000666232',
+                children: [],
+              },
+            ],
+          },
+        ],
       },
     },
     intents: req.body.intents || [],
@@ -128,7 +147,7 @@ exports.deleteBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.updateBot = async function (req, res) {
-  let bot = req.user.bots.find(item => item.id === req.bot.id);
+  const bot = req.user.bots.find(item => item.id === req.bot.id);
 
   bot.name = req.body.name || bot.name;
   bot.running = req.body.running || bot.running;

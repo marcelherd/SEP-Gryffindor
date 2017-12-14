@@ -119,7 +119,7 @@
         <bt-select v-model="bot.environment" :values="environments" />
       </bt-form-section>
 
-      <bt-form-section :header="$t('shared.lblDialogueConfiguration')" :helpText="welcomeBotHelp">
+      <bt-form-section :header="$t('shared.lblDialogueConfiguration')">
         <div class="bt-tree">
           <bt-tree-node :node="bot.dialogTree.root" isRoot="true" />
         </div>
@@ -201,32 +201,6 @@ export default {
     this.fetchData()
   },
   computed: {
-    welcomeBotHelp () {
-      return `
-        <strong>Dialogue configuration</strong><br>
-        The dialogue configuration allows you to configure which issues your bot is able to assist users with.<br>
-        <br>
-        This can be done by creating text nodes which represent the different options a user has.<br>
-        <br>
-        To create your first node, simply click the plus button next to the conversation node.<br>
-        You can create a multiple choice menu by attaching multiple nodes to another node.<br>
-        If a node only has a single node attached to it, that node will be used as the answer to the node it is attached to.<br>
-        <br>
-        To forward the user to another skill, for instance the FAQ bot, simply enter the corresponding skill ID and prefix it with 'SKILL_'<br>
-        <br>
-        <strong>Example</strong><br>
-        Conversation<br>
-        &nbsp;&nbsp;1. Forgot password<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;http://reset.password.com<br>
-        &nbsp;&nbsp;2. I have a question<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;SKILL_123123123<br>
-        <br>
-        A bot with this configuration will greet the user and then allow him to either choose the option "1. Forgot Password" or "2. I have a question".<br>
-        <br>
-        If the user enters "1", the bot will send him the configured link.<br>
-        If the user enters "2", the bot will forward him to the configured skill.
-      `
-    },
     environments () {
       return [
         'Staging',

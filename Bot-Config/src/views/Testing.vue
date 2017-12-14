@@ -57,28 +57,9 @@ export default {
       bot: {},
       timestamp: '',
       newMessage: '',
-      messages: [
-        {
-          type: 'received',
-          content: 'Hi, I\'m Bot name! How can I help you?'
-        },
-        {
-          type: 'sent',
-          content: 'When do you open?'
-        },
-        {
-          type: 'received',
-          content: 'We open everyday from 6 to 8 pm!'
-        },
-        {
-          type: 'received',
-          content: 'Anything else I can help you with?'
-        },
-        {
-          type: 'sent',
-          content: 'tyvm'
-        }
-      ]
+      messages: [],
+      socket: null,
+      openConvs: {}
     }
   },
   created () {
@@ -87,6 +68,7 @@ export default {
   },
   mounted () {
     this.$refs.input.focus()
+    this.prepareToConnect()
   },
   methods: {
     fetchData () {
@@ -105,12 +87,110 @@ export default {
       this.timestamp = `${hours}:${minutes}`
     },
 
-    sendMessage () {
-      this.messages.push({
-        type: 'sent',
-        content: this.newMessage
+    prepareToConnect () {
+      const user = this.$store.getters.user
+      const account = (this.bot.environment === 'Staging' ? user.stagingId : user.brandId)
+
+      window.LPUtils.getJWT(account).then((jwt) => {
+        window.LPUtils.getDomain(account, 'asyncMessagingEnt').then((umsDomain) => {
+          window.LPWs.connect(`wss://${umsDomain}/ws_api/account/${account}/messaging/consumer?v=3`).then((openedSocket) => {
+            this.socket = openedSocket
+            return this.handleOpenedSocket(openedSocket, jwt)
+          }, (errorOpening) => {
+            console.log('error opening connection ' + errorOpening)
+            this.prepareToConnect()
+          })
+        })
+      }, (errorGettingJwt) => {
+        console.log('error ' + errorGettingJwt + ' getting jwt for account ' + account)
       })
-      this.newMessage = ''
+    },
+
+    handleOpenedSocket (socket, jwt) {
+      console.log('connection is opened.')
+
+      const apiRequestTypes = ['cqm.SubscribeExConversations',
+        'ms.PublishEvent', 'cm.ConsumerRequestConversation',
+        'ms.SubscribeMessagingEvents', 'InitConnection', 'cm.UpdateConversationField']
+
+      socket.registerRequests(apiRequestTypes)
+
+      const me = this.myId(jwt)
+
+      socket.initConnection({}, [{ 'type': '.ams.headers.ConsumerAuthentication', 'jwt': jwt }])
+      socket.onNotification(this.withType('MessagingEvent'), (body) => {
+        return body.changes.forEach((change) => {
+          switch (change.event.type) {
+            case 'ContentEvent':
+              this.messages.push({
+                type: (change.originatorId === me ? 'sent' : 'received'),
+                content: change.event.message
+              })
+          }
+        })
+      })
+
+      // subscribe to open conversations metadata
+      socket.subscribeExConversations({
+        'convState': ['OPEN']
+      }).then((res) => {
+        socket.onNotification(this.withSubscriptionID(res.body.subscriptionId), (notificationBody) => {
+          return this.handleConversationNotification(socket, notificationBody, this.openConvs)
+        })
+      })
+    },
+
+    handleConversationNotification (socket, notificationBody, openConvs) {
+      notificationBody.changes.forEach((change) => {
+        if (change.type === 'UPSERT') {
+          if (!openConvs[change.result.convId]) {
+            openConvs[change.result.convId] = change.result
+            socket.subscribeMessagingEvents({
+              fromSeq: 0,
+              dialogId: change.result.convId
+            })
+          }
+        }
+      })
+    },
+
+    withSubscriptionID (subscriptionID) {
+      return (notif) => {
+        return notif.body.subscriptionId === subscriptionID
+      }
+    },
+
+    withType (type) {
+      return (notif) => {
+        return notif.type.includes(type)
+      }
+    },
+
+    myId (jwt) {
+      return JSON.parse(atob(jwt.split('.')[1])).sub
+    },
+
+    sendMessage () {
+      if (Object.keys(this.openConvs)[0]) {
+        this.publishTo(this.socket, Object.keys(this.openConvs)[0])
+      } else {
+        this.socket.consumerRequestConversation().then((res) => {
+          return this.publishTo(this.socket, res.body.conversationId)
+        })
+      }
+    },
+
+    publishTo (socket, convID) {
+      socket.publishEvent({
+        dialogId: convID,
+        event: {
+          type: 'ContentEvent',
+          contentType: 'text/plain',
+          message: this.newMessage
+        }
+      }).then((res) => {
+        this.newMessage = ''
+      })
     },
 
     back () {
@@ -141,8 +221,8 @@ export default {
     },
 
     showIcon (index) {
-      if (index === 0) {
-        return true
+      if (index === 0 && this.messages[index].type !== 'received') {
+        return false
       }
 
       if (this.messages[index - 1].type === 'sent' && this.messages[index].type !== 'sent') {

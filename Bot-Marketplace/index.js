@@ -34,7 +34,11 @@ app.get('/api/v1/discover', (req, res) => {
   res.json(templates);
 });
 
-app.listen(4000, () => {
+const server = app.listen(4000, () => {
   console.log(figlet.textSync('Bottertoast'));
   console.log(' Bottertoast Marketplace is running on port 4000!');
 });
+
+exports.closeServer = () => {
+  server.close();
+};

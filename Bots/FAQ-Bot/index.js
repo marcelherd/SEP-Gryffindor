@@ -11,10 +11,11 @@ const {
 } = require('dotenv');
 const LuisService = require('./LuisService');
 const IntentService = require('./IntentService');
+const rp = require('request-promise');
 
 let botConfig = JSON.parse(process.env.NODE_ENV);
 const user = JSON.parse(process.env.NODE_ENV_USER);
-const rp = ('request-promise');
+
 
 
 config();
@@ -35,7 +36,7 @@ const greetTheCustomer = () => {
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -48,7 +49,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {

@@ -1,4 +1,3 @@
-
 const {
   Agent,
 } = require('node-agent-sdk');
@@ -28,9 +27,9 @@ config();
 
 const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
-const incrementConvCounter = async () => {
+const incrementConvCounter = async() => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -41,9 +40,9 @@ const incrementConvCounter = async () => {
   }
 };
 
-const incrementTransferCounter = async () => {
+const incrementTransferCounter = async() => {
   const options = {
-    uri: `http://141.19.159.136:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {
@@ -67,32 +66,32 @@ function lastStep() {
 
 
 /**
-  * This functions goes deeper in thee tree.
-  * If it is a Skilltransfer it returns an empty string an activate the transfer.
-  * @param {integer} optionNumber the number wich child was chosen
-  */
-  function nextStep(optionNumber) {
-    let answer = '';
-    if (node.children[optionNumber - 1].children[0] != undefined) {
-      lastnode = node;
-      node = node.children[optionNumber - 1];
-      if (node.children[0].children[0] == undefined) {
-        theLast = true;
-      }
-      answer = node.children[0].data;
-    } else {
-      let counter = 0;
-      answer = 'This is no Option please select one of the following options:\n\t';
-      while (counter < node.children.length) {
-        answer += `${node.children[counter].data}\n\t`;
-        counter++;
-      }
-   }
-   return answer;
+ * This functions goes deeper in thee tree.
+ * If it is a Skilltransfer it returns an empty string an activate the transfer.
+ * @param {integer} optionNumber the number wich child was chosen
+ */
+function nextStep(optionNumber) {
+  let answer = '';
+  if (node.children[optionNumber - 1].children[0] != undefined) {
+    lastnode = node;
+    node = node.children[optionNumber - 1];
+    if (node.children[0].children[0] == undefined) {
+      theLast = true;
+    }
+    answer = node.children[0].data;
+  } else {
+    let counter = 0;
+    answer = 'This is no Option please select one of the following options:\n\t';
+    while (counter < node.children.length) {
+      answer += `${node.children[counter].data}\n\t`;
+      counter++;
+    }
   }
+  return answer;
+}
 /**
-* Build the first Tree with greeting an options
-*/
+ * Build the first Tree with greeting an options
+ */
 
 const buildFirstTree = () => {
   let answer = '';
@@ -107,8 +106,8 @@ const buildFirstTree = () => {
   return answer;
 };
 /**
-* select the operations number and give the new Option
-*/
+ * select the operations number and give the new Option
+ */
 const repeatStep = () => {
   let counter = 0;
   let answer = '';
@@ -126,6 +125,7 @@ const repeatStep = () => {
   return answer;
 };
 const skillTransfer = (answer) => {
+  console.log(answer);
   if (answer.includes('SKILL')) {
     return true;
   }
@@ -133,7 +133,7 @@ const skillTransfer = (answer) => {
 };
 
 const getSkill = (answer) => {
-  let newSkill = answer.split('__')[1];
+  let newSkill = answer.split('_')[1];
   newSkill = parseInt(newSkill, 10);
   return newSkill;
 };
@@ -158,8 +158,8 @@ class WelcomeBot {
   }
 
   /**
-  * Initialized the event handler.
-  */
+   * Initialized the event handler.
+   */
   init() {
     this.core.on('connected', () => {
       this.isConnected = true;
@@ -176,14 +176,14 @@ class WelcomeBot {
       this.core.reconnect(reason !== 4401 || reason !== 4407);
     });
     /**
-    * This function is used to find out what the consumer wants and send him the right message
-    * Which later get consumed by other functions.
-    */
+     * This function is used to find out what the consumer wants and send him the right message
+     * Which later get consumed by other functions.
+     */
     this.core.on('ms.MessagingEventNotification', (body) => {
       if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId == '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
-         body.changes[0].event.message < node.children.length +
-         1 && body.changes[0].event.message > 0) {
+          body.changes[0].event.message < node.children.length +
+          1 && body.changes[0].event.message > 0) {
           const answer = nextStep(body.changes[0].event.message);
           if (node.children.length === 1 && theLast) {
             node = root;
@@ -193,36 +193,32 @@ class WelcomeBot {
           if (!skillTransfer(answer)) {
             this.sendMessage(body.dialogId, answer);
           } else {
-           try {
+            try {
               incrementTransferCounter();
-           } catch (err) {
-             throw err;
-           }
-            const newSkill = getSkill(answer);
-            if (node.children.length === 1 && theLast) {
-              node = root;
-              greeting = true;
-              this.core.updateConversationField({
-                conversationId: body.dialogId,
-                conversationField: [
-                  {
-                    field: 'Skill',
-                    type: 'UPDATE',
-                    skill: newSkill,
-                  },
-                  {
-                    field: 'ParticipantsChange',
-                    type: 'REMOVE',
-                    role: 'MANAGER',
-                    userId: this.core.agentId,
-                  }],
-              });
-
-              this.openConversations[body.dialogId].skillId = newSkill;
+            } catch (err) {
+              console.log(err);
+              throw err;
             }
-            node = root;
-            greeting = true;
-            theLast = false;
+            const newSkill = getSkill(answer);
+            console.log(newSkill);
+            console.log('heree is the update');
+            this.core.updateConversationField({
+              conversationId: body.dialogId,
+              conversationField: [{
+                  field: 'Skill',
+                  type: 'UPDATE',
+                  skill: newSkill,
+                },
+                {
+                  field: 'ParticipantsChange',
+                  type: 'REMOVE',
+                  role: 'MANAGER',
+                  userId: this.core.agentId,
+                }
+              ],
+            });
+
+            this.openConversations[body.dialogId].skillId = newSkill;
           }
         } else if (body.changes[0].event.message === 'back') {
           this.sendMessage(body.dialogId, lastStep());
@@ -235,7 +231,7 @@ class WelcomeBot {
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-        .forEach(async (change) => {
+        .forEach(async(change) => {
           this.isConnected = true;
           node = root;
           this.openConversations[change.result.convId] = change.result.conversationDetails;
@@ -252,9 +248,9 @@ class WelcomeBot {
   }
 
   /**
-  * Utility function which transform the used SDK function into promised based once.
-  * Which later get consumed by other functions.
-  */
+   * Utility function which transform the used SDK function into promised based once.
+   * Which later get consumed by other functions.
+   */
   promisifyFunctions() {
     this.subscribeExConversations = promisify(this.core.subscribeExConversations);
     this.publishEvent = promisify(this.core.publishEvent);
@@ -263,8 +259,8 @@ class WelcomeBot {
   }
 
   /**
-  * Starts the bot.
-  */
+   * Starts the bot.
+   */
   async start() {
     if (!this.core) {
       this.core = new Agent({
@@ -286,8 +282,8 @@ class WelcomeBot {
 
 
   /**
-  * Shutsdown the bot
-  */
+   * Shutsdown the bot
+   */
   stop() {
     this.core.dispose();
     this.core.removeAllListeners();
@@ -298,11 +294,11 @@ class WelcomeBot {
 
 
   /**
-  * This functions allows the agent to subscribe to conversation.
-  * It wraps the original SDK function to make it easier to use.
-  * @param {string} convState the conversation state for which should be subscribed
-  * @param {boolean} agentOnly if set it will only subscribe to conversation in which the agent is or which are suitable for his skills
-  */
+   * This functions allows the agent to subscribe to conversation.
+   * It wraps the original SDK function to make it easier to use.
+   * @param {string} convState the conversation state for which should be subscribed
+   * @param {boolean} agentOnly if set it will only subscribe to conversation in which the agent is or which are suitable for his skills
+   */
   async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
     if (!this.isConnected) return;
     return this.core.subscribeExConversations({
@@ -311,10 +307,10 @@ class WelcomeBot {
   }
 
   /**
-  * This functions allows to set the state of the agent, this is important for the routing of incomming messages.
-  * It wraps the original SDK function to make it easier to use.
-  * @param {string} state state of the agent (ONLINE,OFFLINE,AWAY)
-  */
+   * This functions allows to set the state of the agent, this is important for the routing of incomming messages.
+   * It wraps the original SDK function to make it easier to use.
+   * @param {string} state state of the agent (ONLINE,OFFLINE,AWAY)
+   */
   async setStateOfAgent(state = 'ONLINE') {
     if (!this.isConnected) return;
     return this.core.setAgentState({
@@ -324,11 +320,11 @@ class WelcomeBot {
 
 
   /**
-  * This function is used to join a conversation.
-  * It wraps the original SDK function to make it easier to use.
-  * @param {string} conversationId id of the conversation which should be joined
-  * @param {string} role role of the agent (AGENT, MANAGER)
-  */
+   * This function is used to join a conversation.
+   * It wraps the original SDK function to make it easier to use.
+   * @param {string} conversationId id of the conversation which should be joined
+   * @param {string} role role of the agent (AGENT, MANAGER)
+   */
   async joinConversation(conversationId, role = 'MANAGER') {
     if (!this.isConnected) return;
     try {
@@ -347,11 +343,11 @@ class WelcomeBot {
   }
 
   /**
-  * This function allows sending text messages to the specified conversation.
-  * It wraps the original SDK function to make it easier to use.
-  * @param {string} conversationId id of the conversation which should be joined
-  * @param {string} message text message which will be sent to the client
-  */
+   * This function allows sending text messages to the specified conversation.
+   * It wraps the original SDK function to make it easier to use.
+   * @param {string} conversationId id of the conversation which should be joined
+   * @param {string} message text message which will be sent to the client
+   */
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
     if (message.includes('http')) {
@@ -377,26 +373,21 @@ class WelcomeBot {
         type: 'RichContentEvent',
         content: {
           type: 'vertical',
-          elements: [
-            {
-              type: 'horizontal',
-              elements: [
-                {
-                  type: 'button',
-                  title: 'Buy',
-                  tooltip: 'Buy this product',
-                  click: {
-                    actions: [
-                      {
-                        type: 'link',
-                        name: 'Buy',
-                        uri: link,
-                      },
-                    ],
-                  },
-                },
-              ],
-            }],
+          elements: [{
+            type: 'horizontal',
+            elements: [{
+              type: 'button',
+              title: 'Buy',
+              tooltip: 'Buy this product',
+              click: {
+                actions: [{
+                  type: 'link',
+                  name: 'Buy',
+                  uri: link,
+                }, ],
+              },
+            }, ],
+          }],
         },
       },
     });
@@ -410,8 +401,7 @@ if (botConfig.environment === 'Staging') {
   if (!user.stagingId) {
     console.log('[WARNING] No StagingId set, deploying bot to production instead.');
   }
-}
-else {
+} else {
   console.log(botConfig);
   bot = new WelcomeBot(user.brandId);
 }

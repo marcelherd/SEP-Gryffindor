@@ -165,7 +165,6 @@ p.bt-card-utterance {
   margin-left: 20%;
   border: 2px solid black;
   border-radius: 8px;
-  border-bottom-left-radius: 0;
   padding: 8px;
   font-size: 16px;
 }

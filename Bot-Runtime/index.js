@@ -38,9 +38,13 @@ authService.setupUsers();
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log(figlet.textSync('Bottertoast'));
   console.log(' Bottertoast Runtime is running on port 3000!');
 });
+
+app.closeServer = () => {
+  server.close();
+};
 
 module.exports = app;

@@ -1,15 +1,19 @@
 <template>
   <bt-page-container :pageTitle="pageTitle">
-    <md-layout md-flex="100" v-if="bots.length < 1">
-      <md-layout md-flex="100">
+    <div class="bt-no-bots" v-if="bots.length < 1">
+      <div>
+        <img src="/static/botter.png" class="bt-icon-botter" />
+      </div>
+      <div>
         <p>{{ $t('overview.lblNoBots') }}</p>
-      </md-layout>
-      <md-layout md-flex="100">
+      </div>
+      <div>
         <router-link tag="md-button" :to="createBotUrl()">
           &raquo; {{ $t('overview.btnGetStarted') }}
         </router-link>
-      </md-layout>
-    </md-layout>
+      </div>
+    </div>
+
     <md-layout md-flex="100" md-gutter="40">
       <md-layout md-flex="50" v-for="(bot, index) in bots" :key="bot._id">
         <div class="bt-card">
@@ -209,5 +213,17 @@ export default {
 .bt-bot-statistics .bt-card-utterance {
   margin-bottom: 0;
   display: inline-flex;
+}
+
+.bt-icon-botter {
+  max-height: 30vh;
+}
+
+.bt-no-bots {
+  margin-top: 15vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

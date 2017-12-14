@@ -131,7 +131,11 @@
       </md-layout>
     </md-layout>
 
-    <a @click="home" class="bt-back-button">&laquo; {{ $t('shared.btnBack') }}</a>
+    <a @click="home" class="bt-back-button">
+      <md-icon>
+        arrow_back
+      </md-icon>
+    </a>
 
     <bt-fab @click="saveBot">
       <md-icon>save</md-icon>

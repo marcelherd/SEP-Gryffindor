@@ -66,8 +66,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('retursafsaffsan here')
   if (to.name !== 'Login') {
+    console.log('retursafsaffsan here')
     if (!store.getters.isLoggedIn) {
+      console.log('return here')
       return next('Login')
     }
   }

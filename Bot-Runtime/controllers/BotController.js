@@ -77,7 +77,7 @@ exports.postBot = async function (req, res) {
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
 
-  DockerService.buildImage(bot, req.user._id);
+  DockerService.buildContainer(bot, req.user._id);
 
   req.user.save((err) => {
     if (err) throw err;
@@ -156,9 +156,13 @@ exports.updateBot = async function (req, res) {
     }
   }
 
-  DockerService.delete(bot).then(DockerService.buildImage(bot, req.user._id));
+  await DockerService.delete(bot);
+  let data;
+  do {
+    data = await DockerService.buildContainer(bot, req.user._id);
+  } while (data !== 'done');
 
-  req.user.save((err) => {
+  return req.user.save((err) => {
     if (err) throw err;
 
     res.json({

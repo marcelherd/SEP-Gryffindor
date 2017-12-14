@@ -1,21 +1,21 @@
 version: '3'
 volumes: 
   bots: {} 
- 
+
 services:
   mongo:
     image: mongo  
-    network_mode: host 
+    network_mode: bottertoast 
     ports:
       - 127.0.0.1:27017:27017 
   bot-config:
     build: ./Bot-Config 
-    network_mode: host 
+    network_mode: bottertoast 
     ports:
       - 127.0.0.1:8080:8080 
   bot-runtime:
     build: ./Bot-Runtime 
-    network_mode: host 
+    network_mode: bottertoast 
     volumes:  
       - /var/run/docker.sock:/var/run/docker.sock 
       - bots:/usr/src/Bots 
@@ -25,9 +25,9 @@ services:
       - mongo  
   bot-marketplace:
     build: . 
-    network_mode: host 
+    network_mode: bottertoast 
     volumes: 
       - bots:/usr/src/Bots 
     ports:
-   - 127.0.0.1:4000:4000 
+      - 127.0.0.1:4000:4000 
 

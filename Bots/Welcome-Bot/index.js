@@ -26,7 +26,6 @@ let greeting = false;
 let theLast = false;
 config();
 
-
 const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const incrementConvCounter = async () => {

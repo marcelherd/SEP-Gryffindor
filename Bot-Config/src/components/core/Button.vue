@@ -3,16 +3,35 @@
     <button @click="handleClick" class="bt-button" :class="`bt-button-${theme}`">
       <slot />
     </button>
+
+    <md-dialog-confirm ref="dialog"
+      :md-title="$t('core.confirmation')"
+      md-content="confirmation"
+      :md-content-html="confirmation"
+      :md-ok-text="$t('core.yes')"
+      :md-cancel-text="$t('core.no')"
+      @close="onClose" />
+
   </md-layout>
 </template>
 
 <script>
 export default {
   name: 'bt-button',
-  props: ['theme', 'align'],
+  props: ['theme', 'align', 'confirmation'],
   methods: {
     handleClick () {
-      this.$emit('click')
+      if (this.confirmation) {
+        this.$refs.dialog.open()
+      } else {
+        this.$emit('click')
+      }
+    },
+
+    onClose (type) {
+      if (type === 'ok') {
+        this.$emit('click')
+      }
     }
   }
 }

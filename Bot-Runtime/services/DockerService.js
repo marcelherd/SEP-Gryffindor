@@ -20,16 +20,16 @@ let createOptions;
  * @param {string} template - The template that is to be used for the bot
  * @returns {promise} - When Image is fully built
  */
-exports.buildImage = async function (bot, userId) {
+exports.buildImage = async function (bot, userId, endpointUrl) {
   console.log('Building Bot...');
+  console.log(bot);
   return new Promise(async (resolve) => {
     if (bot.template === 'FAQ-Bot') {
-      const endpointData = await fileService.readConfigDataFromFile('services/Luis', 'endpoint.json');
       createOptions = {
         name: `${bot._id}`,
         Image: ((bot.template).toLowerCase()),
         Tty: true,
-        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV2=${JSON.stringify(endpointData)}`,`NODE_ENV_USER=${JSON.stringify(userId)}` ],
+        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${JSON.stringify(endpointUrl)}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
       };
     } else {
       createOptions = {

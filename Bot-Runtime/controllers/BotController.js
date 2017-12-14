@@ -77,7 +77,7 @@ exports.postBot = async function (req, res) {
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
 
-  DockerService.buildImage(bot, req.user._id);
+  DockerService.buildImage(bot, req.user);
 
   req.user.save((err) => {
     if (err) throw err;
@@ -128,7 +128,7 @@ exports.deleteBot = function (req, res) {
  * @param {Response} res - The HTTP response
  */
 exports.updateBot = async function (req, res) {
-  const bot = req.user.bots.find(item => item.id === req.bot.id);
+  let bot = req.user.bots.find(item => item.id === req.bot.id);
 
   bot.name = req.body.name || bot.name;
   bot.running = req.body.running || bot.running;
@@ -144,11 +144,11 @@ exports.updateBot = async function (req, res) {
       console.log('File has been saved successfully');
     }
   });
-
+  let url;
   if (bot.template === 'FAQ-Bot') {
     try {
       const { endpointUrl } = await Luis.createApp('../Bots/FAQ-Bot/config.json');
-      bot.endpointUrl = endpointUrl;
+      url = endpointUrl;
     } catch (err) {
       return res.json({
         success: false,
@@ -156,8 +156,7 @@ exports.updateBot = async function (req, res) {
       });
     }
   }
-
-  DockerService.delete(bot).then(DockerService.buildImage(bot, req.user._id));
+  DockerService.delete(bot).then(DockerService.buildImage(bot, req.user, url));
 
   req.user.save((err) => {
     if (err) throw err;

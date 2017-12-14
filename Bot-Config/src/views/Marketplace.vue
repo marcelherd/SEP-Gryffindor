@@ -51,7 +51,6 @@ export default {
     },
 
     navigate (template) {
-      console.log('navigate')
       this.$router.push({
         name: 'BotCreate',
         params: {

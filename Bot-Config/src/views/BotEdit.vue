@@ -250,7 +250,9 @@ export default {
     },
 
     saveBot () {
-      this.showOverlay = true
+      if (this.bot.template === 'FAQ-Bot') {
+        this.showOverlay = true
+      }
 
       const { userId } = this.$route.params
 

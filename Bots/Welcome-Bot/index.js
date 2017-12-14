@@ -71,24 +71,25 @@ function lastStep() {
   * If it is a Skilltransfer it returns an empty string an activate the transfer.
   * @param {integer} optionNumber the number wich child was chosen
   */
-function nextStep(optionNumber) {
-  lastnode = node;
-  node = node.children[optionNumber - 1];
-  if (node.children[0].children[0] == undefined) {
-    theLast = true;
+  function nextStep(optionNumber) {
+    let answer = '';
+    if (node.children[optionNumber - 1].children[0] != undefined) {
+      lastnode = node;
+      node = node.children[optionNumber - 1];
+      if (node.children[0].children[0] == undefined) {
+        theLast = true;
+      }
+      answer = node.children[0].data;
+    } else {
+      let counter = 0;
+      answer = 'This is no Option please select one of the following options:\n\t';
+      while (counter < node.children.length) {
+        answer += `${node.children[counter].data}\n\t`;
+        counter++;
+      }
+   }
+   return answer;
   }
-  // let faq = node.children[0].data;
-  // let faqtok = faq.split('_');
-
-  // if (faqtok[0] === 'Skill') {
-  //   console.log('hereeeee');
-  //   skilltransfer = true;
-  //   skillIdnumber = faqtok[1];
-  //   return '';
-  // } else {
-  return (node.children[0].data);
-}
-
 /**
 * Build the first Tree with greeting an options
 */
@@ -183,12 +184,12 @@ class WelcomeBot {
         if (!Number.isNaN(body.changes[0].event.message) &&
          body.changes[0].event.message < node.children.length +
          1 && body.changes[0].event.message > 0) {
+          const answer = nextStep(body.changes[0].event.message);
           if (node.children.length === 1 && theLast) {
             node = root;
             greeting = true;
             theLast = false;
           }
-          const answer = nextStep(body.changes[0].event.message);
           if (!skillTransfer(answer)) {
             this.sendMessage(body.dialogId, answer);
           } else {

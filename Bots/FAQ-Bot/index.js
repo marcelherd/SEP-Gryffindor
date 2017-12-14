@@ -14,6 +14,7 @@ const IntentService = require('./IntentService');
 
 let botConfig = JSON.parse(process.env.NODE_ENV);
 const user = JSON.parse(process.env.NODE_ENV_USER);
+const rp = ('request-promise');
 
 
 config();

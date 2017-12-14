@@ -120,6 +120,12 @@ export default {
       socket.initConnection({}, [{ 'type': '.ams.headers.ConsumerAuthentication', 'jwt': jwt }])
       socket.onNotification(this.withType('MessagingEvent'), (body) => {
         return body.changes.forEach((change) => {
+          // Do not display chat history
+          console.log(`Server: ${change.serverTimestamp} Client: ${Date.now()} Delta: ${Date.now() - change.serverTimestamp}`)
+          if ((Date.now() - change.serverTimestamp) > 100) {
+            return
+          }
+
           switch (change.event.type) {
             case 'ContentEvent':
               this.messages.push({

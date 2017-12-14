@@ -1,6 +1,11 @@
 <template>
   <div class="bt-tree-node">
-    <div class="bt-node-input-container">
+    <div class="bt-node-input-container" v-if="isRoot">
+      <input type="text" placeholder="Answer" readonly="true" ref="input"
+        v-model="isRoot" @dblclick="handleDblclick($event)"
+        @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
+    </div>
+    <div class="bt-node-input-container" v-else>
       <input type="text" placeholder="Answer" readonly="true" ref="input"
         v-model="node.data" @dblclick="handleDblclick($event)"
         @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>

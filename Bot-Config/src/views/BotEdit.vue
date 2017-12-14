@@ -121,7 +121,7 @@
 
       <bt-form-section :header="$t('shared.lblDialogueConfiguration')">
         <div class="bt-tree">
-          <bt-tree-node :node="bot.dialogTree.root" isRoot="true" />
+          <bt-tree-node :node="bot.dialogTree.root" :isRoot="bot.greeting" />
         </div>
       </bt-form-section>
 

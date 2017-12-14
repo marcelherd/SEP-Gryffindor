@@ -211,6 +211,44 @@ p.bt-card-utterance {
   text-underline-position: under;
 }
 
+a.bt-back-button,
+.md-layout a.bt-back-button {
+  position: fixed;
+  top: 120px;
+  left: 5%;
+  color: black;
+  font-size: 16px;
+}
+
+a.bt-back-button:hover,
+.md-layout a.bt-back-button:hover {
+  color: black;
+  opacity: .7;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.bt-overlay {
+  background-color: rgba(0, 0, 0, .55);
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bt-overlay-content {
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.bt-overlay-content span {
+  font-size: 48px;
+  color: white;
+}
+
 ::-webkit-input-placeholder {
     color:#8C8C8C;
 }

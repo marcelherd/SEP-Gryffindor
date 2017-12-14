@@ -11,7 +11,8 @@ const messages = {
       password: 'Password',
       yes: 'Yes',
       no: 'No',
-      unknownError: 'An unknown error has occured.'
+      unknownError: 'An unknown error has occured.',
+      confirmation: 'Are you sure?'
     },
     shared: {
       lblBotConfiguration: 'Bot configuration',
@@ -65,6 +66,7 @@ const messages = {
     botEdit: {
       lblIfUserSays: 'If user says something like',
       lblReplyWith: 'Then reply with',
+      lblCurrentlyTesting: 'Please wait, while the bot is being trained',
       phQuestion: 'Question',
       phUtterance: 'Utterance',
       phTextInput: 'Text',
@@ -75,12 +77,19 @@ const messages = {
       btnSaveIntent: 'Save intent',
       btnDeleteIntent: 'Delete intent',
       btnTesting: 'Test your bot',
-      infoBotSaved: 'Bot saved'
+      infoBotSaved: 'Bot saved',
+      confirmIntentDelete: 'Do you really want to delete this intent?',
+      confirmBotDelete: 'Do you really want to delete this bot?'
     },
     botCreate: {
       lblPageTitle: 'Bot details',
       lblHeader: 'Create the {template}',
       lblProfilePicture: 'Profile picture'
+    },
+    testing: {
+      lblPageTitle: 'Testing {name}',
+      lblOnline: 'Online now',
+      phInput: 'Type here...'
     }
   },
   de: {
@@ -90,7 +99,8 @@ const messages = {
       password: 'Passwort',
       yes: 'Ja',
       no: 'Nein',
-      unknownError: 'Ein unerwarteter Fehler ist aufgetreten.'
+      unknownError: 'Ein unerwarteter Fehler ist aufgetreten.',
+      confirmation: 'Bist du sicher?'
     },
     shared: {
       lblBotConfiguration: 'Bot Konfiguration',
@@ -143,6 +153,7 @@ const messages = {
     botEdit: {
       lblIfUserSays: 'Wenn der Kunde etwas sagt wie',
       lblReplyWith: 'Dann antworte mit',
+      lblCurrentlyTesting: 'Bitte warten Sie, während der Bot trainiert wird',
       phQuestion: 'Frage',
       phUtterance: 'Aussage',
       phTextInput: 'Text',
@@ -153,12 +164,19 @@ const messages = {
       btnSaveIntent: 'Absicht speichern',
       btnDeleteIntent: 'Absicht löschen',
       btnTesting: 'Probiere deinen Bot aus',
-      infoBotSaved: 'Bot wurde gespeichert'
+      infoBotSaved: 'Bot wurde gespeichert',
+      confirmIntentDelete: 'Willst du diese Absicht wirklich löschen?',
+      confirmBotDelete: 'Willst du diesen Bot wirklich löschen?'
     },
     botCreate: {
       lblPageTitle: 'Bot Details',
       lblHeader: 'Erstelle den {template}',
       lblProfilePicture: 'Profilbild'
+    },
+    testing: {
+      lblPageTitle: 'Teste {name}',
+      lblOnline: 'Jetzt online',
+      phInput: 'Hier schreiben...'
     }
   }
 }

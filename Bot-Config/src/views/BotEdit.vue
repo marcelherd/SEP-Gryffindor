@@ -101,14 +101,14 @@
               </md-layout>
             </md-layout>
             <md-layout>
-              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red">{{ $t('botEdit.btnDeleteIntent') }}</bt-button>
+              <bt-button @click="deleteIntent(index)" class="bt-card-action" theme="red" :confirmation="$t('botEdit.confirmIntentDelete')">{{ $t('botEdit.btnDeleteIntent') }}</bt-button>
             </md-layout>
           </div>
         </div>
 
       <md-layout md-row>
-        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button @click="testing" theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 
@@ -126,8 +126,8 @@
       </bt-form-section>
 
       <md-layout md-row class="bt-page-controls">
-        <bt-button @click="deleteBot" theme="red" align="start">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
-        <bt-button theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
+        <bt-button @click="deleteBot" theme="red" align="start" :confirmation="$t('botEdit.confirmBotDelete')">{{ $t('botEdit.btnDeleteBot') }}</bt-button>
+        <bt-button @click="testing" theme="orange">{{ $t('botEdit.btnTesting') }}</bt-button>
       </md-layout>
     </md-layout>
 
@@ -140,6 +140,12 @@
     <md-snackbar ref="snackbar" md-position="top center">
       <span>{{ flashMessage }}</span>
     </md-snackbar>
+
+    <div class="bt-overlay" v-if="showOverlay">
+      <div class="bt-overlay-content">
+        <span>{{ $t('botEdit.lblCurrentlyTesting') }}</span>
+      </div>
+    </div>
 
   </bt-page-container>
 </template>
@@ -183,7 +189,8 @@ export default {
           }
         ]
       },
-      flashMessage: 'wat'
+      flashMessage: '',
+      showOverlay: false
     }
   },
   created () {
@@ -265,6 +272,8 @@ export default {
     },
 
     saveBot () {
+      this.showOverlay = true
+
       const { userId } = this.$route.params
 
       this.bot.intents.forEach((intent) => {
@@ -280,6 +289,7 @@ export default {
           this.flashMessage = data.message || this.$t('core.unknownError')
         }
         this.$refs.snackbar.open()
+        this.showOverlay = false
       })
     },
 
@@ -326,6 +336,16 @@ export default {
         name: 'Overview',
         params: { userId: this.$store.getters.user._id }
       })
+    },
+
+    testing () {
+      const { userId, botId } = this.$route.params
+
+      this.saveBot()
+      this.$router.push({
+        name: 'Testing',
+        params: { userId, botId }
+      })
     }
   }
 }
@@ -338,20 +358,5 @@ export default {
 
 .bt-page-controls {
   margin-top: 48px;
-}
-
-.md-layout a.bt-back-button {
-  position: fixed;
-  top: 120px;
-  left: 5%;
-  color: black;
-  font-size: 16px;
-}
-
-.md-layout a.bt-back-button:hover {
-  color: black;
-  opacity: .7;
-  cursor: pointer;
-  text-decoration: none;
 }
 </style>

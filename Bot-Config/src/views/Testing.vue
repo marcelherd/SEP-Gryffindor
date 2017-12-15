@@ -390,4 +390,9 @@ export default {
   color: white;
   float: right;
 }
+
+.bt-chat-submit:hover {
+  cursor: pointer;
+  background-color: #555;
+}
 </style>

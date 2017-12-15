@@ -15,6 +15,7 @@ const config = require('./config');
 
 const authenticateRoutes = require('./routes/authenticate');
 const manageRoutes = require('./routes/manage');
+const healthRoutes = require('./routes/health');
 
 const authService = require('./services/AuthService');
 
@@ -37,6 +38,7 @@ authService.setupUsers();
 
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);
+app.use('/health', healthRoutes);
 
 const server = app.listen(3000, () => {
   console.log(figlet.textSync('Bottertoast'));

@@ -178,6 +178,93 @@ const messages = {
       lblOnline: 'Jetzt online',
       phInput: 'Hier schreiben...'
     }
+  },
+  fr: {
+    core: {
+      country: 'France',
+      username: 'nom d\'utilisateur',
+      password: 'mot de passe',
+      yes: 'Oui',
+      no: 'Non',
+      unknownError: 'Il y a une imprévue erreur.',
+      confirmation: 'Est-ce que tu es sûre?'
+    },
+    shared: {
+      lblBotConfiguration: 'Bot configuration',
+      lblDialogueConfiguration: 'Dialogue configuration',
+      phName: 'Nom',
+      phGreeting: 'Salutation',
+      phProductionId: 'Brand ID pour la production',
+      phStagingId: 'Brand ID pour la environnement du test',
+      btnEdit: 'Éditer',
+      btnSave: 'Sauvegarder',
+      btnBack: 'Retour'
+    },
+    menu: {
+      btnAccount: 'Compte',
+      btnAdmin: 'l\'administrateur',
+      btnLogout: 'fermeture de session'
+    },
+    login: {
+      btnLogin: 'Ouverture de session'
+    },
+    overview: {
+      lblPageTitle: 'Vue d\'ensemble',
+      lblPageTitleUser: 'Vue d\'ensemble sur les utlisateurs  {user}',
+      lblBorn: 'Née le',
+      lblAwake: 'éveillé depuis',
+      lblAsleep: 'dors depuis',
+      lblNeverRan: 'Bot n\'était jamais lancé',
+      lblIntroduction: 'Salut! Je suis {name} le {template}!',
+      lblConversations: 'J\'ai déja eu {conversations} Konversationen',
+      lblForwards: 'Et j\'ai tranmis {forwards} fois',
+      lblNoBots: 'Il semblerait que tu n\'aies pas crée de bots pour le moment.',
+      btnGetStarted: 'Créer ton premier bot'
+    },
+    marketplace: {
+      lblPageTitle: 'Choisir un modèle du Bot '
+    },
+    account: {
+      lblPageTitle: 'détails sur ta compte'
+    },
+    admin: {
+      lblPageTitle: 'L\'administration',
+      lblManageBots: 'Administrer les bots',
+      colAdmin: 'l\'administrateur',
+      colActions: 'Les actions'
+    },
+    userCreate: {
+      lblPageTitle: 'Nouveau utilisateur',
+      lblAccountDetails: 'détails sur la compte'
+    },
+    botEdit: {
+      lblIfUserSays: 'Quand le client dit quelque chose comme ',
+      lblReplyWith: 'Alors réponds par',
+      lblCurrentlyTesting: 'Attendez s\'il vous plaît pendant le bot est s\'entrainé ',
+      phQuestion: 'Question',
+      phUtterance: 'Déclaration',
+      phTextInput: 'Texte',
+      phLinkInput: 'Lien',
+      phSkillInput: 'Transmission',
+      btnSaveBot: 'Sauvegarder le bot',
+      btnDeleteBot: 'Effacer le Bot',
+      btnSaveIntent: 'Sauvegarder l\'intention',
+      btnDeleteIntent: 'Effacer l\'intention',
+      btnTesting: 'Essayer ton bot',
+      infoBotSaved: 'Bot était sauvegardé',
+      confirmIntentDelete: 'Est-ce que tu es sûre que tu voudrais effacer cette intention?',
+      confirmBotDelete: 'Est-ce que tu es sûre que tu voudrais effacer ce bot?'
+    },
+    botCreate: {
+      lblPageTitle: 'Détails sur les bots',
+      lblHeader: 'Créer un {template}',
+      lblProfilePicture: 'Photo'
+    },
+    testing: {
+      lblPageTitle: 'Essaye {name}',
+      lblOnline: 'Est conncecté maintenat',
+      phInput: 'Écrire ici...'
+    }
   }
 }
 

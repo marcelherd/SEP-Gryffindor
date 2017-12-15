@@ -1,6 +1,10 @@
 const rp = require('request-promise');
 
-
+/**
+ * posts the app with its configuration to Microsoft's API and awaits its results
+ * @param config represent the config needed for the options for the post request
+ * @return the uri under which the app is published
+ */
 exports.publishApp = async (config) => {
   const payload = {
     versionId: config.LUIS_versionId,

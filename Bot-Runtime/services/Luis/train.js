@@ -1,32 +1,26 @@
 const utterances = require('./addUtterances');
-const fse = require('fs-extra');
-const path = require('path');
 
+/**
+ * posts the app with its configuration to Microsoft's API and awaits its results
+ * @param config represent the config needed for the options for the post request including the app's name
+ * @method sendUtteranceToApi is used to check whether for training status
+ * @return the Trainingstatus telling you which utterances have been trained and which have not
+ */
 exports.train = async (config) => {
-  let results;
+  let trainingStatus;
   try {
     const trainingPromise = utterances.sendUtteranceToApi({
       uri: config.uri,
-      method: config.method, // Use POST to request training, GET to get training status
+      method: config.method,
       headers: {
         'Ocp-Apim-Subscription-Key': config.LUIS_subscriptionKey,
       },
       json: true,
-      body: null, // The body can be empty for a training request
+      body: null,
     });
-    console.log('This is before I call the trainingPromise');
-    results = await trainingPromise;
-    console.log(results);
-    if (config.method === 'POST') {
-      const response = await fse.writeJson(path.join(__dirname, 'training-results.json'), results);
-      console.log(`Training request sent. The status of the training request is: ${results.response.status}.`);
-    } else if (config.method === 'GET') {
-      const response = await fse.writeJson(path.join(__dirname, 'training-status-results.json'), results);
-      console.log('Training status saved to file. ');
-    }
+    trainingStatus = await trainingPromise;
   } catch (err) {
-    console.log(`Error in Training:  ${err.message} `);
-    // throw err;
+    throw err;
   }
-  return results;
+  return trainingStatus;
 };

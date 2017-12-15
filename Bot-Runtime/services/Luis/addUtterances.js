@@ -1,10 +1,10 @@
-
-
-// node 7.x
-// uses async/await - promises
-
 const rp = require('request-promise');
 
+/**
+ * posts the utterances of your LUIS app to Microsoft's API
+ * @param options represent the options needed for the post request
+ * @return Microsoft Luis' response to the post request
+ */
 exports.sendUtteranceToApi = async (options) => {
   try {
     let response;
@@ -20,6 +20,12 @@ exports.sendUtteranceToApi = async (options) => {
   }
 };
 
+/**
+ * awaits the post of all utterances request to the microsoft API
+ * is the main method to be called from outside
+ * @param config represent the config needed for the post request's options including all the utterances
+ * @return Microsoft Luis response to the post request
+ */
 exports.addUtterance = async (config) => {
   let results;
   try {
@@ -34,7 +40,6 @@ exports.addUtterance = async (config) => {
       body: config.utterance,
     });
     results = await utterancePromise;
-    console.log('Add utterance done');
   } catch (err) {
     throw err.message;
   }

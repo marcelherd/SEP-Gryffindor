@@ -145,6 +145,8 @@ export default {
           return this.handleConversationNotification(socket, notificationBody, this.openConvs)
         })
       })
+
+      socket.ws.onclose = (e) => this.onCloseSocket(socket, e)
     },
 
     handleConversationNotification (socket, notificationBody, openConvs) {
@@ -159,6 +161,11 @@ export default {
           }
         }
       })
+    },
+
+    onCloseSocket (socket, e) {
+      socket.ws = null
+      this.prepareToConnect()
     },
 
     withSubscriptionID (subscriptionID) {

@@ -178,7 +178,7 @@ exports.updateBot = async function (req, res) {
   await DockerService.delete(bot);
   let data;
   do {
-    data = await DockerService.buildContainer(bot, req.user._id);
+    data = await DockerService.buildContainer(bot, req.user);
   } while (data !== 'done');
 
   req.user.save((err) => {

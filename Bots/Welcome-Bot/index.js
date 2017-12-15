@@ -10,7 +10,13 @@ const {
   config,
 } = require('dotenv');
 const rp = require('request-promise');
+const http = require('http');
 
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  console.log('ICh bin nummer 2')
+  res.end('It works');
+}).listen(5000);
 // const botConfig = require('./config.json');
 const botConfig = JSON.parse(process.env.NODE_ENV);
 const user = JSON.parse(process.env.NODE_ENV_USER);
@@ -26,7 +32,9 @@ config();
 
 
 const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
-
+/**
+ * Increment the Bot statistic
+ */
 const incrementConvCounter = async() => {
   const options = {
     uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
@@ -39,7 +47,9 @@ const incrementConvCounter = async() => {
     throw err;
   }
 };
-
+/**
+ * Increment the Bot statistic
+ */
 const incrementTransferCounter = async() => {
   const options = {
     uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
@@ -52,7 +62,9 @@ const incrementTransferCounter = async() => {
     throw err;
   }
 };
-
+/**
+ * Send the Step before
+ */
 function lastStep() {
   node = lastnode;
   let counter = 0;
@@ -124,6 +136,9 @@ const repeatStep = () => {
   }
   return answer;
 };
+/**
+ * Test if the Bot must transfer to another Bot/Agent
+ */
 const skillTransfer = (answer) => {
   console.log(answer);
   if (answer.includes('SKILL')) {
@@ -131,7 +146,9 @@ const skillTransfer = (answer) => {
   }
   return false;
 };
-
+/**
+ * Find out the SkillId
+ */
 const getSkill = (answer) => {
   let newSkill = answer.split('_')[1];
   newSkill = parseInt(newSkill, 10);
@@ -139,7 +156,7 @@ const getSkill = (answer) => {
 };
 
 class WelcomeBot {
-  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+  constructor(accountID = '885044411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -362,7 +379,12 @@ class WelcomeBot {
       },
     });
   }
-
+/**
+   * This function allows sending Links to the specified conversation.
+   * It wraps the original SDK function to make it easier to use.
+   * @param {string} conversationId id of the conversation which should be joined
+   * @param {string} message text message which will be sent to the client
+   */
   async sendLink(conversationId, message) {
     if (!this.isConnected) return;
     const index = message.indexOf('http');

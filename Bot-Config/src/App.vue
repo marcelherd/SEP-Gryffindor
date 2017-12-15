@@ -15,6 +15,13 @@ export default {
     if (locale !== null) {
       this.$i18n.locale = locale
     }
+
+    // Workaround for issue #21
+    // https://github.com/marcelherd/SEP-Gryffindor/issues/21
+    if (this.$store.getters.isLoggedIn) {
+      this.$store.dispatch('logout')
+      window.location.reload(true)
+    }
   }
 }
 </script>

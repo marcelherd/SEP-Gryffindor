@@ -250,19 +250,7 @@ export default {
     },
 
     saveBot () {
-      if (this.bot.template === 'FAQ-Bot') {
-        this.showOverlay = true
-      }
-
-      const { userId } = this.$route.params
-
-      this.bot.intents.forEach((intent) => {
-        intent.utterances.forEach((utterance) => {
-          utterance.intentName = intent.name
-        })
-      })
-
-      RuntimeService.updateBot(userId, this.bot).then((data) => {
+      this.saveBotPromise().then((data) => {
         if (data.success) {
           this.flashMessage = this.$t('botEdit.infoBotSaved')
         } else {
@@ -270,6 +258,26 @@ export default {
         }
         this.$refs.snackbar.open()
         this.showOverlay = false
+      })
+    },
+
+    saveBotPromise () {
+      return new Promise((resolve) => {
+        if (this.bot.template === 'FAQ-Bot') {
+          this.showOverlay = true
+        }
+
+        const { userId } = this.$route.params
+
+        this.bot.intents.forEach((intent) => {
+          intent.utterances.forEach((utterance) => {
+            utterance.intentName = intent.name
+          })
+        })
+
+        RuntimeService.updateBot(userId, this.bot).then((data) => {
+          resolve(data)
+        })
       })
     },
 
@@ -321,10 +329,22 @@ export default {
     testing () {
       const { userId, botId } = this.$route.params
 
-      this.saveBot()
-      this.$router.push({
-        name: 'Testing',
-        params: { userId, botId }
+      this.saveBotPromise().then((data) => {
+        if (!this.bot.running) {
+          RuntimeService.toggleBot(this.$route.params.userId, this.bot).then((data) => {
+            if (data.success) {
+              this.$router.push({
+                name: 'Testing',
+                params: { userId, botId }
+              })
+            }
+          })
+        } else {
+          this.$router.push({
+            name: 'Testing',
+            params: { userId, botId }
+          })
+        }
       })
     }
   }

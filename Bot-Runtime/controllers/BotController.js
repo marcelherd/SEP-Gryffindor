@@ -156,13 +156,7 @@ exports.updateBot = async function (req, res) {
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
 
-  fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('File has been saved successfully');
-    }
-  });
+
   let url;
   if (bot.template === 'FAQ-Bot') {
     try {

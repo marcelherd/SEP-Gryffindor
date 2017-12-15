@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const figlet = require('figlet');
+const fs = require('fs');
 
 const config = require('./config');
 
@@ -18,6 +19,9 @@ const manageRoutes = require('./routes/manage');
 const healthRoutes = require('./routes/health');
 
 const authService = require('./services/AuthService');
+const DockerService = require('./services/DockerService');
+
+const templateFolder = '../Bots/';
 
 const app = express();
 
@@ -35,6 +39,15 @@ mongoose.Promise = global.Promise;
 
 // creates a superuser if it doesn't exist
 authService.setupUsers();
+
+// eager image building
+try {
+  fs.readdirSync(templateFolder).forEach((template) => {
+    DockerService.buildImage(template);
+  });
+} catch (error) {
+  throw error;
+}
 
 app.use('/api/v1/authenticate', authenticateRoutes);
 app.use('/api/v1/manage', manageRoutes);

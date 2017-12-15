@@ -9,10 +9,30 @@ const Dockerode = require('dockerode');
 
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
 const docker = new Dockerode({ socketPath });
-const fileService = require('./FileService');
+const tar = require('tar-fs');
 
 let createOptions;
 
+
+exports.buildImage = async function (template) {
+  const path = `../Bots/${template}`;
+  const tarStream = tar.pack(path);
+
+  docker.buildImage(tarStream, {
+    t: ((template).toLowerCase()),
+  }, (error, output) => {
+    docker.modem.followProgress(output, onFinished, onProgress);
+    async function onFinished() {
+      return 'done';
+    }
+    function onProgress() {
+    }
+    if (error) {
+      return error;
+    }
+    output.pipe(process.stdout);
+  });
+};
 /**
  * Creates and saves a new bot.
  *
@@ -20,68 +40,22 @@ let createOptions;
  * @param {string} template - The template that is to be used for the bot
  * @returns {promise} - When Image is fully built
  */
-exports.buildImage = async function (bot, userId, endpointUrl) {
+exports.buildContainer = async function (bot, userId, endpointUrl) {
   console.log('Building Bot...');
   console.log(bot);
-  return new Promise(async (resolve) => {
-    if (bot.template === 'FAQ-Bot') {
-      createOptions = {
-        name: `${bot._id}`,
-        Image: ((bot.template).toLowerCase()),
-        Tty: true,
-        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${JSON.stringify(endpointUrl)}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
-      };
-    } else {
-      createOptions = {
-        name: `${bot._id}`,
-        Image: ((bot.template).toLowerCase()),
-        Tty: true,
-        Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
-      };
-    }
-    docker.createContainer(createOptions, (err) => {
-      if (err) {
-        if (bot.template === 'FAQ-Bot') {
-          docker.buildImage({
-            context: `../Bots/${bot.template}`,
-            src: ['Dockerfile', 'index.js', 'package.json', 'LuisService.js', 'IntentService.js'],
-          }, {
-            t: ((bot.template).toLowerCase()),
-          }, (error, output) => {
-            docker.modem.followProgress(output, onFinished, onProgress);
-            function onFinished() {
-              docker.createContainer(createOptions);
-            }
-            function onProgress() {
-            }
-            if (error) {
-              return console.error(error);
-            }
-            output.pipe(process.stdout);
-          });
-        } else {
-          docker.buildImage({
-            context: `../Bots/${bot.template}`,
-            src: ['Dockerfile', 'index.js', 'package.json'],
-          }, {
-            t: ((bot.template).toLowerCase()),
-          }, (error, output) => {
-            docker.modem.followProgress(output, onFinished, onProgress);
-            function onFinished() {
-              docker.createContainer(createOptions);
-            }
-            function onProgress() {
-            }
-            if (error) {
-              return console.error(error);
-            }
-            output.pipe(process.stdout);
-          });
-        }
-      }
-    });
-    resolve();
-  });
+  if (endpointUrl === undefined) {
+    endpointUrl = 'noEndpoint';
+  } else {
+    endpointUrl = JSON.stringify(endpointUrl);
+  }
+  createOptions = {
+    name: `${bot._id}`,
+    Image: ((bot.template).toLowerCase()),
+    Tty: true,
+    Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${endpointUrl}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
+  };
+  docker.createContainer(createOptions);
+  return 'done';
 };
 
 /**
@@ -90,23 +64,20 @@ exports.buildImage = async function (bot, userId, endpointUrl) {
  * @param {Bot} bot - The bot that is to be started
  * @returns {Promise} TODO
  */
-exports.start = function (bot) {
-  return new Promise((resolve) => {
-    // TODO: start the bot here
-    console.log(`Starting bot ${bot.name} (${bot.id})...`);
-    const container = docker.getContainer(bot.id);
-    container.inspect((error, data) => {
-      if (data !== null) {
-        if (data.State.Status === 'exited' || data.State.Status === 'created') {
-          container.start();
-          console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
-          bot.status = 'running';
-        }
-      } else {
-        console.log('No container to delete ;-)');
+exports.start = async function (bot) {
+// TODO: start the bot here
+  console.log(`Starting bot ${bot.name} (${bot.id})...`);
+  const container = docker.getContainer(bot.id);
+  container.inspect((error, data) => {
+    if (data !== null) {
+      if (data.State.Status === 'exited' || data.State.Status === 'created') {
+        container.start();
+        console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
+        bot.status = 'running';
       }
-    });
-    resolve();
+    } else {
+      console.log('No container to delete ;-)');
+    }
   });
 };
 
@@ -117,28 +88,22 @@ exports.start = function (bot) {
  * @param {Bot} bot - The bot that is to be stopped
  * @returns {Promise} TODO
  */
-exports.stop = function (bot) {
-  return new Promise((resolve) => {
-    // TODO: stop the bot here
-
-    console.log(`Stopping bot ${bot.name} (${bot._id})...`);
-    const container = docker.getContainer(bot.id);
-    // query API for container info
-    container.inspect((error, data) => {
-      if (data !== null) {
-        if (data.State.Status !== 'exited') {
-          container.stop((err) => {
-            if (err) {
-              // TODO: error handling
-            } else {
-              console.log(`Bot ${bot.name} (${bot._id}) stopped`);
-              bot.status = 'false';
-            }
-          });
+exports.stop = async function (bot) {
+  console.log(`Stopping bot ${bot.name} (${bot._id})...`);
+  const container = docker.getContainer(bot.id);
+  // query API for container info
+  container.inspect((error, data) => {
+    if (data && data.State && data.State.Status !== 'exited' && data.State.Status !== 'created') {
+      container.stop((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`Bot ${bot.name} (${bot._id}) stopped`);
+          bot.status = 'false';
+          return 'done';
         }
-      }
-    });
-    resolve();
+      });
+    }
   });
 };
 
@@ -162,19 +127,20 @@ exports.restart = function (bot) {
  * @param {Bot} bot - The bot that is to be started
  * @returns {Promise} TODO
  */
-exports.delete = function (bot) {
-  return new Promise((resolve) => {
-    // TODO: start the bot here
-    console.log(`Deleting bot ${bot.name} (${bot._id})...`);
+exports.delete = async function (bot) {
+  // TODO: start the bot here
+  console.log(bot);
+  console.log(`Deleting bot ${bot.name} (${bot._id})...`);
 
 
-    const container = docker.getContainer(bot._id);
-    this.stop(bot);
-    container.remove((err) => {
-      if (err) {
-        // TODO: error handling
-      }
-    });
-    resolve();
-  });
+  const container = docker.getContainer(bot._id);
+  try {
+    await this.stop(bot);
+    console.log('test1');
+    const data = await container.remove();
+    console.log('test2');
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 };

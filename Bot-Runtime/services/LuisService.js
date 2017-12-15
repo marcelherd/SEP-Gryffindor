@@ -12,15 +12,9 @@ const postIntents = require('./Luis/postIntents');
 const Utterances = require('./Luis/addUtterances');
 const Training = require('./Luis/train');
 const publish = require('./Luis/publishApp');
-const deleteApp = require('./Luis/deleteApp');
-const {
-  setTimeout,
-} = require('timers');
-const fileService = require('./FileService');
 const fs = require('fs');
 const waitUntil = require('async-wait-until');
 
-const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const readAFile = promisify(fs.readFile);
 
@@ -69,7 +63,6 @@ const getTrainingStatus = async () => {
     const {
       response,
     } = answer;
-    await fileService.writeToFile(response, 'services/Luis', 'endpoint.json');
     return response;
   } catch (err) {
     throw err;
@@ -131,18 +124,6 @@ const addIntents = async (intents) => {
   }
 };
 
-
-const deleteOldApp = async (deleteAppId) => {
-  const deleteThisApp = {
-    LUIS_subscriptionKey: subscriptionKey,
-    uri: `https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/${deleteAppId}`,
-  };
-  try {
-    await deleteApp(deleteThisApp);
-  } catch (err) {
-    throw err;
-  }
-};
 const readMyFile = async path => JSON.parse(await readAFile(path, { encoding: 'utf-8' }));
 
 
@@ -158,27 +139,7 @@ const addNewApp = async (path) => {
       culture: 'en-us',
       uri: postAppUri,
     };
-    try {
-      const apps = await fileService.getAppIds();
-      const getId = async () => {
-        for (let i = 0; i < apps.length; i++) {
-          if (apps[i].n === appConfig.appName) {
-            const {
-              id,
-            } = apps[i];
-            apps.splice(i, 1);
-            return id;
-          }
-        }
-      };
-      const deleteId = await getId();
-      await deleteOldApp(deleteId);
-      await fileService.writeAppIdsAfterDeletion(apps, 'services/Luis', '/apps.json');
-    } catch (err) {
-      // TODO: error handling
-    }
     appId = await createApp(appConfig);
-    await fileService.writeAppIds(appId, appConfig.appName);
     return data.intents;
   } catch (err) {
     throw err;

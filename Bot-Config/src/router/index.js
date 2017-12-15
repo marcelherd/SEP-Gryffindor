@@ -66,6 +66,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to.name)
   if (to.name !== 'Login') {
     if (!store.getters.isLoggedIn) {
       return next('Login')
@@ -77,7 +78,6 @@ router.beforeEach((to, from, next) => {
       return next(from.path)
     }
   }
-
   return next()
 })
 

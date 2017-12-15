@@ -36,7 +36,7 @@ const greetTheCustomer = () => {
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -49,7 +49,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://141.19.158.228:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {

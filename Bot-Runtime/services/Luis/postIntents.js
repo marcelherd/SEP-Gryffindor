@@ -1,6 +1,3 @@
-const rp = require('request-promise');
-const fse = require('fs-extra');
-const path = require('path');
 const request = require('requestretry');
 
 // time delay between requests
@@ -16,7 +13,12 @@ const retryStrategy = function (err, response, body) {
   return shouldRetry;
 };
 
-// Call add-intents
+/**
+ * posts the app wiht its configuration to Microsoft's API and awaits its results
+ * @param config represent the config needed for the options for the post request including the app's name
+ * @method callCreateApp actually posts the bot to the API
+ * @return the app's id
+ */
 const addIntents = async (config) => {
   const intentPromises = [];
   config.uri = config.uri.replace('{appId}', config.LUIS_appId).replace('{versionId}', config.LUIS_versionId);
@@ -24,14 +26,11 @@ const addIntents = async (config) => {
   config.intentList.forEach((intent) => {
     config.intentName = intent.name;
     try {
-      // JSON for the request body
-      let jsonBody = {
-        'name': config.intentName,
+      const jsonBody = {
+        name: config.intentName,
       };
 
-      // Create an intent
-      let addIntentPromise = callAddIntent({
-        // uri: config.uri,
+      const addIntentPromise = callAddIntent({
         url: config.uri,
         fullResponse: false,
         method: 'POST',
@@ -45,23 +44,18 @@ const addIntents = async (config) => {
         retryStrategy,
       });
       intentPromises.push(addIntentPromise);
-
-      console.log(`Called addIntents for intent named ${intent}.`);
     } catch (err) {
       console.log(`Error in addIntents:  ${err.message} `);
     }
   }, this);
 
   const results = await Promise.all(intentPromises);
-  console.log(`Results of all promises = ${JSON.stringify(results)}`);
-  const response = results;
 };
 
 // Send JSON as the body of the POST request to the API
-var callAddIntent = async (options) => {
+const callAddIntent = async (options) => {
   try {
-    let response;
-    response = await request(options);
+    const response = await request(options);
     return { response };
   } catch (err) {
     console.log(`Error in callAddIntent:  ${err.message} `);

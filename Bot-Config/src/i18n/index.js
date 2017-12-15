@@ -39,7 +39,7 @@ const messages = {
       lblBorn: 'Born',
       lblAwake: 'awake since',
       lblAsleep: 'asleep since',
-      lblNeverRan: 'Bot has never ran',
+      lblNeverRan: 'Bot has never run',
       lblIntroduction: 'Hi! I\'m {name} the {template}!',
       lblConversations: 'I had {conversations} conversations so far',
       lblForwards: 'And forwarded {forwards} times',
@@ -66,7 +66,7 @@ const messages = {
     botEdit: {
       lblIfUserSays: 'If user says something like',
       lblReplyWith: 'Then reply with',
-      lblCurrentlyTesting: 'Please wait, while the bot is being trained',
+      lblCurrentlyTesting: 'Please wait while the bot is being trained',
       phQuestion: 'Question',
       phUtterance: 'Utterance',
       phTextInput: 'Text',
@@ -195,7 +195,7 @@ const messages = {
       phName: 'Nom',
       phGreeting: 'Salutation',
       phProductionId: 'Brand ID pour la production',
-      phStagingId: 'Brand ID pour la environnement du test',
+      phStagingId: 'Brand ID pour l\'environnement du test',
       btnEdit: 'Éditer',
       btnSave: 'Sauvegarder',
       btnBack: 'Retour'
@@ -210,13 +210,13 @@ const messages = {
     },
     overview: {
       lblPageTitle: 'Vue d\'ensemble',
-      lblPageTitleUser: 'Vue d\'ensemble sur les utlisateurs  {user}',
+      lblPageTitleUser: 'Vue d\'ensemble pour l\'utilisateur {user}',
       lblBorn: 'Née le',
       lblAwake: 'éveillé depuis',
       lblAsleep: 'dors depuis',
       lblNeverRan: 'Bot n\'était jamais lancé',
       lblIntroduction: 'Salut! Je suis {name} le {template}!',
-      lblConversations: 'J\'ai déja eu {conversations} Konversationen',
+      lblConversations: 'J\'ai déja eu {conversations} conversations',
       lblForwards: 'Et j\'ai tranmis {forwards} fois',
       lblNoBots: 'Il semblerait que tu n\'aies pas crée de bots pour le moment.',
       btnGetStarted: 'Créer ton premier bot'
@@ -225,17 +225,17 @@ const messages = {
       lblPageTitle: 'Choisir un modèle du Bot '
     },
     account: {
-      lblPageTitle: 'détails sur ta compte'
+      lblPageTitle: 'Détails sur ta compte'
     },
     admin: {
       lblPageTitle: 'L\'administration',
       lblManageBots: 'Administrer les bots',
-      colAdmin: 'l\'administrateur',
+      colAdmin: 'L\'administrateur',
       colActions: 'Les actions'
     },
     userCreate: {
-      lblPageTitle: 'Nouveau utilisateur',
-      lblAccountDetails: 'détails sur la compte'
+      lblPageTitle: 'Nouvel utilisateur',
+      lblAccountDetails: 'Détails sur la compte'
     },
     botEdit: {
       lblIfUserSays: 'Quand le client dit quelque chose comme ',
@@ -250,7 +250,7 @@ const messages = {
       btnDeleteBot: 'Effacer le Bot',
       btnSaveIntent: 'Sauvegarder l\'intention',
       btnDeleteIntent: 'Effacer l\'intention',
-      btnTesting: 'Essayer ton bot',
+      btnTesting: 'Essaye ton bot',
       infoBotSaved: 'Bot était sauvegardé',
       confirmIntentDelete: 'Est-ce que tu es sûre que tu voudrais effacer cette intention?',
       confirmBotDelete: 'Est-ce que tu es sûre que tu voudrais effacer ce bot?'
@@ -263,7 +263,7 @@ const messages = {
     testing: {
       lblPageTitle: 'Essaye {name}',
       lblOnline: 'Est conncecté maintenat',
-      phInput: 'Écrire ici...'
+      phInput: 'Écris ici...'
     }
   }
 }

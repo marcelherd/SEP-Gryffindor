@@ -2,8 +2,9 @@
 .gitignore
 .gitattributes
 .eslintignore
+.eslintrc.json
 .editorconfig
-
+Dockerfile
 node_modules/
 node_modules
 

@@ -9,11 +9,17 @@ const {
 const {
   config,
 } = require('dotenv');
-const LuisService = require('./LuisService');
-const IntentService = require('./IntentService');
+const LuisService = require('./services/LuisService');
+const IntentService = require('./services/IntentService');
 const rp = require('request-promise');
+const http = require('http');
 
-let botConfig = JSON.parse(process.env.NODE_ENV);
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('It works');
+}).listen(5000);
+
+let botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
 

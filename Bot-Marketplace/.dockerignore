@@ -1,4 +1,4 @@
-.env
+
 .gitignore
 .gitattributes
 .eslintignore
@@ -19,4 +19,3 @@ doc/
 
 .nyc_output
 
-config.json

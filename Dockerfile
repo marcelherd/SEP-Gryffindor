@@ -6,14 +6,12 @@ COPY Bots Bots
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY /Bot-Marketplace/package.json .
-# For npm@5 or later, copy package-lock.json as well
-# COPY package.json package-lock.json ./
-#RUN apk --no-cache add curl 
-#RUN apt-get install -y nodejs 
-RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
+COPY Bot-Marketplace/package.json Bot-Marketplace/package-lock.json ./
+RUN npm install && apk --no-cache add curl
+# Add Curl for Healthcheck
+RUN apk --no-cache add curl 
+## Add Healthcheck
+HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=3 CMD curl -get http://localhost:4000/api/v1/discover || exit 500
 
 # Bundle app source
 COPY /Bot-Marketplace .

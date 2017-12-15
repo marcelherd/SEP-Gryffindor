@@ -43,7 +43,9 @@ authService.setupUsers();
 // eager image building
 try {
   fs.readdirSync(templateFolder).forEach((template) => {
-    DockerService.buildImage(template);
+    if (template !== 'package-lock.json') {
+      DockerService.buildImage(template);
+    }
   });
 } catch (error) {
   throw error;

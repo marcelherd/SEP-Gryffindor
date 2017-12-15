@@ -17,7 +17,7 @@ http.createServer((req, res) => {
   res.end('It works');
 }).listen(5000);
 // const botConfig = require('./config.json');
-const botConfig = JSON.parse(process.env.NODE_ENV);
+const botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
 const {

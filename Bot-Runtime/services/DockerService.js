@@ -42,7 +42,6 @@ exports.buildImage = async function (template) {
  */
 exports.buildContainer = async function (bot, userId, endpointUrl) {
   console.log('Building Bot...');
-  console.log(bot);
   if (endpointUrl === undefined) {
     endpointUrl = 'noEndpoint';
   } else {
@@ -52,7 +51,12 @@ exports.buildContainer = async function (bot, userId, endpointUrl) {
     name: `${bot._id}`,
     Image: ((bot.template).toLowerCase()),
     Tty: true,
-    Env: [`NODE_ENV=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${endpointUrl}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
+    Env: [`NODE_ENV_CONFIG=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${endpointUrl}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
+    estartPolicy: {
+      Name: 'always',
+      MaximumRetryCount: 0,
+    },
+    NetworkMode: 'sepgryffindor_bottertoast',
   };
   docker.createContainer(createOptions);
   return 'done';
@@ -136,9 +140,7 @@ exports.delete = async function (bot) {
   const container = docker.getContainer(bot._id);
   try {
     await this.stop(bot);
-    console.log('test1');
     const data = await container.remove();
-    console.log('test2');
     return data;
   } catch (err) {
     console.log(err);

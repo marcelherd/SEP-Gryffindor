@@ -9,6 +9,12 @@
 </template>
 
 <script>
+/**
+ * Page content component.
+ *
+ * @author Marcel Herd
+ * @module components/layout/PageContent
+ */
 export default {
   name: 'bt-page-content'
 }

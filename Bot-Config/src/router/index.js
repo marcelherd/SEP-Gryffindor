@@ -1,3 +1,11 @@
+/**
+ * The Vue Router.
+ * Defines the application's routes.
+ *
+ * @author Marcel Herd
+ * @module router/index
+ */
+
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -65,18 +73,24 @@ const router = new Router({
   ]
 })
 
+// Navigation guards
 router.beforeEach((to, from, next) => {
+  // if the user is not logged in and not accessing the login page,
+  // redirect to the login page
   if (to.name !== 'Login') {
     if (!store.getters.isLoggedIn) {
       return next('Login')
     }
   }
 
+  // if the user is logged in and trying to access the login page,
+  // do not redirect
   if (to.name === 'Login') {
     if (store.getters.isLoggedIn) {
       return next(from.path)
     }
   }
+
   return next()
 })
 

@@ -15,6 +15,15 @@ import PageHeader from '@/components/layout/PageHeader'
 import PageContent from '@/components/layout/PageContent'
 import PageFooter from '@/components/layout/PageFooter'
 
+/**
+ * Page container component.
+ * Displays its content between a header and a footer.
+ *
+ * @author Marcel Herd
+ * @module components/layout/PageContainer
+ *
+ * @param {string} pageTitle - the title which is to be displayed in the page header
+ */
 export default {
   name: 'bt-page-container',
   components: {

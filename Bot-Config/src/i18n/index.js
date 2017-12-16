@@ -202,7 +202,7 @@ const messages = {
     },
     menu: {
       btnAccount: 'Compte',
-      btnAdmin: 'l\'administrationr',
+      btnAdmin: 'L\'administration',
       btnLogout: 'Déconnexion'
     },
     login: {

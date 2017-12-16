@@ -14,3 +14,5 @@ yarn-error.log*
 doc/
 
 .nyc_output
+
+config.json

@@ -222,7 +222,7 @@ const messages = {
       btnGetStarted: 'Créer ton premier bot'
     },
     marketplace: {
-      lblPageTitle: 'Choisir un type dd Bot '
+      lblPageTitle: 'Choisir un type de Bot '
     },
     account: {
       lblPageTitle: 'Détails du compte'

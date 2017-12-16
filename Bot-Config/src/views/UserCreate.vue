@@ -26,6 +26,12 @@ import Input from '@/components/core/Input'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The user creation view.
+ *
+ * @author Marcel Herd
+ * @module views/UserCreate
+ */
 export default {
   name: 'user-create',
   components: {
@@ -46,6 +52,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * Saves the new user.
+     * If successful, it navigates to the user administration.
+     *
+     * @method save
+     */
     save () {
       RuntimeService.saveUser(this.user).then((response) => {
         if (response.ok) {

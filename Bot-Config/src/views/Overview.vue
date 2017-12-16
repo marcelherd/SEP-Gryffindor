@@ -80,6 +80,12 @@ import Switch from '@/components/core/Switch'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The overview view.
+ *
+ * @author Marcel Herd
+ * @module views/Overview
+ */
 export default {
   name: 'overview',
   components: {
@@ -109,6 +115,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Fetches the bots for the user that is currently being managed.
+     *
+     * @method fetchData
+     */
     fetchData () {
       const userId = this.$route.params.userId
 
@@ -124,6 +135,13 @@ export default {
         })
       }
     },
+
+    /**
+     * Navigates to the bot edit view for the given bot.
+     *
+     * @method editBot
+     * @param {Object} bot - the bot that is to be edited
+     */
     editBot (bot) {
       this.$router.push({
         name: 'BotEdit',
@@ -133,6 +151,13 @@ export default {
         }
       })
     },
+
+    /**
+     * Toggles (starts/stops) the given bot.
+     *
+     * @method toggleBot
+     * @param {Object} bot - the bot that is to be started/stopped
+     */
     toggleBot (bot) {
       RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
         if (data.success) {
@@ -140,6 +165,13 @@ export default {
         }
       })
     },
+
+    /**
+     * Returns the route to the marketplace for the user that is being managed.
+     *
+     * @method createBotUrl
+     * @return {Object} - route to the marketplace
+     */
     createBotUrl () {
       return {
         name: 'Marketplace',
@@ -148,6 +180,14 @@ export default {
         }
       }
     },
+
+    /**
+     * Returns a localized string containing the date when the given bot was created.
+     *
+     * @method createdText
+     * @param {Object} bot - the bot whose created date is being shown
+     * @return {string} a localized string containing the date when the given bot was created
+     */
     createdText (bot) {
       const createdDate = new Date(bot.createdAt)
 
@@ -159,6 +199,14 @@ export default {
 
       return `${this.$t('overview.lblBorn')} ${day}/${month}/${year} ${hours}:${minutes}`
     },
+
+    /**
+     * Returns a localized string containing the status of the given bot.
+     *
+     * @method statusText
+     * @param {Object} bot - the bot whose status is being shown
+     * @returns {string} a localized string containing the status of the given bot
+     */
     statusText (bot) {
       const date = new Date(bot.statusChanged)
 

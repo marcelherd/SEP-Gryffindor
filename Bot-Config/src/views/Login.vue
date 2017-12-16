@@ -8,6 +8,12 @@
 import PageContainer from '@/components/layout/PageContainer'
 import LoginForm from '@/components/login/LoginForm'
 
+/**
+ * The login view.
+ *
+ * @author Marcel Herd
+ * @module views/Login
+ */
 export default {
   name: 'login',
   components: {

@@ -22,6 +22,12 @@ import Input from '@/components/core/Input'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The Account view.
+ *
+ * @author Marcel Herd
+ * @module views/Account
+ */
 export default {
   name: 'account',
   components: {
@@ -41,6 +47,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Saves all changes made to the user.
+     *
+     * @method save
+     */
     save () {
       RuntimeService.updateUser(this.user).then((data) => {
         if (data.success) {

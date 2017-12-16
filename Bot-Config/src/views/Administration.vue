@@ -49,6 +49,12 @@ import FloatingActionButton from '@/components/core/FloatingActionButton'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The administration view.
+ *
+ * @author Marcel Herd
+ * @module views/Administration
+ */
 export default {
   name: 'administration',
   components: {
@@ -64,11 +70,23 @@ export default {
     this.fetchData()
   },
   methods: {
+    /**
+     * Fetches all users.
+     *
+     * @method fetchData
+     */
     fetchData () {
       RuntimeService.findAllUsers().then(data => {
         this.users = data
       })
     },
+
+    /**
+     * Removes the given user.
+     *
+     * @method remove
+     * @param {Object} user - the user that is to be removed
+     */
     remove (user) {
       RuntimeService.deleteUser(user._id).then((response) => {
         if (response.ok) {
@@ -76,6 +94,13 @@ export default {
         }
       })
     },
+
+    /**
+     * Navigates to the overview view for the given user.
+     *
+     * @method manage
+     * @param {Object} user - the user
+     */
     manage (user) {
       this.$router.push({
         name: 'Overview',
@@ -84,6 +109,14 @@ export default {
         }
       })
     },
+
+    /**
+     * Returns true if the given user can be deleted by the logged in user.
+     * A user can be deleted if it is not the superuser and not the one who is logged in.
+     *
+     * @method canDelete
+     * @param {Object} user - the user that might be deleted
+     */
     canDelete (user) {
       if (user.username === 'superuser') {
         return false

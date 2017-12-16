@@ -1,6 +1,7 @@
 /**
- * TODO: documentation
+ * This module is responsible for discovering the available templates.
  *
+ * @author Marcel Herd
  * @module services/DiscoveryService
  */
 
@@ -27,7 +28,7 @@ const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory);
 
 /**
- * TODO: documentation
+ * Returns all available bot templates.
  *
  * @returns {Object[]} Metadata for all avaiable bot templates
  */

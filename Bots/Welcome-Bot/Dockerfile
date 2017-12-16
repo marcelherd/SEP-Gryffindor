@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm install && apk add --no-cache curl
 
 ## Add Healthcheck
-HEALTHCHECK --interval=3s --timeout=3s --start-period=10s --retries=3 CMD curl -get http://localhost:5000|| exit 500
+HEALTHCHECK --start-period=10s --interval=3s --timeout=3s --retries=3 CMD curl -get http://localhost:5000 || exit 500
 # Bundle app source
 COPY . .
 EXPOSE 8080

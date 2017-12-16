@@ -34,7 +34,11 @@
       "message": "Hallo! Olá! Bonjour! Hello!"
     },
     "en": {
-      "description": "This bot welcomes every new message and greets in a suitable manner.",
+      "description": "This bot welcomes every new client and greets in a suitable manner.",
+      "message": "Hello! Olá! Bonjour! Hallo!"
+    },
+    "fr": {
+      "description": "Ce bot accueille chaque nouveau client et salue de manière appropriée.",
       "message": "Hello! Olá! Bonjour! Hallo!"
     }
   }

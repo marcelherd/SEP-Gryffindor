@@ -36,6 +36,10 @@
     "en": {
       "description": "This bot answers common questions with preset information.",
       "message": "We're open every Monday to Thursday from 8 to 11am!"
+    },
+    "fr": {
+      "description": " Ce bot répond aux questions basiques à l'aide d'informations pré renseignées.",
+      "message": "Nous sommes ouverts toutes les semaines du lundi au jeudi de 8h à 11h!"
     }
   }
 }

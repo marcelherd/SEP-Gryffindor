@@ -1,14 +1,18 @@
 /**
  * This module implements the endpoints
- * of the manage/bot HTTP interface.
+ * of the manage/users/:user_id/bots HTTP interface.
  *
+ * @author Marcel Herd
+ * @author Simon Schwarz
+ * @author Dario Capuana
  * @module controllers/BotController
  */
+
+const fs = require('fs');
 
 const Bot = require('../models/Bot');
 const DockerService = require('../services/DockerService');
 const Luis = require('../services/LuisService');
-const fs = require('fs');
 
 /**
  * Finds the corresponding bot for the given ID
@@ -46,7 +50,7 @@ exports.getBots = function (req, res) {
  * Creates and stores a bot using data from the request body.
  *
  * If successful, it sends an HTTP response that contains
- * the ID of the persisted bot. (HTTP 200)
+ * the persisted bot. (HTTP 200)
  *
  * If unsuccessful, it sends HTTP 400.
  *
@@ -60,6 +64,7 @@ exports.postBot = async function (req, res) {
       message: 'Body is missing one or more required parameters',
     });
   }
+
   const bot = new Bot({
     name: req.body.name,
     running: req.body.running || false,
@@ -95,6 +100,7 @@ exports.postBot = async function (req, res) {
     },
     intents: req.body.intents || [],
   });
+
   const newBot = req.user.bots.create(bot);
   req.user.bots.push(newBot);
 
@@ -260,6 +266,12 @@ exports.restartBot = function (req, res) {
   });
 };
 
+/**
+ * Increments the conversation counter.
+ *
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
+ */
 exports.conversation = function (req, res) {
   const bot = req.user.bots.find(item => item.id === req.bot.id);
 
@@ -275,6 +287,12 @@ exports.conversation = function (req, res) {
   });
 };
 
+/**
+ * Increments the forwards counter.
+ *
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
+ */
 exports.forward = function (req, res) {
   const bot = req.user.bots.find(item => item.id === req.bot.id);
 

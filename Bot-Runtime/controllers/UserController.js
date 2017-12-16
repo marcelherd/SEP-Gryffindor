@@ -1,16 +1,19 @@
 /**
- * TODO: documentation
+ * This module implements the endpoints
+ * of the manage/users HTTP interface.
  *
+ * @author Marcel Herd
  * @module controllers/UserController
  */
 
 const User = require('../models/User');
 
 /**
- * TODO: documentation
+ * Finds the corresponding user for the given ID
+ * and attaches it to the given request object. (req.user)
  *
- * @param {*} req
- * @param {*} res
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
  */
 exports.findUser = function (req, res, next, id) {
   User.findById(id, (err, user) => {
@@ -31,10 +34,10 @@ exports.findUser = function (req, res, next, id) {
 };
 
 /**
- * TODO: documentation
+ * Sends an HTTP response that contains all users as JSON. (HTTP 200)
  *
- * @param {*} req
- * @param {*} res
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
  */
 exports.getUsers = function (req, res) {
   User.find({ }, (err, users) => {
@@ -45,7 +48,7 @@ exports.getUsers = function (req, res) {
 };
 
 /**
- * TODO: documentation
+ * Creates a new user.
  *
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
@@ -78,10 +81,10 @@ exports.postUser = function (req, res) {
 };
 
 /**
- * TODO: documentation
+ * Deletes the user.
  *
- * @param {*} req
- * @param {*} res
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
  */
 exports.deleteUser = function (req, res) {
   User.remove({ _id: req.user.id }, (err) => {
@@ -95,20 +98,20 @@ exports.deleteUser = function (req, res) {
 };
 
 /**
- * TODO: documentation
+ * Sends an HTTP response that contains the user as JSON. (HTTP 200)
  *
- * @param {*} req
- * @param {*} res
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
  */
 exports.getUser = function (req, res) {
   res.json(req.user);
 };
 
 /**
- * TODO: documentation
+ * Updates the user.
  *
- * @param {*} req
- * @param {*} res
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
  */
 exports.updateUser = function (req, res) {
   req.user.brandId = req.body.brandId || req.user.brandId;

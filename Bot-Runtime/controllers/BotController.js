@@ -25,8 +25,10 @@ exports.findBot = function (req, res, next, id) {
   if (req.bot) {
     next();
   } else {
-    // TODO: error handling
-    next(new Error('Bot not found'));
+    return res.status(404).json({
+      success: false,
+      message: 'Bot not found',
+    });
   }
 };
 
@@ -155,11 +157,18 @@ exports.updateBot = async function (req, res) {
   bot.greeting = req.body.greeting || bot.greeting;
   bot.dialogTree = req.body.dialogTree || bot.dialogTree;
   bot.intents = req.body.intents || bot.intents;
-
+  fs.writeFileSync(`../Bots/${bot.template}/config.json`, JSON.stringify(bot), 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('File has been saved successfully');
+    }
+  });
 
   let url;
   if (bot.template === 'FAQ-Bot') {
     try {
+      console.log('bin vor luis');
       const { endpointUrl } = await Luis.createApp('../Bots/FAQ-Bot/config.json');
       url = endpointUrl;
     } catch (err) {

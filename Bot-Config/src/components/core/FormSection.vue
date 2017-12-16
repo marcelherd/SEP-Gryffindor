@@ -19,10 +19,24 @@
 </template>
 
 <script>
+/**
+ * A form section component.
+ *
+ * @author Marcel Herd
+ * @module components/core/FormSection
+ *
+ * @param {string} header - the text to display as heading for the form section
+ * @param {string} [helpText] - if set, the component displays a help button next to the heading. Clicking it will open a dialog containing the helpText.
+ */
 export default {
   name: 'bt-form-section',
   props: ['header', 'helpText'],
   methods: {
+    /**
+     * Shows the help dialog.
+     *
+     * @method openDialog
+     */
     openDialog () {
       this.$refs.dialog.open()
     }

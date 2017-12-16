@@ -5,10 +5,24 @@
 </template>
 
 <script>
+/**
+ * A Floating Action Button component.
+ *
+ * @author Marcel Herd
+ * @module components/core/FloatingActionButton
+ *
+ * @param {string} [to] - If set, it navigates to its value when the button is clicked.
+ */
 export default {
   name: 'bt-fab',
   props: ['to'],
   methods: {
+    /**
+     * Click handler.
+     *
+     * If to is set, it navigates to its value.
+     * Propagates the click event otherwise.
+     */
     onClick () {
       if (this.to) {
         this.$router.push(this.to)

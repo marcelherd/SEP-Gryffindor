@@ -5,12 +5,22 @@
   "source": {
     "include": [
       "src",
-      "src/store",
+      "src/i18n",
       "src/router",
+      "src/services",
+      "src/store",
+      "src/views",
       "src/components",
-      "src/components/layout"
+      "src/components/core",
+      "src/components/edit",
+      "src/components/layout",
+      "src/components/layout/header",
+      "src/components/login"
     ],
     "exclude": [ "node_modules" ],
     "includePattern": ".+\\.(js|vue)$"
+  },
+  "jsdoc-vuejs": {
+    "followImports": true
   }
 }

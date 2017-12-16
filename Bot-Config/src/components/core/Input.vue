@@ -8,10 +8,27 @@
 </template>
 
 <script>
+/**
+ * An input component.
+ *
+ * @author Marcel Herd
+ * @module components/core/Input
+ *
+ * @param {string} value - The text value to bind to. Can be used with v-model
+ * @param {string} [type] - The type of the input field
+ * @param {string} [placeholder] - The placeholder of the input field. Shows an asterisk if the input is required
+ * @param {string} [required=false] - Whether the input field is required. Only works if type is 'submit'
+ */
 export default {
   name: 'bt-input',
-  props: ['value', 'type', 'placeholder', 'theme', 'required'],
+  props: ['value', 'type', 'placeholder', 'required'],
   methods: {
+    /**
+     * Propagates input event.
+     * Allows for v-model binding.
+     *
+     * @method update
+     */
     update () {
       this.$emit('input', this.$refs.input.value)
     }

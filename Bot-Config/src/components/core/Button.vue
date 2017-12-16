@@ -16,10 +16,29 @@
 </template>
 
 <script>
+/**
+ * A button component.
+ *
+ * @author Marcel Herd
+ * @module components/core/Button
+ *
+ * @param {string} [theme=default] - default|orange|yellow|blue|red
+ * @param {string} [align=end] - start|center|end, determines where the button is aligned
+ * @param {string} [confirmation] - If set, displays a confirmation dialog containing its value
+ * @param {string} [type=button] - button|submit
+ */
 export default {
   name: 'bt-button',
   props: ['theme', 'align', 'confirmation', 'type'],
   methods: {
+    /**
+     * If the confirmation property is set, it opens a confirmation dialog containing
+     * the value of the confirmation property.
+     *
+     * Otherwise, it propagates the click event.
+     *
+     * @method handleClick
+     */
     handleClick () {
       if (this.confirmation) {
         this.$refs.dialog.open()
@@ -28,6 +47,13 @@ export default {
       }
     },
 
+    /**
+     * Confirmation dialog onClose handler.
+     * If type is 'ok', it propagates the click event.
+     *
+     * @method onClose
+     * @param {string} type - 'ok' or 'cancel', depending on which button was clicked inside the dialog
+     */
     onClose (type) {
       if (type === 'ok') {
         this.$emit('click')

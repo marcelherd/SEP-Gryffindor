@@ -19,6 +19,13 @@
 </template>
 
 <script>
+/**
+ * User menu component.
+ * Displays Administration link only if the logged-in user is an admin.
+ *
+ * @author Marcel Herd
+ * @module components/layout/header/UserMenu
+ */
 export default {
   name: 'bt-user-menu',
   computed: {
@@ -27,11 +34,23 @@ export default {
     }
   },
   methods: {
+    /**
+     * Logs the user out and redirects to the login page.
+     *
+     * @method logout
+     */
     logout () {
       this.$store.dispatch('logout').then(() => {
         this.$router.push({ name: 'Login' })
       })
     },
+
+    /**
+     * Navigates to the given route.
+     *
+     * @method navigate
+     * @param {string} name - the name of the route to navigate to
+     */
     navigate (name) {
       this.$router.push({ name })
     }

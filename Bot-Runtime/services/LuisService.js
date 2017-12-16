@@ -24,6 +24,17 @@ const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;
 
+/**
+ * @param path the path to the file that is supposed to be parsed
+ * @returns {Promise} Content of the file parsed to JSON
+ */
+const readMyFile = async path => JSON.parse(await readAFile(path, { encoding: 'utf-8' }));
+
+/**
+ * publishes your Microsoft LUIS App
+ * @returns {Promise} most importantly the url under which the app is published
+ * For more detailed information look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c3b
+ */
 const publishMyApp = async () => {
   const configAppPublish = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -40,6 +51,11 @@ const publishMyApp = async () => {
     throw err;
   }
 };
+
+/**
+ * Polls to Microsoft API until its completely trained and subsequently publishes the app
+ * @returns {Promise} Most importantly the url that the LUIS app is published under
+ */
 const getTrainingStatus = async () => {
   const trainingStatus = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -69,7 +85,11 @@ const getTrainingStatus = async () => {
   }
 };
 
-
+/**
+ * Trains the Microsoft LUIS App
+ * @returns {Promise} The Training status telling you which intents have been trained and which have not
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c45
+ */
 const trainMyApp = async () => {
   const configTrain = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -86,7 +106,11 @@ const trainMyApp = async () => {
   }
 };
 
-
+/**
+ * Adds all utterances to your Microsoft LUIS App
+ * @returns {Promise} The ID of the created example
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c08
+ */
 const addUtterances = async (intentArray) => {
   const configUtterances = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -103,6 +127,11 @@ const addUtterances = async (intentArray) => {
   }
 };
 
+/**
+ * Adds all intents to your Microsoft LUIS App
+ * @returns {Promise} The ID of the created model
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
+ */
 const addIntents = async (intents) => {
   const intentConfig = {
     LUIS_subscriptionKey: subscriptionKey,
@@ -123,9 +152,12 @@ const addIntents = async (intents) => {
     throw err;
   }
 };
-
-const readMyFile = async path => JSON.parse(await readAFile(path, { encoding: 'utf-8' }));
-
+/**
+ * Initially creates the new Microsoft Luis App
+ * @param path the path to the JSON file with the apps configuration coming from the frontend
+ * @returns {string} the App's id
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f
+ */
 
 const addNewApp = async (path) => {
   let data;
@@ -145,6 +177,12 @@ const addNewApp = async (path) => {
     throw err;
   }
 };
+
+/**
+ * Goes through all steps of creating a new LUIS App subsequently
+ * @param path the path to the JSON file with the apps configuration coming from the frontend
+ * @returns {Promise} most importantly the Url to the LUIS endpoint
+ */
 
 exports.createApp = async (path) => {
   try {

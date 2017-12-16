@@ -8,8 +8,9 @@ const rp = require('request-promise');
 
 /**
  * posts the utterances of your LUIS app to Microsoft's API
- * @param options represent the options needed for the post request
- * @return Microsoft Luis' response to the post request
+ * @param options - represent the options needed for the post request
+ * @returns {Promise} The ID of the created example
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c08
  */
 exports.sendUtteranceToApi = async (options) => {
   try {
@@ -27,10 +28,11 @@ exports.sendUtteranceToApi = async (options) => {
 };
 
 /**
- * awaits the post of all utterances request to the microsoft API
- * is the main method to be called from outside
- * @param config represent the config needed for the post request's options including all the utterances
- * @return Microsoft Luis response to the post request
+ * awaits the post of all utterances request to the microsoft API.
+ * It is the main method to be called from outside
+ * @param config - represent the config needed for the post request's options including all the utterances
+ * @returns {Promise} The ID of the created example.
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c08
  */
 exports.addUtterance = async (config) => {
   let results;

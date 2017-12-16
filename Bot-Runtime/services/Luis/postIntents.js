@@ -22,6 +22,9 @@ const retryStrategy = function (err, response, body) {
 
 /**
  * Send JSON as the body of the POST request to Microsoft's API
+ * @param options Options needed for the request
+ * @returns {string} The ID of the created model
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
  */
 const callAddIntent = async (options) => {
   try {
@@ -35,7 +38,8 @@ const callAddIntent = async (options) => {
  * posts the app with its configuration to Microsoft's API and awaits its results
  * @param config represent the config needed for the options for the post request including the app's name
  * @method callCreateApp actually posts the bot to the API
- * @return the app's id
+ * @returns {string} The ID of the created model
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
  */
 const addIntents = async (config) => {
   const intentPromises = [];
@@ -69,7 +73,5 @@ const addIntents = async (config) => {
 
   const results = await Promise.all(intentPromises);
 };
-
-
 
 module.exports = addIntents;

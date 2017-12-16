@@ -19,8 +19,8 @@ export default {
     // Workaround for issue #21
     // https://github.com/marcelherd/SEP-Gryffindor/issues/21
     if (this.$store.getters.isLoggedIn) {
-      // this.$store.dispatch('logout')
-      // window.location.reload(true)
+      this.$store.dispatch('logout')
+      window.location.reload(true)
     }
   }
 }

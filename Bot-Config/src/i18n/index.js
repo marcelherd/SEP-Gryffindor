@@ -186,12 +186,12 @@ const messages = {
       password: 'Mot de passe',
       yes: 'Oui',
       no: 'Non',
-      unknownError: 'Il y a une imprévue erreur.',
-      confirmation: 'Est-ce que tu es sûre?'
+      unknownError: 'Une erreur inconnue est survenue.',
+      confirmation: 'Est-ce que tu es sûr?'
     },
     shared: {
-      lblBotConfiguration: 'Bot configuration',
-      lblDialogueConfiguration: 'Dialogue configuration',
+      lblBotConfiguration: 'Configuration du bot',
+      lblDialogueConfiguration: 'Configuration du dialogue',
       phName: 'Nom',
       phGreeting: 'Salutation',
       phProductionId: 'Brand ID pour la production',
@@ -202,34 +202,34 @@ const messages = {
     },
     menu: {
       btnAccount: 'Compte',
-      btnAdmin: 'l\'administrateur',
-      btnLogout: 'Fermeture de session'
+      btnAdmin: 'L\'administration',
+      btnLogout: 'Déconnexion'
     },
     login: {
-      btnLogin: 'Ouverture de session'
+      btnLogin: 'Connexion'
     },
     overview: {
       lblPageTitle: 'Vue d\'ensemble',
       lblPageTitleUser: 'Vue d\'ensemble pour l\'utilisateur {user}',
-      lblBorn: 'Née le',
-      lblAwake: 'éveillé depuis',
-      lblAsleep: 'dors depuis',
-      lblNeverRan: 'Bot n\'était jamais lancé',
+      lblBorn: 'Né',
+      lblAwake: 'Actif depuis',
+      lblAsleep: 'Inactif depuis',
+      lblNeverRan: 'Le bot ne s\'est jamais lancé',
       lblIntroduction: 'Salut! Je suis {name} le {template}!',
       lblConversations: 'J\'ai déja eu {conversations} conversations',
-      lblForwards: 'Et j\'ai tranmis {forwards} fois',
+      lblForwards: 'Et j\'ai transféré {forwards} fois',
       lblNoBots: 'Il semblerait que tu n\'aies pas crée de bots pour le moment.',
       btnGetStarted: 'Créer ton premier bot'
     },
     marketplace: {
-      lblPageTitle: 'Choisir un modèle du Bot '
+      lblPageTitle: 'Choisir un type dd Bot '
     },
     account: {
-      lblPageTitle: 'Détails sur ta compte'
+      lblPageTitle: 'Détails du compte'
     },
     admin: {
       lblPageTitle: 'L\'administration',
-      lblManageBots: 'Administrer les bots',
+      lblManageBots: 'Gérer les bots',
       colAdmin: 'L\'administrateur',
       colActions: 'Les actions'
     },
@@ -238,31 +238,31 @@ const messages = {
       lblAccountDetails: 'Détails sur la compte'
     },
     botEdit: {
-      lblIfUserSays: 'Quand le client dit quelque chose comme ',
+      lblIfUserSays: 'Si le client dit quelque chose comme ',
       lblReplyWith: 'Alors réponds par',
-      lblCurrentlyTesting: 'Attendez s\'il vous plaît pendant le bot est s\'entrainé ',
+      lblCurrentlyTesting: 'Patientes s\'il te plaît pendant le bot est s\'entrainé ',
       phQuestion: 'Question',
       phUtterance: 'Déclaration',
       phTextInput: 'Texte',
       phLinkInput: 'Lien',
-      phSkillInput: 'Transmission',
+      phSkillInput: 'Transfert',
       btnSaveBot: 'Sauvegarder le bot',
       btnDeleteBot: 'Effacer le Bot',
       btnSaveIntent: 'Sauvegarder l\'intention',
       btnDeleteIntent: 'Effacer l\'intention',
-      btnTesting: 'Essaye ton bot',
-      infoBotSaved: 'Bot était sauvegardé',
-      confirmIntentDelete: 'Est-ce que tu es sûre que tu voudrais effacer cette intention?',
-      confirmBotDelete: 'Est-ce que tu es sûre que tu voudrais effacer ce bot?'
+      btnTesting: 'Teste ton bot',
+      infoBotSaved: 'Bot sauvegardé',
+      confirmIntentDelete: 'Est-ce que tu es sûr de vouloir supprimer cette intention?',
+      confirmBotDelete: 'Est-ce que tu es sûr de vouloir supprimer ce bot?'
     },
     botCreate: {
       lblPageTitle: 'Détails sur les bots',
       lblHeader: 'Créer un {template}',
-      lblProfilePicture: 'Photo'
+      lblProfilePicture: 'Photo de profil'
     },
     testing: {
-      lblPageTitle: 'Essaye {name}',
-      lblOnline: 'Est conncecté maintenat',
+      lblPageTitle: 'Teste {name}',
+      lblOnline: 'en ligne maintenant',
       phInput: 'Écris ici...'
     }
   }

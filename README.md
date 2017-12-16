@@ -1,5 +1,7 @@
 # Bottertoast
 
+![](https://i.imgur.com/0sJDYQb.png)
+
 ## Our team
 
 | Vorname | Nachname | Matrikelnummer

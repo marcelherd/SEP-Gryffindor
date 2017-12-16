@@ -181,9 +181,9 @@ const messages = {
   },
   fr: {
     core: {
-      country: 'France',
-      username: 'nom d\'utilisateur',
-      password: 'mot de passe',
+      country: 'Allemagne',
+      username: 'Nom d\'utilisateur',
+      password: 'Mot de passe',
       yes: 'Oui',
       no: 'Non',
       unknownError: 'Il y a une imprévue erreur.',
@@ -203,7 +203,7 @@ const messages = {
     menu: {
       btnAccount: 'Compte',
       btnAdmin: 'l\'administrateur',
-      btnLogout: 'fermeture de session'
+      btnLogout: 'Fermeture de session'
     },
     login: {
       btnLogin: 'Ouverture de session'

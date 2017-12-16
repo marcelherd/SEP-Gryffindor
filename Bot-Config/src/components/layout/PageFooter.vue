@@ -16,6 +16,8 @@
         <span class="bt-lang-selection" @click="setLanguage('de')">de</span>
         <span class="bt-lang-separator">|</span>
         <span class="bt-lang-selection" @click="setLanguage('en')">en</span>
+        <span class="bt-lang-separator">|</span>
+        <span class="bt-lang-selection" @click="setLanguage('fr')">fr</span>
       </div>
     </md-layout>
   </md-layout>

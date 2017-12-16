@@ -2,7 +2,7 @@
  * This module is responsible feeding the input to LUIS
  * and training it.
  *
- * @module services/
+ * @module services/LuisService
  */
 const {
   promisify,

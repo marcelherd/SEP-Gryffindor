@@ -1,3 +1,10 @@
+/**
+ * This module is responsible for promisified file
+ * reading and writing operations
+ *
+ * @module services/
+ */
+
 const fs = require('fs');
 const getPath = require('path');
 
@@ -21,7 +28,7 @@ exports.readConfigDataFromFile = async (folder, filename) => {
 
 exports.writeToFile = async (data, folder, filename) => fs.writeFile(getPath.resolve(folder, filename), JSON.stringify(data), (err) => {
   if (err) {
-    // TODO: error handling
+    throw err;
   }
 });
 exports.writeAppIdsAfterDeletion = async (apps, folder, filename) => {
@@ -37,7 +44,7 @@ exports.writeAppIds = async (appId, name) => {
     });
     fs.writeFile('./services/Luis/apps.json', JSON.stringify(apps), (err) => {
       if (err) {
-        // TODO: error handling
+        throw err;
       }
     });
   } catch (err) {
@@ -48,7 +55,7 @@ exports.writeAppIds = async (appId, name) => {
     });
     await writeFile('./services/Luis/apps.json', JSON.stringify(apps), (error) => {
       if (error) {
-        return error;
+        throw error;
       }
       return 'success';
     });

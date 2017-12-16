@@ -1,9 +1,16 @@
+/**
+ * This module initially creates the Microsoft LUIS App
+ *
+ * @module services/Luis/createApp
+ */
+
+
 const rp = require('request-promise');
 
 /**
- * posts the app wiht its configuration to Microsoft's API and awaits its results
+ * posts the app with its configuration to Microsoft's API and awaits its results
  * @param config represent the config needed for the options for the post request including the app's name
- * @method callCreateApp actually posts the bot to the API
+ * @method callCreateApp method that actually posts the bot to the API
  * @return the app's id
  */
 const createApp = async (config) => {

@@ -13,7 +13,6 @@ const tar = require('tar-fs');
 
 let createOptions;
 
-
 exports.buildImage = async function (template) {
   const path = `../Bots/${template}`;
   const tarStream = tar.pack(path);

@@ -24,9 +24,21 @@
 </template>
 
 <script>
+/**
+ * Page footer component.
+ *
+ * @author Marcel Herd
+ * @module components/layout/PageFooter
+ */
 export default {
   name: 'bt-page-footer',
   methods: {
+    /**
+     * Changes the site locale.
+     *
+     * @method setLanguage
+     * @param {string} locale - de|en|fr
+     */
     setLanguage (locale) {
       this.$i18n.locale = locale
       localStorage.setItem('locale', locale)

@@ -15,6 +15,14 @@
 <script>
 import UserMenu from '@/components/layout/header/UserMenu'
 
+/**
+ * Page header component.
+ *
+ * @author Marcel Herd
+ * @module components/layout/PageHeader
+ *
+ * @param {string} pageTitle - the title which is to be displayed in the page header
+ */
 export default {
   name: 'bt-page-header',
   props: ['pageTitle'],
@@ -27,6 +35,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Navigates to the Overview view of the logged in user.
+     *
+     * @method home
+     */
     home () {
       this.$router.push({
         name: 'Overview',

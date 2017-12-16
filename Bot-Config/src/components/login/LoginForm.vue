@@ -26,6 +26,12 @@
 </template>
 
 <script>
+/**
+ * The login form component.
+ *
+ * @author Marcel Herd
+ * @module components/login/LoginForm
+ */
 export default {
   name: 'bt-login-form',
   data () {
@@ -39,6 +45,14 @@ export default {
     this.$refs.usernameInput.focus()
   },
   methods: {
+    /**
+     * Tries to login with the entered username and password.
+     *
+     * If it succeeds, it navigates to the overview of the logged in user.
+     * If it fails, it displays an error flash message.
+     *
+     * @method login
+     */
     login () {
       this.$store.dispatch('login', {
         username: this.username,
@@ -53,6 +67,12 @@ export default {
         this.password = ''
       })
     },
+
+    /**
+     * Closes the flash message.
+     *
+     * @method closeMessage
+     */
     closeMessage () {
       this.flashMessage = ''
     }

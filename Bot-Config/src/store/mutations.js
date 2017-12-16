@@ -1,3 +1,10 @@
+/**
+ * The vuex mutations.
+ *
+ * @author Marcel Herd
+ * @module store/mutations
+ */
+
 import * as types from './mutation-types'
 
 export default {

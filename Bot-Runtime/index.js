@@ -57,7 +57,7 @@ app.use('/health', healthRoutes);
 
 const server = app.listen(3000, () => {
   console.log(figlet.textSync('Bottertoast'));
-  console.log(' Bottertoast Runtime is running on port 3000!');
+  console.log('Bottertoast Runtime is running on port 3000!\n');
 });
 
 app.closeServer = () => {

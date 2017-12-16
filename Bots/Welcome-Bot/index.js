@@ -13,10 +13,10 @@ const rp = require('request-promise');
 const http = require('http');
 
 http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('It works');
 }).listen(5000);
-// const botConfig = require('./config.json');
+
 const botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
@@ -27,7 +27,8 @@ let node = root;
 let lastnode = root;
 let greeting = false;
 let theLast = false;
-config();
+
+console.log(config());
 
 
 const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
@@ -36,7 +37,7 @@ const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
  */
 const incrementConvCounter = async() => {
   const options = {
-    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -51,7 +52,7 @@ const incrementConvCounter = async() => {
  */
 const incrementTransferCounter = async() => {
   const options = {
-    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {
@@ -155,7 +156,7 @@ const getSkill = (answer) => {
 };
 
 class WelcomeBot {
-  constructor(accountID = '885044411', username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -196,7 +197,7 @@ class WelcomeBot {
      * Which later get consumed by other functions.
      */
     this.core.on('ms.MessagingEventNotification', (body) => {
-      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId == '-1') {
+      if (!body.changes[0].__isMe && body.changes[0].originatorMetadata.role !== 'ASSIGNED_AGENT' && this.openConversations[body.dialogId].skillId === '-1') {
         if (!Number.isNaN(body.changes[0].event.message) &&
           body.changes[0].event.message < node.children.length +
           1 && body.changes[0].event.message > 0) {
@@ -216,21 +217,19 @@ class WelcomeBot {
               throw err;
             }
             const newSkill = getSkill(answer);
-            console.log(newSkill);
-            console.log('heree is the update');
             this.core.updateConversationField({
               conversationId: body.dialogId,
               conversationField: [{
-                  field: 'Skill',
-                  type: 'UPDATE',
-                  skill: newSkill,
-                },
-                {
-                  field: 'ParticipantsChange',
-                  type: 'REMOVE',
-                  role: 'MANAGER',
-                  userId: this.core.agentId,
-                }
+                field: 'Skill',
+                type: 'UPDATE',
+                skill: newSkill,
+              },
+              {
+                field: 'ParticipantsChange',
+                type: 'REMOVE',
+                role: 'MANAGER',
+                userId: this.core.agentId,
+              }
               ],
             });
 
@@ -378,7 +377,7 @@ class WelcomeBot {
       },
     });
   }
-/**
+  /**
    * This function allows sending Links to the specified conversation.
    * It wraps the original SDK function to make it easier to use.
    * @param {string} conversationId id of the conversation which should be joined

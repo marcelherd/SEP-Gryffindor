@@ -15,16 +15,14 @@ const rp = require('request-promise');
 const http = require('http');
 
 http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('It works');
 }).listen(5000);
 
-let botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
+const botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
-
-
-config();
+console.log(config());
 
 
 function timeout(ms = 3000) {
@@ -35,14 +33,11 @@ function timeout(ms = 3000) {
  * Build the first Tree with greeting an options
  */
 
-const greetTheCustomer = () => {
-
-  return botConfig.greeting;
-};
+const greetTheCustomer = () => botConfig.greeting;
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http:/${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -55,7 +50,7 @@ const incrementConvCounter = async () => {
 
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://141.19.157.115:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {
@@ -119,9 +114,9 @@ class FAQBot {
               // transfer to human somehow
               try {
                 incrementTransferCounter();
-             } catch (err) {
-               throw err;
-             }
+              } catch (err) {
+                throw err;
+              }
               this.core.updateConversationField({
                 conversationId: body.dialogId,
                 conversationField: [
@@ -331,8 +326,7 @@ if (botConfig.environment === 'Staging') {
   if (!user.stagingId) {
     console.log('[WARNING] No StagingId set, deploying bot to production instead.');
   }
-}
-else {
+} else {
   console.log(botConfig);
   bot = new FAQBot(user.brandId);
 }

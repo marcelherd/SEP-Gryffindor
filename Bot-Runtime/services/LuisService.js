@@ -153,7 +153,6 @@ exports.createApp = async (path) => {
     await addUtterances(intentArray);
     await trainMyApp();
     const results = await getTrainingStatus();
-    // const results = await publishMyApp();
     return results;
   } catch (err) {
     throw err;

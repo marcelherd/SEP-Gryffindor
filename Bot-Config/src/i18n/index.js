@@ -243,7 +243,7 @@ const messages = {
       lblIfUserSays: 'Si le client dit quelque chose comme ',
       lblReplyWith: 'Alors réponds par',
       lblCurrentlyTesting: 'Patientes s\'il te plaît pendant le bot est s\'entrainé ',
-      lblTargetEnvironment: 'Je ne sais pas',
+      lblTargetEnvironment: 'Environnement ciblé',
       phQuestion: 'Question',
       phUtterance: 'Déclaration',
       phTextInput: 'Texte',

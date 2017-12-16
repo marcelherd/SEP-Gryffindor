@@ -5,7 +5,7 @@
         <h1 class="bt-header-1">{{ bot.name }}</h1>
       </md-layout>
       <md-layout md-flex="20" md-vertical-align="center">
-        <bt-switch :initial="bot.running" @click="toggleBot(bot)" theme="white" />
+        <bt-switch :initial="bot.running" @click="toggleBot" theme="white" />
       </md-layout>
     </md-layout>
 
@@ -166,6 +166,12 @@ import Switch from '@/components/core/Switch'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The bot edit view.
+ *
+ * @author Marcel Herd
+ * @module views/BotEdit
+ */
 export default {
   name: 'bot-edit',
   components: {
@@ -209,6 +215,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Fetches the bot that is being edited.
+     *
+     * @method fetchData
+     */
     fetchData () {
       const { userId, botId } = this.$route.params
 
@@ -217,17 +228,36 @@ export default {
       })
     },
 
+    /**
+     * Adds a new utterance to the given intent.
+     *
+     * @method addUtterance
+     * @param {Object} intent - the intent which should have a new utterance
+     */
     addUtterance (intent) {
       let newUtterance = { text: '', intentName: intent.name }
       intent.utterances.push(newUtterance)
     },
 
+    /**
+     * Checks whether a new utterance should be added to the given intent while typing in another utterance.
+     *
+     * @method checkNewUtterance
+     * @param {event} $event - the keyup event
+     * @param {Object} intent - the intent to which a new utterance might be added
+     * @param {Number} index - the index of the utterance that is being typed into
+     */
     checkNewUtterance ($event, intent, index) {
       if (index === (intent.utterances.length - 1) && $event.keyCode >= 49 && $event.keyCode <= 90) {
         this.addUtterance(intent)
       }
     },
 
+    /**
+     * Adds a new intent to the bot that is being edited.
+     *
+     * @method addIntent
+     */
     addIntent () {
       this.bot.intents.push({
         name: this.newIntent.name || this.$t('botEdit.phQuestion'),
@@ -245,10 +275,21 @@ export default {
       this.newIntent.utterances = [{ text: '', intentName: '' }]
     },
 
+    /**
+     * Deletes the intent at the given index.
+     *
+     * @method deleteIndex
+     * @param {Number} index - the index of the intent
+     */
     deleteIntent (index) {
       this.bot.intents.splice(index, 1)
     },
 
+    /**
+     * Saves all changes made to the bot.
+     *
+     * @method saveBot
+     */
     saveBot () {
       if (this.bot.template === 'FAQ-Bot') {
         this.showOverlay = true
@@ -273,6 +314,13 @@ export default {
       })
     },
 
+    /**
+     * Deletes the bot that is being edited.
+     * If successful, it forwards to the overview page.
+     * Otherwise, it displays an error in the snackbar.
+     *
+     * @method deleteBot
+     */
     deleteBot () {
       const { userId, botId } = this.$route.params
 
@@ -289,14 +337,25 @@ export default {
       })
     },
 
-    toggleBot (bot) {
-      RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
+    /**
+     * Toggles (starts/stops) the bot that is being edited.
+     *
+     * @method toggleBot
+     */
+    toggleBot () {
+      RuntimeService.toggleBot(this.$route.params.userId, this.bot).then((data) => {
         if (data.success) {
           this.fetchData()
         }
       })
     },
 
+    /**
+     * Determines the answer input placeholder for the given intent, depending on the intent's type.
+     *
+     * @method answerPlaceholder
+     * @param {Object} intent
+     */
     answerPlaceholder (intent) {
       if (intent.answer.type === 'text') {
         return this.$t('botEdit.phTextInput')
@@ -311,6 +370,11 @@ export default {
       }
     },
 
+    /**
+     * Navigates to the overview page.
+     *
+     * @method home
+     */
     home () {
       this.$router.push({
         name: 'Overview',
@@ -318,6 +382,11 @@ export default {
       })
     },
 
+    /**
+     * Navigates to the live testing page.
+     *
+     * @method testing
+     */
     testing () {
       const { userId, botId } = this.$route.params
 

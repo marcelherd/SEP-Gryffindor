@@ -37,6 +37,12 @@ import Input from '@/components/core/Input'
 
 import RuntimeService from '@/services/RuntimeService'
 
+/**
+ * The bot creating view.
+ *
+ * @author Marcel Herd
+ * @module views/BotCreate
+ */
 export default {
   name: 'bot-create',
   components: {
@@ -55,6 +61,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * Creates and saves a new bot.
+     * Navigates to the detail view of the newly created bot.
+     *
+     * @method save
+     */
     save () {
       const userId = this.$route.params.userId
 

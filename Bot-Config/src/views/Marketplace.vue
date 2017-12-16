@@ -30,6 +30,12 @@ import PageContainer from '@/components/layout/PageContainer'
 
 import MarketplaceService from '@/services/MarketplaceService'
 
+/**
+ * The marketplace view.
+ *
+ * @author Marcel Herd
+ * @module views/Marketplace
+ */
 export default {
   name: 'marketplace',
   components: {
@@ -44,12 +50,23 @@ export default {
     this.fetchData()
   },
   methods: {
+    /**
+     * Fetches the available templates.
+     *
+     * @method fetchData
+     */
     fetchData () {
       MarketplaceService.getTemplates().then((data) => {
         this.templates = data
       })
     },
 
+    /**
+     * Navigates to the bot create view with the given template.
+     *
+     * @method navigate
+     * @param {Template} template - the template that is used for the bot creation
+     */
     navigate (template) {
       this.$router.push({
         name: 'BotCreate',
@@ -59,11 +76,25 @@ export default {
       })
     },
 
+    /**
+     * Returns the message for the given template, depending on the active locale.
+     *
+     * @method getMessage
+     * @param {Template} template - template whose message is being determined
+     * @return {string} - the message
+     */
     getMessage (template) {
       const locale = localStorage.getItem('locale') || 'en'
       return template[locale].message
     },
 
+    /**
+     * Returns the description for the given template, depending on the active locale.
+     *
+     * @method getMessage
+     * @param {Template} template - template whose description is being determined
+     * @return {string} - the description
+     */
     getDescription (template) {
       const locale = localStorage.getItem('locale') || 'en'
       return template[locale].description

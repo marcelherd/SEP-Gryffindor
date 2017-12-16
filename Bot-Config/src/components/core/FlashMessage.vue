@@ -11,6 +11,14 @@
 </template>
 
 <script>
+/**
+ * A flash message component.
+ *
+ * @author Marcel Herd
+ * @module components/core/FlashMessage
+ *
+ * @param {string} [type=default] - default|error, determines the style of the flash message
+ */
 export default {
   name: 'bt-flash-message',
   props: ['type'],
@@ -20,12 +28,31 @@ export default {
     }
   },
   methods: {
+    /**
+     * Sets the content of the flash message.
+     *
+     * @method pushMessage
+     * @param {string} message - the new message
+     */
     pushMessage (message) {
       this.message = message
     },
+
+    /**
+     * Closes the flash message.
+     *
+     * @method closeMessage
+     */
     closeMessage () {
       this.message = ''
     },
+
+    /**
+     * Changes the type of the flash message.
+     *
+     * @method setType
+     * @param {string} [type=default] - default|error
+     */
     setType (type) {
       this.type = type
     }

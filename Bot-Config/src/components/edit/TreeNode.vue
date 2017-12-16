@@ -3,12 +3,12 @@
     <div class="bt-node-input-container" v-if="isRoot">
       <input type="text" placeholder="Answer" readonly="true" ref="input"
         v-model="isRoot" @dblclick="handleDblclick($event)"
-        @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
+        @blur="handleBlur($event)" @keyup.enter="handleBlur($event)">
     </div>
     <div class="bt-node-input-container" v-else>
       <input type="text" placeholder="Answer" readonly="true" ref="input"
         v-model="node.data" @dblclick="handleDblclick($event)"
-        @blur="handleBlur($event)" @keyup.enter="handleBlur($event)"></input>
+        @blur="handleBlur($event)" @keyup.enter="handleBlur($event)">
     </div>
     <button @click="addChild" class="bt-node-add">
       <md-icon>add</md-icon>
@@ -25,6 +25,23 @@
 </template>
 
 <script>
+/**
+ * A tree node.
+ *
+ * @typedef {Object} Node
+ * @property {string} data - The node's data
+ * @property {Node[]} children - The node's children
+ */
+
+/**
+ * Tree node component.
+ *
+ * @author Marcel Herd
+ * @module components/edit/TreeNode
+ *
+ * @param {Node} node - the node which this component represents
+ * @param {string} [isRoot] - if set, shows this value instead and makes the node undeleteable and read-only
+ */
 export default {
   name: 'bt-tree-node',
   props: ['node', 'isRoot'],
@@ -36,6 +53,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Adds new child to the node.
+     *
+     * @method addChild
+     */
     addChild () {
       this.node.children.push({
         data: '',
@@ -43,6 +65,12 @@ export default {
       })
     },
 
+    /**
+     * Propagates deleted event.
+     * Event contains the node's data.
+     *
+     * @method deleteMe
+     */
     deleteMe () {
       // We set data to this components unique identifier, because
       // data is later used to identify which node is to be deleted.
@@ -51,17 +79,37 @@ export default {
       this.$emit('deleted', this.node.data)
     },
 
+    /**
+     * Finds and deletes the child node with the given data.
+     *
+     * @method deleteNode
+     * @param {string} data - the data of the deleted node
+     */
     deleteNode (data) {
       const index = this.node.children.findIndex((item) => item.data === data)
       this.node.children.splice(index, 1)
     },
 
+    /**
+     * Double click event handler.
+     * Makes the node editable, if it is not the root.
+     *
+     * @method handleDblclick
+     * @param {event} $event - the double click event
+     */
     handleDblclick ($event) {
       if (!this.isRoot) {
         $event.target.readOnly = ''
       }
     },
 
+    /**
+     * Blur event handler.
+     * Makes the node read-only.
+     *
+     * @method handleBlur
+     * @param {event} $event - the blur event
+     */
     handleBlur ($event) {
       $event.target.readOnly = 'true'
     }

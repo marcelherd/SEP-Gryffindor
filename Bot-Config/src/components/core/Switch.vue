@@ -8,6 +8,15 @@
 </template>
 
 <script>
+/**
+ * A switch component.
+ *
+ * @author Marcel Herd
+ * @module components/core/Switch
+ *
+ * @param {boolean} initial - intial value of the switch
+ * @param {string} [theme=default] - default|white, use white theme on white background
+ */
 export default {
   name: 'bt-switch',
   props: ['initial', 'theme'],
@@ -17,6 +26,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Propagates click event.
+     *
+     * @method handleClick
+     */
     handleClick () {
       this.$emit('click')
     }

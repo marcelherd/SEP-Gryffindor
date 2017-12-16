@@ -7,6 +7,8 @@
 <script>
 /**
  * The bot platform root component.
+ *
+ * @module App
  */
 export default {
   name: 'app',

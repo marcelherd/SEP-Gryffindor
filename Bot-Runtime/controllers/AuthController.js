@@ -1,6 +1,7 @@
 /**
  * This module implements authentication middleware.
  *
+ * @author Marcel Herd
  * @module controllers/AuthController
  */
 
@@ -10,11 +11,12 @@ const config = require('../config');
 const User = require('../models/User');
 
 /**
- * Checks whether the request is authorized.
+ * Checks whether the request has a valid token attached.
+ * If it has, it attaches the decoded token data to req.auth.
  *
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
- * @param {Callback} next - The next middleware, if authorized successfully
+ * @param {Callback} next - The next middleware, if authentication was successful
  */
 exports.isAuthenticated = function (req, res, next) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -38,12 +40,12 @@ exports.isAuthenticated = function (req, res, next) {
 
 /**
  * Checks whether the request is authorized.
- * A request is authorized if the logged in user is an admin
+ * A request is authorized if the logged-in user is an admin
  * or trying to access his own bots.
  *
- * @param {*} req - The HTTP request
- * @param {*} res - The HTTP response
- * @param {*} next - The next middleware, if the request is authorized
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
+ * @param {Callback} next - The next middleware, if the request is authorized
  */
 exports.isAuthorized = function (req, res, next) {
   const { _id, admin } = req.auth;
@@ -57,7 +59,6 @@ exports.isAuthorized = function (req, res, next) {
     return next();
   }
 
-  // Admins are always authorized
   if (admin) {
     return next();
   }
@@ -73,11 +74,11 @@ exports.isAuthorized = function (req, res, next) {
 };
 
 /**
- * TODO: documentation
+ * Checks whether the user who is making the request is an admin.
  *
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {Request} req - The HTTP request
+ * @param {Response} res - The HTTP response
+ * @param {Callback} next - The next middleware, if the user is an admin
  */
 exports.isAdmin = function (req, res, next) {
   const { admin } = req.auth;
@@ -93,7 +94,7 @@ exports.isAdmin = function (req, res, next) {
 };
 
 /**
- * Authenticates a user and sends a Token if succesful.
+ * Authenticates a user and sends a token if succesful.
  *
  * @param {Request} req - The HTTP request
  * @param {Response} res - The HTTP response
@@ -103,7 +104,7 @@ exports.authenticate = function (req, res) {
     username: req.body.username,
   }, (err, user) => {
     if (err) throw err;
-    // Authentication successful
+    // Authentication successful?
     if (user && user.password === req.body.password) {
       // Create and send token
       const payload = {

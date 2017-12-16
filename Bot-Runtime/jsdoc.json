@@ -3,8 +3,10 @@
     "include": [
       ".",
       "controllers",
+      "models",
       "routes",
-      "services"
+      "services",
+      "services/Luis"
     ],
     "exclude": [ "node_modules" ],
     "includePattern": ".+\\.js$"

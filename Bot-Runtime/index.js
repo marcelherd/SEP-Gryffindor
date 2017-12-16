@@ -1,6 +1,7 @@
 /**
  * Application entry point.
  *
+ * @author Marcel Herd
  * @module index
  */
 
@@ -21,8 +22,6 @@ const healthRoutes = require('./routes/health');
 const authService = require('./services/AuthService');
 const DockerService = require('./services/DockerService');
 
-const templateFolder = '../Bots/';
-
 const app = express();
 
 app.set('secret', config.secret);
@@ -40,9 +39,9 @@ mongoose.Promise = global.Promise;
 // creates a superuser if it doesn't exist
 authService.setupUsers();
 
-// eager image building
+// pre-build images
 try {
-  fs.readdirSync(templateFolder).forEach((template) => {
+  fs.readdirSync('../Bots/').forEach((template) => {
     if (template !== 'package-lock.json') {
       DockerService.buildImage(template);
     }

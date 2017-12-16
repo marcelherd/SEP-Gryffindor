@@ -25,7 +25,7 @@ const user = JSON.parse(process.env.NODE_ENV_USER);
 console.log(config());
 
 
-function timeout(ms = 3000) {
+function timeout(ms = 2000) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -37,7 +37,7 @@ const greetTheCustomer = () => botConfig.greeting;
 
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http:/${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -283,6 +283,7 @@ class FAQBot {
    */
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
+    await timeout();
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {

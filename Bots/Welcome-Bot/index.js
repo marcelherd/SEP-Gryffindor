@@ -31,7 +31,7 @@ let theLast = false;
 console.log(config());
 
 
-const timeout = (ms = 3000) => new Promise(resolve => setTimeout(resolve, ms));
+const timeout = (ms = 2000) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Increment the Bot statistic
  */
@@ -365,10 +365,11 @@ class WelcomeBot {
    */
   async sendMessage(conversationId, message) {
     if (!this.isConnected) return;
+    await timeout();
     if (message.includes('http')) {
-      return await this.sendLink(conversationId, message);
+      return this.sendLink(conversationId, message);
     }
-    return await this.core.publishEvent({
+    return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'ContentEvent',

@@ -1,3 +1,9 @@
+/**
+ * This module adds adds all utterances to the Luis Application
+ *
+ * @module services/Luis/addIntents
+ */
+
 const rp = require('request-promise');
 
 /**

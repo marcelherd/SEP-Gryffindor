@@ -1,10 +1,16 @@
+/**
+ * This module trains the LUIS App
+ *
+ * @module services/Luis/train
+ */
+
 const utterances = require('./addUtterances');
 
 /**
  * posts the app with its configuration to Microsoft's API and awaits its results
  * @param config represent the config needed for the options for the post request including the app's name
  * @method sendUtteranceToApi is used to check whether for training status
- * @return the Trainingstatus telling you which utterances have been trained and which have not
+ * @return the Training status telling you which utterances have been trained and which have not
  */
 exports.train = async (config) => {
   let trainingStatus;

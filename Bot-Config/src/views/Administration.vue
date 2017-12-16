@@ -24,7 +24,7 @@
                 </span>
               </md-layout>
               <md-layout md-flex md-align="end">
-                <md-button @click="remove(user)" class="md-icon-button">
+                <md-button @click="remove(user)" class="md-icon-button" v-if="canDelete(user)">
                   <md-icon>delete</md-icon>
                 </md-button>
               </md-layout>
@@ -83,6 +83,17 @@ export default {
           userId: user._id
         }
       })
+    },
+    canDelete (user) {
+      if (user.username === 'superuser') {
+        return false
+      }
+
+      if (user.username === this.$store.getters.user.username) {
+        return false
+      }
+
+      return true
     }
   }
 }

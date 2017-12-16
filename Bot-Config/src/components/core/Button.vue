@@ -1,6 +1,6 @@
 <template>
   <md-layout :md-align="align ? align : 'end'">
-    <button @click="handleClick" class="bt-button" :class="`bt-button-${theme}`">
+    <button @click="handleClick" :type="type || 'button'" class="bt-button" :class="`bt-button-${theme}`">
       <slot />
     </button>
 
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'bt-button',
-  props: ['theme', 'align', 'confirmation'],
+  props: ['theme', 'align', 'confirmation', 'type'],
   methods: {
     handleClick () {
       if (this.confirmation) {

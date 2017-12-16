@@ -1,24 +1,26 @@
 <template>
   <md-layout md-flex class="bt-login-form">
     <md-layout md-flex="100" md-column>
-      <div class="bt-login-icon">
-        <img src="/static/product_white.png" />
-      </div>
-      <md-layout v-if="flashMessage" class="bt-login-flash-message">
-        <md-layout>
-          <p>{{ flashMessage }}</p>
+      <form @submit.prevent="login">
+        <div class="bt-login-icon">
+          <img src="/static/product_white.png" />
+        </div>
+        <md-layout v-if="flashMessage" class="bt-login-flash-message">
+          <md-layout>
+            <p>{{ flashMessage }}</p>
+          </md-layout>
+          <md-layout md-align="end">
+            <span class="close" @click="closeMessage">&times;</span>
+          </md-layout>
         </md-layout>
-        <md-layout md-align="end">
-          <span class="close" @click="closeMessage">&times;</span>
+        <div class="bt-login-input-container">
+          <input v-model="username" ref="usernameInput" type="text" :placeholder="$t('core.username')" class="bt-login-input" required>
+          <input v-model="password" type="password" :placeholder="$t('core.password')" class="bt-login-input" required>
+        </div>
+        <md-layout md-align="end" class="bt-login-controls">
+          <button type="submit" class="bt-login-button">{{ $t('login.btnLogin') }}</button>
         </md-layout>
-      </md-layout>
-      <div class="bt-login-input-container">
-        <input v-model="username" @keyup.enter="login" ref="usernameInput" type="text" :placeholder="$t('core.username')" class="bt-login-input">
-        <input v-model="password" @keyup.enter="login" type="password" :placeholder="$t('core.password')" class="bt-login-input">
-      </div>
-      <md-layout md-align="end" class="bt-login-controls">
-        <button @click="login" class="bt-login-button">{{ $t('login.btnLogin') }}</button>
-      </md-layout>
+      </form>
     </md-layout>
   </md-layout>
 </template>

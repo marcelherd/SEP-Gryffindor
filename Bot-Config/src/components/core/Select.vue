@@ -1,15 +1,18 @@
 <template>
-  <select :value="value" ref="select" @change="update" class="bt-select">
-    <option v-for="(value, index) in values" :key="index" :value="value">
-      {{ value }}
-    </option>
-  </select>
+  <label class="bt-label">
+    {{ label }}
+    <select :value="value" ref="select" @change="update" class="bt-select">
+      <option v-for="(value, index) in values" :key="index" :value="value">
+        {{ value }}
+      </option>
+    </select>
+  </label>
 </template>
 
 <script>
 export default {
   name: 'bt-select',
-  props: ['value', 'values'],
+  props: ['label', 'value', 'values'],
   data () {
     return {
       selected: ''

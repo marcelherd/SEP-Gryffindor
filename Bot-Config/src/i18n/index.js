@@ -27,7 +27,7 @@ const messages = {
     },
     menu: {
       btnAccount: 'Account',
-      btnAdmin: 'Admin',
+      btnAdmin: 'Administration',
       btnLogout: 'Log out'
     },
     login: {
@@ -115,7 +115,7 @@ const messages = {
     },
     menu: {
       btnAccount: 'Konto',
-      btnAdmin: 'Admin',
+      btnAdmin: 'Administration',
       btnLogout: 'Ausloggen'
     },
     login: {

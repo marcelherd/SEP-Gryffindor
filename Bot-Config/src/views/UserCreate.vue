@@ -1,18 +1,19 @@
 <template>
   <bt-page-container :pageTitle="$t('userCreate.lblPageTitle')">
     <md-layout md-column>
-      <div class="bt-form">
+      <form @submit.prevent="save">
         <bt-form-section :header="$t('userCreate.lblAccountDetails')">
-          <bt-input v-model="user.username" type="text" :placeholder="$t('core.username')" />
-          <bt-input v-model="user.password" type="password" :placeholder="$t('core.password')" />
+          <bt-input v-model="user.username" type="text" :placeholder="$t('core.username')" required="true" />
+          <bt-input v-model="user.password" type="password" :placeholder="$t('core.password')" required="true" />
         </bt-form-section>
 
         <bt-form-section :header="$t('shared.lblBotConfiguration')">
-          <bt-input v-model="user.brandId" type="text" :placeholder="$t('shared.phProductionId')" />
+          <bt-input v-model="user.brandId" type="text" :placeholder="$t('shared.phProductionId')" required="true" />
           <bt-input v-model="user.stagingId" type="text" :placeholder="$t('shared.phStagingId')" />
         </bt-form-section>
-      </div>
-      <bt-button @click="save" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+
+        <bt-button type="submit" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+      </form>
     </md-layout>
   </bt-page-container>
 </template>

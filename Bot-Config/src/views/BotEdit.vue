@@ -11,9 +11,9 @@
 
     <md-layout md-column v-if="bot.template === 'FAQ-Bot'">
       <bt-form-section :header="$t('shared.lblBotConfiguration')">
-        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
-        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
-        <bt-select v-model="bot.environment" :values="environments" />
+        <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" required="true" />
+        <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" required="true" />
+        <bt-select v-model="bot.environment" :values="environments" :label="$t('botEdit.lblTargetEnvironment')" />
       </bt-form-section>
 
       <bt-form-section :header="$t('shared.lblDialogueConfiguration')">
@@ -116,7 +116,7 @@
       <bt-form-section :header="$t('shared.lblBotConfiguration')">
         <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
         <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
-        <bt-select v-model="bot.environment" :values="environments" />
+        <bt-select v-model="bot.environment" :values="environments" :label="$t('botEdit.lblTargetEnvironment')" />
       </bt-form-section>
 
       <bt-form-section :header="$t('shared.lblDialogueConfiguration')">
@@ -230,7 +230,7 @@ export default {
 
     addIntent () {
       this.bot.intents.push({
-        name: this.newIntent.name,
+        name: this.newIntent.name || this.$t('botEdit.phQuestion'),
         answer: {
           type: this.newIntent.answer.type,
           value: this.newIntent.answer.value

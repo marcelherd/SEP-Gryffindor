@@ -1,13 +1,16 @@
 <template>
-  <input ref="input"
-    :type="type" :value="value" :placeholder="placeholder"
-    @input="update" class="bt-input" />
+  <label class="bt-label">
+    {{ placeholder }} <span v-if="required">*</span>
+    <input ref="input"
+      :type="type" :value="value" :placeholder="placeholder"
+      @input="update" class="bt-input" :required="required || false" />
+  </label>
 </template>
 
 <script>
 export default {
   name: 'bt-input',
-  props: ['value', 'type', 'placeholder', 'theme'],
+  props: ['value', 'type', 'placeholder', 'theme', 'required'],
   methods: {
     update () {
       this.$emit('input', this.$refs.input.value)

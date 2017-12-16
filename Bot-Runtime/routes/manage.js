@@ -33,7 +33,10 @@ router.use((err, req, res, next) => {
     });
   }
 
-  return next();
+  return res.status(500).json({
+    success: false,
+    message: err.message,
+  });
 });
 
 router.route('/users/')

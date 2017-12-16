@@ -25,8 +25,10 @@ exports.findBot = function (req, res, next, id) {
   if (req.bot) {
     next();
   } else {
-    // TODO: error handling
-    next(new Error('Bot not found'));
+    return res.status(404).json({
+      success: false,
+      message: 'Bot not found',
+    });
   }
 };
 

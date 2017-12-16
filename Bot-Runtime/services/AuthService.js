@@ -1,13 +1,14 @@
 /**
- * TODO: documentation
+ * Authentication-related service module.
  *
+ * @author Marcel Herd
  * @module services/AuthService
  */
 
 const User = require('../models/User');
 
 /**
- * TODO: documentation
+ * Creates a superuser if none exists.
  */
 exports.setupUsers = function () {
   User.findOne({

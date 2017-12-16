@@ -1,6 +1,7 @@
 /**
  * This module contains the application configuration.
  *
+ * @author Marcel Herd
  * @module config
  */
 

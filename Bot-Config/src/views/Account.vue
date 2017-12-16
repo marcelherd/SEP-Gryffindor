@@ -2,11 +2,13 @@
   <bt-page-container :pageTitle="$t('account.lblPageTitle')">
     <bt-flash-message ref="flashMessage" />
     <md-layout md-column>
-      <bt-form-section :header="$t('shared.lblBotConfiguration')">
-        <bt-input v-model="user.brandId" type="text" :placeholder="$t('shared.phProductionId')" />
-        <bt-input v-model="user.stagingId" type="text" :placeholder="$t('shared.phStagingId')" />
-      </bt-form-section>
-      <bt-button @click="save" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+      <form @submit.prevent="save">
+        <bt-form-section :header="$t('shared.lblBotConfiguration')">
+          <bt-input v-model="user.brandId" type="text" :placeholder="$t('shared.phProductionId')" required="true" />
+          <bt-input v-model="user.stagingId" type="text" :placeholder="$t('shared.phStagingId')" />
+        </bt-form-section>
+        <bt-button type="submit" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+      </form>
     </md-layout>
   </bt-page-container>
 </template>

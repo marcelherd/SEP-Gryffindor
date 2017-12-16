@@ -8,11 +8,13 @@
 
       <md-layout md-flex>
         <md-layout md-flex="80" md-column>
-          <bt-form-section :header="$t('shared.lblBotConfiguration')">
-            <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" />
-            <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" />
-          </bt-form-section>
-          <bt-button @click="save" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+          <form @submit.prevent="save">
+            <bt-form-section :header="$t('shared.lblBotConfiguration')">
+              <bt-input v-model="bot.name" type="text" :placeholder="$t('shared.phName')" required="true" />
+              <bt-input v-model="bot.greeting" type="text" :placeholder="$t('shared.phGreeting')" required="true" />
+            </bt-form-section>
+            <bt-button type="submit" theme="orange">{{ $t('shared.btnSave') }}</bt-button>
+          </form>
         </md-layout>
       </md-layout>
 

@@ -1,8 +1,7 @@
 {
   "name": "bot-config",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Marcel Herd <me@marcelherd.com>",
+  "description": "Bottertoast configuration frontend",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -97,5 +96,15 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "author": "Team Gryffindor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcelherd/SEP-Gryffindor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marcelherd/SEP-Gryffindor/issues"
+  },
+  "homepage": "https://github.com/marcelherd/SEP-Gryffindor#readme",
+  "license": "MIT"
 }

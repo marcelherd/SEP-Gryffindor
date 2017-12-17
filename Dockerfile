@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY Bot-Marketplace/package.json Bot-Marketplace/package-lock.json ./
-RUN npm install && apk --no-cache add curl
+RUN yarn install && apk --no-cache add curl
 # Add Curl for Healthcheck
 RUN apk --no-cache add curl 
 ## Add Healthcheck

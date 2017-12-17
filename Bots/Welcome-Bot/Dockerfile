@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 
 # install debendencies
-RUN npm install && apk add --no-cache curl
+RUN yarn install && apk add --no-cache curl
 
 ## Add Healthcheck
 HEALTHCHECK --start-period=10s --interval=3s --timeout=3s --retries=3 CMD curl -get http://localhost:5000 || exit 500

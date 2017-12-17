@@ -32,7 +32,6 @@ services:
     ports:
       - 8080:8080
     environment:
-#PLEASE ENTER YOUR IP HERE
       - HOST=
     restart:
       "on-failure"
@@ -51,10 +50,8 @@ services:
     ports:
       - 3000:3000
     environment:
-#PLEASE ENTER YOUR IP HERE
       - HOST=
-#PLEASE ENTER YOUR SUBSCRIPTION_KEY HERE
-      - SUBSCRIPTION_KEY= 
+      - SUBSCRIPTION_KEY=
     depends_on:
       mongo:
         condition: service_healthy

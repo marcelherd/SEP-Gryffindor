@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json .
 #COPY package.json package-lock.json ./
-RUN npm install
+RUN yarn install
 
 # Add Curl for Healthcheck
 RUN apk --no-cache add curl

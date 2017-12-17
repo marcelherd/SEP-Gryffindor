@@ -1,3 +1,10 @@
+/**
+ * The Bot database schema.
+ *
+ * @author Marcel Herd
+ * @module models/Bot
+ */
+
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;

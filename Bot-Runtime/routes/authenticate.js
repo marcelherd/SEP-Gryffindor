@@ -2,6 +2,7 @@
  * This module defines the endpoints
  * of the authenticate HTTP interface.
  *
+ * @author Marcel Herd
  * @module routes/auth
  */
 

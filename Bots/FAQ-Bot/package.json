@@ -25,7 +25,15 @@
     "jsdoc": "^3.5.5",
     "nodemon": "^1.12.1"
   },
-  "author": "",
+  "author": "Team Gryffindor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcelherd/SEP-Gryffindor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marcelherd/SEP-Gryffindor/issues"
+  },
+  "homepage": "https://github.com/marcelherd/SEP-Gryffindor#readme",
   "license": "MIT",
   "__bottertoast_bot_template__": {
     "name": "FAQ Bot",

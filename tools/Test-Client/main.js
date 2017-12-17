@@ -3,8 +3,8 @@ $(document).ready(function () {
 });
 
 function prepareToConnect() {
-  $('#connect').text('connect').unbind('click').click(function () {
-    $('#connect').text('connecting...');
+  $('#connect').text('log in').unbind('click').click(function () {
+    $('#connect').text('logging in...');
     var account = $('#account').prop('disabled', true).val();
     LPUtils.getJWT(account).then(function (jwt) {
       LPUtils.getDomain(account, 'asyncMessagingEnt').then(function (umsDomain) {
@@ -16,7 +16,7 @@ function prepareToConnect() {
         });
       });
     }, function (errorGettingJwt) {
-      $('#connect').text('connect');
+      $('#connect').text('log in');
       $('#account').prop('disabled', false).val();
       $('#log').append('error ' + errorGettingJwt + ' getting jwt for account ' + account + '\n');
     });
@@ -70,7 +70,7 @@ function handleOpenedSocket(socket, jwt) {
     });
   });
 
-  $('#connect').text('disconnect').unbind('click').click(function () {
+  $('#connect').text('log out').unbind('click').click(function () {
     return socket.ws.close();
   });
   socket.ws.onclose = function (evt) {

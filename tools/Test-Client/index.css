@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	background-image: url(https://i.imgur.com/ofi2N8y.png);
+	background-repeat: repeat;
+}
+
+header {
+	width: 100%;
+	height: 50px;
+	background-color: #FFD244;
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px;
+}
+
+p {
+	vertical-align: middle;
+	margin-top: 5px;
+}
+
+.container {
+	width: 300px;
+	margin-top: 20px;
+	background-color: white;
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+	padding: 0;
+}
+
+.form-group {
+	width: 100%;
+}
+
+input[type="text"] {
+	border: none;
+	border-radius: 10px;
+	width: 220px;
+}
+
+#account {
+	width: 170px;
+}
+
+#connect, #send, #close {
+	border: none;
+	border-radius: 10px;
+	font-size: 10px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	line-height: 14px;
+}
+
+#close {
+	margin-top: 10px;
+}
+
+#send, #connect {
+	float: right;
+}
+
+img {
+	max-width:100%;
+	max-height:100%;
+	margin-right: 20px;
+	float: left;
+}
+
+.chat-header, .chat-footer {
+	background-color: #FFD244;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+
+#close {
+	width: 100%;
+}
+
+textarea {
+	margin: 10px;
+	width: calc(100% - 20px);
+	height: 45vh;
+	box-sizing: border-box;
+	border: none;
+}
+
+
+footer {
+	height: 80px;
+	width: 100%;
+	background-color: #141524;
+	position: absolute;
+	bottom: 0;
+	padding: 20px;
+	box-sizing: border-box;
+	color: white;
+}

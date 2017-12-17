@@ -1,4 +1,8 @@
-# SEP-Gryffindor
+# Bottertoast
+
+![](https://i.imgur.com/0sJDYQb.png)
+
+## Our team
 
 | Vorname | Nachname | Matrikelnummer
 | ------ | ------ | ------ |
@@ -8,4 +12,7 @@
 | Felix	| Navas	| 	1412100
 | Simon	| Schwarz	| 	1521554
 | Marcel| 	Herd	| 	1527440
-| Gordon| Shumway |    
+
+## License
+
+Refer to the LICENSE file in the root directory of this project.

@@ -1,3 +1,10 @@
+/**
+ * The User database schema.
+ *
+ * @author Marcel Herd
+ * @module models/User
+ */
+
 const mongoose = require('mongoose');
 
 const Bot = require('./Bot');

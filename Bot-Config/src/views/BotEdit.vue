@@ -388,12 +388,19 @@ export default {
      * @method testing
      */
     testing () {
-      const { userId, botId } = this.$route.params
+      // const { userId, botId } = this.$route.params
 
+      /* experimental
       this.$router.push({
         name: 'Testing',
         params: { userId, botId }
       })
+      */
+
+      const id = this.bot.environment === 'Staging' ? this.$store.getters.user.stagingId : this.$store.getters.user.brandId
+      const url = `/static/testing.html?id=${id}`
+
+      window.open(url, `Testing ${this.bot.name}`, 'menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes')
     }
   }
 }

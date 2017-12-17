@@ -1,0 +1,296 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <style>
+			@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+			body {
+				font-family: 'Open Sans', sans-serif;
+				font-size: 12px;
+				background-image: url(https://i.imgur.com/ofi2N8y.png);
+				background-repeat: repeat;
+			}
+
+			header {
+				width: 100%;
+				height: 50px;
+				background-color: #FFD244;
+				box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+				font-size: 16px;
+				font-weight: bold;
+				padding: 10px;
+			}
+
+			p {
+				vertical-align: middle;
+				margin-top: 5px;
+			}
+
+			.container {
+				width: 300px;
+				margin-top: 20px;
+				background-color: white;
+				box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.24);
+				padding: 0;
+			}
+
+			.form-group {
+				width: 100%;
+			}
+
+			input[type="text"] {
+				border: none;
+				border-radius: 10px;
+				width: 220px;
+			}
+
+			#account {
+				width: 170px;
+			}
+
+			#connect, #send, #close {
+				border: none;
+				border-radius: 10px;
+				font-size: 10px;
+				font-weight: bold;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+				line-height: 14px;
+			}
+
+			#close {
+				margin-top: 10px;
+			}
+
+			#send, #connect {
+				float: right;
+			}
+
+			img {
+				max-width:100%;
+				max-height:100%;
+				margin-right: 20px;
+				float: left;
+			}
+
+			.chat-header, .chat-footer {
+				background-color: #FFD244;
+				width: 100%;
+				box-sizing: border-box;
+				padding: 10px;
+			}
+
+
+			#close {
+				width: 100%;
+			}
+
+			textarea {
+				margin: 10px;
+				width: calc(100% - 20px);
+				height: 45vh;
+				box-sizing: border-box;
+				border: none;
+			}
+
+
+			footer {
+				height: 80px;
+				width: 100%;
+				background-color: #141524;
+				position: absolute;
+				bottom: 0;
+				padding: 20px;
+				box-sizing: border-box;
+				color: white;
+			}
+		</style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://codepen.io/liveperson/pen/oYyLJr.js"></script>
+        <script>
+			$(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        $('#account').val(urlParams.get('id'))
+			  prepareToConnect();
+			});
+
+			function prepareToConnect() {
+			  $('#connect').text('log in').unbind('click').click(function () {
+				$('#connect').text('logging in...');
+				var account = $('#account').prop('disabled', true).val();
+				LPUtils.getJWT(account).then(function (jwt) {
+				  LPUtils.getDomain(account, 'asyncMessagingEnt').then(function (umsDomain) {
+					LPWs.connect('wss://' + umsDomain + '/ws_api/account/' + account + '/messaging/consumer?v=3').then(function (openedSocket) {
+					  return handleOpenedSocket(openedSocket, jwt);
+					}, function (errorOpening) {
+					  $('#log').append('error opening connection ' + errorOpening + '\n');
+					  prepareToConnect();
+					});
+				  });
+				}, function (errorGettingJwt) {
+				  $('#connect').text('log in');
+				  $('#account').prop('disabled', false).val();
+				  $('#log').append('error ' + errorGettingJwt + ' getting jwt for account ' + account + '\n');
+				});
+			  });
+			}
+
+			function handleOpenedSocket(socket, jwt) {
+			  $('#log').html('connection is opened.\n');
+			  socket.registerRequests(apiRequestTypes);
+
+			  var me = myId(jwt);
+
+			  socket.initConnection({}, [{ "type": ".ams.headers.ConsumerAuthentication", "jwt": jwt }]);
+			  socket.onNotification(withType('MessagingEvent'), function (body) {
+				return body.changes.forEach(function (change) {
+				  switch (change.event.type) {
+					case 'ContentEvent':
+					  $('#log').append((change.originatorId === me ? 'you' : 'agent') + ': ' + change.event.message + '\n');
+				  }
+				});
+			  });
+
+			  // subscribe to open conversations metadata
+			  socket.subscribeExConversations({
+				'convState': ['OPEN']
+			  }).then(function (resp) {
+				var openConvs = {};
+				socket.onNotification(withSubscriptionID(resp.body.subscriptionId), function (notificationBody) {
+				  return handleConversationNotification(socket, notificationBody, openConvs);
+				});
+
+				$('#send').prop('disabled', false).click(function () {
+				  if (Object.keys(openConvs)[0]) {
+					publishTo(socket, Object.keys(openConvs)[0]);
+				  } else {
+					socket.consumerRequestConversation().then(function (resp) {
+					  return publishTo(socket, resp.body.conversationId);
+					});
+				  }
+				});
+				$('#close').prop('disabled', false).click(function () {
+				  if (Object.keys(openConvs)[0]) {
+					socket.updateConversationField({
+					  conversationId: Object.keys(openConvs)[0],
+					  conversationField: [{
+						field: "ConversationStateField",
+						conversationState: "CLOSE"
+					  }]
+					});
+				  }
+				});
+			  });
+
+			  $('#connect').text('log out').unbind('click').click(function () {
+				return socket.ws.close();
+			  });
+			  socket.ws.onclose = function (evt) {
+				return onCloseSocket(socket, evt);
+			  };
+			}
+
+			function handleConversationNotification(socket, notificationBody, openConvs) {
+			  notificationBody.changes.forEach(function (change) {
+				if (change.type === 'UPSERT') {
+				  if (!openConvs[change.result.convId]) {
+					openConvs[change.result.convId] = change.result;
+					socket.subscribeMessagingEvents({
+					  fromSeq: 0,
+					  dialogId: change.result.convId
+					});
+				  }
+				} else if (change.type === 'DELETE') {
+				  delete openConvs[change.result.convId];
+				  $('#log').append('conversation was closed.\n');
+				}
+			  });
+			}
+
+			function onCloseSocket(socket, evt) {
+			  socket.ws = null;
+			  $('#log').append('connection was closed with code ' + evt.code + '\n');
+			  prepareToConnect();
+			  $('#send').prop('disabled', true).unbind('click');
+			  $('#account').prop('disabled', false).val();
+			}
+
+			function publishTo(socket, convID) {
+			  socket.publishEvent({
+				dialogId: convID,
+				event: {
+				  type: 'ContentEvent',
+				  contentType: 'text/plain',
+				  message: $('#textline').val()
+				}
+			  }).then(function (resp) {
+				return $('#textline').val('');
+			  });
+			}
+
+			function withSubscriptionID(subscriptionID) {
+			  return function (notif) {
+				return notif.body.subscriptionId === subscriptionID;
+			  };
+			}
+
+			function withType(type) {
+			  return function (notif) {
+				return notif.type.includes(type);
+			  };
+			}
+
+			function myId(jwt) {
+			  return JSON.parse(atob(jwt.split('.')[1])).sub;
+			}
+
+			var apiRequestTypes = ['cqm.SubscribeExConversations', 'ms.PublishEvent', 'cm.ConsumerRequestConversation', 'ms.SubscribeMessagingEvents', 'InitConnection', 'cm.UpdateConversationField'];
+		</script>
+
+        <title>Testclient</title>
+    </head>
+    <body>
+      <header>
+        <img class="logo" src="https://i.imgur.com/FW5LKLD.png" />
+        <p>Testing Area</p>
+      </header>
+        <div class="container">
+
+            <form class="form-inline" onsubmit="return false">
+
+              <div  class="chat-header">
+                <div class="form-group">
+                <input id="account" placeholder="Account ID" type="text" class="form-control">
+              <button id="connect" class="btn btn-default">log in</button>
+              <br><button id="close" class="btn btn-default" disabled>new conversation</button>
+              </div>
+              </div>
+
+
+            </form>
+
+            <textarea id="log" ></textarea>
+
+            <div class="chat-footer">
+              <div class="form-group">
+                <button id="send" class="btn btn-default" disabled>send</button>
+                <input id="textline" placeholder="Say something nice..." type="text" class="form-control">
+            </div>
+            </div>
+
+
+
+          </div>
+        <footer>
+          <img class="big-logo" src="https://i.imgur.com/zOtjhJE.png" />
+          <p>Mannheim, Germany
+          <br>BOTTERTOAST 2017</p>
+        </footer>
+    </body>
+    </html>

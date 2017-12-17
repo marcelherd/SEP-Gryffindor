@@ -4,14 +4,12 @@
 
 ## Our team
 
-| Vorname | Nachname | 
-| ------ | ------ |
-| Björn	| Nehmert	|
-| Daniel	| Eggert |
-| Dario	| Capuana	|
-| Felix	| Navas	| 	
-| Simon	| Schwarz	| 
-| Marcel| 	Herd	| 
+Björn Nehmert (@brn91)  
+Daniel Eggert (@Dragashi)  
+Dario Capuana (@GFdiablo117)  
+Felix Navas (@sky2107)  
+Simon Schwarz (@Simsan96)  
+Marcel Herd (@marcelherd)
 
 ## License
 

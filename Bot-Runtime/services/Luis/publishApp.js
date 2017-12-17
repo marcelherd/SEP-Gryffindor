@@ -1,6 +1,6 @@
 /**
  * This module publishes the Microsoft LUIS app
- *
+ * @author Simon Schwarz
  * @module services/Luis/publishApp
  */
 const rp = require('request-promise');

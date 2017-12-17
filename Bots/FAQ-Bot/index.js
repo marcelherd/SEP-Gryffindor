@@ -1,3 +1,9 @@
+/**
+ * This module is reponsible for realising the FAQ bot's logic
+ * @author Simon Schwarz
+ * @module FAQ-Bot/index.js
+ */
+
 const {
   Agent,
 } = require('node-agent-sdk');

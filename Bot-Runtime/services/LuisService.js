@@ -1,7 +1,7 @@
 /**
  * This module is responsible feeding the input to LUIS
  * and training it.
- *
+ * @author Simon Schwarz
  * @module services/LuisService
  */
 const {

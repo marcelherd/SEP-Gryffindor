@@ -1,3 +1,9 @@
+/**
+ * This module is reponsible for realising the Welcome bot's logic
+ * @author Daniel Eggert
+ * @module Welcome-Bot/index.js
+ */
+
 // Used to transform the existing callback based functions into promise based functions
 const {
   promisify,

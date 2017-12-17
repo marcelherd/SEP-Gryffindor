@@ -1,6 +1,6 @@
 /**
  * This module adds adds all utterances to the Luis Application
- *
+ * @author Simon Schwarz
  * @module services/Luis/addIntents
  */
 

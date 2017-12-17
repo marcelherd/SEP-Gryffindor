@@ -1,6 +1,6 @@
 /**
  * This module initially creates the Microsoft LUIS App
- *
+ * @author Simon Schwarz
  * @module services/Luis/createApp
  */
 

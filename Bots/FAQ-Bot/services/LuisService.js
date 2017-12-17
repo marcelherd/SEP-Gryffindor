@@ -1,7 +1,7 @@
 /**
  * This module gets the intent to given query from our LUIS application
  *
- * @author SImon Schwarz
+ * @author Simon Schwarz
  * @module FAQ-Bot/services/LuisService
  */
 const rp = require('request-promise');

@@ -1,6 +1,6 @@
 /**
  * This module trains the LUIS App
- *
+ * @author Simon Schwarz
  * @module services/Luis/train
  */
 

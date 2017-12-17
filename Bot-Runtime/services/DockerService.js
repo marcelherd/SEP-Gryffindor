@@ -1,7 +1,7 @@
 /**
  * This module is responsible for storing and retrieving
  * persistent bots and interacting with them.
- *
+ * @author Dario Capuana
  * @module services/
  */
 const Dockerode = require('dockerode');

@@ -1,16 +1,25 @@
-const {
-  Agent,
-} = require('node-agent-sdk');
+/**
+ * This module is reponsible for realising the Welcome bot's logic
+ * @author Daniel Eggert
+ * @module Welcome-Bot/index.js
+ */
+
 // Used to transform the existing callback based functions into promise based functions
 const {
   promisify,
 } = require('util');
+const http = require('http');
+
+
+const {
+  Agent,
+} = require('node-agent-sdk');
 // Loading .env File which contains all enviroment letiables with values
 const {
   config,
 } = require('dotenv');
 const rp = require('request-promise');
-const http = require('http');
+
 
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });

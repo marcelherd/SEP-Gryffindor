@@ -1,6 +1,6 @@
 /**
  * This module add thes intents to the Microsoft LUIS App
- *
+ * @author Simon Schwarz
  * @module services/Luis/postIntents
  */
 

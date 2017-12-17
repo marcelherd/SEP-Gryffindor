@@ -1,3 +1,9 @@
+/**
+ * This module is reponsible for realising the FAQ bot's logic
+ * @author Simon Schwarz
+ * @module FAQ-Bot/index.js
+ */
+
 const {
   Agent,
 } = require('node-agent-sdk');
@@ -5,14 +11,16 @@ const {
 const {
   promisify,
 } = require('util');
+
 // Loading .env File which contains all enviroment letiables with values
 const {
   config,
 } = require('dotenv');
-const LuisService = require('./services/LuisService');
-const IntentService = require('./services/IntentService');
 const rp = require('request-promise');
 const http = require('http');
+
+const LuisService = require('./services/LuisService');
+const IntentService = require('./services/IntentService');
 
 config();
 

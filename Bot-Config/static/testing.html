@@ -115,8 +115,13 @@
         <script src="https://codepen.io/liveperson/pen/oYyLJr.js"></script>
         <script>
 			$(document).ready(function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        $('#account').val(urlParams.get('id'))
+			  const urlParams = new URLSearchParams(window.location.search);
+			  $('#account').val(urlParams.get('id'))
+			  $('#textline').keyup((e) => {
+			    if (e.keyCode === 13) {
+				  $('#send').click();
+				}
+			  });
 			  prepareToConnect();
 			});
 

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Administration.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Administration.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;bt-page-container :pageTitle="$t('admin.lblPageTitle')">
+    &lt;md-layout md-flex md-column>
+
+    &lt;md-table>
+      &lt;md-table-header>
+        &lt;md-table-row>
+          &lt;md-table-head>{{ $t('core.username') }}&lt;/md-table-head>
+          &lt;md-table-head>{{ $t('admin.colAdmin') }}&lt;/md-table-head>
+          &lt;md-table-head>{{ $t('admin.colActions') }}&lt;/md-table-head>
+        &lt;/md-table-row>
+      &lt;/md-table-header>
+
+      &lt;md-table-body>
+        &lt;md-table-row v-for="(user, index) in users" :key="user._id">
+          &lt;md-table-cell>{{ user.username }}&lt;/md-table-cell>
+          &lt;md-table-cell>{{ user.admin ? $t('core.yes') : $t('core.no') }}&lt;/md-table-cell>
+          &lt;md-table-cell>
+            &lt;md-layout md-flex>
+              &lt;md-layout md-flex="80" md-vertical-align="center">
+                &lt;span class="bt-inline-link" @click="manage(user)">
+                  &lt;md-icon>settings&lt;/md-icon>
+                  {{ $t('admin.lblManageBots') }}
+                &lt;/span>
+              &lt;/md-layout>
+              &lt;md-layout md-flex md-align="end">
+                &lt;md-button @click="remove(user)" class="md-icon-button" v-if="canDelete(user)">
+                  &lt;md-icon>delete&lt;/md-icon>
+                &lt;/md-button>
+              &lt;/md-layout>
+            &lt;/md-layout>
+
+          &lt;/md-table-cell>
+        &lt;/md-table-row>
+      &lt;/md-table-body>
+    &lt;/md-table>
+
+    &lt;bt-fab to="/Administration/new">
+      &lt;md-icon>add&lt;/md-icon>
+    &lt;/bt-fab>
+
+    &lt;/md-layout>
+  &lt;/bt-page-container>
+&lt;/template>
+
+&lt;script>
+import PageContainer from '@/components/layout/PageContainer'
+import FloatingActionButton from '@/components/core/FloatingActionButton'
+
+import RuntimeService from '@/services/RuntimeService'
+
+/**
+ * The administration view.
+ *
+ * @author Marcel Herd
+ * @module views/Administration
+ */
+export default {
+  name: 'administration',
+  components: {
+    'bt-page-container': PageContainer,
+    'bt-fab': FloatingActionButton
+  },
+  data () {
+    return {
+      users: []
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  methods: {
+    /**
+     * Fetches all users.
+     *
+     * @method fetchData
+     */
+    fetchData () {
+      RuntimeService.findAllUsers().then(data => {
+        this.users = data
+      })
+    },
+
+    /**
+     * Removes the given user.
+     *
+     * @method remove
+     * @param {Object} user - the user that is to be removed
+     */
+    remove (user) {
+      RuntimeService.deleteUser(user._id).then((response) => {
+        if (response.ok) {
+          this.fetchData()
+        }
+      })
+    },
+
+    /**
+     * Navigates to the overview view for the given user.
+     *
+     * @method manage
+     * @param {Object} user - the user
+     */
+    manage (user) {
+      this.$router.push({
+        name: 'Overview',
+        params: {
+          userId: user._id
+        }
+      })
+    },
+
+    /**
+     * Returns true if the given user can be deleted by the logged in user.
+     * A user can be deleted if it is not the superuser and not the one who is logged in.
+     *
+     * @method canDelete
+     * @param {Object} user - the user that might be deleted
+     */
+    canDelete (user) {
+      if (user.username === 'superuser') {
+        return false
+      }
+
+      if (user.username === this.$store.getters.user.username) {
+        return false
+      }
+
+      return true
+    }
+  }
+}
+&lt;/script>
+
+&lt;style>
+.bt-inline-link {
+  font-weight: 700;
+}
+
+.bt-inline-link i.md-icon {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  font-size: 18px;
+}
+
+.bt-inline-link:hover {
+  cursor: pointer;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-components_core_Button.html">components/core/Button</a></li><li><a href="module-components_core_FlashMessage.html">components/core/FlashMessage</a></li><li><a href="module-components_core_FloatingActionButton.html">components/core/FloatingActionButton</a></li><li><a href="module-components_core_FormSection.html">components/core/FormSection</a></li><li><a href="module-components_core_Input.html">components/core/Input</a></li><li><a href="module-components_core_Select.html">components/core/Select</a></li><li><a href="module-components_core_Switch.html">components/core/Switch</a></li><li><a href="module-components_edit_TreeNode.html">components/edit/TreeNode</a></li><li><a href="module-components_layout_header_UserMenu.html">components/layout/header/UserMenu</a></li><li><a href="module-components_layout_PageContainer.html">components/layout/PageContainer</a></li><li><a href="module-components_layout_PageContent.html">components/layout/PageContent</a></li><li><a href="module-components_layout_PageFooter.html">components/layout/PageFooter</a></li><li><a href="module-components_layout_PageHeader.html">components/layout/PageHeader</a></li><li><a href="module-components_login_LoginForm.html">components/login/LoginForm</a></li><li><a href="module-easteregg.html">easteregg</a></li><li><a href="module-main.html">main</a></li><li><a href="module-router_index.html">router/index</a></li><li><a href="module-services_config.html">services/config</a></li><li><a href="module-services_MarketplaceService.html">services/MarketplaceService</a></li><li><a href="module-services_RuntimeService.html">services/RuntimeService</a></li><li><a href="module-store_actions.html">store/actions</a></li><li><a href="module-store_getters.html">store/getters</a></li><li><a href="module-store_index.html">store/index</a></li><li><a href="module-store_mutation-types.html">store/mutation-types</a></li><li><a href="module-store_mutations.html">store/mutations</a></li><li><a href="module-views_Account.html">views/Account</a></li><li><a href="module-views_Administration.html">views/Administration</a></li><li><a href="module-views_BotCreate.html">views/BotCreate</a></li><li><a href="module-views_BotEdit.html">views/BotEdit</a></li><li><a href="module-views_Login.html">views/Login</a></li><li><a href="module-views_Marketplace.html">views/Marketplace</a></li><li><a href="module-views_Overview.html">views/Overview</a></li><li><a href="module-views_UserCreate.html">views/UserCreate</a></li><li><a href="module-vueMaterial.html">vueMaterial</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:51 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

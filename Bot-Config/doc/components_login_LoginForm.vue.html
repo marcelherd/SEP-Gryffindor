@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/login/LoginForm.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/login/LoginForm.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;md-layout md-flex class="bt-login-form">
+    &lt;md-layout md-flex="100" md-column>
+      &lt;form @submit.prevent="login">
+        &lt;div class="bt-login-icon">
+          &lt;img src="/static/product_white.png" />
+        &lt;/div>
+        &lt;md-layout v-if="flashMessage" class="bt-login-flash-message">
+          &lt;md-layout>
+            &lt;p>{{ flashMessage }}&lt;/p>
+          &lt;/md-layout>
+          &lt;md-layout md-align="end">
+            &lt;span class="close" @click="closeMessage">&amp;times;&lt;/span>
+          &lt;/md-layout>
+        &lt;/md-layout>
+        &lt;div class="bt-login-input-container">
+          &lt;input v-model="username" ref="usernameInput" type="text" :placeholder="$t('core.username')" class="bt-login-input" required>
+          &lt;input v-model="password" type="password" :placeholder="$t('core.password')" class="bt-login-input" required>
+        &lt;/div>
+        &lt;md-layout md-align="end" class="bt-login-controls">
+          &lt;button type="submit" class="bt-login-button">{{ $t('login.btnLogin') }}&lt;/button>
+        &lt;/md-layout>
+      &lt;/form>
+    &lt;/md-layout>
+  &lt;/md-layout>
+&lt;/template>
+
+&lt;script>
+/**
+ * The login form component.
+ *
+ * @author Marcel Herd
+ * @module components/login/LoginForm
+ */
+export default {
+  name: 'bt-login-form',
+  data () {
+    return {
+      username: '',
+      password: '',
+      flashMessage: ''
+    }
+  },
+  mounted () {
+    this.$refs.usernameInput.focus()
+  },
+  methods: {
+    /**
+     * Tries to login with the entered username and password.
+     *
+     * If it succeeds, it navigates to the overview of the logged in user.
+     * If it fails, it displays an error flash message.
+     *
+     * @method login
+     */
+    login () {
+      this.$store.dispatch('login', {
+        username: this.username,
+        password: this.password
+      }).then(() => {
+        this.$router.push({
+          name: 'Overview',
+          params: { userId: this.$store.getters.user._id }
+        })
+      }).catch((err) => {
+        this.flashMessage = err.message
+        this.password = ''
+      })
+    },
+
+    /**
+     * Closes the flash message.
+     *
+     * @method closeMessage
+     */
+    closeMessage () {
+      this.flashMessage = ''
+    }
+  }
+}
+&lt;/script>
+
+&lt;style scoped>
+.bt-login-form {
+  align-items: flex-start;
+  padding: 70px;
+  background-color: #141525;
+  color: white;
+}
+
+.bt-login-icon {
+  width: 110px;
+  margin-bottom: 32px;
+}
+
+.bt-login-flash-message {
+  margin-bottom: 16px;
+  padding: 16px;
+  color: white;
+  border: 1px solid #FF2B4C;
+  border-radius: 4px;
+}
+
+.bt-login-flash-message p,
+.bt-login-flash-message span {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.bt-login-flash-message .close {
+  right: 16px;
+  font-size: 1.5rem;
+}
+.bt-login-flash-message .close:hover {
+  cursor: pointer;
+  color: #aaa;
+}
+
+.bt-login-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.bt-login-input:focus {
+  background-color: #FFCB4C;
+  color: #151722;
+  outline: 0;
+}
+
+.bt-login-button {
+  height: 40px;
+  padding: 4px 8px 4px 8px;
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
+  color: #FFCB4C;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.bt-login-button:hover,
+.bt-login-button:focus {
+  text-decoration: none;
+  color: #151722;
+  background-color: #FFCB4C;
+}
+
+.bt-login-form ::-webkit-input-placeholder {
+    color:white;
+}
+.bt-login-form ::-moz-placeholder {
+    color:white;
+}
+.bt-login-form ::-ms-placeholder {
+    color:white;
+}
+.bt-login-form ::placeholder {
+    color:white;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-components_core_Button.html">components/core/Button</a></li><li><a href="module-components_core_FlashMessage.html">components/core/FlashMessage</a></li><li><a href="module-components_core_FloatingActionButton.html">components/core/FloatingActionButton</a></li><li><a href="module-components_core_FormSection.html">components/core/FormSection</a></li><li><a href="module-components_core_Input.html">components/core/Input</a></li><li><a href="module-components_core_Select.html">components/core/Select</a></li><li><a href="module-components_core_Switch.html">components/core/Switch</a></li><li><a href="module-components_edit_TreeNode.html">components/edit/TreeNode</a></li><li><a href="module-components_layout_header_UserMenu.html">components/layout/header/UserMenu</a></li><li><a href="module-components_layout_PageContainer.html">components/layout/PageContainer</a></li><li><a href="module-components_layout_PageContent.html">components/layout/PageContent</a></li><li><a href="module-components_layout_PageFooter.html">components/layout/PageFooter</a></li><li><a href="module-components_layout_PageHeader.html">components/layout/PageHeader</a></li><li><a href="module-components_login_LoginForm.html">components/login/LoginForm</a></li><li><a href="module-easteregg.html">easteregg</a></li><li><a href="module-main.html">main</a></li><li><a href="module-router_index.html">router/index</a></li><li><a href="module-services_config.html">services/config</a></li><li><a href="module-services_MarketplaceService.html">services/MarketplaceService</a></li><li><a href="module-services_RuntimeService.html">services/RuntimeService</a></li><li><a href="module-store_actions.html">store/actions</a></li><li><a href="module-store_getters.html">store/getters</a></li><li><a href="module-store_index.html">store/index</a></li><li><a href="module-store_mutation-types.html">store/mutation-types</a></li><li><a href="module-store_mutations.html">store/mutations</a></li><li><a href="module-views_Account.html">views/Account</a></li><li><a href="module-views_Administration.html">views/Administration</a></li><li><a href="module-views_BotCreate.html">views/BotCreate</a></li><li><a href="module-views_BotEdit.html">views/BotEdit</a></li><li><a href="module-views_Login.html">views/Login</a></li><li><a href="module-views_Marketplace.html">views/Marketplace</a></li><li><a href="module-views_Overview.html">views/Overview</a></li><li><a href="module-views_UserCreate.html">views/UserCreate</a></li><li><a href="module-vueMaterial.html">vueMaterial</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:51 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

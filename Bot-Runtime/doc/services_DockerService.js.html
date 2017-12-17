@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/DockerService.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/DockerService.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This module is responsible for storing and retrieving
+ * persistent bots and interacting with them.
+ * @author Dario Capuana
+ * @module services/DockerService
+ */
+const Dockerode = require('dockerode');
+
+
+const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
+const docker = new Dockerode({ socketPath });
+const tar = require('tar-fs');
+
+let createOptions;
+
+exports.buildImage = async function (template) {
+  const path = `../Bots/${template}`;
+  const tarStream = tar.pack(path);
+
+  docker.buildImage(tarStream, {
+    t: ((template).toLowerCase()),
+  }, (error, output) => {
+    docker.modem.followProgress(output, onFinished, onProgress);
+    async function onFinished() {
+      return 'done';
+    }
+    function onProgress() {
+    }
+    if (error) {
+      return error;
+    }
+    output.pipe(process.stdout);
+  });
+};
+/**
+ * Creates and saves a new bot.
+ *
+ * @param {string} name - The name for the bot
+ * @param {string} template - The template that is to be used for the bot
+ * @returns {promise} - When Image is fully built
+ */
+exports.buildContainer = async function (bot, userId, endpointUrl) {
+  console.log('Building Bot...');
+  if (endpointUrl === undefined) {
+    endpointUrl = 'noEndpoint';
+  } else {
+    endpointUrl = JSON.stringify(endpointUrl);
+  }
+  createOptions = {
+    name: `${bot._id}`,
+    Image: ((bot.template).toLowerCase()),
+    Tty: true,
+    Env: [`NODE_ENV_CONFIG=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${endpointUrl}`, `NODE_ENV_USER=${JSON.stringify(userId)}`],
+    estartPolicy: {
+      Name: 'always',
+      MaximumRetryCount: 0,
+    },
+    NetworkMode: 'sepgryffindor_bottertoast',
+  };
+  docker.createContainer(createOptions);
+  return 'done';
+};
+
+/**
+ * Starts the given bot.
+ *
+ * @param {Bot} bot - The bot that is to be started
+ * @returns {Promise} TODO
+ */
+exports.start = async function (bot) {
+// TODO: start the bot here
+  console.log(`Starting bot ${bot.name} (${bot.id})...`);
+  const container = docker.getContainer(bot.id);
+  container.inspect((error, data) => {
+    if (data !== null) {
+      if (data.State.Status === 'exited' || data.State.Status === 'created') {
+        container.start();
+        console.log(`Bot ${bot.name} (${bot.id}) started succesfully`);
+        bot.status = 'running';
+      }
+    } else {
+      console.log('No container to delete ;-)');
+    }
+  });
+};
+
+
+/**
+ * Stops the given bot.
+ *
+ * @param {Bot} bot - The bot that is to be stopped
+ * @returns {Promise} TODO
+ */
+exports.stop = async function (bot) {
+  console.log(`Stopping bot ${bot.name} (${bot._id})...`);
+  const container = docker.getContainer(bot.id);
+  // query API for container info
+  container.inspect((error, data) => {
+    if (data &amp;&amp; data.State &amp;&amp; data.State.Status !== 'exited' &amp;&amp; data.State.Status !== 'created') {
+      container.stop((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`Bot ${bot.name} (${bot._id}) stopped`);
+          bot.status = 'false';
+          return 'done';
+        }
+      });
+    }
+  });
+};
+
+/**
+ * Restarts the given bot.
+ *
+ * @param {Bot} bot - The bot that is to be restarted
+ * @returns {Promise} TODO
+ */
+exports.restart = function (bot) {
+  return new Promise((resolve) => {
+    // TODO: restart the bot here
+    console.log(`Restarting bot ${bot.name} (${bot.id})...`);
+    resolve();
+  });
+};
+
+/**
+ * Deletes Image + Container of the given Bot.
+ *
+ * @param {Bot} bot - The bot that is to be started
+ * @returns {Promise} TODO
+ */
+exports.delete = async function (bot) {
+  // TODO: start the bot here
+  console.log(bot);
+  console.log(`Deleting bot ${bot.name} (${bot._id})...`);
+
+
+  const container = docker.getContainer(bot._id);
+  try {
+    await this.stop(bot);
+    const data = await container.remove();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-config.html">config</a></li><li><a href="module-controllers_AuthController.html">controllers/AuthController</a></li><li><a href="module-controllers_BotController.html">controllers/BotController</a></li><li><a href="module-controllers_HealthController.html">controllers/HealthController</a></li><li><a href="module-controllers_UserController.html">controllers/UserController</a></li><li><a href="module-index.html">index</a></li><li><a href="module-models_Bot.html">models/Bot</a></li><li><a href="module-models_User.html">models/User</a></li><li><a href="module-routes_auth.html">routes/auth</a></li><li><a href="module-routes_health.html">routes/health</a></li><li><a href="module-routes_manage.html">routes/manage</a></li><li><a href="module-services_AuthService.html">services/AuthService</a></li><li><a href="module-services_DockerService.html">services/DockerService</a></li><li><a href="module-services_Luis_addIntents.html">services/Luis/addIntents</a></li><li><a href="module-services_Luis_createApp.html">services/Luis/createApp</a></li><li><a href="module-services_Luis_postIntents.html">services/Luis/postIntents</a></li><li><a href="module-services_Luis_publishApp.html">services/Luis/publishApp</a></li><li><a href="module-services_Luis_train.html">services/Luis/train</a></li><li><a href="module-services_LuisService.html">services/LuisService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:44 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Overview.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Overview.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;bt-page-container :pageTitle="pageTitle">
+    &lt;div class="bt-no-bots" v-if="bots.length &lt; 1">
+      &lt;div>
+        &lt;img src="/static/botter.png" class="bt-icon-botter" />
+      &lt;/div>
+      &lt;div>
+        &lt;p>{{ $t('overview.lblNoBots') }}&lt;/p>
+      &lt;/div>
+      &lt;div>
+        &lt;router-link tag="md-button" :to="createBotUrl()">
+          &amp;raquo; {{ $t('overview.btnGetStarted') }}
+        &lt;/router-link>
+      &lt;/div>
+    &lt;/div>
+
+    &lt;md-layout md-flex="100" md-gutter="40">
+      &lt;md-layout md-flex="50" v-for="(bot, index) in bots" :key="bot._id">
+        &lt;div class="bt-card">
+          &lt;div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
+            &lt;md-layout md-flex="100">
+              &lt;md-layout md-flex class="bt-card-header-title">
+                {{ bot.name }}
+              &lt;/md-layout>
+              &lt;md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
+              &lt;/md-layout>
+            &lt;/md-layout>
+            &lt;md-layout md-flex="100" class="bt-card-header-subtitle">
+              &lt;md-layout md-flex>
+                &lt;span>{{ statusText(bot) }}&lt;/span>
+              &lt;/md-layout>
+              &lt;md-layout md-flex="20" md-align="end">
+                &lt;bt-switch :initial="bot.running" @click="toggleBot(bot)" />
+              &lt;/md-layout>
+            &lt;/md-layout>
+          &lt;/div>
+          &lt;div class="bt-card-body">
+            &lt;md-layout>
+              &lt;md-layout md-flex="100" md-align="center" class="bt-bot-created">
+                &lt;p>{{ createdText(bot) }}&lt;/p>
+              &lt;/md-layout>
+              &lt;md-layout md-flex="100">
+                &lt;md-layout md-flex="20">
+                  &lt;img src="/static/robot-icon.png" class="bt-profile-picture bt-bot-picture" />
+                &lt;/md-layout>
+                &lt;md-layout md-flex md-flex-offset="5">
+                  &lt;div class="bt-card-utterances bt-bot-statistics">
+                    &lt;p class="bt-card-utterance">
+                      {{ $t('overview.lblIntroduction', { name: bot.name, template: bot.template }) }}
+                    &lt;/p>
+                    &lt;p class="bt-card-utterance">
+                      {{ $t('overview.lblConversations', { conversations: bot.conversations }) }}
+                    &lt;/p>
+                    &lt;p class="bt-card-utterance">
+                      {{ $t('overview.lblForwards', { forwards: bot.forwards }) }}
+                    &lt;/p>
+                  &lt;/div>
+                &lt;/md-layout>
+              &lt;/md-layout>
+            &lt;/md-layout>
+          &lt;/div>
+          &lt;div class="bt-card-header" :class="bot.running ? '' : 'bt-bot-offline'">
+            &lt;md-layout md-flex="20" md-align="end" class="bt-card-header-actions">
+              &lt;button @click="editBot(bot)">{{ $t('shared.btnEdit') }}&lt;/button>
+            &lt;/md-layout>
+          &lt;/div>
+        &lt;/div>
+      &lt;/md-layout>
+    &lt;/md-layout>
+    &lt;bt-fab :to="createBotUrl()">
+      &lt;md-icon>add&lt;/md-icon>
+    &lt;/bt-fab>
+  &lt;/bt-page-container>
+&lt;/template>
+
+&lt;script>
+import PageContainer from '@/components/layout/PageContainer'
+import FloatingActionButton from '@/components/core/FloatingActionButton'
+import Switch from '@/components/core/Switch'
+
+import RuntimeService from '@/services/RuntimeService'
+
+/**
+ * The overview view.
+ *
+ * @author Marcel Herd
+ * @module views/Overview
+ */
+export default {
+  name: 'overview',
+  components: {
+    'bt-page-container': PageContainer,
+    'bt-fab': FloatingActionButton,
+    'bt-switch': Switch
+  },
+  data () {
+    return {
+      bots: [],
+      user: {}
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  computed: {
+    pageTitle () {
+      const currentUser = this.user._id
+      const workingUser = this.$store.getters.user._id
+
+      if (currentUser === workingUser) {
+        return this.$t('overview.lblPageTitle')
+      } else {
+        return this.$t('overview.lblPageTitleUser', { user: this.user.username })
+      }
+    }
+  },
+  methods: {
+    /**
+     * Fetches the bots for the user that is currently being managed.
+     *
+     * @method fetchData
+     */
+    fetchData () {
+      const userId = this.$route.params.userId
+
+      RuntimeService.findBotsByUser(userId).then((data) => {
+        this.bots = data
+      })
+
+      if (userId === this.$store.getters.user._id) {
+        this.user = this.$store.getters.user
+      } else {
+        RuntimeService.findUserById(userId).then((data) => {
+          this.user = data
+        })
+      }
+    },
+
+    /**
+     * Navigates to the bot edit view for the given bot.
+     *
+     * @method editBot
+     * @param {Object} bot - the bot that is to be edited
+     */
+    editBot (bot) {
+      this.$router.push({
+        name: 'BotEdit',
+        params: {
+          userId: this.$route.params.userId,
+          botId: bot._id
+        }
+      })
+    },
+
+    /**
+     * Toggles (starts/stops) the given bot.
+     *
+     * @method toggleBot
+     * @param {Object} bot - the bot that is to be started/stopped
+     */
+    toggleBot (bot) {
+      RuntimeService.toggleBot(this.$route.params.userId, bot).then((data) => {
+        if (data.success) {
+          this.fetchData()
+        }
+      })
+    },
+
+    /**
+     * Returns the route to the marketplace for the user that is being managed.
+     *
+     * @method createBotUrl
+     * @return {Object} - route to the marketplace
+     */
+    createBotUrl () {
+      return {
+        name: 'Marketplace',
+        params: {
+          userId: this.$route.params.userId
+        }
+      }
+    },
+
+    /**
+     * Returns a localized string containing the date when the given bot was created.
+     *
+     * @method createdText
+     * @param {Object} bot - the bot whose created date is being shown
+     * @return {string} a localized string containing the date when the given bot was created
+     */
+    createdText (bot) {
+      const createdDate = new Date(bot.createdAt)
+
+      const day = createdDate.getDate()
+      const month = createdDate.getMonth() + 1
+      const year = createdDate.getFullYear().toString().substr(-2)
+      const hours = ('0' + createdDate.getHours()).slice(-2)
+      const minutes = ('0' + createdDate.getMinutes()).slice(-2)
+
+      return `${this.$t('overview.lblBorn')} ${day}/${month}/${year} ${hours}:${minutes}`
+    },
+
+    /**
+     * Returns a localized string containing the status of the given bot.
+     *
+     * @method statusText
+     * @param {Object} bot - the bot whose status is being shown
+     * @returns {string} a localized string containing the status of the given bot
+     */
+    statusText (bot) {
+      const date = new Date(bot.statusChanged)
+
+      if (date.getFullYear() === 2000) {
+        return this.$t('overview.lblNeverRan')
+      }
+
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear().toString().substr(-2)
+
+      const state = bot.running ? this.$t('overview.lblAwake') : this.$t('overview.lblAsleep')
+
+      const now = new Date()
+      if (now.getDate() === day) {
+        const hours = ('0' + date.getHours()).slice(-2)
+        const minutes = ('0' + date.getMinutes()).slice(-2)
+        return `${state} ${hours}:${minutes}`
+      }
+
+      return `${state} ${day}/${month}/${year}`
+    }
+  }
+}
+&lt;/script>
+
+&lt;style>
+.bt-bot-picture {
+  align-self: flex-start;
+}
+
+.bt-bot-created {
+  letter-spacing: 1px;
+  color: #999;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.bt-bot-created p {
+  margin: 6px;
+}
+
+.bt-bot-offline {
+  background-color: #D2D2D2;
+}
+
+.bt-bot-statistics {
+  margin-bottom: 20px;
+}
+
+.bt-bot-statistics .bt-card-utterance {
+  margin-bottom: 0;
+  display: inline-flex;
+}
+
+.bt-icon-botter {
+  max-height: 30vh;
+}
+
+.bt-no-bots {
+  margin-top: 15vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-components_core_Button.html">components/core/Button</a></li><li><a href="module-components_core_FlashMessage.html">components/core/FlashMessage</a></li><li><a href="module-components_core_FloatingActionButton.html">components/core/FloatingActionButton</a></li><li><a href="module-components_core_FormSection.html">components/core/FormSection</a></li><li><a href="module-components_core_Input.html">components/core/Input</a></li><li><a href="module-components_core_Select.html">components/core/Select</a></li><li><a href="module-components_core_Switch.html">components/core/Switch</a></li><li><a href="module-components_edit_TreeNode.html">components/edit/TreeNode</a></li><li><a href="module-components_layout_header_UserMenu.html">components/layout/header/UserMenu</a></li><li><a href="module-components_layout_PageContainer.html">components/layout/PageContainer</a></li><li><a href="module-components_layout_PageContent.html">components/layout/PageContent</a></li><li><a href="module-components_layout_PageFooter.html">components/layout/PageFooter</a></li><li><a href="module-components_layout_PageHeader.html">components/layout/PageHeader</a></li><li><a href="module-components_login_LoginForm.html">components/login/LoginForm</a></li><li><a href="module-easteregg.html">easteregg</a></li><li><a href="module-main.html">main</a></li><li><a href="module-router_index.html">router/index</a></li><li><a href="module-services_config.html">services/config</a></li><li><a href="module-services_MarketplaceService.html">services/MarketplaceService</a></li><li><a href="module-services_RuntimeService.html">services/RuntimeService</a></li><li><a href="module-store_actions.html">store/actions</a></li><li><a href="module-store_getters.html">store/getters</a></li><li><a href="module-store_index.html">store/index</a></li><li><a href="module-store_mutation-types.html">store/mutation-types</a></li><li><a href="module-store_mutations.html">store/mutations</a></li><li><a href="module-views_Account.html">views/Account</a></li><li><a href="module-views_Administration.html">views/Administration</a></li><li><a href="module-views_BotCreate.html">views/BotCreate</a></li><li><a href="module-views_BotEdit.html">views/BotEdit</a></li><li><a href="module-views_Login.html">views/Login</a></li><li><a href="module-views_Marketplace.html">views/Marketplace</a></li><li><a href="module-views_Overview.html">views/Overview</a></li><li><a href="module-views_UserCreate.html">views/UserCreate</a></li><li><a href="module-vueMaterial.html">vueMaterial</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:51 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

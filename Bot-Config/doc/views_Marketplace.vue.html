@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Marketplace.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Marketplace.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;bt-page-container :pageTitle="$t('marketplace.lblPageTitle')">
+    &lt;md-layout md-flex="100" md-gutter="40">
+      &lt;md-layout md-flex="50" v-for="(template, index) in templates" :key="index">
+        &lt;div class="bt-tile" @click="navigate(template)">
+          &lt;md-layout md-flex="100" class="bt-tile-header">
+            &lt;h1 class="bt-tile-title">{{ template.name }}&lt;/h1>
+          &lt;/md-layout>
+
+          &lt;md-layout md-flex="100" class="bt-tile-message-container">
+            &lt;md-layout md-flex="15" class="bt-icon-container">
+              &lt;img src="/static/robot-icon.png" />
+            &lt;/md-layout>
+            &lt;md-layout md-flex class="bt-tile-message">
+              &lt;span>{{ getMessage(template) }}&lt;/span>
+            &lt;/md-layout>
+          &lt;/md-layout>
+
+          &lt;md-layout md-flex="100">
+            &lt;p>{{ getDescription(template) }}&lt;/p>
+          &lt;/md-layout>
+        &lt;/div>
+      &lt;/md-layout>
+    &lt;/md-layout>
+  &lt;/bt-page-container>
+&lt;/template>
+
+&lt;script>
+import PageContainer from '@/components/layout/PageContainer'
+
+import MarketplaceService from '@/services/MarketplaceService'
+
+/**
+ * The marketplace view.
+ *
+ * @author Marcel Herd
+ * @module views/Marketplace
+ */
+export default {
+  name: 'marketplace',
+  components: {
+    'bt-page-container': PageContainer
+  },
+  data () {
+    return {
+      templates: []
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  methods: {
+    /**
+     * Fetches the available templates.
+     *
+     * @method fetchData
+     */
+    fetchData () {
+      MarketplaceService.getTemplates().then((data) => {
+        this.templates = data
+      })
+    },
+
+    /**
+     * Navigates to the bot create view with the given template.
+     *
+     * @method navigate
+     * @param {Template} template - the template that is used for the bot creation
+     */
+    navigate (template) {
+      this.$router.push({
+        name: 'BotCreate',
+        params: {
+          template: template.name
+        }
+      })
+    },
+
+    /**
+     * Returns the message for the given template, depending on the active locale.
+     *
+     * @method getMessage
+     * @param {Template} template - template whose message is being determined
+     * @return {string} - the message
+     */
+    getMessage (template) {
+      const locale = localStorage.getItem('locale') || 'en'
+      return template[locale].message
+    },
+
+    /**
+     * Returns the description for the given template, depending on the active locale.
+     *
+     * @method getMessage
+     * @param {Template} template - template whose description is being determined
+     * @return {string} - the description
+     */
+    getDescription (template) {
+      const locale = localStorage.getItem('locale') || 'en'
+      return template[locale].description
+    }
+
+  }
+}
+&lt;/script>
+
+&lt;style>
+.bt-tile {
+  padding: 16px 32px 16px 32px;
+  box-shadow: rgba(0, 0, 0, 0.11) 2px 4px 29px;
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+.bt-tile:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.22) 2px 4px 55px 5px;
+}
+
+.bt-tile-title {
+  font-size: 48px;
+  font-weight: 500;
+  color: #FAD232;
+}
+
+.bt-tile img {
+  min-width: 74px;
+  width: 74px;
+  min-height: 74px;
+  height: 74px;
+}
+
+.bt-tile-message-container {
+  margin-bottom: 8px;
+}
+
+.bt-tile-message {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 16px;
+  margin-right: 32px;
+}
+
+.bt-tile-message span {
+  font-weight: 700;
+  border: 1px solid #F3F3F4;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  background-color: #F3F3F4;
+  padding: 16px;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-components_core_Button.html">components/core/Button</a></li><li><a href="module-components_core_FlashMessage.html">components/core/FlashMessage</a></li><li><a href="module-components_core_FloatingActionButton.html">components/core/FloatingActionButton</a></li><li><a href="module-components_core_FormSection.html">components/core/FormSection</a></li><li><a href="module-components_core_Input.html">components/core/Input</a></li><li><a href="module-components_core_Select.html">components/core/Select</a></li><li><a href="module-components_core_Switch.html">components/core/Switch</a></li><li><a href="module-components_edit_TreeNode.html">components/edit/TreeNode</a></li><li><a href="module-components_layout_header_UserMenu.html">components/layout/header/UserMenu</a></li><li><a href="module-components_layout_PageContainer.html">components/layout/PageContainer</a></li><li><a href="module-components_layout_PageContent.html">components/layout/PageContent</a></li><li><a href="module-components_layout_PageFooter.html">components/layout/PageFooter</a></li><li><a href="module-components_layout_PageHeader.html">components/layout/PageHeader</a></li><li><a href="module-components_login_LoginForm.html">components/login/LoginForm</a></li><li><a href="module-easteregg.html">easteregg</a></li><li><a href="module-main.html">main</a></li><li><a href="module-router_index.html">router/index</a></li><li><a href="module-services_config.html">services/config</a></li><li><a href="module-services_MarketplaceService.html">services/MarketplaceService</a></li><li><a href="module-services_RuntimeService.html">services/RuntimeService</a></li><li><a href="module-store_actions.html">store/actions</a></li><li><a href="module-store_getters.html">store/getters</a></li><li><a href="module-store_index.html">store/index</a></li><li><a href="module-store_mutation-types.html">store/mutation-types</a></li><li><a href="module-store_mutations.html">store/mutations</a></li><li><a href="module-views_Account.html">views/Account</a></li><li><a href="module-views_Administration.html">views/Administration</a></li><li><a href="module-views_BotCreate.html">views/BotCreate</a></li><li><a href="module-views_BotEdit.html">views/BotEdit</a></li><li><a href="module-views_Login.html">views/Login</a></li><li><a href="module-views_Marketplace.html">views/Marketplace</a></li><li><a href="module-views_Overview.html">views/Overview</a></li><li><a href="module-views_UserCreate.html">views/UserCreate</a></li><li><a href="module-vueMaterial.html">vueMaterial</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:51 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

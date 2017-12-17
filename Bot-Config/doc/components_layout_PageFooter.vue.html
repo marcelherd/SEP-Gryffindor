@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/layout/PageFooter.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/layout/PageFooter.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;md-layout md-flex="100" class="bt-page-footer">
+    &lt;md-layout md-flex="15" md-flex-xsmall="50" md-flex-small="15" md-flex-medium="15" md-flex-large="15" md-align="center" md-vertical-align="center">
+      &lt;div class="bt-page-footer-icon">
+        &lt;img src="/static/product_white.png" />
+      &lt;/div>
+    &lt;/md-layout>
+    &lt;md-layout md-flex md-vertical-align="center">
+      &lt;div class="bt-page-footer-contact">
+        &lt;p>BOTTERTOAST&lt;/p>
+        &lt;p>Mannheim, {{ $t('core.country') }} 2017&lt;/p>
+      &lt;/div>
+    &lt;/md-layout>
+    &lt;md-layout md-flex="15" md-align="center" md-vertical-align="end">
+      &lt;div class="bt-page-footer-language">
+        &lt;span class="bt-lang-selection" @click="setLanguage('de')">de&lt;/span>
+        &lt;span class="bt-lang-separator">|&lt;/span>
+        &lt;span class="bt-lang-selection" @click="setLanguage('en')">en&lt;/span>
+        &lt;span class="bt-lang-separator">|&lt;/span>
+        &lt;span class="bt-lang-selection" @click="setLanguage('fr')">fr&lt;/span>
+      &lt;/div>
+    &lt;/md-layout>
+  &lt;/md-layout>
+&lt;/template>
+
+&lt;script>
+/**
+ * Page footer component.
+ *
+ * @author Marcel Herd
+ * @module components/layout/PageFooter
+ */
+export default {
+  name: 'bt-page-footer',
+  methods: {
+    /**
+     * Changes the site locale.
+     *
+     * @method setLanguage
+     * @param {string} locale - de|en|fr
+     */
+    setLanguage (locale) {
+      this.$i18n.locale = locale
+      localStorage.setItem('locale', locale)
+    }
+  }
+}
+&lt;/script>
+
+&lt;style>
+.bt-page-footer {
+  height: 100px;
+  background-color: #101929;
+  color: white;
+}
+
+.bt-page-footer-icon {
+  margin-top: 10px;
+  width: 100px;
+}
+
+.bt-page-footer-contact p {
+  margin: 0;
+}
+
+.bt-page-footer-language {
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.bt-page-footer-language .bt-lang-selection:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
+.bt-lang-selection:not(:last-child)::before {
+  padding-right: 6px;
+  border-right: 1px solid white;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-components_core_Button.html">components/core/Button</a></li><li><a href="module-components_core_FlashMessage.html">components/core/FlashMessage</a></li><li><a href="module-components_core_FloatingActionButton.html">components/core/FloatingActionButton</a></li><li><a href="module-components_core_FormSection.html">components/core/FormSection</a></li><li><a href="module-components_core_Input.html">components/core/Input</a></li><li><a href="module-components_core_Select.html">components/core/Select</a></li><li><a href="module-components_core_Switch.html">components/core/Switch</a></li><li><a href="module-components_edit_TreeNode.html">components/edit/TreeNode</a></li><li><a href="module-components_layout_header_UserMenu.html">components/layout/header/UserMenu</a></li><li><a href="module-components_layout_PageContainer.html">components/layout/PageContainer</a></li><li><a href="module-components_layout_PageContent.html">components/layout/PageContent</a></li><li><a href="module-components_layout_PageFooter.html">components/layout/PageFooter</a></li><li><a href="module-components_layout_PageHeader.html">components/layout/PageHeader</a></li><li><a href="module-components_login_LoginForm.html">components/login/LoginForm</a></li><li><a href="module-easteregg.html">easteregg</a></li><li><a href="module-main.html">main</a></li><li><a href="module-router_index.html">router/index</a></li><li><a href="module-services_config.html">services/config</a></li><li><a href="module-services_MarketplaceService.html">services/MarketplaceService</a></li><li><a href="module-services_RuntimeService.html">services/RuntimeService</a></li><li><a href="module-store_actions.html">store/actions</a></li><li><a href="module-store_getters.html">store/getters</a></li><li><a href="module-store_index.html">store/index</a></li><li><a href="module-store_mutation-types.html">store/mutation-types</a></li><li><a href="module-store_mutations.html">store/mutations</a></li><li><a href="module-views_Account.html">views/Account</a></li><li><a href="module-views_Administration.html">views/Administration</a></li><li><a href="module-views_BotCreate.html">views/BotCreate</a></li><li><a href="module-views_BotEdit.html">views/BotEdit</a></li><li><a href="module-views_Login.html">views/Login</a></li><li><a href="module-views_Marketplace.html">views/Marketplace</a></li><li><a href="module-views_Overview.html">views/Overview</a></li><li><a href="module-views_UserCreate.html">views/UserCreate</a></li><li><a href="module-vueMaterial.html">vueMaterial</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 17 2017 21:06:51 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

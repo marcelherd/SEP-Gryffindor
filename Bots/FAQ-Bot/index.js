@@ -13,16 +13,13 @@ const {
 } = require('util');
 
 // Loading .env File which contains all enviroment letiables with values
-const {
-  config,
-} = require('dotenv');
+
 const rp = require('request-promise');
 const http = require('http');
 
 const LuisService = require('./services/LuisService');
 const IntentService = require('./services/IntentService');
 
-config();
 
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -49,7 +46,7 @@ const greetTheCustomer = () => botConfig.greeting;
  */
 const incrementConvCounter = async () => {
   const options = {
-    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
+    uri: `http://${process.env.NODE_ENV_HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
   };
   try {
@@ -65,7 +62,7 @@ const incrementConvCounter = async () => {
  */
 const incrementTransferCounter = async () => {
   const options = {
-    uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
+    uri: `http://${process.env.NODE_ENV_HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
   };
   try {

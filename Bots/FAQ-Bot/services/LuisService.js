@@ -10,7 +10,7 @@ const {
 } = require('dotenv');
 
 config();
-const subscriptionKey = process.env.SUBSCRIPTION_KEY;
+const subscriptionKey = '238a32183c054721ad57101b5baec64f';
 
 exports.getIntent = async (query) => {
   const endpointUrl = JSON.parse(process.env.NODE_ENV_ENDPOINT);

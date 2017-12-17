@@ -14,7 +14,7 @@ const maxRetry = 5;
 /**
  * retry request if error or 429 received
  */
-const retryStrategy = function (err, response, body) {
+const retryStrategy = function (err, response) {
   const shouldRetry = err || (response.statusCode === 429);
   if (shouldRetry) console.log('retrying add intent...');
   return shouldRetry;
@@ -22,9 +22,10 @@ const retryStrategy = function (err, response, body) {
 
 /**
  * Send JSON as the body of the POST request to Microsoft's API
- * @param options Options needed for the request
- * @returns {string} The ID of the created model
  * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
+ *
+ * @param {Object} options Options needed for the request
+ * @returns {string} The ID of the created model
  */
 const callAddIntent = async (options) => {
   try {
@@ -36,10 +37,11 @@ const callAddIntent = async (options) => {
 };
 /**
  * posts the app with its configuration to Microsoft's API and awaits its results
- * @param config represent the config needed for the options for the post request including the app's name
+ * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
+ *
+ * @param {Object} config represent the config needed for the options for the post request including the app's name
  * @method callCreateApp actually posts the bot to the API
  * @returns {string} The ID of the created model
- * For more detailed info look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c0c
  */
 const addIntents = async (config) => {
   const intentPromises = [];
@@ -71,7 +73,7 @@ const addIntents = async (config) => {
     }
   }, this);
 
-  const results = await Promise.all(intentPromises);
+  await Promise.all(intentPromises);
 };
 
 module.exports = addIntents;

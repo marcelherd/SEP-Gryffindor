@@ -35,7 +35,7 @@ const timeout = (ms = 2000) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Increment the Bot statistic
  */
-const incrementConvCounter = async() => {
+const incrementConvCounter = async () => {
   const options = {
     uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
     json: true,
@@ -50,7 +50,7 @@ const incrementConvCounter = async() => {
 /**
  * Increment the Bot statistic
  */
-const incrementTransferCounter = async() => {
+const incrementTransferCounter = async () => {
   const options = {
     uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
     json: true,
@@ -80,7 +80,7 @@ function lastStep() {
 /**
  * This functions goes deeper in thee tree.
  * If it is a Skilltransfer it returns an empty string an activate the transfer.
- * @param {integer} optionNumber the number wich child was chosen
+ * @param {integer} optionNumber the number whose child was chosen
  */
 function nextStep(optionNumber) {
   let answer = '';
@@ -156,7 +156,7 @@ const getSkill = (answer) => {
 };
 
 class WelcomeBot {
-  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+  constructor(accountID, username, password, csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -229,7 +229,7 @@ class WelcomeBot {
                 type: 'REMOVE',
                 role: 'MANAGER',
                 userId: this.core.agentId,
-              }
+              },
               ],
             });
 
@@ -246,7 +246,7 @@ class WelcomeBot {
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-        .forEach(async(change) => {
+        .forEach(async (change) => {
           this.isConnected = true;
           node = root;
           this.openConversations[change.result.convId] = change.result.conversationDetails;
@@ -398,16 +398,16 @@ class WelcomeBot {
             type: 'horizontal',
             elements: [{
               type: 'button',
-              title: 'Buy',
-              tooltip: 'Buy this product',
+              title: 'TrialButton',
+              tooltip: 'Try it out',
               click: {
                 actions: [{
                   type: 'link',
-                  name: 'Buy',
+                  name: 'TrialButton',
                   uri: link,
-                }, ],
+                }],
               },
-            }, ],
+            }],
           }],
         },
       },
@@ -417,14 +417,14 @@ class WelcomeBot {
 console.log('Initializing the Welcome bot...');
 let bot;
 if (botConfig.environment === 'Staging') {
-  bot = new WelcomeBot(user.stagingId || user.brandId);
+  bot = new WelcomeBot(user.stagingId || user.brandId, user.username, user.password);
 
   if (!user.stagingId) {
     console.log('[WARNING] No StagingId set, deploying bot to production instead.');
   }
 } else {
   console.log(botConfig);
-  bot = new WelcomeBot(user.brandId);
+  bot = new WelcomeBot(user.brandId, user.username, user.password);
 }
 console.log('Starting the Welcome bot...');
 module.exports = bot.start()

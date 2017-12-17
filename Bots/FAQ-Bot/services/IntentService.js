@@ -3,6 +3,7 @@
  * This module compares the intent that was recognized by LUIS to all intents
  * that were saved
  *
+ * @author Simon Schwarz
  * @module FAQ-Bot/services/IntentService
  */
 

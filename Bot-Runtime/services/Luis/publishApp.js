@@ -7,9 +7,10 @@ const rp = require('request-promise');
 
 /**
  * posts the app with its configuration to Microsoft's API and awaits its results
- * @param config represent the config needed for the options for the post request
- * @returns {Promise} most importantly the uri under which the app is published
  * For more detailed information look here: https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c3b
+ *
+ * @param {Object} config represent the config needed for the options for the post request
+ * @returns {Promise} most importantly the uri under which the app is published
  */
 exports.publishApp = async (config) => {
   const payload = {
@@ -29,8 +30,10 @@ exports.publishApp = async (config) => {
   try {
     const response = await rp.post(options);
     console.log('publish successful');
-    return { request: options.body, response };
+    return response;
   } catch (err) {
+    console.log('in pusblish App');
+    console.log(err);
     throw err;
   }
 };

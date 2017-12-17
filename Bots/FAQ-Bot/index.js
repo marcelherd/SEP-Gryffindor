@@ -14,6 +14,8 @@ const IntentService = require('./services/IntentService');
 const rp = require('request-promise');
 const http = require('http');
 
+config();
+
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('It works');
@@ -22,19 +24,21 @@ http.createServer((req, res) => {
 const botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
-console.log(config());
-
-
 function timeout(ms = 2000) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**
- * Build the first Tree with greeting an options
+ * Greets the customer with greeting from bot's configuration
+ *
+ * @returns {string} greeting
  */
 
 const greetTheCustomer = () => botConfig.greeting;
 
+/**
+ * increments the Conversation counter
+ */
 const incrementConvCounter = async () => {
   const options = {
     uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/conversation`,
@@ -48,6 +52,9 @@ const incrementConvCounter = async () => {
   }
 };
 
+/**
+ * increments the Transfer counter
+ */
 const incrementTransferCounter = async () => {
   const options = {
     uri: `http://${process.env.HOST || 'localhost'}:3000/api/v1/manage/public/users/${user._id}/bots/${botConfig._id}/forward`,
@@ -62,7 +69,7 @@ const incrementTransferCounter = async () => {
 };
 
 class FAQBot {
-  constructor(accountID, username = 'daniele', password = '456rtz456rtz', csds = process.env.LP_CSDS) {
+  constructor(accountID, username, password, csds = process.env.LP_CSDS) {
     this.accountId = accountID;
     this.username = username;
     this.password = password;
@@ -99,11 +106,13 @@ class FAQBot {
       this.core.reconnect(reason !== 4401 || reason !== 4407);
     });
     /**
-     * This function is used to find out what the consumer wants and send him the right message
-     * Which later get consumed by other functions.
+     * In this function the main message handling is done
+     * and gives the right answer if intent is recognized.
+     * Otherwise it either gives the customer the retry or to be transferred to human
      */
     this.core.on('ms.MessagingEventNotification', async (body) => {
       const { role } = body.changes[0].originatorMetadata;
+      // filters out the participants that should not be replied to so that only the customer messages are replied to
       if (!body.changes[0].__isMe && role !== 'ASSIGNED_AGENT' && role !== 'MANAGER' && this.openConversations[body.dialogId] !== undefined && this.openConversations[body.dialogId].skillId === '1000666232') {
         try {
           const intents = await LuisService.getIntent(body.changes[0].event.message);
@@ -111,7 +120,7 @@ class FAQBot {
           const answer = await IntentService.compareIntent(topScoringIntent);
           if (!answer) {
             if (body.changes[0].event.message === 'human') {
-              // transfer to human somehow
+              // Skill for human is created but does not lead to anything at the moment
               try {
                 incrementTransferCounter();
               } catch (err) {
@@ -132,7 +141,7 @@ class FAQBot {
                     userId: this.core.agentId,
                   }],
               });
-              this.openConversations[body.dialogId].skillId = 'human';
+              this.openConversations[body.dialogId].skillId = 1007877832;
             } else { this.sendMessage(body.dialogId, 'I did not understand. Please try again with different phrasing or type human if you would like to be transferred to a human agent'); }
             console.log('Something went wrong! Please transfer to Human');
           } else if (answer.type === 'link') {
@@ -162,10 +171,15 @@ class FAQBot {
         }
       }
     });
+    /**
+     * Greets the customer on first connection and checks whether skill transfer leads to this bot
+     * and adds the bot to the conversation if it does.
+     */
     this.core.on('cqm.ExConversationChangeNotification', (body) => {
       body.changes
         .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
         .forEach(async (change) => {
+          // If skill transfer leads here sets up the bot to reply
           if (change.result.conversationDetails.skillId === '1000666232') {
             this.openConversations[change.result.convId] = change.result.conversationDetails;
             await this.joinConversation(change.result.convId, 'ASSIGNED_AGENT');
@@ -293,26 +307,38 @@ class FAQBot {
       },
     });
   }
+  /**
+   * This function allows sending links to the specified conversation.
+   * @param {string} conversationId id of the conversation which should be joined
+   * @param {string} message text message which will be sent to the client
+   * @param {string} topScoringIntent the intent that was found to be most suited
+   */
 
   async sendLink(conversationId, message, topScoringIntent) {
     if (!this.isConnected) return;
+    console.log(message);
+    console.log(topScoringIntent);
     return this.core.publishEvent({
       dialogId: conversationId,
       event: {
         type: 'RichContentEvent',
         content: {
-          type: 'button',
-          tooltpip: 'button tooltip',
-          title: topScoringIntent,
-          click: {
-            actions: [
-              {
-                type: 'link',
-                name: 'Reset Password',
-                uri: message,
+          type: 'vertical',
+          elements: [{
+            type: 'horizontal',
+            elements: [{
+              type: 'button',
+              title: topScoringIntent,
+              tooltip: 'Try it out',
+              click: {
+                actions: [{
+                  type: 'link',
+                  name: topScoringIntent,
+                  uri: message,
+                }],
               },
-            ],
-          },
+            }],
+          }],
         },
       },
     });
@@ -320,18 +346,16 @@ class FAQBot {
 }
 console.log('Initializing the FAQ bot...');
 let bot;
-console.dir(user);
 if (botConfig.environment === 'Staging') {
-  bot = new FAQBot(user.stagingId || user.brandId);
+  bot = new FAQBot(user.stagingId || user.brandId, user.username, user.password);
 
   if (!user.stagingId) {
     console.log('[WARNING] No StagingId set, deploying bot to production instead.');
   }
 } else {
   console.log(botConfig);
-  bot = new FAQBot(user.brandId);
+  bot = new FAQBot(user.brandId, user.username, user.password);
 }
-// This will use the values set in the process.env
 console.log('Starting the FAQ bot...');
 module.exports = bot.start()
   .then(_ => console.log('FAQ bot is now up an running!'));

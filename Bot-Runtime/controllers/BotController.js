@@ -170,14 +170,12 @@ exports.updateBot = async function (req, res) {
       console.log('File has been saved successfully');
     }
   });
-
   let url;
   if (bot.template === 'FAQ-Bot') {
     try {
-      console.log('bin vor luis');
-      const { endpointUrl } = await Luis.createApp('../Bots/FAQ-Bot/config.json');
-      url = endpointUrl;
+      url = await Luis.createApp('../Bots/FAQ-Bot/config.json');
     } catch (err) {
+      console.log(err);
       return res.json({
         success: false,
         message: err.message,
@@ -187,7 +185,7 @@ exports.updateBot = async function (req, res) {
   await DockerService.delete(bot);
   let data;
   do {
-    data = await DockerService.buildContainer(bot, req.user);
+    data = await DockerService.buildContainer(bot, req.user, url);
   } while (data !== 'done');
 
   req.user.save((err) => {

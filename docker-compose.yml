@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 
 volumes: 
   bots: {} 
@@ -8,17 +8,39 @@ networks:
 
 services:
   mongo:
-    image: mongo  
+    image: healthcheck/mongo  
     networks: 
       - bottertoast
     ports:
-      - 27017:27017 
+      - 27017:27017
+    restart:
+      "on-failure"
+  autoheal:
+    image: willfarrell/autoheal
+    networks: 
+      - bottertoast
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+    volumes:  
+      - /var/run/docker.sock:/var/run/docker.sock 
+    restart:
+      "on-failure"  
   bot-config:
     build: ./Bot-Config 
     networks: 
       - bottertoast
     ports:
-      - 8080:8080 
+      - 8080:8080
+    environment:
+#PLEASE ENTER YOUR IP HERE
+      - HOST=
+    restart:
+      "on-failure"
+    depends_on:
+      bot-marketplace:
+        condition: service_healthy
+      bot-runtime:
+        condition: service_healthy
   bot-runtime:
     build: ./Bot-Runtime 
     networks: 
@@ -27,9 +49,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock 
       - bots:/usr/src/Bots 
     ports:
-      - 3000:3000 
-    depends_on:  
-      - mongo  
+      - 3000:3000
+    environment:
+#PLEASE ENTER YOUR IP HERE
+      - HOST=
+#PLEASE ENTER YOUR SUBSCRIPTION_KEY HERE
+      - SUBSCRIPTION_KEY= 
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart:
+      "on-failure"
   bot-marketplace:
     build: . 
     networks: 
@@ -38,4 +68,5 @@ services:
       - bots:/usr/src/Bots 
     ports:
       - 4000:4000 
-
+    restart:
+      "on-failure"

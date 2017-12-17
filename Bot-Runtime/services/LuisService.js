@@ -28,7 +28,7 @@ const readAFile = promisify(fs.readFile);
 config();
 
 
-const subscriptionKey = process.env.SUBSCRIPTION_KEY;
+const subscriptionKey = '238a32183c054721ad57101b5baec64f';
 const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;

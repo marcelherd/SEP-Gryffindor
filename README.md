@@ -4,14 +4,18 @@
 
 ## Our team
 
-| Vorname | Nachname | Matrikelnummer
-| ------ | ------ | ------ |
-| Björn	| Nehmert	| 	1515343
-| Daniel	| Eggert| 		1513511
-| Dario	| Capuana	| 	1613518
-| Felix	| Navas	| 	1412100
-| Simon	| Schwarz	| 	1521554
-| Marcel| 	Herd	| 	1527440
+**Developers**  
+Björn Nehmert (@brn91)  
+Daniel Eggert (@Dragashi)  
+Dario Capuana (@GFdiablo117)  
+Felix Navas (@sky2107)  
+Simon Schwarz (@Simsan96)  
+Marcel Herd (@marcelherd)
+
+**Designers**  
+Hanh Pham  
+Vanessa Hahn  
+Adrian Fuchs
 
 ## License
 

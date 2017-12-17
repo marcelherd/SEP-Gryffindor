@@ -13,11 +13,12 @@ HEALTHCHECK --start-period=10s --interval=3s --timeout=10s --retries=3 CMD curl 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8070
 
-ENV NODE_ENV_CONFIG=platzhalter
-ENV NODE_ENV_ENDPOINT=platzhalter
+ENV NODE_ENV_CONFIG=config
+ENV NODE_ENV_ENDPOINT=endpoint
 ENV NODE_ENV_USER=user
+ENV NODE_ENV_HOST=ip
 
 CMD [ "npm", "start" ]
 

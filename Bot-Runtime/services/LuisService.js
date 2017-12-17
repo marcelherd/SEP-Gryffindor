@@ -192,11 +192,17 @@ const addNewApp = async (path) => {
 exports.createApp = async (path) => {
   try {
     const intents = await addNewApp(path);
+    console.log('happened here before addIntents');
     const intentArray = await addIntents(intents);
+    console.log('happened here before addUtterances');
     await addUtterances(intentArray);
+    console.log('happened here before trainmyApp');
     await trainMyApp();
+    console.log('happened here after trainmyApp');
     return getTrainingStatus();
   } catch (err) {
+    console.log('error happened here!!!!');
+    console.log(err);
     throw err;
   }
 };

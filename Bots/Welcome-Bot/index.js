@@ -29,6 +29,8 @@ http.createServer((req, res) => {
 const botConfig = JSON.parse(process.env.NODE_ENV_CONFIG);
 const user = JSON.parse(process.env.NODE_ENV_USER);
 
+config();
+
 const {
   root,
 } = botConfig.dialogTree;
@@ -36,8 +38,6 @@ let node = root;
 let lastnode = root;
 let greeting = false;
 let theLast = false;
-
-console.log(config());
 
 
 const timeout = (ms = 2000) => new Promise(resolve => setTimeout(resolve, ms));

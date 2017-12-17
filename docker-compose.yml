@@ -32,7 +32,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - HOST=
+      - HOST=192.168.0.26
     restart:
       "on-failure"
     depends_on:
@@ -50,8 +50,8 @@ services:
     ports:
       - 3000:3000
     environment:
-      - HOST=
-      - SUBSCRIPTION_KEY=
+      - HOST=192.168.0.26
+      - SUBSCRIPTION_KEY=238a32183c054721ad57101b5baec64
     depends_on:
       mongo:
         condition: service_healthy

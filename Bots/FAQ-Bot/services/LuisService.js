@@ -1,7 +1,15 @@
-
+/**
+ * This module gets the intent to given query from our LUIS application
+ *
+ * @module FAQ-Bot/services/LuisService
+ */
 const rp = require('request-promise');
+const {
+  config,
+} = require('dotenv');
 
-const subscriptionKey = 'd47c8171395f412db4c93c39f6404d3b';
+config();
+const subscriptionKey = process.env.SUBSCRIPTION_KEY;
 
 exports.getIntent = async (query) => {
   const endpointUrl = JSON.parse(process.env.NODE_ENV_ENDPOINT);
@@ -26,5 +34,3 @@ exports.getIntent = async (query) => {
   const result = await createEndpointPromise;
   return JSON.parse(result);
 };
-
-// getIntent('Was kostet mein Fisch?');

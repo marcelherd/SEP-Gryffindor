@@ -1,4 +1,11 @@
 
+/**
+ * This module compares the intent that was recognized by LUIS to all intents
+ * that were saved
+ *
+ * @module FAQ-Bot/services/IntentService
+ */
+
 exports.compareIntent = async (recognizedIntent) => {
   try {
     const data = JSON.parse(process.env.NODE_ENV_CONFIG);

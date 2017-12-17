@@ -58,7 +58,6 @@ exports.buildContainer = async function (bot, userId, endpointUrl) {
     },
     NetworkMode: 'sepgryffindor_bottertoast',
   };
-  console.log(createOptions);
   docker.createContainer(createOptions);
   return 'done';
 };
@@ -91,7 +90,7 @@ exports.start = async function (bot) {
  * Stops the given bot.
  *
  * @param {Bot} bot - The bot that is to be stopped
- * @returns {Promise} TODO
+ * @returns {Promise} - When Bot is stopped
  */
 exports.stop = async function (bot) {
   console.log(`Stopping bot ${bot.name} (${bot._id})...`);

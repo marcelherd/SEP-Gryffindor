@@ -5,12 +5,9 @@
  * @module FAQ-Bot/services/LuisService
  */
 const rp = require('request-promise');
-const {
-  config,
-} = require('dotenv');
 
-config();
-const subscriptionKey = '238a32183c054721ad57101b5baec64f';
+const subscriptionKey = process.env.NODE_ENV_SUBSCRIPTION_KEY;
+
 
 exports.getIntent = async (query) => {
   const endpointUrl = JSON.parse(process.env.NODE_ENV_ENDPOINT);

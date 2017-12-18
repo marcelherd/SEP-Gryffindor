@@ -11,10 +11,6 @@ const fs = require('fs');
 
 
 const waitUntil = require('async-wait-until');
-const {
-  config,
-} = require('dotenv');
-
 const createApp = require('./Luis/createApp');
 const postIntents = require('./Luis/postIntents');
 const Utterances = require('./Luis/addUtterances');
@@ -25,10 +21,7 @@ const publish = require('./Luis/publishApp');
 const readAFile = promisify(fs.readFile);
 
 
-config();
-
-
-const subscriptionKey = '238a32183c054721ad57101b5baec64f';
+const subscriptionKey = process.env.SUBSCRIPTION_KEY;
 const versionId = '0.1';
 const postAppUri = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
 let appId;
@@ -192,17 +185,11 @@ const addNewApp = async (path) => {
 exports.createApp = async (path) => {
   try {
     const intents = await addNewApp(path);
-    console.log('happened here before addIntents');
     const intentArray = await addIntents(intents);
-    console.log('happened here before addUtterances');
     await addUtterances(intentArray);
-    console.log('happened here before trainmyApp');
     await trainMyApp();
-    console.log('happened here after trainmyApp');
     return getTrainingStatus();
   } catch (err) {
-    console.log('error happened here!!!!');
-    console.log(err);
     throw err;
   }
 };

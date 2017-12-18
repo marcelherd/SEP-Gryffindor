@@ -34,7 +34,7 @@ exports.buildImage = async function (template) {
 };
 /**
  * Creates and saves a new bot.
- * 
+ *
  * @param {string} name - The name for the bot
  * @param {string} template - The template that is to be used for the bot
  * @returns {promise} - When Image is fully built
@@ -51,7 +51,7 @@ exports.buildContainer = async function (bot, userId, endpointUrl) {
     Image: ((bot.template).toLowerCase()),
     Tty: true,
     Env: [`NODE_ENV_CONFIG=${JSON.stringify(bot)}`, `NODE_ENV_ENDPOINT=${endpointUrl}`,
-      `NODE_ENV_USER=${JSON.stringify(userId)}`, `NODE_ENV_HOST=${process.env.HOST}`],
+      `NODE_ENV_USER=${JSON.stringify(userId)}`, `NODE_ENV_HOST=${process.env.HOST}`, `NODE_ENV_SUBSCRIPTION_KEY=${process.env.SUBSCRIPTION_KEY}`],
     restartPolicy: {
       Name: 'on-failure',
       MaximumRetryCount: 0,
